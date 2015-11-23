@@ -1,0 +1,36 @@
+<div class="cbp-l-inline">
+    <div class="cbp-l-inline-left">
+        <div class="cbp-slider">
+            <ul class="cbp-slider-wrap">
+                <li class="cbp-slider-item">
+                    <img src="{{ currentApp.icon | appImage }}" alt="">
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="cbp-l-inline-right">
+        <div class="cbp-l-project-desc">
+            <div class="cbp-l-project-title">{{currentApp.name}} v{{currentApp.version}}</div>
+            <div class="cbp-l-project-subtitle">{{currentApp.label}}</div>
+
+            <div class="cbp-l-inline-desc">{{currentApp.longDescription ? currentApp.longDescription : currentApp.shortDescription}}</div>
+        </div>
+        <div class="cbp-l-project-details">
+            <div class="cbp-l-project-details-title"><span>App Details</span></div>
+
+            <ul class="cbp-l-project-details-list">
+                <li><strong>System</strong>{{currentApp.executionSystem }}</li>
+                <li><strong>Type</strong>{{currentApp.executionType}}</li>
+                <li><strong>Revisions</strong>{{currentApp.revision}}</li>
+                <li><strong>Parallelism</strong>{{currentApp.parallelism}}</li>
+                <li><strong>Public</strong>{{currentApp.isPublic}}</li>
+                <li><strong>Available</strong>{{currentApp.available}}</li>
+            </ul>
+
+        </div>
+        <a ng-if="currentApp.helpURI" ui-sref=="app.helpURI" target="_blank" class="cbp-l-inline-view btn dark btn-outline">VIEW HELP</a>
+        <a ng-if="currentApp.available" ui-sref="job-submit({appId: currentApp.id});" class="cbp-l-inline-view btn green btn-outline">USE THIS</a>
+        <a ng-if="currentApp.pems.write" ui-sref="app-edit({appId: currentApp.id});" class="cbp-l-inline-view btn blue btn-outline">EDIT</a>
+    </div>
+</div>

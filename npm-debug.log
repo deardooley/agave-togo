@@ -1,0 +1,261 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'jquery-idletimeout' ]
+2 info using npm@2.5.1
+3 info using node@v0.12.0
+4 verbose node symlink /usr/local/bin/node
+5 warn package.json agave-togo@2.0.0 No repository field.
+6 warn package.json agave-togo@2.0.0 No README data
+7 silly cache add args [ 'jquery-idletimeout', null ]
+8 verbose cache add spec jquery-idletimeout
+9 silly cache add parsed spec { raw: 'jquery-idletimeout',
+9 silly cache add   scope: null,
+9 silly cache add   name: 'jquery-idletimeout',
+9 silly cache add   rawSpec: '',
+9 silly cache add   spec: '*',
+9 silly cache add   type: 'range' }
+10 verbose addNamed jquery-idletimeout@*
+11 silly addNamed semver.valid null
+12 silly addNamed semver.validRange *
+13 silly addNameRange { name: 'jquery-idletimeout', range: '*', hasData: false }
+14 silly mapToRegistry name jquery-idletimeout
+15 silly mapToRegistry using default registry
+16 silly mapToRegistry registry https://registry.npmjs.org/
+17 silly mapToRegistry uri https://registry.npmjs.org/jquery-idletimeout
+18 verbose addNameRange registry:https://registry.npmjs.org/jquery-idletimeout not in flight; fetching
+19 verbose request uri https://registry.npmjs.org/jquery-idletimeout
+20 verbose request no auth needed
+21 info attempt registry request try #1 at 21:11:32
+22 verbose request id debd64175a5998fb
+23 verbose etag "EUWE9F2K3VNHTXHRO7669HVVG"
+24 http request GET https://registry.npmjs.org/jquery-idletimeout
+25 http 304 https://registry.npmjs.org/jquery-idletimeout
+26 silly get cb [ 304,
+26 silly get   { date: 'Sun, 22 Nov 2015 03:11:31 GMT',
+26 silly get     via: '1.1 varnish',
+26 silly get     'cache-control': 'max-age=60',
+26 silly get     etag: '"EUWE9F2K3VNHTXHRO7669HVVG"',
+26 silly get     age: '0',
+26 silly get     connection: 'keep-alive',
+26 silly get     'x-served-by': 'cache-ord1721-ORD',
+26 silly get     'x-cache': 'MISS',
+26 silly get     'x-cache-hits': '0',
+26 silly get     'x-timer': 'S1448161891.678075,VS0,VE41',
+26 silly get     vary: 'Accept' } ]
+27 verbose etag https://registry.npmjs.org/jquery-idletimeout from cache
+28 verbose get saving jquery-idletimeout to /Users/dooley/.npm/registry.npmjs.org/jquery-idletimeout/.cache.json
+29 silly addNameRange number 2 { name: 'jquery-idletimeout', range: '*', hasData: true }
+30 silly addNameRange versions [ 'jquery-idletimeout', [ '1.0.8', '1.0.9', '1.0.10' ] ]
+31 verbose addNamed jquery-idletimeout@1.0.10
+32 silly addNamed semver.valid 1.0.10
+33 silly addNamed semver.validRange 1.0.10
+34 silly cache afterAdd jquery-idletimeout@1.0.10
+35 verbose afterAdd /Users/dooley/.npm/jquery-idletimeout/1.0.10/package/package.json not in flight; writing
+36 verbose afterAdd /Users/dooley/.npm/jquery-idletimeout/1.0.10/package/package.json written
+37 silly install resolved [ { name: 'jquery-idletimeout',
+37 silly install resolved     version: '1.0.10',
+37 silly install resolved     description: 'JQuery IdleTimeout Plugin for multiple windows, tabs and, optionally, iframes',
+37 silly install resolved     main: 'jquery-idleTimeout',
+37 silly install resolved     homepage: 'https://github.com/JillElaine/jquery-idleTimeout',
+37 silly install resolved     author: { name: 'Jill Elaine', email: 'jillelaine01@gmail.com' },
+37 silly install resolved     contributors: [ [Object], [Object], [Object], [Object] ],
+37 silly install resolved     repository:
+37 silly install resolved      { type: 'git',
+37 silly install resolved        url: 'git://github.com/JillElaine/jquery-idleTimeout.git' },
+37 silly install resolved     keywords:
+37 silly install resolved      [ 'jquery-plugin',
+37 silly install resolved        'ecosystem:jquery',
+37 silly install resolved        'idle',
+37 silly install resolved        'multiple windows',
+37 silly install resolved        'timer',
+37 silly install resolved        'logout redirect' ],
+37 silly install resolved     dependencies:
+37 silly install resolved      { JQuery: '>1.7',
+37 silly install resolved        'JQuery UI': '>1.9',
+37 silly install resolved        'store.js': 'git://github.com/marcuswestin/store.js.git' },
+37 silly install resolved     license: 'CC-BY-SA-3.0',
+37 silly install resolved     bugs: { url: 'https://github.com/JillElaine/jquery-idleTimeout/issues' },
+37 silly install resolved     gitHead: '8dcbc036e5b172e5853c238bf91b661f3a8d052b',
+37 silly install resolved     _id: 'jquery-idletimeout@1.0.10',
+37 silly install resolved     scripts: {},
+37 silly install resolved     _shasum: '65208234d36c294f11549767f08f37aea1d944d0',
+37 silly install resolved     _from: 'jquery-idletimeout@*',
+37 silly install resolved     _npmVersion: '2.7.5',
+37 silly install resolved     _nodeVersion: '0.10.38',
+37 silly install resolved     _npmUser: { name: 'jillelaine', email: 'jillelaine01@gmail.com' },
+37 silly install resolved     dist:
+37 silly install resolved      { shasum: '65208234d36c294f11549767f08f37aea1d944d0',
+37 silly install resolved        tarball: 'http://registry.npmjs.org/jquery-idletimeout/-/jquery-idletimeout-1.0.10.tgz' },
+37 silly install resolved     maintainers: [ [Object] ],
+37 silly install resolved     directories: {},
+37 silly install resolved     _resolved: 'https://registry.npmjs.org/jquery-idletimeout/-/jquery-idletimeout-1.0.10.tgz',
+37 silly install resolved     readme: 'ERROR: No README data found!' } ]
+38 info install jquery-idletimeout@1.0.10 into /Users/dooley/dockerspace/agave-togo
+39 info installOne jquery-idletimeout@1.0.10
+40 verbose installOne of jquery-idletimeout to /Users/dooley/dockerspace/agave-togo not in flight; installing
+41 verbose lock using /Users/dooley/.npm/_locks/jquery-idletimeout-cd0bdb01f69dc344.lock for /Users/dooley/dockerspace/agave-togo/node_modules/jquery-idletimeout
+42 silly install write writing jquery-idletimeout 1.0.10 to /Users/dooley/dockerspace/agave-togo/node_modules/jquery-idletimeout
+43 silly cache addNamed cb jquery-idletimeout@1.0.10
+44 verbose unbuild node_modules/jquery-idletimeout
+45 verbose gentlyRm vacuuming /Users/dooley/dockerspace/agave-togo/node_modules/jquery-idletimeout
+46 verbose tar unpack /Users/dooley/.npm/jquery-idletimeout/1.0.10/package.tgz
+47 verbose tar unpacking to /Users/dooley/dockerspace/agave-togo/node_modules/jquery-idletimeout
+48 verbose gentlyRm vacuuming /Users/dooley/dockerspace/agave-togo/node_modules/jquery-idletimeout
+49 silly gunzTarPerm modes [ '755', '644' ]
+50 silly gunzTarPerm extractEntry package.json
+51 silly gunzTarPerm modified mode [ 'package.json', 436, 420 ]
+52 silly gunzTarPerm extractEntry README.md
+53 silly gunzTarPerm modified mode [ 'README.md', 436, 420 ]
+54 silly gunzTarPerm extractEntry jquery-idleTimeout-for-testing.js
+55 silly gunzTarPerm modified mode [ 'jquery-idleTimeout-for-testing.js', 436, 420 ]
+56 silly gunzTarPerm extractEntry jquery-idleTimeout-iframes.js
+57 silly gunzTarPerm modified mode [ 'jquery-idleTimeout-iframes.js', 436, 420 ]
+58 silly gunzTarPerm extractEntry jquery-idleTimeout-iframes.min.js
+59 silly gunzTarPerm modified mode [ 'jquery-idleTimeout-iframes.min.js', 436, 420 ]
+60 silly gunzTarPerm extractEntry jquery-idleTimeout.js
+61 silly gunzTarPerm modified mode [ 'jquery-idleTimeout.js', 436, 420 ]
+62 silly gunzTarPerm extractEntry jquery-idleTimeout.min.js
+63 silly gunzTarPerm modified mode [ 'jquery-idleTimeout.min.js', 436, 420 ]
+64 silly gunzTarPerm extractEntry LICENSE.txt
+65 silly gunzTarPerm modified mode [ 'LICENSE.txt', 436, 420 ]
+66 silly gunzTarPerm extractEntry changelog
+67 silly gunzTarPerm modified mode [ 'changelog', 436, 420 ]
+68 silly gunzTarPerm extractEntry example.html
+69 silly gunzTarPerm modified mode [ 'example.html', 436, 420 ]
+70 silly gunzTarPerm extractEntry idleTimeout.jquery.json
+71 silly gunzTarPerm modified mode [ 'idleTimeout.jquery.json', 436, 420 ]
+72 silly gunzTarPerm extractEntry index.html
+73 silly gunzTarPerm modified mode [ 'index.html', 436, 420 ]
+74 silly gunzTarPerm extractEntry warning_dialog.png
+75 silly gunzTarPerm modified mode [ 'warning_dialog.png', 436, 420 ]
+76 info preinstall jquery-idletimeout@1.0.10
+77 silly prepareForInstallMany adding JQuery@>1.7 from jquery-idletimeout dependencies
+78 silly prepareForInstallMany adding JQuery UI@>1.9 from jquery-idletimeout dependencies
+79 silly prepareForInstallMany adding store.js@git://github.com/marcuswestin/store.js.git from jquery-idletimeout dependencies
+80 silly cache add args [ 'JQuery@>1.7', null ]
+81 verbose cache add spec JQuery@>1.7
+82 silly cache add args [ 'JQuery UI@>1.9', null ]
+83 verbose cache add spec JQuery UI@>1.9
+84 silly cache add parsed spec { raw: 'JQuery@>1.7',
+84 silly cache add   scope: null,
+84 silly cache add   name: 'JQuery',
+84 silly cache add   rawSpec: '>1.7',
+84 silly cache add   spec: '>=1.8.0',
+84 silly cache add   type: 'range' }
+85 verbose addNamed JQuery@>=1.8.0
+86 silly addNamed semver.valid null
+87 silly addNamed semver.validRange >=1.8.0
+88 silly addNameRange { name: 'JQuery', range: '>=1.8.0', hasData: false }
+89 silly mapToRegistry name JQuery
+90 silly mapToRegistry using default registry
+91 silly mapToRegistry registry https://registry.npmjs.org/
+92 silly mapToRegistry uri https://registry.npmjs.org/JQuery
+93 verbose addNameRange registry:https://registry.npmjs.org/JQuery not in flight; fetching
+94 silly cache add args [ 'store.js@git://github.com/marcuswestin/store.js.git', null ]
+95 verbose cache add spec store.js@git://github.com/marcuswestin/store.js.git
+96 silly cache add parsed spec { raw: 'JQuery UI@>1.9',
+96 silly cache add   scope: null,
+96 silly cache add   name: null,
+96 silly cache add   rawSpec: 'JQuery UI@>1.9',
+96 silly cache add   spec: '/Users/dooley/dockerspace/agave-togo/JQuery UI@>1.9',
+96 silly cache add   type: 'local' }
+97 verbose request uri https://registry.npmjs.org/JQuery
+98 verbose request no auth needed
+99 info attempt registry request try #1 at 21:11:33
+100 http request GET https://registry.npmjs.org/JQuery
+101 silly cache add parsed spec { raw: 'store.js@git://github.com/marcuswestin/store.js.git',
+101 silly cache add   scope: null,
+101 silly cache add   name: 'store.js',
+101 silly cache add   rawSpec: 'git://github.com/marcuswestin/store.js.git',
+101 silly cache add   spec: 'git://github.com/marcuswestin/store.js.git',
+101 silly cache add   type: 'git' }
+102 verbose addRemoteGit u="git://github.com/marcuswestin/store.js.git" silent=false
+103 silly addRemoteGit normalized { url: 'git://github.com/marcuswestin/store.js.git',
+103 silly addRemoteGit   branch: 'master' }
+104 silly addRemoteGit v git-github-com-marcuswestin-store-js-git-d5e4caec
+105 verbose addRemoteGit /Users/dooley/.npm/_git-remotes/git-github-com-marcuswestin-store-js-git-d5e4caec not in flight; cloning
+106 error addLocal Could not install /Users/dooley/dockerspace/agave-togo/JQuery UI@>1.9
+107 info git [ 'config', '--get', 'remote.origin.url' ]
+108 verbose git remote.origin.url git://github.com/marcuswestin/store.js.git
+109 info git [ 'fetch', '-a', 'origin' ]
+110 http 404 https://registry.npmjs.org/JQuery
+111 verbose headers { 'content-type': 'application/json',
+111 verbose headers   'cache-control': 'max-age=0',
+111 verbose headers   'content-length': '2',
+111 verbose headers   'accept-ranges': 'bytes',
+111 verbose headers   date: 'Sun, 22 Nov 2015 03:11:32 GMT',
+111 verbose headers   via: '1.1 varnish',
+111 verbose headers   age: '0',
+111 verbose headers   connection: 'keep-alive',
+111 verbose headers   'x-served-by': 'cache-ord1726-ORD',
+111 verbose headers   'x-cache': 'MISS',
+111 verbose headers   'x-cache-hits': '0',
+111 verbose headers   'x-timer': 'S1448161892.038993,VS0,VE258' }
+112 silly get cb [ 404,
+112 silly get   { 'content-type': 'application/json',
+112 silly get     'cache-control': 'max-age=0',
+112 silly get     'content-length': '2',
+112 silly get     'accept-ranges': 'bytes',
+112 silly get     date: 'Sun, 22 Nov 2015 03:11:32 GMT',
+112 silly get     via: '1.1 varnish',
+112 silly get     age: '0',
+112 silly get     connection: 'keep-alive',
+112 silly get     'x-served-by': 'cache-ord1726-ORD',
+112 silly get     'x-cache': 'MISS',
+112 silly get     'x-cache-hits': '0',
+112 silly get     'x-timer': 'S1448161892.038993,VS0,VE258' } ]
+113 verbose git fetch -a origin (git://github.com/marcuswestin/store.js.git)
+114 info git [ 'rev-list', '-n1', 'master' ]
+115 verbose git rev-list -n1 master b115845a60bb0c3922ec1ddfd1d35762cf0fec30
+116 verbose resolved git url git://github.com/marcuswestin/store.js.git#b115845a60bb0c3922ec1ddfd1d35762cf0fec30
+117 info git [ 'clone',
+117 info git   '/Users/dooley/.npm/_git-remotes/git-github-com-marcuswestin-store-js-git-d5e4caec',
+117 info git   '/var/folders/7l/1qzb24bd0vx3tcsg08zr_k_40000gq/T/npm-20068-c45c3c56/git-cache-73e52cd8a0c3/b115845a60bb0c3922ec1ddfd1d35762cf0fec30' ]
+118 verbose git clone from /Users/dooley/.npm/_git-remotes/git-github-com-marcuswestin-store-js-git-d5e4caec
+119 verbose git clone Cloning into '/var/folders/7l/1qzb24bd0vx3tcsg08zr_k_40000gq/T/npm-20068-c45c3c56/git-cache-73e52cd8a0c3/b115845a60bb0c3922ec1ddfd1d35762cf0fec30'...
+119 verbose git clone done.
+120 info git [ 'checkout', 'b115845a60bb0c3922ec1ddfd1d35762cf0fec30' ]
+121 verbose git checkout Note: checking out 'b115845a60bb0c3922ec1ddfd1d35762cf0fec30'.
+121 verbose git checkout
+121 verbose git checkout You are in 'detached HEAD' state. You can look around, make experimental
+121 verbose git checkout changes and commit them, and you can discard any commits you make in this
+121 verbose git checkout state without impacting any branches by performing another checkout.
+121 verbose git checkout
+121 verbose git checkout If you want to create a new branch to retain commits you create, you may
+121 verbose git checkout do so (now or later) by using -b with the checkout command again. Example:
+121 verbose git checkout
+121 verbose git checkout   git checkout -b <new-branch-name>
+121 verbose git checkout
+121 verbose git checkout HEAD is now at b115845... Update readme, fix #114
+122 verbose addLocalDirectory /Users/dooley/.npm/store/1.3.17/package.tgz not in flight; packing
+123 verbose tar pack [ '/Users/dooley/.npm/store/1.3.17/package.tgz',
+123 verbose tar pack   '/var/folders/7l/1qzb24bd0vx3tcsg08zr_k_40000gq/T/npm-20068-c45c3c56/git-cache-73e52cd8a0c3/b115845a60bb0c3922ec1ddfd1d35762cf0fec30' ]
+124 verbose tarball /Users/dooley/.npm/store/1.3.17/package.tgz
+125 verbose folder /var/folders/7l/1qzb24bd0vx3tcsg08zr_k_40000gq/T/npm-20068-c45c3c56/git-cache-73e52cd8a0c3/b115845a60bb0c3922ec1ddfd1d35762cf0fec30
+126 verbose addLocalTarball adding from inside cache /Users/dooley/.npm/store/1.3.17/package.tgz
+127 silly cache afterAdd store@1.3.17
+128 verbose afterAdd /Users/dooley/.npm/store/1.3.17/package/package.json not in flight; writing
+129 verbose afterAdd /Users/dooley/.npm/store/1.3.17/package/package.json written
+130 verbose about to build /Users/dooley/dockerspace/agave-togo/node_modules/jquery-idletimeout
+131 verbose unlock done using /Users/dooley/.npm/_locks/jquery-idletimeout-cd0bdb01f69dc344.lock for /Users/dooley/dockerspace/agave-togo/node_modules/jquery-idletimeout
+132 verbose stack Error: ENOENT, open '/Users/dooley/dockerspace/agave-togo/JQuery UI@>1.9'
+132 verbose stack     at Error (native)
+133 verbose cwd /Users/dooley/dockerspace/agave-togo
+134 error Darwin 14.5.0
+135 error argv "node" "/usr/local/bin/npm" "install" "jquery-idletimeout"
+136 error node v0.12.0
+137 error npm  v2.5.1
+138 error path /Users/dooley/dockerspace/agave-togo/JQuery UI@>1.9
+139 error code ENOENT
+140 error errno -2
+141 error enoent ENOENT, open '/Users/dooley/dockerspace/agave-togo/JQuery UI@>1.9'
+141 error enoent This is most likely not a problem with npm itself
+141 error enoent and is related to npm not being able to find a file.
+142 verbose exit [ -2, true ]
+143 verbose unbuild node_modules/jquery-idletimeout
+144 info preuninstall jquery-idletimeout@1.0.10
+145 info uninstall jquery-idletimeout@1.0.10
+146 verbose unbuild rmStuff jquery-idletimeout@1.0.10 from /Users/dooley/dockerspace/agave-togo/node_modules
+147 info postuninstall jquery-idletimeout@1.0.10
+148 verbose gentlyRm vacuuming /Users/dooley/dockerspace/agave-togo/node_modules/jquery-idletimeout
+149 silly gentlyRm purging /Users/dooley/dockerspace/agave-togo/node_modules/jquery-idletimeout
+150 silly gentlyRm quitting because other entries in /Users/dooley/dockerspace/agave-togo/node_modules

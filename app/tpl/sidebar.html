@@ -1,0 +1,234 @@
+<div class="page-sidebar navbar-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+    <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+    <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+    <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+    <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+    <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+    <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
+        <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+        <li class="sidebar-search-wrapper hide">
+            <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+            <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
+            <!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
+            <form class="sidebar-search sidebar-search-bordered" action="#" method="POST">
+                <a href="javascript:;" class="remove">
+                    <i class="fa fa-close"></i>
+                </a>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                        <a href="javascript:;" class="btn submit">
+                            <i class="fa fa-magnifier"></i>
+                        </a>
+                    </span>
+                </div>
+            </form>
+            <!-- END RESPONSIVE QUICK SEARCH FORM -->
+        </li>
+        <li class="start nav-item">
+            <a href="#/dashboard">
+                <i class="fa fa-home"></i>
+                <span class="title">Dashboard</span>
+            </a>
+        </li>
+        <!--<li class="nav-item">-->
+            <!--<a href="javascript:;" class="nav-link nav-toggle">-->
+                <!--<i class="fa fa-settings"></i>-->
+                <!--<span class="title">AngularJS Features</span>-->
+                <!--<span class="arrow"></span>-->
+            <!--</a>-->
+            <!--<ul class="sub-menu">-->
+                <!--<li>-->
+                    <!--<a href="#/ui_bootstrap.html">-->
+                        <!--<i class="fa fa-puzzle"></i> UI Bootstrap</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="#/file_upload.html">-->
+                        <!--<i class="fa fa-paper-clip"></i> File Upload</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="#/ui_select.html">-->
+                        <!--<i class="fa fa-check"></i> UI Select</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</li>-->
+        <!--<li class="nav-item">-->
+            <!--<a href="javascript:;" class="nav-link nav-toggle">-->
+                <!--<i class="fa fa-wrench"></i>-->
+                <!--<span class="title">jQuery Plugins</span>-->
+                <!--<span class="arrow "></span>-->
+            <!--</a>-->
+            <!--<ul class="sub-menu">-->
+                <!--<li>-->
+                    <!--<a href="#/form-tools">-->
+                        <!--<i class="fa fa-puzzle"></i> Form Tools </a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="#/pickers">-->
+                        <!--<i class="fa fa-calendar"></i> Date & Time Pickers </a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="#/dropdowns">-->
+                        <!--<i class="fa fa-refresh"></i> Custom Dropdowns </a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="#/tree">-->
+                        <!--<i class="fa fa-share"></i> Tree View </a>-->
+                <!--</li>-->
+                <!--<li class="nav-item">-->
+                    <!--<a href="javascript:;" class="nav-link nav-toggle">-->
+                        <!--<i class="fa fa-briefcase"></i> Datatables-->
+                        <!--<span class="arrow "></span>-->
+                    <!--</a>-->
+                    <!--<ul class="sub-menu">-->
+                        <!--<li>-->
+                            <!--<a href="#/datatables/managed.html">-->
+                                <!--<i class="fa fa-tag"></i> Managed Datatables </a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="#/datatables/ajax.html">-->
+                                <!--<i class="fa fa-refresh"></i> Ajax Datatables </a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</li>-->
+        <li class="nav-item">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-code"></i>
+                <span class="title">Apps</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li>
+                    <a href="#/apps/submit">
+                        <i class="fa fa-edit"></i> Editor </a>
+                </li>
+                <li>
+                    <a href="#/apps/catalog">
+                        <i class="fa fa-book"></i> Catalog </a>
+                </li>
+
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#/notebooks" id="sidebar_menu_link_notebooks">
+                <i class="fa fa-book"></i>
+                <span class="title">Notebooks</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-database"></i>
+                <span class="title">Data</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li>
+                    <a href="#/data/explorer">
+                        <i class="fa fa-list-ul"></i> Explorer </a>
+                </li>
+                <li>
+                    <a href="#/data/datasets">
+                        <i class="fa fa-folder"></i> Datasets </a>
+                </li>
+                <li>
+                    <a href="#/data/publishing">
+                        <i class="fa fa-cloud-upload"></i> Publisher </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:;" class="nav-link nav-toggle">
+                        <i class="fa fa-exchange"></i> Transfers
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="#/transfer-schedules">
+                                <i class="fa fa-plus"></i> Schedule </a>
+                        </li>
+                        <li>
+                            <a href="#/transfers">
+                                <i class="fa fa-calendar"></i> History </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-rocket"></i>
+                <span class="title">Jobs</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li>
+                    <a href="#/jobs/submit">
+                        <i class="fa fa-plus"></i> Submit </a>
+                </li>
+                <li>
+                    <a href="#/jobs/search">
+                        <i class="fa fa-search"></i> Search </a>
+                </li>
+                <li>
+                    <a href="#/jobs">
+                        <i class="fa fa-calendar"></i> History </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#/lambdas" id="sidebar_menu_link_lambdas">
+                <i class="fa fa-flash"></i>
+                <span class="title">Lambdas</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#/webhooks" id="sidebar_menu_link_webhooks">
+                <i class="icon-webhooks"></i>
+                <span class="title">Webhooks</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#/systems" id="sidebar_menu_link_systems">
+                <i class="fa fa-server"></i>
+                <span class="title">Systems</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#/monitors" id="sidebar_menu_link_monitors">
+                <i class="fa fa-heartbeat"></i>
+                <span class="title">Monitors</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#/community" id="sidebar_menu_link_community">
+                <i class="fa fa-group"></i>
+                <span class="title">Community</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="https://agaveapi.atlassian.net/desk/feedback" id="sidebar_menu_link_feedback">
+                <i class="fa fa-comment-o"></i>
+                <span class="title">Feedback</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="https://agaveapi.atlassian.net/desk/help" id="sidebar_menu_link_support">
+                <i class="fa fa-support"></i>
+                <span class="title">Support</span>
+            </a>
+        </li>
+        <!--<li class="nav-item">-->
+            <!--<a href="#/todo">-->
+                <!--<i class="fa fa-check"></i>-->
+                <!--<span class="title">Task & Todo</span>-->
+            <!--</a>-->
+        <!--</li>-->
+    </ul>
+    <!-- END SIDEBAR MENU -->
+</div>
