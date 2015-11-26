@@ -1,0 +1,16 @@
+<div class="cbp-loadMore-block{{currentPage}}">
+    <div ng-repeat="app in paginatedAppResults" class="cbp-item {{app.executionType}} {{app.isPublic ? 'public' : 'private'}}">
+        <a href="{{app.id}}" class="cbp-caption cbp-singlePageInline" data-title="{{app.name}} v{{app.version}}<br>{{app.label}}" rel="nofollow">
+            <div class="cbp-caption-defaultWrap">
+                <img ng-src="{{ app.icon | appImage }}" alt=""> </div>
+            <div class="cbp-caption-activeWrap">
+                <div class="cbp-l-caption-alignLeft">
+                    <div class="cbp-l-caption-body">
+                        <div class="cbp-l-caption-title">{{app.name}} version {{app.version}}</div>
+                        <div class="cbp-l-caption-desc">{{app.shortDescription}}</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>

@@ -585,7 +585,7 @@ var App = function() {
             }
        });       
     }
-    
+
     //* END:CORE HANDLERS *//
 
     return {
@@ -623,6 +623,7 @@ var App = function() {
 
             // Hacks
             handleFixInputPlaceholderForIE(); //IE8 & IE9 input placeholder issue fix
+
         },
 
         //main function to initiate core javascript after ajax complete
@@ -639,6 +640,74 @@ var App = function() {
             handlePopovers(); // handles bootstrap popovers
             handleAccordions(); //handles accordions 
             handleBootstrapConfirmation(); // handle bootstrap confirmations
+        },
+
+        // user data
+        getAuthenticatedUserProfile: function() {
+            return ProfilesController.getProfile("me");
+        },
+
+        // ongoing alerts
+        loadNotifications: function() {
+            StatusIoController.listStatuses().then(
+                function(data) {
+                    var issues = [];
+                    for (component in data.result.status) {
+                        for (container in component.containers) {
+                            if (container.status_code !== 100) {
+                                issues.push({
+                                    "component": component.name,
+                                    "container": container.name,
+                                    "status": container.status,
+                                    "updated": container.updated
+                                });
+                            }
+                        }
+                    }
+                    return issues;
+                    $scope.statuses = issues;
+                },
+                function(data) {
+                    issues.push({
+                        "component": "S",
+                        "container": container.name,
+                        "status": container.status,
+                        "updated": container.updated
+                    });
+                }
+            );
+
+            Controller.listStatuses().then(
+                function(data) {
+                    var issues = [];
+                    for (component in data.result.status) {
+                        for (container in component.containers) {
+                            if (container.status_code !== 100) {
+                                issues.push({
+                                    "component": component.name,
+                                    "container": container.name,
+                                    "status": container.status,
+                                    "updated": container.updated
+                                });
+                            }
+                        }
+                    }
+                    return issues;
+                    $scope.statuses = issues;
+                },
+                function(data) {
+                    issues.push({
+                        "component": "S",
+                        "container": container.name,
+                        "status": container.status,
+                        "updated": container.updated
+                    });
+                }
+            );
+        },
+
+        initWatches: function() {
+
         },
 
         //init main components 
@@ -847,7 +916,7 @@ var App = function() {
                 type: 'success', // alert's type
                 message: "", // alert's message
                 close: true, // make alert closable
-                reset: true, // close all previouse alerts first
+                reset: false, // close all previouse alerts first
                 focus: true, // auto scroll to the alert after shown
                 closeInSeconds: 0, // auto close after defined seconds
                 icon: "" // put icon before the message

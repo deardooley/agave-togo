@@ -641,17 +641,17 @@
                 <div class="portlet-title tabbable-line">
                     <div class="caption caption-md">
                         <i class="icon-globe font-green hide"></i>
-                        <span class="caption-subject font-green bold uppercase">Feeds</span>
+                        <span class="caption-subject font-green bold uppercase">Activity Feeds</span>
                     </div>
                     <ul class="nav nav-tabs">
-                        <li>
-                            <a href="#" data-target="#tab_1_3" data-toggle="tab"> Jobs </a>
-                        </li>
                         <li class="active">
-                            <a href="#" data-target="#tab_1_1" data-toggle="tab"> Systems </a>
+                            <a href="#" data-target="#tab_1_1" data-toggle="tab"> Jobs </a>
                         </li>
                         <li>
-                            <a href="#" data-target="#tab_1_2" data-toggle="tab"> Users </a>
+                            <a href="#" data-target="#tab_1_2" data-toggle="tab"> Systems </a>
+                        </li>
+                        <li>
+                            <a href="#" data-target="#tab_1_3" data-toggle="tab"> Users </a>
                         </li>
                     </ul>
                 </div>
@@ -659,6 +659,37 @@
                     <!--BEGIN TABS-->
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab_1_1">
+                            <div class="scroller" style="height: 306px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
+                                <ul class="feeds">
+                                    <li ng-repeat="hist in jobHistory track by $index">
+                                        <div class="col1">
+                                            <div class="cont">
+                                                <div class="cont-col1">
+                                                    <div class="label label-sm label-success">
+                                                        <i class="fa fa-{{ hist.status | jobStatusIcon }}"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="cont-col2">
+                                                    <div class="desc"> {{ hist.description | excerpt }}
+                                                        <span ng-if="hist.status === 'ARCHIVING_FINISHED'" class="label label-sm label-info">
+                                                            <a ui-sref="jobs-output({jobId: '3679479586933314021-e0bd34dffff8de6-0001-007'})">
+                                                                View output
+                                                                <i class="fa fa-share"></i>
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col2">
+                                            <div class="date" am-time-ago="hist.created"></div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_1_2">
                             <div class="scroller" style="height: 306px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
                                 <ul class="feeds">
                                     <li>
@@ -978,11 +1009,11 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="tab-pane" id="tab_1_2">
+                        <div class="tab-pane" id="tab_1_3">
                             <div class="scroller" style="height: 337px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
-                                <ul class="feed">
+                                <ul class="feeds">
                                     <li ng-repeat="fakeUser in fakeUsers">
-                                        <a href="javascript:;">
+                                        <a ui-sref="#/profiles/{{fakeUser.username}}">
                                             <div class="col1">
                                                 <div class="cont">
                                                     <div class="cont-col1">
@@ -996,44 +1027,14 @@
                                                 </div>
                                             </div>
                                             <div class="col2">
-                                                <div am-time-ago="fakeUser.created" class="date"> </div>
+                                                <div class="date" am-time-ago="fakeUser.created"></div>
                                             </div>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="tab-pane active" id="tab_1_3">
-                            <div class="scroller" style="height: 306px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
-                                <ul class="feeds">
-                                    <li ng-repeat="hist in jobHistory track by $index">
-                                        <div class="col1">
-                                            <div class="cont">
-                                                <div class="cont-col1">
-                                                    <div class="label label-sm label-success">
-                                                        <i class="fa fa-{{ hist.status | jobStatusIcon }}"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="cont-col2">
-                                                    <div class="desc"> {{ hist.description | excerpt }}
-                                                        <span ng-if="hist.status === 'ARCHIVING_FINISHED'" class="label label-sm label-info">
-                                                            <a ui-sref="jobs-output({jobId: '3679479586933314021-e0bd34dffff8de6-0001-007'})">
-                                                                View output
-                                                                <i class="fa fa-share"></i>
-                                                            </a>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col2">
-                                            <div am-time-ago="hist.created" class="date"> </div>
-                                        </div>
-                                    </li>
 
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                     <!--END TABS-->
                 </div>

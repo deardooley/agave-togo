@@ -2,13 +2,68 @@ angular.module('AgaveToGo').controller('AppBrowserController', function($rootSco
 
     $scope.apps = [];
     $scope.currentApp = {};
+    //$scope.paginatedAppResults = [];
     $scope.currentAppDetails = '<agave-app-details></agave-app-details>';
+    //$scope.paginatedAppListing = '<agave-app-listing></agave-app-listing>'
     $scope.offset = 0;
     $scope.limit = 25;
+    //$scope.numberOfClicks = 1;
 
     $scope.runApp = function (appId) {
 
     };
+
+
+    //$('#js-loadMore-lightbox-gallery').click(function(e) {
+    //    var item = $(this);
+    //
+    //    e.preventDefault();
+    //
+    //    if ($('#js-grid-lightbox-gallery').isAnimating || item.hasClass('cbp-l-loadMore-stop')) {
+    //        return;
+    //    }
+    //
+    //    // set loading status
+    //    item.addClass('cbp-l-loadMore-loading');
+    //
+    //    $scope.numberOfClicks++;
+    //
+    //    // perform ajax request
+    //
+    //    AppsController.listApps($scope.limit, $scope.apps.length).then(
+    //        function(data) {
+    //            var items, itemsNext;
+    //
+    //            $scope.paginatedAppResults = data;
+    //            $timeout(function () {
+    //                // find current container
+    //                items = $compile($scope.paginatedAppListing)($scope);
+    //
+    //                $('#js-grid-lightbox-gallery').cubeportfolio('appendItems', items.children(), function () {
+    //                    //for (var i=0; i<data.length; i++){
+    //                    //    $scope.apps.push(data[i]);
+    //                    //}
+    //
+    //                    // put the original message back
+    //                    item.removeClass('cbp-l-loadMore-loading');
+    //
+    //                    if (data.length === 0) {
+    //                        item.addClass('cbp-l-loadMore-stop');
+    //                    }
+    //                });
+    //            }, 50);
+    //        },
+    //        function(data) {
+    //            $scope.numberOfClicks--;
+    //            console.log(data);
+    //            App.alert({
+    //                type: 'danger',
+    //                message: "There was an error contacting the apps service. If this " +
+    //                "persists, please contact your system administrator.",
+    //            });
+    //            item.addClass('cbp-l-loadMore-stop');
+    //        });
+    //});
 
     var initCatalog = function() {
         // init cubeportfolio
@@ -17,6 +72,7 @@ angular.module('AgaveToGo').controller('AppBrowserController', function($rootSco
             loadMore: '#js-loadMore-lightbox-gallery',
             loadMoreAction: 'click',
             layoutMode: 'grid',
+            loadMoreFuture: AppsController.listApps,
             mediaQueries: [{
                 width: 1500,
                 cols: 5
@@ -59,17 +115,23 @@ angular.module('AgaveToGo').controller('AppBrowserController', function($rootSco
                     function (data) {
                         $scope.currentApp = data;
 
-
                         t.updateSinglePageInline($compile($scope.currentAppDetails)($scope));
 
                     },
                     function (data) {
                         console.log(data);
-                        t.updateSinglePageInline("Error fetching app description.");
+                        App.alert({
+                            type: 'danger',
+                            message: "There was an error contacting the apps service. If this " +
+                            "persists, please contact your system administrator."
+                        });
+                        t.updateSinglePageInline($compile($scope.currentAppDetails)($scope));
                     });
             },
         });
     }
+
+
 
     AppsController.listApps($scope.limit, $scope.offset).then(
         function (data) {
@@ -80,20 +142,33 @@ angular.module('AgaveToGo').controller('AppBrowserController', function($rootSco
         },
         function (data) {
             //self.deferredHandler(data, deferred, $translate.instant('error_creating_folder'));
-            console.log("Error fetching app catalog.");
+            console.log(data);
+            App.alert({
+                type: 'danger',
+                message: "There was an error contacting the apps service. If this " +
+                "persists, please contact your system administrator.",
+            });
+            initCatalog();
+            $('.cbp-l-loadMore-link').hide();
         });
-    //
-    //$scope.$on('$viewContentLoaded', function () {
-    //
-    //
-    //});
 })
 .directive('agaveAppDetails', function($filter) {
     return {
         restrict: 'EA',
         scope: true,
         replace: true,
-        templateUrl: '../app/views/apps/details.html',
+        templateUrl: '../app/views/apps/ajax_details.html',
+        link: function ($scope, element, attributes) {
+            setTimeout(function () {}, 10);
+        }
+    };
+})
+.directive('agaveAppListing', function($filter) {
+    return {
+        restrict: 'EA',
+        scope: true,
+        replace: true,
+        templateUrl: '../app/views/apps/ajax_listing.html',
         link: function ($scope, element, attributes) {
             setTimeout(function () {}, 10);
         }

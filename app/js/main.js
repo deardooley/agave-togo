@@ -9,6 +9,8 @@ var AgaveToGo = angular.module("AgaveToGo", [
     "oc.lazyLoad",
     "ngSanitize",
     'ngMd5',
+    'angularMoment',
+    'angular-cache',
     //"oauth",
     'CommonsService',
     'AgavePlatformScienceAPILib',
@@ -44,6 +46,15 @@ AgaveToGo.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
                 //"../bower_components/angular-filebrowser/src/css/main.css",
                 "../bower_components/select2/dist/css/select2.min.css"
             ]
+        },{
+            name: "schemaForm",
+            files: [
+                "../bower_components/tv4/tv4.js",
+                "../bower_components/angular/angular.min.js",
+                "../bower_components/angular-sanitize/angular-sanitize.min.js",
+                "../bower_components/objectpath/lib/ObjectPath.js",
+                "../dist/schema-form.js"
+            ]
         }]
     });
 }]);
@@ -56,6 +67,9 @@ AgaveToGo.config(function($locationProvider) {
     });
 });
 
+AgaveToGo.constant('angularMomentConfig', {
+    timezone: 'America/Chicago' // optional
+});
 
 
 /********************************************
@@ -210,8 +224,16 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             }
         })
 
-        .state('apps-list', {
-            url: "/apps",
+        /**********************************************************************/
+        /**********************************************************************/
+        /***                                                                ***/
+        /***                       Applications Routes                      ***/
+        /***                                                                ***/
+        /**********************************************************************/
+        /**********************************************************************/
+
+        .state('apps-catalog', {
+            url: "/apps/catalog",
             templateUrl: "views/apps/browser.html",
             data: {pageTitle: 'App Catalog'},
             controller: "AppBrowserController",
@@ -220,7 +242,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                     return $ocLazyLoad.load([{
                         name: 'cubeportfolio',
                         files: [
-                            '../bower_components/cubeportfolio/js/jquery.cubeportfolio.min.js',
+                            '../bower_components/cubeportfolio/js/jquery.cubeportfolio.js',
                             '../bower_components/cubeportfolio/css/cubeportfolio.min.css'
                         ]
                     }, {
@@ -233,28 +255,71 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             }
         })
 
-        //// AngularJS plugins
-        //.state('fileupload', {
-        //    url: "/file_upload.html",
-        //    templateUrl: "views/file_upload.html",
-        //    data: {pageTitle: 'AngularJS File Upload'},
-        //    controller: "GeneralPageController",
-        //    resolve: {
-        //        deps: ['$ocLazyLoad', function($ocLazyLoad) {
-        //            return $ocLazyLoad.load([{
-        //                name: 'angularFileUpload',
-        //                files: [
-        //                    '../assets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
-        //                ]
-        //            }, {
-        //                name: 'AgaveToGo',
-        //                files: [
-        //                    'js/controllers/GeneralPageController.js'
-        //                ]
-        //            }]);
-        //        }]
-        //    }
-        //})
+        .state('apps-manage', {
+            url: "/apps/manage",
+            templateUrl: "views/apps/manager.html",
+            data: {pageTitle: 'App Manager'},
+            controller: "AppDirectoryController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'AgaveToGo',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../assets/global/plugins/datatables/datatables.min.css',
+                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+
+                            '../assets/global/plugins/datatables/datatables.all.min.js',
+                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            '../assets/global/scripts/datatable.js',
+                            '../bower_components/holderjs/holder.js',
+                            'js/controllers/apps/AppDirectoryController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
+        .state('apps-edit', {
+            url: "/apps/manage",
+            templateUrl: "views/apps/editor.html",
+            data: {pageTitle: 'App Manager'},
+            controller: "AppDirectoryController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'AgaveToGo',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            //'../assets/global/plugins/datatables/datatables.min.css',
+                            //'../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                            //'../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            //
+                            //'../assets/global/plugins/datatables/datatables.all.min.js',
+                            //'../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            //'../assets/global/scripts/datatable.js',
+                            '../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
+                            '../bower_components/datatables/media/css/dataTables.css',
+                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+
+                            '../bower_components/datatables/dataTables.bootstrap.min.js',
+                            '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            '../assets/global/scripts/datatable.js',
+                            'js/controllers/apps/AppDirectoryController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
+        /**********************************************************************/
+        /**********************************************************************/
+        /***                                                                ***/
+        /***                       Data Management Routes                   ***/
+        /***                                                                ***/
+        /**********************************************************************/
+        /**********************************************************************/
 
         // AngularJS plugins
         .state('data-explorer', {
@@ -269,13 +334,78 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         {
                             name: 'AgaveToGo',
                             files: [
-                                'js/controllers/FileExplorerController.js'
+                                'js/controllers/data/FileExplorerController.js'
                             ]
                         }
                     ]);
                 }]
             }
         })
+
+        /**********************************************************************/
+        /**********************************************************************/
+        /***                                                                ***/
+        /***                       User Profile Routes                      ***/
+        /***                                                                ***/
+        /**********************************************************************/
+        /**********************************************************************/
+
+        // User Profile
+        .state("profile", {
+            url: "/profile",
+            templateUrl: "views/profile/main.html",
+            data: {pageTitle: 'User Profile'},
+            controller: "UserProfileController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'AgaveToGo',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            '../assets/pages/css/profile.css',
+
+                            '../assets/global/plugins/jquery.sparkline.min.js',
+                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+
+                            '../assets/pages/scripts/profile.min.js',
+
+                            'js/controllers/UserProfileController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
+        // User Profile Dashboard
+        .state("profile.dashboard", {
+            url: "/dashboard",
+            templateUrl: "views/profile/dashboard.html",
+            data: {pageTitle: 'User Profile'}
+        })
+
+        // User Profile Account
+        .state("profile.account", {
+            url: "/account",
+            templateUrl: "views/profile/account.html",
+            data: {pageTitle: 'User Account'}
+        })
+
+        // User Profile Help
+        .state("profile.help", {
+            url: "/help",
+            templateUrl: "views/profile/help.html",
+            data: {pageTitle: 'User Help'}
+        })
+
+
+        /**********************************************************************/
+        /**********************************************************************/
+        /***                                                                ***/
+        /***                       Plugin Routes                            ***/
+        /***                                                                ***/
+        /**********************************************************************/
+        /**********************************************************************/
 
         // UI Select
         .state('uiselect', {
@@ -498,54 +628,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             }
         })
 
-        // User Profile
-        .state("profile", {
-            url: "/profile",
-            templateUrl: "views/profile/main.html",
-            data: {pageTitle: 'User Profile'},
-            controller: "UserProfileController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'AgaveToGo',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                            '../assets/pages/css/profile.css',
-                            
-                            '../assets/global/plugins/jquery.sparkline.min.js',
-                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
-
-                            '../assets/pages/scripts/profile.min.js',
-
-                            'js/controllers/UserProfileController.js'
-                        ]                    
-                    });
-                }]
-            }
-        })
-
-        // User Profile Dashboard
-        .state("profile.dashboard", {
-            url: "/dashboard",
-            templateUrl: "views/profile/dashboard.html",
-            data: {pageTitle: 'User Profile'}
-        })
-
-        // User Profile Account
-        .state("profile.account", {
-            url: "/account",
-            templateUrl: "views/profile/account.html",
-            data: {pageTitle: 'User Account'}
-        })
-
-        // User Profile Help
-        .state("profile.help", {
-            url: "/help",
-            templateUrl: "views/profile/help.html",
-            data: {pageTitle: 'User Help'}      
-        })
-
         // Todo
         .state('todo', {
             url: "/todo",
@@ -580,7 +662,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
 
 /* Init global settings and run the app */
 //AgaveToGo.run(["$rootScope", "settings", "$state", 'ProfilesController', function($rootScope, settings, $state) { //}, ProfilesController) {
-AgaveToGo.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
+AgaveToGo.run(["$rootScope", "settings", "$state", "$http", "CacheFactory", function($rootScope, settings, $state, $http, CacheFactory) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
     //$rootScope.$on('oauth:error', function(event, rejection) {
@@ -622,6 +704,13 @@ AgaveToGo.run(["$rootScope", "settings", "$state", function($rootScope, settings
 
     $rootScope.$on('oauth:profile', function(profile) {
         console.log('User profile data retrieved: ', profile);
+    });
+
+    $http.defaults.cache = CacheFactory('defaultCache', {
+        maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day
+        cacheFlushInterval: 30 * 24 * 60 * 60 * 1000, // This cache will clear itself every 30 days
+        deleteOnExpire: 'aggressive', // Items will be deleted from this cache when they expire
+        storageMode: 'localStorage'
     });
 
 }]);

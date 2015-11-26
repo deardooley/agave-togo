@@ -132,6 +132,7 @@
       <excludeFolder url="file://$MODULE_DIR$/bower_components/wysihtml5x" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/x-editable" />
       <excludeFolder url="file://$MODULE_DIR$/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/sass" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

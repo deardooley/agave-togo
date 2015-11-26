@@ -960,6 +960,8 @@
 
         t.loadMore = $(parent.options.loadMore).find('.cbp-l-loadMore-link');
 
+        t.loadMoreFuture = parent.options.loadMoreFuture;
+
         // load click or auto action
         if (parent.options.loadMoreAction.length) {
             t[parent.options.loadMoreAction]();
@@ -986,39 +988,112 @@
             numberOfClicks++;
 
             // perform ajax request
-            $.ajax({
-                url: t.loadMore.attr('href'),
-                type: 'GET',
-                dataType: 'HTML'
-            }).done(function(result) {
-                var items, itemsNext;
+            t.loadMoreFuture(25, 25 * numberOfClicks).then(
+                function(data) {
+                    var result = '',
+                        items, itemsNext;
 
-                // find current container
-                items = $(result).filter(function() {
-                    return $(this).is('div' + '.cbp-loadMore-block' + numberOfClicks);
-                });
 
-                t.parent.$obj.cubeportfolio('appendItems', items.children(), function() {
+                    for (var i=0; i<data.length; i++) {
+                        result +=
+                            '<div class="cbp-loadMore-block' + numberOfClicks + '">\n' +
+                            '   <div class="cbp-item ' + (data[i].isPublic ? 'public' : 'private') + '">\n' +
+                            '       <a href="' + data[i].id + '" class="cbp-caption cbp-singlePageInline" data-title="' + data[i].name + ' v' + data[i].version + '<br>' + data[i].label + '" rel="nofollow">\n' +
+                            '           <div class="cbp-caption-defaultWrap"><img src="' + (data[i].icon ? data[i].icon : '../assets/global/img/portfolio/600x600/' + Math.floor((Math.random() * 100) + 1) + '.jpg') + '" alt=""> </div>\n' +
+                            '           <div class="cbp-caption-activeWrap">' +
+                            '               <div class="cbp-l-caption-alignLeft">' +
+                            '                   <div class="cbp-l-caption-body">' +
+                            '                       <div class="cbp-l-caption-title">' + data[i].name + ' version ' + data[i].version + '</div>' +
+                            '                       <div class="cbp-l-caption-desc">' + data[i].shortDescription + '</div>' +
+                            '                   </div>' +
+                            '               </div>' +
+                            '           </div>' +
+                            '       </a>' +
+                            '   </div>' +
+                            '</div>\n';
+                    }
+                    // find current container
+                    //items = $(result).filter(function() {
+                    //    return $(this).is('div' + '.cbp-loadMore-block' + numberOfClicks);
+                    //});
 
-                    // put the original message back
-                    item.removeClass('cbp-l-loadMore-loading');
+                    items = $(result);
 
-                    // check if we have more works
-                    itemsNext = $(result).filter(function() {
-                        return $(this).is('div' + '.cbp-loadMore-block' + (numberOfClicks + 1));
+                    t.parent.$obj.cubeportfolio('appendItems', items.children(), function() {
+
+                        // put the original message back
+                        item.removeClass('cbp-l-loadMore-loading');
+
+                        // check if we have more works
+                        itemsNext = $(result).filter(function() {
+                            return $(this).is('div' + '.cbp-loadMore-block' + (numberOfClicks + 1));
+                        });
+
+                        if (data.length === 0) {
+                            item.addClass('cbp-l-loadMore-stop');
+                        }
                     });
 
-                    if (itemsNext.length === 0) {
-                        item.addClass('cbp-l-loadMore-stop');
-                    }
+                },
+                function() {
+                    // error
                 });
-
-            }).fail(function() {
-                // error
-            });
-
         });
     };
+
+    //LoadMore.prototype.click = function() {
+    //    var t = this,
+    //        numberOfClicks = 0;
+    //
+    //    t.loadMore.on('click.cbp', function(e) {
+    //        var item = $(this);
+    //
+    //        e.preventDefault();
+    //
+    //        if (t.parent.isAnimating || item.hasClass('cbp-l-loadMore-stop')) {
+    //            return;
+    //        }
+    //
+    //        // set loading status
+    //        item.addClass('cbp-l-loadMore-loading');
+    //
+    //        numberOfClicks++;
+    //
+    //        // perform ajax request
+    //
+    //        $.ajax({
+    //            url: t.loadMore.attr('href'),
+    //            type: 'GET',
+    //            dataType: 'HTML'
+    //        }).done(function(result) {
+    //            var items, itemsNext;
+    //
+    //            // find current container
+    //            items = $(result).filter(function() {
+    //                return $(this).is('div' + '.cbp-loadMore-block' + numberOfClicks);
+    //            });
+    //
+    //            t.parent.$obj.cubeportfolio('appendItems', items.children(), function() {
+    //
+    //                // put the original message back
+    //                item.removeClass('cbp-l-loadMore-loading');
+    //
+    //                // check if we have more works
+    //                itemsNext = $(result).filter(function() {
+    //                    return $(this).is('div' + '.cbp-loadMore-block' + (numberOfClicks + 1));
+    //                });
+    //
+    //                if (itemsNext.length === 0) {
+    //                    item.addClass('cbp-l-loadMore-stop');
+    //                }
+    //            });
+    //
+    //        }).fail(function() {
+    //            // error
+    //        });
+    //
+    //    });
+    //};
 
 
     LoadMore.prototype.auto = function() {
@@ -1173,6 +1248,12 @@ jQuery.fn.cubeportfolio.options = {
      *  Values: strings that represent the elements in the document (DOM selector).
      */
     loadMore: '',
+
+    /**
+     *  Define the future to invoke on an ajax call
+     *  Values: any valid future
+     */
+    loadMoreFunction: '',
 
     /**
      *  How the loadMore functionality should behave. Load on click on the button or
@@ -1754,7 +1835,8 @@ jQuery.fn.cubeportfolio.options = {
 
             // wrap element
             t.wrap = $('<div/>', {
-                'class': 'cbp-popup-singlePageInline'
+                'class': 'cbp-popup-singlePageInline',
+                'ng-bind-html': 'currentAppDetails'
             }).on('click.cbp', function(e) {
                 if (t.stopEvents) {
                     return;

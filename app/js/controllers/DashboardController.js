@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('DashboardController', function($rootScope, $scope, $http, $timeout, $filter, Commons, JobsController, SystemsController, StatusIoController) {
+angular.module('AgaveToGo').controller('DashboardController', function($rootScope, $scope, $http, $timeout, $filter, Commons, JobsController, SystemsController, StatusIoController, moment, amMoment) {
     $scope.$on('$viewContentLoaded', function() {   
         // initialize core components
         App.initAjax();
@@ -20,7 +20,7 @@ angular.module('AgaveToGo').controller('DashboardController', function($rootScop
             users.push({
                 name: firstName + ' ' + lastName,
                 username: faker.internet.userName(),
-                created: faker.date.past(50)
+                created: faker.date.recent(14)
             });
         }
 
@@ -29,7 +29,7 @@ angular.module('AgaveToGo').controller('DashboardController', function($rootScop
 
     $scope.fakeUsers = usergen(20);
 
-    JobsController.getJobHistory('3679479586933314021-e0bd34dffff8de6-0001-007').then(
+    JobsController.getJobHistory('3679479586933314021-e0bd34dffff8de6-0001-007', 1).then(
         function(data) {
             $timeout(function() {
                 $scope.jobHistory = data;
@@ -40,16 +40,6 @@ angular.module('AgaveToGo').controller('DashboardController', function($rootScop
             console.log(data);
         });
 
-    //JobsController.getJobHistory('3679479586933314021-e0bd34dffff8de6-0001-007').then(
-    //    function(data) {
-    //        $timeout(function() {
-    //            $scope.jobHistory = [];
-    //        }, 50);
-    //    },
-    //    function(data) {
-    //        console.log("unable to fetch job history");
-    //        console.log(data);
-    //    });
 })
 .filter("jobStatusIcon", [function() {
     return function(status){

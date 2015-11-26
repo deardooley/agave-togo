@@ -131,12 +131,14 @@
     "raphael": "~2.1.4",
     "respond": "~1.4.2",
     "oauth-ng": "~0.4.2",
-    "angular-moment": "~0.10.3",
+    "angular-moment": "urish/angular-moment#6e8cd1e",
     "ngstorage": "~0.3.10",
     "stop-angular-overrides": "~0.5.1",
     "angular-md5": "~0.1.10",
     "agave-fonticons": "git+https://bitbucket.org/agaveapi/fonticons.git",
-    "faker": "Marak/faker.js#~3.0.1"
+    "faker": "Marak/faker.js#~3.0.1",
+    "angular-schema-form": "~0.8.12",
+    "angular-cache": "~4.4.2"
   },
   "resolutions": {
     "angular-cookies": "~1.3.17",
@@ -144,7 +146,8 @@
     "owl-carousel": "~1.3.2",
     "bootstrap": "~3.3.5",
     "moment": "^2.10.6",
+    "moment-timezone": "^0.3.0",
     "bootstrap-datepicker": "~1.5.0",
-    "angular": "~1.3.20"
+    "angular": "1.3.20"
   }
 }
