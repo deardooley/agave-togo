@@ -6957,6 +6957,10 @@ Portlets
   .portlet.light.portlet-datatable.portlet-fit > .portlet-body {
     padding-top: 10px;
     padding-bottom: 25px; }
+  .portlet-datatable > .portlet-title > .actions {
+    margin-right: 77px;
+  }
+
 
 .tab-pane > p:last-child {
   margin-bottom: 0px; }

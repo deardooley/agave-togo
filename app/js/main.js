@@ -9,10 +9,13 @@ var AgaveToGo = angular.module("AgaveToGo", [
     "oc.lazyLoad",
     "ngSanitize",
     'ngMd5',
+    'ngStorage',
+    'ui.select',
     'angularMoment',
     'angular-cache',
     //"oauth",
     'CommonsService',
+    'TagsService',
     'AgavePlatformScienceAPILib',
     'AgaveAngularJSDirectives',
     'pascalprecht.translate',
@@ -396,6 +399,65 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             url: "/help",
             templateUrl: "views/profile/help.html",
             data: {pageTitle: 'User Help'}
+        })
+
+        /**********************************************************************/
+        /**********************************************************************/
+        /***                                                                ***/
+        /***                       Systems Routes                           ***/
+        /***                                                                ***/
+        /**********************************************************************/
+        /**********************************************************************/
+
+        .state('systems-manage', {
+            url: "/systems",
+            templateUrl: "views/systems/manager.html",
+            data: {pageTitle: 'Systems Manager'},
+            controller: "SystemsDirectoryController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'AgaveToGo',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../assets/global/plugins/datatables/datatables.min.css',
+                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+
+                            '../assets/global/plugins/datatables/datatables.all.min.js',
+                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            '../assets/global/scripts/datatable.js',
+                            '../bower_components/holderjs/holder.js',
+                            'js/controllers/systems/SystemDirectoryController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
+        .state('systems-edit', {
+            url: "/systems/edit",
+            templateUrl: "views/apps/editor.html",
+            data: {pageTitle: 'System Manager'},
+            controller: "SystemDirectoryController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'AgaveToGo',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
+                            '../bower_components/datatables/media/css/dataTables.css',
+                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+
+                            '../bower_components/datatables/media/js/dataTables.bootstrap.min.js',
+                            '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            '../assets/global/scripts/datatable.js',
+                            'js/controllers/systems/SystemDetailsController.js'
+                        ]
+                    });
+                }]
+            }
         })
 
 

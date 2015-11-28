@@ -20,21 +20,6 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
                     .then($scope.handleRefreshSuccess, $scope.handleFailure);
             },
             function (data) {
-                //$scope.systems = {
-                //    "stampede.tacc.utexas.edu": {
-                //        "_links": {
-                //            "self": {
-                //                "href": "https://agave.iplantc.org/systems/v2/stampede.tacc.utexas.edu"
-                //            }
-                //        },
-                //        "name": "stampede.tacc.utexas.edu",
-                //        "id": "stampede.tacc.utexas.edu",
-                //        "isPublic": true,
-                //        "label": "TACC Stampede",
-                //        "lastModified": "2015-11-24T17:10:26.000-06:00",
-                //        "shortDescription": "Dell Xeon Phi system"
-                //    }
-                //};
                 App.alert({
                     type: 'danger',
                     message: "Error retrieving system list.<br>" + data.message,

@@ -13,58 +13,6 @@ angular.module('AgaveToGo').controller('AppBrowserController', function($rootSco
 
     };
 
-
-    //$('#js-loadMore-lightbox-gallery').click(function(e) {
-    //    var item = $(this);
-    //
-    //    e.preventDefault();
-    //
-    //    if ($('#js-grid-lightbox-gallery').isAnimating || item.hasClass('cbp-l-loadMore-stop')) {
-    //        return;
-    //    }
-    //
-    //    // set loading status
-    //    item.addClass('cbp-l-loadMore-loading');
-    //
-    //    $scope.numberOfClicks++;
-    //
-    //    // perform ajax request
-    //
-    //    AppsController.listApps($scope.limit, $scope.apps.length).then(
-    //        function(data) {
-    //            var items, itemsNext;
-    //
-    //            $scope.paginatedAppResults = data;
-    //            $timeout(function () {
-    //                // find current container
-    //                items = $compile($scope.paginatedAppListing)($scope);
-    //
-    //                $('#js-grid-lightbox-gallery').cubeportfolio('appendItems', items.children(), function () {
-    //                    //for (var i=0; i<data.length; i++){
-    //                    //    $scope.apps.push(data[i]);
-    //                    //}
-    //
-    //                    // put the original message back
-    //                    item.removeClass('cbp-l-loadMore-loading');
-    //
-    //                    if (data.length === 0) {
-    //                        item.addClass('cbp-l-loadMore-stop');
-    //                    }
-    //                });
-    //            }, 50);
-    //        },
-    //        function(data) {
-    //            $scope.numberOfClicks--;
-    //            console.log(data);
-    //            App.alert({
-    //                type: 'danger',
-    //                message: "There was an error contacting the apps service. If this " +
-    //                "persists, please contact your system administrator.",
-    //            });
-    //            item.addClass('cbp-l-loadMore-stop');
-    //        });
-    //});
-
     var initCatalog = function() {
         // init cubeportfolio
         $('#js-grid-lightbox-gallery').cubeportfolio({
@@ -158,17 +106,6 @@ angular.module('AgaveToGo').controller('AppBrowserController', function($rootSco
         scope: true,
         replace: true,
         templateUrl: '../app/views/apps/ajax_details.html',
-        link: function ($scope, element, attributes) {
-            setTimeout(function () {}, 10);
-        }
-    };
-})
-.directive('agaveAppListing', function($filter) {
-    return {
-        restrict: 'EA',
-        scope: true,
-        replace: true,
-        templateUrl: '../app/views/apps/ajax_listing.html',
         link: function ($scope, element, attributes) {
             setTimeout(function () {}, 10);
         }

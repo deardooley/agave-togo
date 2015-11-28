@@ -1015,9 +1015,9 @@ a.dt-button {
   .portlet.box .dataTables_wrapper .dt-buttons {
     margin-top: -50px; }
   .portlet.light #datatable_collection_wrapper.dataTables_wrapper .dt-buttons {
-    /*margin-top: 0; }*/ }
+    margin-top: -85px; }
     .portlet.light #datatable_collection_wrapper.dataTables_wrapper .dt-buttons a.dt-button {
-      padding: 6px 10px;
+      padding: 6px 10px 5px;
       line-height: 1.4;
       margin-left: 10px;
     }
