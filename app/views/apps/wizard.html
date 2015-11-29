@@ -30,7 +30,18 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                <schema-form-wizard sf-form="form" sf-schema="schema" sf-model="model" id="sfw"/>
+                <form
+                        name="myForm"
+                        class="form-wizard"
+                        sf-schema="schema"
+                        sf-form="form"
+                        sf-model="model"
+                        ng-submit="onSubmit()"
+                        no-validate>
+                </form>
+                <ng-include src="'/app/tpl/directives/wizard-buttons.html'"></ng-include>
+
+                <!--<schema-form-wizard sf-form="form" sf-schema="schema" sf-model="model" id="sfw" />-->
                 <!--<form action="#" class="form-horizontal" id="submit_form" method="POST">-->
                     <!--<div class="form-wizard">-->
                         <!--<div class="form-body">-->
