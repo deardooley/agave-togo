@@ -59,12 +59,19 @@ angular.module('AgaveToGo').controller('AppBrowserController', function($rootSco
             singlePageInlineCallback: function (appId, element) {
                 var t = this;
 
+                App.blockUI({
+                    target: '#js-grid-lightbox-gallery',
+                    overlayColor: 'none',
+                    animate: true
+                });
+
                 AppsController.getAppDetails(appId).then(
                     function (data) {
                         $scope.currentApp = data;
 
                         t.updateSinglePageInline($compile($scope.currentAppDetails)($scope));
 
+                        App.unblockUI('#js-grid-lightbox-gallery');
                     },
                     function (data) {
                         console.log(data);
@@ -74,12 +81,21 @@ angular.module('AgaveToGo').controller('AppBrowserController', function($rootSco
                             "persists, please contact your system administrator."
                         });
                         t.updateSinglePageInline($compile($scope.currentAppDetails)($scope));
+
+                        App.unblockUI('#js-grid-lightbox-gallery');
                     });
             },
         });
+
+        App.unblockUI('#js-grid-lightbox-gallery');
     }
 
-
+    App.blockUI({
+        target: '#app-gallery',
+        overlayColor: 'none',
+        animate: true
+    });
+    $('#js-loadMore-lightbox-gallery').hide();
 
     AppsController.listApps($scope.limit, $scope.offset).then(
         function (data) {
@@ -87,6 +103,8 @@ angular.module('AgaveToGo').controller('AppBrowserController', function($rootSco
             $timeout(function () {
                 initCatalog();
             }, 50);
+            App.unblockUI('#app-gallery');
+            $('#js-loadMore-lightbox-gallery').show();
         },
         function (data) {
             //self.deferredHandler(data, deferred, $translate.instant('error_creating_folder'));
@@ -98,6 +116,7 @@ angular.module('AgaveToGo').controller('AppBrowserController', function($rootSco
             });
             initCatalog();
             $('.cbp-l-loadMore-link').hide();
+            App.unblockUI('#app-gallery');
         });
 })
 .directive('agaveAppDetails', function($filter) {

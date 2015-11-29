@@ -3,7 +3,7 @@ angular.module('AgaveToGo').controller('SystemsDirectoryController', function ($
     $scope.offset = $scope.offset || 0;
     $scope.limit = $scope.limit || 50;
     $scope.systems = [];
-    $scope.modalTaggedResourceUuid = '';
+    $scope.modalResource = '';
 
     $scope.systemActions = SystemActionTypeEnum;
 
@@ -14,20 +14,92 @@ angular.module('AgaveToGo').controller('SystemsDirectoryController', function ($
     // within the view template
     $scope._RESOURCE_NAME = $scope._RESOURCE_NAME || 'system';
 
-    $scope.editTags = $scope.editTags || function(systemId) {
-        $scope.modalTaggedResourceUuid = systemId;
+    $scope.editTags = $scope.editTags || function(system) {
+        $scope.modalResource = system;
         $('#tagging-modal').modal('show');
         return false;
     };
 
-    $scope.initModelListeners = $scope.initModelListeners || function() {
-        $('.system-confirmation-action').on('confirmed.bs.confirmation', function () {
-            $scope.invokeSystemAction($(this).data('systemId'), $(this).data('systemName'), $(this).data('systemAction'));
+    $scope.editRoles = $scope.editRoles || function(system) {
+        $scope.modalResource = system;
+        $('#quickshare-role-modal').modal('show');
+        return false;
+    };
+
+    $scope.confirmAction = $scope.confirmAction || function(system, action) {
+
+        var tmpl = [
+            // tabindex is required for focus
+            '<div class="modal fade" tabindex="-1">',
+            '<div class="modal-header">',
+            '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>',
+            '<h4 class="modal-title">Confirmation</h4>',
+            '</div>',
+            '<div class="modal-body">',
+            '<p>Are you sure you want to ' + action.toLowerCase() + ' the ' + system.name + ' system?</p>',
+            '</div>',
+            '<div class="modal-footer">',
+            '<a href="#" id="system-confirmation-action-cancel" data-dismiss="modal" class="cancel btn btn-default">Cancel</a>',
+            '<a href="#" id="system-confirmation-action-confirm" class="confirm btn btn-primary">Confirm</a>',
+            '</div>',
+            '</div>'
+        ].join('');
+
+        $(tmpl).modal();
+
+        $('#system-confirmation-action-confirm').on('click', function () {
+            $scope.invokeSystemAction(system.id, system.name, action);
         });
 
-        $('.system-confirmation-action').on('canceled.bs.confirmation', function () {
-            console.log('Cancelled system ' + $(this).data('systemAction') + ' action on ' + $(this).data('systemId'));
+        $('#system-confirmation-action-cancel').on('click', function () {
+            console.log('Cancelled system ' + action + ' action on ' + system.id);
         });
+    };
+
+    $scope.confirmDelete = $scope.confirmDelete || function(system) {
+
+        var tmpl = [
+            // tabindex is required for focus
+            '<div class="modal fade" tabindex="-1">',
+            '<div class="modal-header">',
+            '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>',
+            '<h4 class="modal-title">Confirmation</h4>',
+            '</div>',
+            '<div class="modal-body">',
+            '<p>Are you sure you want to delete the ' + system.name + ' system?</p>',
+            '</div>',
+            '<div class="modal-footer">',
+            '<a href="#" id="system-confirmation-action-cancel" data-dismiss="modal" class="cancel btn btn-default">Cancel</a>',
+            '<a href="#" id="system-confirmation-action-confirm" class="confirm btn btn-primary">Confirm</a>',
+            '</div>',
+            '</div>'
+        ].join('');
+
+        $(tmpl).modal();
+
+        $('#system-confirmation-action-confirm').on('click', function () {
+            SystemsController.deleteSystem(systemId).then(
+                function(response) {
+                    App.alert({message: "Successfully deleted system " + system.id});
+                    $scope.refresh();
+                },
+                function(response) {
+                    console.log(data);
+                    App.alert({
+                        type: 'danger',
+                        message: "Error deleting system " + system.name
+                    });
+                }
+            )
+        });
+
+        $('#system-confirmation-action-cancel').on('click', function () {
+            console.log('Cancelled delete action on ' + system.id);
+        });
+    };
+
+    $scope.initModelListeners = $scope.initModelListeners || function() {
+
     };
 
     $scope.invokeSystemAction = $scope.enableSystem || function(systemId, systemName, systemActionEnum) {

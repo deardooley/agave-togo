@@ -31,7 +31,7 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
    * @returns string of the form #COLLECTION_NAME-table
    */
   $scope.getTableId = $scope.getTableId || function() {
-    return '#' + $scope._COLLECTION_NAME + '-table';
+    return '#datatable_collection';
   };
 
   $scope.handleSuccess = $scope.handleSuccess || function(response) {
@@ -57,7 +57,7 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
 
       $scope.initModelListeners();
 
-      var table = $('#datatable_collection');
+      var table = $($scope.getTableId());
 
       var tableContainer = table.parents(".table-container");
 
@@ -91,8 +91,34 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
         //},
 
         buttons: [
-          { extend: 'colvis', className: 'btn btn-transparent dark btn-outline', text: 'Columns'}
+          { extend: 'colvis', className: 'btn btn-transparent dark btn-outline', text: '<i class="fa fa-columns"> <span class="hidden-480"> Columns </span>'}
         ],
+
+        // setup responsive extension: http://datatables.net/extensions/responsive/
+        responsive: {
+          details: {
+            display: $.fn.dataTable.Responsive.display.modal({
+              header: function ( row ) {
+                var data = row.data();
+                return 'Details for '+ data[2];
+              }
+            }),
+            renderer: function ( api, rowIdx, columns ) {
+              var data = $.map( columns, function ( col, i ) {
+                if (i > 0) {
+                  return '<tr>' +
+                      '<td>' + col.title + ':' + '</td> ' +
+                      '<td>' + col.data + '</td>' +
+                      '</tr>';
+                } else {
+                  return '';
+                }
+              } ).join('');
+
+              return $('<div class="table-responsive"/>').append($('<table class="table"><thead><tr><th>Field</th><th>Value</th></tr></thead></table>').append('<tbody>' + data + '</tbody>'));
+            }
+          }
+        },
 
         // setup responsive extension: http://datatables.net/extensions/responsive/
         //responsive: true,
@@ -117,9 +143,12 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
       });
 
       // revert back to default
-      //$.fn.dataTableExt.oStdClasses.sWrapper = tmp.sWrapper;
-      //$.fn.dataTableExt.oStdClasses.sFilterInput = tmp.sFilterInput;
-      //$.fn.dataTableExt.oStdClasses.sLengthSelect = tmp.sLengthSelect;
+
+      $.fn.dataTableExt.oStdClasses.sWrapper = tmp.sWrapper;
+      $.fn.dataTableExt.oStdClasses.sFilterInput = tmp.sFilterInput;
+      $.fn.dataTableExt.oStdClasses.sLengthSelect = tmp.sLengthSelect;
+
+      oTable.buttons().container().appendTo( '.portlet-title .actions' );
 
       oTable.columns( '.extended' ).visible( false );
 
@@ -131,6 +160,7 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
         $('.table-group-actions', tableWrapper).html($('.table-actions-wrapper', tableContainer).html()); // place the panel inside the wrapper
         $('.table-actions-wrapper', tableContainer).remove(); // remove the template container
       }
+
       // handle group checkboxes check/uncheck
       $('.group-checkable', table).change(function() {
         var set = table.find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
@@ -158,21 +188,15 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
         e.preventDefault();
         the.resetFilter();
       });
-      //$(".DTTT_container").hide();
-      //
-      ////BEGIN CHECKBOX TABLE
-      //$('.checkall').on('ifChecked ifUnchecked', function(event) {
-      //    if (event.type == 'ifChecked') {
-      //        $(this).closest('table').find('input[type=checkbox]').iCheck('check');
-      //    } else {
-      //        $(this).closest('table').find('input[type=checkbox]').iCheck('uncheck');
-      //    }
-      //});
+
+      App.unblockUI('.portlet-datatable .portlet-body');
+
       ////END CHECKBOX TABLE
 
       $rootScope.$broadcast('event:content-loading-complete', "loading success");
 
     },50);
+
   };
 
   /**
@@ -190,28 +214,12 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
       console.log("Error response from remote call: ");
       console.log(response);
       var msg = $scope.getErrorMessage(response);
+      App.unblockUI($scope.getTableId);
       App.alert({
         type: 'danger',
         message: msg
       });
-      $scope.handleRefreshSuccess([
-        {
-          "_links": {
-            "self": {
-              "href": "https://agave.iplantc.org/apps/v2/Picard_preprocess-1.98u1"
-            }
-          },
-          "executionSystem": "stampede.tacc.utexas.edu",
-          "id": "Picard_preprocess-1.98u1",
-          "isPublic": true,
-          "label": "Picard preprocess",
-          "lastModified": "2015-11-24T17:10:26.000-06:00",
-          "name": "Picard_preprocess",
-          "revision": 1,
-          "shortDescription": "Picard preprocess for variant calling",
-          "version": "1.98"
-        }
-      ]);
+
     }
   };
 
@@ -264,6 +272,12 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
    * the API to the datatable.
    */
   $scope.refresh = $scope.refresh || function() {
+    App.blockUI({
+      target: '.portlet-datatable .portlet-body',
+      opacity: 1.0,
+      overlayColor: '#FFF',
+      animate: true
+    });
     ApiStub['list' + Commons.capitalize($scope._COLLECTION_NAME, false)]($scope.limit, $scope.offset, { public: false })
         .then($scope.handleRefreshSuccess, $scope.handleFailure);
   };

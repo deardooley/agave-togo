@@ -4,12 +4,13 @@ AgaveToGo.directive('tagsModal', function ($parse, $q, $timeout, Tags) {
         restrict: 'E',
         replace: true,
         scope: {
-            'taggedResourceUuid': '=ngModel'
+            'taggedResourceUuid': '=ngModel',
+            'taggedResourceName': '=ngResourceName'
         },
         templateUrl: '../app/tpl/directives/tags-editor.html',
         link: function ($scope, $elem, $attrs) {
             $scope.tagModel = {activeTags:[], tagsAsync:[], removedTags: []};
-            
+
             var clearTags = function() {
                 $scope.tagModel.tagsAsync = [];
                 $scope.tagModel.activeTags = [];
@@ -56,7 +57,7 @@ AgaveToGo.directive('tagsModal', function ($parse, $q, $timeout, Tags) {
                     },
                     function (data) {
                         console.log(data);
-                        app.alert({
+                        App.alert({
                             type: 'danger',
                             message: "there was an error contacting the tags service. if this " +
                             "persists, please contact your system administrator.",

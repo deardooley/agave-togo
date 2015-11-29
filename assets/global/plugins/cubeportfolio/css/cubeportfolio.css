@@ -43,7 +43,7 @@
     height: 100%;
     top: 0;
     left: 0;
-    background: url("../img/cbp-loading.gif") no-repeat scroll center center transparent; }
+    /*background: url("../img/cbp-loading.gif") no-repeat scroll center center transparent; */ }
   .cbp > * {
     visibility: hidden; }
   .cbp .cbp-item {
@@ -2670,7 +2670,7 @@
   margin: auto;
   z-index: 2;
   /* @editable properties */
-  background: url("../img/cbp-loading-popup.gif") no-repeat scroll center center #0D0D0D;
+  /*background: url("../img/cbp-loading-popup.gif") no-repeat scroll center center #0D0D0D;*/
   border: 1px solid rgba(79, 80, 79, 0.3);
   border-radius: 3px;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=71)";

@@ -858,7 +858,7 @@ var App = function() {
                     },
                     overlayCSS: {
                         backgroundColor: options.overlayColor ? options.overlayColor : '#555',
-                        opacity: options.boxed ? 0.05 : 0.1,
+                        opacity: 0.9, //options.opacity ? options.opacity : (options.boxed ? 0.05 : 0.1),
                         cursor: 'wait'
                     }
                 });

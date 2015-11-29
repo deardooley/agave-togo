@@ -983,6 +983,12 @@
             }
 
             // set loading status
+            App.blockUI({
+                target: '#js-grid-lightbox-gallery',
+                opacity: .5,
+                overlayColor: 'none',
+                animate: true
+            });
             item.addClass('cbp-l-loadMore-loading');
 
             numberOfClicks++;
@@ -1034,9 +1040,12 @@
                         }
                     });
 
+                    App.unblockUI('#js-grid-lightbox-gallery');
+
                 },
                 function() {
                     // error
+                    App.unblockUI('#js-grid-lightbox-gallery');
                 });
         });
     };
@@ -1730,6 +1739,11 @@ jQuery.fn.cubeportfolio.options = {
             }).appendTo(t.wrap);
 
             // append loading div
+            //$('<div class="loading-message cbp-popup-loadingBox">'
+            //        + '<div class="block-spinner-bar">'
+            //            + '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>'
+            //        + '</div>'
+            //    + '</div>').appendTo(t.wrap);
             $('<div/>', {
                 'class': 'cbp-popup-loadingBox'
             }).appendTo(t.wrap);

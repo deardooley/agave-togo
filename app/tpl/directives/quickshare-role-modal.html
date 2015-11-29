@@ -1,0 +1,55 @@
+<div class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">{{system.name}} Roles</h4>
+            </div>
+            <div class="modal-body">
+                <p>These are the current user roles assigned to {{system.name}}. You may add or remove users as needed.
+                <span class="text-em" ng-if="system.type === 'STORAGE'">In order to expose this system as a readonly data collection, grant
+                the the "WORLD" user the "GUEST" role.</span><span class="text-em" ng-if="system.type === 'EXECUTION'">In order to register apps against this system, users must have a "PUBLISHER" or "ADMIN" role.</span></p>
+
+                <form action="#" class="form-horizontal">
+                    <div ng-repeat="sysRole in systemRoles track by $index" class="form-group">
+                        <div class="col-sm-6">
+                            <ui-select ng-model="sysRole.username" theme="bootstrap" ng-disabled="disabled" title="Single property binding with async data">
+                                <ui-select-match placeholder="Username...">{{$select.selected.username || $select.selected}}</ui-select-match>
+                                <ui-select-choices repeat="person.username as person in peopleAsync | propsFilter: {name: $select.search, username: $select.search, email: $select.search} track by person.uuid">
+                                    <div ng-bind-html="(person.firstName + ' ' + person.lastName) | highlight: $select.search"></div>
+                                    <small>
+                                        email: {{person.email}}
+                                        username: <span ng-bind-html="person.username | highlight: $select.search"></span>
+                                    </small>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="col-sm-3">
+                            <select ng-model="sysRole.role" class="form-control">
+                                <option>Select role</option>
+                                <option value="NONE">NONE</option>
+                                <option value="GUEST">GUEST</option>
+                                <option value="USER">USER</option>
+                                <option value="PUBLISHER">PUBLISHER</option>
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="OWNER">OWNER</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <button ng-action="addRole()" class="add-role btn btn-default" type="button">
+                                <span class="fa fa-plus"></span>
+                            </button>
+                            <button ng-action="removeRole(sysRole)" class="remove-role btn btn-default" type="button">
+                                <span class="fa fa-remove"></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn dark btn-outline" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn btn-primary" ng-click="saveAllRoles()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

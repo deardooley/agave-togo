@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, Commons, AppsController) {
+AgaveToGo.controller('AppDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, Commons, AppsController) {
 
     $scope.schema = {
         "type": "object",

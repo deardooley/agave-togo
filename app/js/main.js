@@ -50,13 +50,23 @@ AgaveToGo.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
                 "../bower_components/select2/dist/css/select2.min.css"
             ]
         },{
-            name: "schemaForm",
+            name: "schemaFormWizard",
             files: [
                 "../bower_components/tv4/tv4.js",
                 "../bower_components/angular/angular.min.js",
                 "../bower_components/angular-sanitize/angular-sanitize.min.js",
                 "../bower_components/objectpath/lib/ObjectPath.js",
-                "../dist/schema-form.js"
+                "../bower_components/angular-schema-form/dist/schema-form.min.js",
+                "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+                "../app/js/services/WizardHandler.js",
+            ]
+        }, {
+            name: "ui.codemirror",
+            files: [
+                "../bower_components/codemirror/lib/codemirror.css",
+                "../bower_components/codemirror/theme/neo.css",
+                "../bower_components/codemirror/lib/codemirror.js",
+                "../bower_components/angular-ui-codemirror/ui-codemirror.min.js"
             ]
         }]
     });
@@ -246,7 +256,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         name: 'cubeportfolio',
                         files: [
                             '../bower_components/cubeportfolio/js/jquery.cubeportfolio.js',
-                            '../bower_components/cubeportfolio/css/cubeportfolio.min.css'
+                            '../bower_components/cubeportfolio/css/cubeportfolio.css'
                         ]
                     }, {
                         name: 'AgaveToGo',
@@ -269,15 +279,33 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         name: 'AgaveToGo',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/datatables/datatables.min.css',
-                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-
-                            '../assets/global/plugins/datatables/datatables.all.min.js',
-                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
                             '../assets/global/scripts/datatable.js',
                             '../bower_components/holderjs/holder.js',
                             'js/controllers/apps/AppDirectoryController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
+        .state('apps-new', {
+            url: "/apps/new",
+            templateUrl: "views/apps/wizard.html",
+            data: {pageTitle: 'App Builder Wizard'},
+            controller: "AppBuilderWizardController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'AgaveToGo',
+                        files: [
+                           '../bower_components/bootstrap-wizard/jquery.bootstrap.wizard.min.js',
+                            "../bower_components/angular-sanitize/angular-sanitize.min.js",
+                            "../bower_components/tv4/tv4.js",
+                            "../bower_components/objectpath/lib/ObjectPath.js",
+                            "../bower_components/angular-schema-form/dist/schema-form.js",
+                            "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+                            "../app/js/services/WizardHandler.js",
+                            'js/controllers/apps/AppBuilderWizardController.js'
                         ]
                     });
                 }]
@@ -420,12 +448,11 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         name: 'AgaveToGo',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/datatables/datatables.min.css',
-                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-
-                            '../assets/global/plugins/datatables/datatables.all.min.js',
-                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            //'../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
+                            //'../bower_components/datatables/media/css/jquery.dataTables.min.css',
+                            //
+                            //'../bower_components/datatables/media/js/dataTables.bootstrap.js',
+                            //'../bower_components/datatables/media/js/jquery.dataTables.js',
                             '../assets/global/scripts/datatable.js',
                             '../bower_components/holderjs/holder.js',
                             'js/controllers/systems/SystemDirectoryController.js'
@@ -447,11 +474,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
                             '../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
-                            '../bower_components/datatables/media/css/dataTables.css',
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            '../bower_components/datatables/media/css/jquery.dataTables.min.css',
 
+                            '../bower_components/datatables/media/js/jquery.dataTables.min.js',
                             '../bower_components/datatables/media/js/dataTables.bootstrap.min.js',
-                            '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
                             '../assets/global/scripts/datatable.js',
                             'js/controllers/systems/SystemDetailsController.js'
                         ]

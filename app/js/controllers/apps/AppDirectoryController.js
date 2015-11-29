@@ -12,6 +12,13 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
     $scope._RESOURCE_NAME = $scope._RESOURCE_NAME || 'app';
 
     $scope.refresh = $scope.refresh || function() {
+
+        App.blockUI({
+            target: '.portlet-datatable .portlet-body',
+            overlayColor: '#FFF',
+            animate: true
+        });
+
         SystemsController.listSystems(99999).then(
             function (data) {
                 $scope.systems = data;

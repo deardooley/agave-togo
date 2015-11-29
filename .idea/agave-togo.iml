@@ -58,7 +58,7 @@
       <excludeFolder url="file://$MODULE_DIR$/bower_components/components-font-awesome" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/counter-up" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/cubeportfolio" />
-      <excludeFolder url="file://$MODULE_DIR$/bower_components/datatables" />
+      <excludeFolder url="file://$MODULE_DIR$/bower_components/datatables-bower" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/document-register-element" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/dropzone" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/echarts" />
@@ -73,8 +73,8 @@
       <excludeFolder url="file://$MODULE_DIR$/bower_components/holderjs" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/iCheck" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/ion.rangeslider" />
+      <excludeFolder url="file://$MODULE_DIR$/bower_components/jQuery" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/jq-idle-timer" />
-      <excludeFolder url="file://$MODULE_DIR$/bower_components/jquery" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/jquery-backstretch" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/jquery-bootpag" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/jquery-gantt" />
