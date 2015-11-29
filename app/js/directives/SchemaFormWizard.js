@@ -11,6 +11,8 @@ AgaveToGo.directive('schemaFormWizard', function($scope, $http, WizardHandler) {
         link: function ($scope, elem, attrs) {
             $scope.currentTabIndex = 0;
 
+            WizardHandler.activateTab($scope, $scope.currentTabIndex);
+
             $scope.editorConfig = {
                 lineWrapping : true,
                 lineNumbers: true,
@@ -48,6 +50,8 @@ AgaveToGo.directive('schemaFormWizard', function($scope, $http, WizardHandler) {
                     $scope.prettyModel = JSON.stringify(value, undefined, 2);
                 }
             }, true);
+
+
         }
     };
 });

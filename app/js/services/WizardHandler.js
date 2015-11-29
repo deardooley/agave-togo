@@ -1,4 +1,5 @@
-AgaveToGo.config(['schemaFormDecoratorsProvider', function (decoratorsProvider) {
+angular.module('schemaFormWizard', [])
+.config(['schemaFormDecoratorsProvider', function (decoratorsProvider) {
     decoratorsProvider.addMapping(
         'bootstrapDecorator',
         'wizard',

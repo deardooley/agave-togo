@@ -19,7 +19,9 @@ var AgaveToGo = angular.module("AgaveToGo", [
     'AgavePlatformScienceAPILib',
     'AgaveAngularJSDirectives',
     'pascalprecht.translate',
-    'ngCookies'
+    'ngCookies',
+    'schemaForm',
+    'schemaFormWizard'
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -53,7 +55,6 @@ AgaveToGo.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
             name: "schemaFormWizard",
             files: [
                 "../bower_components/tv4/tv4.js",
-                "../bower_components/angular/angular.min.js",
                 "../bower_components/angular-sanitize/angular-sanitize.min.js",
                 "../bower_components/objectpath/lib/ObjectPath.js",
                 "../bower_components/angular-schema-form/dist/schema-form.min.js",
@@ -298,13 +299,13 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                     return $ocLazyLoad.load({
                         name: 'AgaveToGo',
                         files: [
-                           '../bower_components/bootstrap-wizard/jquery.bootstrap.wizard.min.js',
-                            "../bower_components/angular-sanitize/angular-sanitize.min.js",
-                            "../bower_components/tv4/tv4.js",
-                            "../bower_components/objectpath/lib/ObjectPath.js",
-                            "../bower_components/angular-schema-form/dist/schema-form.js",
-                            "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
-                            "../app/js/services/WizardHandler.js",
+                           //'../bower_components/bootstrap-wizard/jquery.bootstrap.wizard.min.js',
+                           // "../bower_components/angular-sanitize/angular-sanitize.min.js",
+                           // "../bower_components/tv4/tv4.js",
+                           // "../bower_components/objectpath/lib/ObjectPath.js",
+                           // "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+                           // "../bower_components/angular-schema-form/dist/schema-form.js",
+                           // "../app/js/services/WizardHandler.js",
                             'js/controllers/apps/AppBuilderWizardController.js'
                         ]
                     });
