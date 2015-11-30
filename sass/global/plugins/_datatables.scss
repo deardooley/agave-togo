@@ -174,6 +174,35 @@ a.dt-button {
     }
 }
 
+div.dt-button-collection {
+  background: #FFF!important;
+  border: 1px solid #2f353b!important;
+  > a.dt-button.buttons-columnVisibility {
+    padding: 8px 16px;
+    color: #2f353b !important;
+    text-decoration: none;
+    display: block;
+    clear: both;
+    font-weight: normal;
+    padding: 6px 10px 5px !important;
+    line-height: 1.4 !important;
+    white-space: nowrap;
+    border: 1px solid #2f353b !important;
+    background: none !important;
+  }
+  > a.dt-button.buttons-columnVisibility:hover,
+  > a.dt-button.buttons-columnVisibility.active {
+    background-color: #2f353b !important;
+    color: #FFF !important;
+  }
+  > a.dt-button.buttons-columnVisibility:first-child:hover {
+    border-radius: 4px 4px 0px 0px;
+  }
+  > a.dt-button.buttons-columnVisibility:last-child:hover {
+    border-radius: 0px 0px 4px 4px;
+  }
+}
+
 /***
 Rot Details
 ***/

@@ -441,7 +441,7 @@ Page Footer
         border: 0 !important;
         margin: 0 !important;
         color: #fff !important;
-        background: #ffce0d !important; }
+        background: #ffce0e !important; }
         .page-header .page-header-menu .hor-menu .nav .dropdown-submenu.open > a > i,
         .page-header .page-header-menu .hor-menu .nav .dropdown-submenu.open > a:hover > i {
           color: #fff !important; }
@@ -478,4 +478,4 @@ Page Footer
 ****/
 .page-spinner-bar > div,
 .block-spinner-bar > div {
-  background: #ffce0d; }
+  background: #ffce0e; }

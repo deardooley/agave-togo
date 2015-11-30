@@ -17,7 +17,6 @@ var AgaveToGo = angular.module("AgaveToGo", [
     'CommonsService',
     'TagsService',
     'AgavePlatformScienceAPILib',
-    'AgaveAngularJSDirectives',
     'pascalprecht.translate',
     'ngCookies',
     'schemaForm',
@@ -306,9 +305,15 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                            // "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
                            // "../bower_components/angular-schema-form/dist/schema-form.js",
                            // "../app/js/services/WizardHandler.js",
+                            "../bower_components/codemirror/lib/codemirror.css",
+                            "../bower_components/codemirror/theme/neo.css",
+                            "../bower_components/codemirror/lib/codemirror.js",
+                            "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
                             'js/controllers/apps/AppBuilderWizardController.js'
                         ]
-                    });
+                    },
+                    "ui.codemirror"
+                    );
                 }]
             }
         })

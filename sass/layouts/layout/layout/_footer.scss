@@ -12,6 +12,36 @@ Page footer
     .page-footer-inner {
         float: left;
         display: inline-block;
+        padding-bottom: 10px;
+        line-height:32px;
+        a:hover {
+            text-decoration: none;
+            outline: none;
+        }
+        a {
+            border: none;
+            outline: none;
+            color: inherit;
+            padding-bottom: 10px;
+            font-size: 14px;
+            margin-left: 20px;
+
+            span {
+                line-height: 20px;
+                vertical-align: bottom;
+            }
+            span.icon-agave:before {
+                line-height: 32px;
+                font-size: 29px;
+                padding-top: 10px;
+                margin-left: 20px;
+            }
+            img.funding {
+                height: 32px;
+                width: auto;
+                border: none;
+            }
+        }
     }
 
     .page-footer-fixed.page-footer-fixed-mobile & {
@@ -25,6 +55,8 @@ Page footer
     .page-footer-fixed.page-footer-fixed-mobile.page-sidebar-fixed & {
         margin-left: 0 !important;
     }
+
+
 }
 
 @media (min-width: $screen-md-min) {  /* 992px */

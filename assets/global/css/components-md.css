@@ -1,6 +1,195 @@
 /*****************************************
  METRONIC MATERIAL DESIGN STYLE COMPONENTS 
 ******************************************/
+.last-col {
+  overflow: hidden !important; }
+
+.pdn {
+  padding: 0 !important; }
+
+.pdx {
+  padding: 3px; }
+
+.pdm {
+  padding: 10px; }
+
+.pdl {
+  padding: 20px; }
+
+.pdxl {
+  padding: 30px; }
+
+.pdxxl {
+  padding: 40px; }
+
+.ptn, .pvn, .pan {
+  padding-top: 0 !important; }
+
+.ptx, .pvx, .pax {
+  padding-top: 3px !important; }
+
+.pts, .pvs, .pas {
+  padding-top: 5px !important; }
+
+.ptm, .pvm, .pam {
+  padding-top: 10px !important; }
+
+.ptl, .pvl, .pal {
+  padding-top: 20px !important; }
+
+.ptxl, .pvxl, .paxl {
+  padding-top: 30px !important; }
+
+.ptxxl, .pvxxl, .paxxl {
+  padding-top: 40px !important; }
+
+.prn, .phn, .pan {
+  padding-right: 0 !important; }
+
+.prx, .phx, .pax {
+  padding-right: 3px !important; }
+
+.prs, .phs, .pas {
+  padding-right: 5px !important; }
+
+.prm, .phm, .pam {
+  padding-right: 10px !important; }
+
+.prl, .phl, .pal {
+  padding-right: 20px !important; }
+
+.prxl, .phxl, .paxl {
+  padding-right: 30px !important; }
+
+.prxxl, .phxxl, .paxxl {
+  padding-right: 40px !important; }
+
+.pbn, .pvn, .pan {
+  padding-bottom: 0 !important; }
+
+.pbx, .pvx, .pax {
+  padding-bottom: 3px !important; }
+
+.pbs, .pvs, .pas {
+  padding-bottom: 5px !important; }
+
+.pbm, .pvm, .pam {
+  padding-bottom: 10px !important; }
+
+.pbl, .pvl, .pal {
+  padding-bottom: 20px !important; }
+
+.pbxl, .pvxl, .paxl {
+  padding-bottom: 30px !important; }
+
+.pbxxl, .pvxxl, .paxxl {
+  padding-bottom: 40px !important; }
+
+.pln, .phn, .pan {
+  padding-left: 0 !important; }
+
+.plx, .phx, .pax {
+  padding-left: 3px !important; }
+
+.pls, .phs, .pas {
+  padding-left: 5px !important; }
+
+.plm, .phm, .pam {
+  padding-left: 10px !important; }
+
+.pll, .phl, .pal {
+  padding-left: 20px !important; }
+
+.plxl, .phxl, .paxl {
+  padding-left: 30px !important; }
+
+.plxxl, .phxxl, .paxxl {
+  padding-left: 40px !important; }
+
+.mtn, .mvn, .man {
+  margin-top: 0px !important; }
+
+.mtx, .mvx, .max {
+  margin-top: 3px !important; }
+
+.mts, .mvs, .mas {
+  margin-top: 5px !important; }
+
+.mtm, .mvm, .mam {
+  margin-top: 10px !important; }
+
+.mtl, .mvl, .mal {
+  margin-top: 20px !important; }
+
+.mtxl, .mvxl, .maxl {
+  margin-top: 30px !important; }
+
+.mtxxl, .mvxxl, .maxxl {
+  margin-top: 40px !important; }
+
+.mrn, .mhn, .man {
+  margin-right: 0px !important; }
+
+.mrx, .mhx, .max {
+  margin-right: 3px !important; }
+
+.mrs, .mhs, .mas {
+  margin-right: 5px !important; }
+
+.mrm, .mhm, .mam {
+  margin-right: 10px !important; }
+
+.mrl, .mhl, .mal {
+  margin-right: 20px !important; }
+
+.mrxl, .mhxl, .maxl {
+  margin-right: 30px !important; }
+
+.mrxxl, .mhxxl, .maxxl {
+  margin-right: 40px !important; }
+
+.mbn, .mvn, .man {
+  margin-bottom: 0px !important; }
+
+.mbx, .mvx, .max {
+  margin-bottom: 3px !important; }
+
+.mbs, .mvs, .mas {
+  margin-bottom: 5px !important; }
+
+.mbm, .mvm, .mam {
+  margin-bottom: 10px !important; }
+
+.mbl, .mvl, .mal {
+  margin-bottom: 20px !important; }
+
+.mbxl, .mvxl, .maxl {
+  margin-bottom: 30px !important; }
+
+.mbxxl, .mvxxl, .maxxl {
+  margin-bottom: 40px !important; }
+
+.mln, .mhn, .man {
+  margin-left: 0px !important; }
+
+.mlx, .mhx, .max {
+  margin-left: 3px !important; }
+
+.mls, .mhs, .mas {
+  margin-left: 5px !important; }
+
+.mlm, .mhm, .mam {
+  margin-left: 10px !important; }
+
+.mll, .mhl, .mal {
+  margin-left: 20px !important; }
+
+.mlxl, .mhxl, .maxl {
+  margin-left: 30px !important; }
+
+.mlxxl, .mhxxl, .maxxl {
+  margin-left: 40px !important; }
+
 /* Cubic Bezier Transition */
 /***
 General reset
@@ -1607,17 +1796,17 @@ Custom color buttons
   border-color: #2f353b; }
   .btn.dark:not(.btn-outline):focus, .btn.dark:not(.btn-outline).focus {
     color: #FFFFFF;
-    background-color: #181b1f;
-    border-color: #181b1f; }
+    background-color: #181c1f;
+    border-color: #181c1f; }
   .btn.dark:not(.btn-outline):hover {
     color: #FFFFFF;
-    background-color: #181b1f;
-    border-color: #181b1f; }
+    background-color: #181c1f;
+    border-color: #181c1f; }
   .btn.dark:not(.btn-outline):active, .btn.dark:not(.btn-outline).active,
   .open > .btn.dark:not(.btn-outline).dropdown-toggle {
     color: #FFFFFF;
-    background-color: #181b1f;
-    border-color: #181b1f; }
+    background-color: #181c1f;
+    border-color: #181c1f; }
     .btn.dark:not(.btn-outline):active:hover, .btn.dark:not(.btn-outline):active:focus, .btn.dark:not(.btn-outline):active.focus, .btn.dark:not(.btn-outline).active:hover, .btn.dark:not(.btn-outline).active:focus, .btn.dark:not(.btn-outline).active.focus,
     .open > .btn.dark:not(.btn-outline).dropdown-toggle:hover,
     .open > .btn.dark:not(.btn-outline).dropdown-toggle:focus,
@@ -1763,17 +1952,17 @@ Custom color buttons
   border-color: #2C3E50; }
   .btn.blue-chambray:not(.btn-outline):focus, .btn.blue-chambray:not(.btn-outline).focus {
     color: #FFFFFF;
-    background-color: #1a242f;
-    border-color: #1a242f; }
+    background-color: #1a252f;
+    border-color: #1a252f; }
   .btn.blue-chambray:not(.btn-outline):hover {
     color: #FFFFFF;
-    background-color: #1a242f;
-    border-color: #1a242f; }
+    background-color: #1a252f;
+    border-color: #1a252f; }
   .btn.blue-chambray:not(.btn-outline):active, .btn.blue-chambray:not(.btn-outline).active,
   .open > .btn.blue-chambray:not(.btn-outline).dropdown-toggle {
     color: #FFFFFF;
-    background-color: #1a242f;
-    border-color: #1a242f; }
+    background-color: #1a252f;
+    border-color: #1a252f; }
     .btn.blue-chambray:not(.btn-outline):active:hover, .btn.blue-chambray:not(.btn-outline):active:focus, .btn.blue-chambray:not(.btn-outline):active.focus, .btn.blue-chambray:not(.btn-outline).active:hover, .btn.blue-chambray:not(.btn-outline).active:focus, .btn.blue-chambray:not(.btn-outline).active.focus,
     .open > .btn.blue-chambray:not(.btn-outline).dropdown-toggle:hover,
     .open > .btn.blue-chambray:not(.btn-outline).dropdown-toggle:focus,
@@ -2751,17 +2940,17 @@ Custom color buttons
   border-color: #555555; }
   .btn.grey-gallery:not(.btn-outline):focus, .btn.grey-gallery:not(.btn-outline).focus {
     color: #ffffff;
-    background-color: #3b3b3b;
-    border-color: #3b3b3b; }
+    background-color: #3c3c3c;
+    border-color: #3c3c3c; }
   .btn.grey-gallery:not(.btn-outline):hover {
     color: #ffffff;
-    background-color: #3b3b3b;
-    border-color: #3b3b3b; }
+    background-color: #3c3c3c;
+    border-color: #3c3c3c; }
   .btn.grey-gallery:not(.btn-outline):active, .btn.grey-gallery:not(.btn-outline).active,
   .open > .btn.grey-gallery:not(.btn-outline).dropdown-toggle {
     color: #ffffff;
-    background-color: #3b3b3b;
-    border-color: #3b3b3b; }
+    background-color: #3c3c3c;
+    border-color: #3c3c3c; }
     .btn.grey-gallery:not(.btn-outline):active:hover, .btn.grey-gallery:not(.btn-outline):active:focus, .btn.grey-gallery:not(.btn-outline):active.focus, .btn.grey-gallery:not(.btn-outline).active:hover, .btn.grey-gallery:not(.btn-outline).active:focus, .btn.grey-gallery:not(.btn-outline).active.focus,
     .open > .btn.grey-gallery:not(.btn-outline).dropdown-toggle:hover,
     .open > .btn.grey-gallery:not(.btn-outline).dropdown-toggle:focus,
@@ -4811,7 +5000,7 @@ Dropdown Menu
     padding: 8px 14px 2px 14px; }
   .dropdown-menu > li > a {
     padding: 8px 16px;
-    color: #6e6e6e;
+    color: #6f6f6f;
     text-decoration: none;
     display: block;
     clear: both;
@@ -5405,7 +5594,7 @@ Custom color buttons
 .form-control.dark {
   border-color: #2f353b; }
   .form-control.dark:focus {
-    border-color: #181b1f; }
+    border-color: #181c1f; }
 
 .form-control.focus-dark:focus {
   border-color: #2f353b; }
@@ -5429,7 +5618,7 @@ Custom color buttons
 .form-control.blue-chambray {
   border-color: #2C3E50; }
   .form-control.blue-chambray:focus {
-    border-color: #1a242f; }
+    border-color: #1a252f; }
 
 .form-control.focus-blue-chambray:focus {
   border-color: #2C3E50; }
@@ -5581,7 +5770,7 @@ Custom color buttons
 .form-control.grey-gallery {
   border-color: #555555; }
   .form-control.grey-gallery:focus {
-    border-color: #3b3b3b; }
+    border-color: #3c3c3c; }
 
 .form-control.focus-grey-gallery:focus {
   border-color: #555555; }
@@ -7378,7 +7567,7 @@ Custom colored portlets
   color: #fdfdfd; }
 
 .portlet.box.blue-chambray {
-  border: 1px solid #3e5771;
+  border: 1px solid #3e5871;
   border-top: 0; }
   .portlet.box.blue-chambray > .portlet-title {
     background-color: #2C3E50; }
@@ -7393,7 +7582,7 @@ Custom colored portlets
       color: #5f83a7;
       box-shadow: none; }
       .portlet.box.blue-chambray > .portlet-title > .actions .btn-default > i {
-        color: #698aac; }
+        color: #698bac; }
       .portlet.box.blue-chambray > .portlet-title > .actions .btn-default:hover, .portlet.box.blue-chambray > .portlet-title > .actions .btn-default:focus, .portlet.box.blue-chambray > .portlet-title > .actions .btn-default:active, .portlet.box.blue-chambray > .portlet-title > .actions .btn-default.active {
         border: 1px solid #6f90b0;
         color: #809cb9; }
@@ -8385,7 +8574,7 @@ Custom colored portlets
   color: #fdfdfd; }
 
 .portlet.box.grey-gallery {
-  border: 1px solid #6e6e6e;
+  border: 1px solid #6f6f6f;
   border-top: 0; }
   .portlet.box.grey-gallery > .portlet-title {
     background-color: #555555; }

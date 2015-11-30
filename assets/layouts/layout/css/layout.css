@@ -1566,7 +1566,31 @@ Page footer
     clear: both; }
   .page-footer .page-footer-inner {
     float: left;
-    display: inline-block; }
+    display: inline-block;
+    padding-bottom: 10px;
+    line-height: 32px; }
+    .page-footer .page-footer-inner a:hover {
+      text-decoration: none;
+      outline: none; }
+    .page-footer .page-footer-inner a {
+      border: none;
+      outline: none;
+      color: inherit;
+      padding-bottom: 10px;
+      font-size: 14px;
+      margin-left: 20px; }
+      .page-footer .page-footer-inner a span {
+        line-height: 20px;
+        vertical-align: bottom; }
+      .page-footer .page-footer-inner a span.icon-agave:before {
+        line-height: 32px;
+        font-size: 29px;
+        padding-top: 10px;
+        margin-left: 20px; }
+      .page-footer .page-footer-inner a img.funding {
+        height: 32px;
+        width: auto;
+        border: none; }
   .page-footer-fixed.page-footer-fixed-mobile .page-footer {
     position: fixed;
     left: 0;

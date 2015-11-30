@@ -410,20 +410,20 @@ Page Header
     .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .sidebar-search .input-group .form-control,
     .page-sidebar .sidebar-search .input-group .form-control {
       background-color: #364150;
-      color: #4e5c6f; }
+      color: #4e5d6f; }
       .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .sidebar-search .input-group .form-control::-moz-placeholder,
       .page-sidebar .sidebar-search .input-group .form-control::-moz-placeholder {
-        color: #4e5c6f;
+        color: #4e5d6f;
         opacity: 1; }
       .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .sidebar-search .input-group .form-control:-ms-input-placeholder,
       .page-sidebar .sidebar-search .input-group .form-control:-ms-input-placeholder {
-        color: #4e5c6f; }
+        color: #4e5d6f; }
       .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .sidebar-search .input-group .form-control::-webkit-input-placeholder,
       .page-sidebar .sidebar-search .input-group .form-control::-webkit-input-placeholder {
-        color: #4e5c6f; }
+        color: #4e5d6f; }
     .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .sidebar-search .input-group .input-group-btn .btn > i,
     .page-sidebar .sidebar-search .input-group .input-group-btn .btn > i {
-      color: #4e5c6f; }
+      color: #4e5d6f; }
   .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .sidebar-search.sidebar-search-bordered .input-group,
   .page-sidebar .sidebar-search.sidebar-search-bordered .input-group {
     border: 1px solid #435060; }
@@ -432,7 +432,7 @@ Page Header
     background-color: #364150; }
   .page-sidebar-closed .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .sidebar-search.open .remove > i, .page-sidebar-closed
   .page-sidebar .sidebar-search.open .remove > i {
-    color: #4e5c6f; }
+    color: #4e5d6f; }
   .page-sidebar-closed .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .sidebar-search.sidebar-search-solid .input-group, .page-sidebar-closed
   .page-sidebar .sidebar-search.sidebar-search-solid .input-group {
     background: none; }

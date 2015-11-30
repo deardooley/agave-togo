@@ -1014,13 +1014,30 @@ a.dt-button {
     margin-top: -64px; }
   .portlet.box .dataTables_wrapper .dt-buttons {
     margin-top: -50px; }
-  /*.portlet.light #datatable_collection_wrapper.dataTables_wrapper .dt-buttons {*/
-    /*margin-top: -85px; }*/
-    /*.portlet.light #datatable_collection_wrapper.dataTables_wrapper .dt-buttons a.dt-button {*/
-      /*padding: 6px 10px 5px;*/
-      /*line-height: 1.4;*/
-      /*margin-left: 10px;*/
-    /*}*/
+
+div.dt-button-collection {
+  background: #FFF !important;
+  border: 1px solid #2f353b !important; }
+  div.dt-button-collection > a.dt-button.buttons-columnVisibility {
+    padding: 8px 16px;
+    color: #2f353b !important;
+    text-decoration: none;
+    display: block;
+    clear: both;
+    font-weight: normal;
+    padding: 6px 10px 5px !important;
+    line-height: 1.4 !important;
+    white-space: nowrap;
+    border: 1px solid #2f353b !important;
+    background: none !important; }
+  div.dt-button-collection > a.dt-button.buttons-columnVisibility:hover,
+  div.dt-button-collection > a.dt-button.buttons-columnVisibility.active {
+    background-color: #2f353b !important;
+    color: #FFF !important; }
+  div.dt-button-collection > a.dt-button.buttons-columnVisibility:first-child:hover {
+    border-radius: 4px 4px 0px 0px; }
+  div.dt-button-collection > a.dt-button.buttons-columnVisibility:last-child:hover {
+    border-radius: 0px 0px 4px 4px; }
 
 /***
 Rot Details
@@ -2327,6 +2344,24 @@ pre[class*="language-"] {
 
 .socicon-persona:before {
   content: ")"; }
+
+/** Schema Form Wizard **/
+.form-wizard .tab-content {
+  padding-bottom: 10px; }
+
+.form-wizard .schema-form-array ol.list-group {
+  margin-bottom: 0; }
+
+.form-wizard .schema-form-array .help-form-control .help-block {
+  padding-left: 0;
+  padding-right: 0; }
+
+.form-wizard .schema-form-array .help-form-control .button-wrapper {
+  padding: 10px 0;
+  padding-top: 10px;
+  padding-right: 0px;
+  padding-bottom: 10px;
+  padding-left: 0px; }
 
 .test {
   color: #e1e5ec;
