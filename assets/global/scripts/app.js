@@ -355,7 +355,11 @@ var App = function() {
     };
 
     // Handles Bootstrap Modals.
-    var handleModals = function() {        
+    var handleModals = function() {
+
+        $.fn.modal.defaults.spinner = $.fn.modalmanager.defaults.spinner =
+            '<div class="loading-message"><div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>';
+
         // fix stackable modal issue: when 2 or more modals opened, closing one of modal will remove .modal-open class. 
         $('body').on('hide.bs.modal', function() {
             if ($('.modal:visible').size() > 1 && $('html').hasClass('modal-open') === false) {

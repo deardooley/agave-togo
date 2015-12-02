@@ -3,7 +3,7 @@ Customized Bootstrap Modal
 ***/
 
 .modal {
-    z-index: $zindex-modal; 
+    z-index: $zindex-modal !important;
 
     .page-portlet-fullscreen & {
         z-index: $zindex-modal + 10;        
@@ -31,7 +31,7 @@ Customized Bootstrap Modal
     }
 
     .modal-dialog {
-        z-index: $zindex-modal + 1;
+        z-index: $zindex-modal + 1 !important;
     }
 
     > .loading {

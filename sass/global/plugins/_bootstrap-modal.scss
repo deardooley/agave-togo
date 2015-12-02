@@ -15,12 +15,6 @@ Bootstrap Modal
 }
 
 /* BS 3.3.1 fix */
-
-.modal-backdrop { 
-	position: fixed; 
-	bottom: 0; 
-}
-
 .modal-scrollable {
     overflow: hidden !important;
     z-index: 10051;

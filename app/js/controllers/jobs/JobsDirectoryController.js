@@ -1,15 +1,15 @@
-angular.module('AgaveToGo').controller('AppDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $uibModal, Commons, AppsController, SystemsController) {
+angular.module('AgaveToGo').controller('JobDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $uibModal, Commons, AppsController, SystemsController, JobsController) {
 
     $scope.offset = $scope.offset || 0;
     $scope.limit = $scope.limit || 10;
     $scope.systems = [];
 
     // Name of collection, used in route name generation
-    $scope._COLLECTION_NAME = $scope._COLLECTION_NAME || 'apps';
+    $scope._COLLECTION_NAME = $scope._COLLECTION_NAME || 'jobs';
 
     // Name of resource, used in table name generation and variable reference
     // within the view template
-    $scope._RESOURCE_NAME = $scope._RESOURCE_NAME || 'app';
+    $scope._RESOURCE_NAME = $scope._RESOURCE_NAME || 'job';
 
     $scope.refresh = $scope.refresh || function() {
 
@@ -23,7 +23,7 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
             function (data) {
                 $scope.systems = data;
 
-                AppsController.listApps($scope.limit, $scope.offset)
+                JobsController.listJobs()
                     .then($scope.handleRefreshSuccess, $scope.handleFailure);
             },
             function (data) {
@@ -34,7 +34,7 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
             });
     };
 
-    $scope.confirmAction = function(selectedApps, selectedAction)
+    $scope.confirmAction = function(selectedJobs, selectedAction)
     {
         var modalInstance = $uibModal.open(
             {
@@ -45,8 +45,8 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
                 {
                     resourceNames: function() {
                         var resourceNames = [];
-                        angular.forEach(selectedApps, function (app, key) {
-                            resourceNames.push(app.label + "(" + app.name + '-' + app.version + ')');
+                        angular.forEach(selectedJobs, function (job, key) {
+                            resourceNames.push(job.name + "(" + job.id + ')');
                         });
                         return resourceNames;
                     },
@@ -96,15 +96,15 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
             });
     }
 
-    $scope.doInvokeAction = function (selectedApps, selectedAction) {
+    $scope.doInvokeAction = function (selectedJobs, selectedAction) {
         var isSuccess = true;
         var that = this;
 
         var promises = [];
         var totalDeleted = 0;
-        //angular.forEach(selectedApps, function (app, key) {
+        //angular.forEach(selectedJobs, function (app, key) {
         //
-        //    promises.push(AppsController.updateInvokeAppAction(app.id, selectedAction).then(
+        //    promises.push(JobsController.updateInvokeAppAction(app.id, selectedAction).then(
         //        function(response) {
         //            totalDeleted++;
         //            $(that).parent().parent().parent().remove();

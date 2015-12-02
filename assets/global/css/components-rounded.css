@@ -6564,7 +6564,7 @@ Metro icons
 Customized Bootstrap Modal 
 ***/
 .modal {
-  z-index: 10050;
+  z-index: 10050 !important;
   outline: none;
   overflow-y: auto !important;
   /* Fix content shifting to the right on modal open due to scrollbar closed */ }
@@ -6579,7 +6579,7 @@ Customized Bootstrap Modal
   .modal.draggable-modal .modal-header {
     cursor: move; }
   .modal .modal-dialog {
-    z-index: 10051; }
+    z-index: 10051 !important; }
   .modal > .loading {
     position: absolute;
     top: 50%;

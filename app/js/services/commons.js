@@ -1129,4 +1129,15 @@ angular.module('CommonsService', []).service('Commons', ['$rootScope', '$window'
         return function (val) {
             return val === 'enabled' ? "label-success" : "label-danger";
         };
-    }]);
+    }])
+    .filter('range', function() {
+        return function(input, total) {
+            total = parseInt(total);
+
+            for (var i=0; i<total; i++) {
+                input.push(i);
+            }
+
+            return input;
+        };
+    });

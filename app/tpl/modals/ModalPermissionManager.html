@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h4 class="modal-title">Permission Editor</h4>
+</div>
+<div class="modal-body">
+    <p>The current permissions are listed below. You may add, updated, or delete them as needed. They will be
+        updated in real time. When you are done, simply close this dialog.</p>
+
+    <form id="modal-permission-form"
+            name="permissionForm"
+            class="form-schema"
+            sf-schema="schema"
+            sf-form="form"
+            sf-model="model"
+            sf-options="{ formDefaults: { ngModelOptions: { updateOn: 'blur' } }}">
+    </form>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="ok()">Close</button>
+</div>

@@ -2693,7 +2693,7 @@ select[multiple].input-lg,
   color: #e73d4a; }
 
 .has-feedback label ~ .form-control-feedback {
-  top: 25px; }
+  top: 34px; }
 
 .has-feedback label.sr-only ~ .form-control-feedback {
   top: 0; }
@@ -5148,7 +5148,8 @@ button.close {
 
 .modal-body {
   position: relative;
-  padding: 15px; }
+  padding: 15px;
+  background-color: #FFF; }
 
 .modal-footer {
   padding: 15px;

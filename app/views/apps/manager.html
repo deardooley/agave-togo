@@ -74,25 +74,25 @@
                                 <th> Exe. System</th>
                                 <th> Public</th>
                                 <th> Revision</th>
-                                <th data-class-name="extended"> Long Description</th>
-                                <th data-class-name="extended"> UUID </th>
-                                <th data-class-name="extended"> Test Path</th>
-                                <th data-class-name="extended"> Modules</th>
-                                <th data-class-name="extended"> Ontology</th>
-                                <th data-class-name="extended"> Icon</th>
-                                <th data-class-name="extended"> Exe. Type</th>
-                                <th data-class-name="extended"> Deployment System</th>
-                                <th data-class-name="extended"> Deployment Path</th>
-                                <th data-class-name="extended"> Default Queue</th>
-                                <th data-class-name="extended"> Default PPN</th>
-                                <th data-class-name="extended"> Default Nodes</th>
-                                <th data-class-name="extended"> Default Memory</th>
-                                <th data-class-name="extended"> Default RunTime</th>
-                                <th data-class-name="extended"> Checkpointable</th>
-                                <th data-class-name="extended"> Available</th>
-                                <th data-class-name="extended"> Inputs</th>
-                                <th data-class-name="extended"> Outputs</th>
-                                <th data-class-name="extended"> Parameters</th>
+                                <!--<th data-class-name="extended"> Long Description</th>-->
+                                <!--<th data-class-name="extended"> UUID </th>-->
+                                <!--<th data-class-name="extended"> Test Path</th>-->
+                                <!--<th data-class-name="extended"> Modules</th>-->
+                                <!--<th data-class-name="extended"> Ontology</th>-->
+                                <!--<th data-class-name="extended"> Icon</th>-->
+                                <!--<th data-class-name="extended"> Exe. Type</th>-->
+                                <!--<th data-class-name="extended"> Deployment System</th>-->
+                                <!--<th data-class-name="extended"> Deployment Path</th>-->
+                                <!--<th data-class-name="extended"> Default Queue</th>-->
+                                <!--<th data-class-name="extended"> Default PPN</th>-->
+                                <!--<th data-class-name="extended"> Default Nodes</th>-->
+                                <!--<th data-class-name="extended"> Default Memory</th>-->
+                                <!--<th data-class-name="extended"> Default RunTime</th>-->
+                                <!--<th data-class-name="extended"> Checkpointable</th>-->
+                                <!--<th data-class-name="extended"> Available</th>-->
+                                <!--<th data-class-name="extended"> Inputs</th>-->
+                                <!--<th data-class-name="extended"> Outputs</th>-->
+                                <!--<th data-class-name="extended"> Parameters</th>-->
                                 <th> Last Modified</th>
                                 <th> Actions </th>
                             </tr>
@@ -133,86 +133,86 @@
                                 <td>
                                     {{app.revision}}
                                 </td>
-                                <td data-class-name="extended">
-                                    {{app.longDescription}}
-                                </td>
-                                <td data-class-name="extended">
-                                    {{app.uuid}}
-                                </td>
-                                <td data-class-name="extended">
-                                    {{app.testPath}}
-                                </td>
-                                <td data-class-name="extended">
-                                    <ul>
-                                        <li ng-repeat="moduleName in app.modules">
-                                            <span>{{moduleName}} </span>
-                                        </li>
-                                    </ul>
-                                </td>
-                                <td data-class-name="extended">
-                                    <ul>
-                                        <li ng-repeat="ont in app.ontology">
-                                            <span>{{ont}} </span>
-                                        </li>
-                                    </ul>
-                                </td>
-                                <td data-class-name="extended">
-                                    <a ng-if="app.icon" ui-sref="{{app.icon}}">
-                                        <img ng-src="{{app.icon}}" class="thumbnail">
-                                    </a>
-                                    <img ng-if="!app.icon" src="../bower_components/holderjs/holder.js/100%x100" alt="100%x100" style="height: 100px; width: 100%; display: block;">
-                                </td>
-                                <td data-class-name="extended">
-                                    {{app.executionType}}
-                                </td>
-                                <td data-class-name="extended">
-                                    <a ui-sref="system-browse({systemId: app.storageSystem})">{{ systemName(app.deploymentSystem) }}</a>
-                                </td>
-                                <td data-class-name="extended">
-                                    {{app.deploymentPath}}
-                                </td>
-                                <td data-class-name="extended">
-                                    {{app.defaultQueue}}
-                                </td>
-                                <td data-class-name="extended">
-                                    {{app.defaultProcessorsPerNode}}
-                                </td>
-                                <td data-class-name="extended">
-                                    {{app.defaultNodeCount}}
-                                </td>
-                                <td data-class-name="extended">
-                                    {{app.defaultMemoryPerNode}}
-                                </td>
-                                <td data-class-name="extended">
-                                    {{app.defaultMaxRunTime}}
-                                </td>
-                                <td data-class-name="extended">
-                                    {{app.checkpointable}}
-                                </td>
-                                <td data-class-name="extended">
-                                    {{app.available}}
-                                </td>
-                                <td data-class-name="extended">
-                                    <ul>
-                                        <li ng-repeat="inp in app.inputs">
-                                            <span title="{{inp.label}}">{{inp.id}}</span>
-                                        </li>
-                                    </ul>
-                                </td>
-                                <td data-class-name="extended">
-                                    <ul>
-                                        <li ng-repeat="out in app.outputs">
-                                            <span title="{{out.label}}">{{out.id}}</span>
-                                        </li>
-                                    </ul>
-                                </td>
-                                <td data-class-name="extended">
-                                    <ul>
-                                        <li ng-repeat="param in app.parameters">
-                                            <span title="{{param.label}}">{{param.id}}</span>
-                                        </li>
-                                    </ul>
-                                </td>
+                                <!--<td data-class-name="extended">-->
+                                    <!--{{app.longDescription}}-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--{{app.uuid}}-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--{{app.testPath}}-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--<ul>-->
+                                        <!--<li ng-repeat="moduleName in app.modules">-->
+                                            <!--<span>{{moduleName}} </span>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--<ul>-->
+                                        <!--<li ng-repeat="ont in app.ontology">-->
+                                            <!--<span>{{ont}} </span>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--<a ng-if="app.icon" ui-sref="{{app.icon}}">-->
+                                        <!--<img ng-src="{{app.icon}}" class="thumbnail">-->
+                                    <!--</a>-->
+                                    <!--<img ng-if="!app.icon" src="../bower_components/holderjs/holder.js/100%x100" alt="100%x100" style="height: 100px; width: 100%; display: block;">-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--{{app.executionType}}-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--<a ui-sref="system-browse({systemId: app.storageSystem})">{{ systemName(app.deploymentSystem) }}</a>-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--{{app.deploymentPath}}-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--{{app.defaultQueue}}-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--{{app.defaultProcessorsPerNode}}-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--{{app.defaultNodeCount}}-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--{{app.defaultMemoryPerNode}}-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--{{app.defaultMaxRunTime}}-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--{{app.checkpointable}}-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--{{app.available}}-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--<ul>-->
+                                        <!--<li ng-repeat="inp in app.inputs">-->
+                                            <!--<span title="{{inp.label}}">{{inp.id}}</span>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--<ul>-->
+                                        <!--<li ng-repeat="out in app.outputs">-->
+                                            <!--<span title="{{out.label}}">{{out.id}}</span>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</td>-->
+                                <!--<td data-class-name="extended">-->
+                                    <!--<ul>-->
+                                        <!--<li ng-repeat="param in app.parameters">-->
+                                            <!--<span title="{{param.label}}">{{param.id}}</span>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</td>-->
                                 <td>
                                     <span am-time-ago="app.lastModified" class="date"></span>
                                 </td>
@@ -224,23 +224,23 @@
                                         </a>
                                         <ul class="dropdown-menu pull-right">
                                             <li ng-if="!app.available">
-                                                <a href="#" data-target="#enable-modal" role="button" data-toggle="modal"> <i class="fa fa-check"></i> Enable </a>
+                                                <a ng-click="confirmAction(app, 'enable')" role="button"> <i class="fa fa-check"></i> Enable </a>
                                             </li>
                                             <li ng-if="app.available">
-                                                <a href="#" data-target="#disable-modal" role="button" data-toggle="modal"> <i class="fa fa-remove"></i> Disable </a>
+                                                <a ng-click="confirmAction(app, 'disable')" role="button"> <i class="fa fa-remove"></i> Disable </a>
                                             </li>
                                             <li>
-                                                <a href="#" data-target="#delete-modal" role="button" data-toggle="modal"> <i class="fa fa-trash-o"></i> Delete </a>
+                                                <a ng-click="confirmAction(app, 'delete')" role="button"> <i class="fa fa-trash-o"></i> Delete </a>
                                             </li>
                                             <li class="divider"> </li>
                                             <li>
-                                                <a href="#" data-target="#clone-modal" role="button" data-toggle="modal"> <i class="fa fa-code-fork"></i> Clone </a>
+                                                <a ng-click="clone(app)" role="button"> <i class="fa fa-code-fork"></i> Clone </a>
                                             </li>
                                             <li>
-                                                <a href="#" data-target="#publish-modal" role="button" data-toggle="modal"> <i class="fa fa-eye"></i> Publish </a>
+                                                <a ng-click="publish(app)" role="button"> <i class="fa fa-eye"></i> Publish </a>
                                             </li>
                                             <li>
-                                                <a href="#" data-target="#share-modal" role="button" data-toggle="modal"> <i class="fa fa-share-alt"></i> Share </a>
+                                                <a ng-click="openPermissionEditor(app)" role="button"> <i class="fa fa-share-alt"></i> Share </a>
                                             </li>
                                         </ul>
                                     </div>

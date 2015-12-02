@@ -281,7 +281,9 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         files: [
                             '../assets/global/scripts/datatable.js',
                             '../bower_components/holderjs/holder.js',
-                            'js/controllers/apps/AppDirectoryController.js'
+                            'js/controllers/apps/AppDirectoryController.js',
+                            'js/controllers/modals/ModalConfirmResourceActionController.js',
+                            'js/controllers/modals/ModalPermissionEditorController.js'
                         ]
                     });
                 }]
@@ -367,10 +369,23 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
-                        'FileManagerApp',
                         {
                             name: 'AgaveToGo',
                             files: [
+                                "../bower_components/angular-filebrowser/src/js/directives/directives.js",
+                                "../bower_components/angular-filebrowser/src/js/filters/filters.js",
+                                "../bower_components/angular-filebrowser/src/js/providers/config.js",
+                                "../bower_components/angular-filebrowser/src/js/entities/acl.js",
+                                "../bower_components/angular-filebrowser/src/js/entities/chmod.js",
+                                "../bower_components/angular-filebrowser/src/js/entities/fileitem.js",
+                                "../bower_components/angular-filebrowser/src/js/entities/item.js",
+                                "../bower_components/angular-filebrowser/src/js/services/filenavigator.js",
+                                "../bower_components/angular-filebrowser/src/js/services/fileuploader.js",
+                                "../bower_components/angular-filebrowser/src/js/providers/translations.js",
+                                "../bower_components/angular-filebrowser/src/js/app.js",
+                                "../bower_components/angular-filebrowser/src/js/controllers/main.js",
+                                "../bower_components/angular-filebrowser/src/js/controllers/selector-controller.js",
+                                "../bower_components/angular-filebrowser/src/css/angular-filemanager.css",
                                 'js/controllers/data/FileExplorerController.js'
                             ]
                         }
