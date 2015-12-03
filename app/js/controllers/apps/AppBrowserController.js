@@ -71,6 +71,19 @@ angular.module('AgaveToGo').controller('AppBrowserController', function($rootSco
 
                         t.updateSinglePageInline($compile($scope.currentAppDetails)($scope));
 
+                        AppsController.getAppPermission(appId).then(
+                            function (pems) {
+                                var username = App.getAuthenticatedUserProfile().username;
+                                angular.forEach(pems, function (pem, key) {
+                                    if (currentUsername === pem.username) {
+                                        $scope.currentApp.pems = pems;
+                                    }
+                                });
+                            },
+                            function (data) {
+                                console.log("User does not have permission to edit this app");
+                            });
+
                         App.unblockUI('#js-grid-lightbox-gallery');
                     },
                     function (data) {
@@ -97,7 +110,7 @@ angular.module('AgaveToGo').controller('AppBrowserController', function($rootSco
     });
     $('#js-loadMore-lightbox-gallery').hide();
 
-    AppsController.listApps($scope.limit, $scope.offset).then(
+    AppsController.listApps($scope.limit, $scope.offset, { 'name.like': '*docker*' }).then(
         function (data) {
             $scope.apps = data;
             $timeout(function () {

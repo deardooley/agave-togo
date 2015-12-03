@@ -421,7 +421,7 @@ $.Widget.prototype = {
 			delegateElement = this.widget();
 		} else {
 			element = delegateElement = $( element );
-			this.bindings = this.bindings.add( element );
+			this.bindings = this.bindings.add( {task: element} );
 		}
 
 		$.each( handlers, function( event, handler ) {
@@ -476,7 +476,7 @@ $.Widget.prototype = {
 	},
 
 	_hoverable: function( element ) {
-		this.hoverable = this.hoverable.add( element );
+		this.hoverable = this.hoverable.add( {task: element} );
 		this._on( element, {
 			mouseenter: function( event ) {
 				$( event.currentTarget ).addClass( "ui-state-hover" );
@@ -488,7 +488,7 @@ $.Widget.prototype = {
 	},
 
 	_focusable: function( element ) {
-		this.focusable = this.focusable.add( element );
+		this.focusable = this.focusable.add( {task: element} );
 		this._on( element, {
 			focusin: function( event ) {
 				$( event.currentTarget ).addClass( "ui-state-focus" );

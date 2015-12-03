@@ -594,6 +594,10 @@ var App = function() {
 
     return {
 
+        getClientKey: function() {
+            return 'fGxFxuyIuIkNMTXhjW3HvyEs_dEa';
+        },
+
         //main function to initiate the theme
         init: function() {
             //IMPORTANT!!!: Do not modify the core handlers call order.

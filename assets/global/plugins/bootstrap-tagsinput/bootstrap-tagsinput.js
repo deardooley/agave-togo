@@ -86,7 +86,7 @@
         var items = item.split(',');
         if (items.length > 1) {
           for (var i = 0; i < items.length; i++) {
-            this.add(items[i], true);
+            this.add({task: items[i]}, true);
           }
 
           if (!dontPushVal)
@@ -298,7 +298,7 @@
             }
           },
           updater: function (text) {
-            self.add(this.map[text]);
+            self.add({task: this.map[text]});
           },
           matcher: function (text) {
             return (text.toLowerCase().indexOf(this.query.trim().toLowerCase()) !== -1);
@@ -319,9 +319,9 @@
           
           self.$input.typeahead(null, typeaheadjs).on('typeahead:selected', $.proxy(function (obj, datum) {
             if (typeaheadjs.valueKey)
-              self.add(datum[typeaheadjs.valueKey]);
+              self.add({task: datum[typeaheadjs.valueKey]});
             else
-              self.add(datum);
+              self.add({task: datum});
             self.$input.typeahead('val', '');
           }, self));
       }
@@ -338,7 +338,7 @@
               // HACK: only process on focusout when no typeahead opened, to
               //       avoid adding the typeahead text as tag
               if ($('.typeahead, .twitter-typeahead', self.$container).length === 0) {
-                self.add(self.$input.val());
+                self.add({task: self.$input.val()});
                 self.$input.val('');
               }
           }, self));
@@ -415,7 +415,7 @@
          var text = $input.val(),
          maxLengthReached = self.options.maxChars && text.length >= self.options.maxChars;
          if (self.options.freeInput && (keyCombinationInList(event, self.options.confirmKeys) || maxLengthReached)) {
-            self.add(maxLengthReached ? text.substr(0, self.options.maxChars) : text);
+            self.add({task: maxLengthReached ? text.substr(0, self.options.maxChars) : text});
             $input.val('');
             event.preventDefault();
          }
@@ -438,10 +438,10 @@
       // Only add existing value as tags when using strings as tags
       if (self.options.itemValue === defaultOptions.itemValue) {
         if (self.$element[0].tagName === 'INPUT') {
-            self.add(self.$element.val());
+            self.add({task: self.$element.val()});
         } else {
           $('option', self.$element).each(function() {
-            self.add($(this).attr('value'), true);
+            self.add({task: $(this).attr('value')}, true);
           });
         }
       }

@@ -1,0 +1,47 @@
+<div class="form" ng-submit="submitTask()">
+    <div class="form-group">
+        <div class="col-md-8 col-sm-8">
+            <div class="todo-taskbody-user">
+                <img class="todo-userpic pull-left" ng-src="{{ task.owner.email | gravatar }}" width="50px" height="50px">
+                <span class="todo-username pull-left">{{ task.owner.firstName + ' ' + task.owner.lastName }}</span>
+                <button ng-if={{ canRead(task) }}type="button" class="todo-username-btn btn btn-circle btn-default btn-xs">&nbsp;edit&nbsp;</button>
+            </div>
+        </div>
+        <!--<div class="col-md-4 col-sm-4">-->
+        <!--<div class="todo-taskbody-date pull-right">-->
+        <!--<button type="button" class="todo-username-btn btn btn-circle btn-default btn-xs">&nbsp; Complete &nbsp;</button>-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
+    <!-- END TASK HEAD -->
+    <!-- TASK TITLE -->
+    <div class="form-group">
+        <div class="col-md-12">
+            <input type="text" class="form-control todo-taskbody-tasktitle" ng-model="task.name" placeholder="Task Title..."> </div>
+    </div>
+    <!-- TASK DESC -->
+    <div class="form-group">
+        <div class="col-md-12">
+            <textarea class="form-control todo-taskbody-taskdesc" rows="8" ng-model="task.description" placeholder="Task Description..."></textarea>
+        </div>
+    </div>
+    <!-- END TASK DESC -->
+    <!-- TASK DUE DATE -->
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="input-icon">
+                <i class="fa fa-calendar"></i>
+                <input type="text" class="form-control todo-taskbody-due" ng-model="task.dueDate" placeholder="Due Date..."> </div>
+        </div>
+    </div>
+    <!-- TASK TAGS -->
+    <div class="form-group">
+        <div class="col-md-12">
+            <input type="text" class="form-control todo-taskbody-tags" ng-model="task.tags" placeholder="Tags..." value="Pending, Requested"> </div>
+    </div>
+    <!-- TASK TAGS -->
+    <div class="form-actions right todo-form-actions">
+        <button class="btn btn-circle btn-sm green">Save Changes</button>
+        <button class="btn btn-circle btn-sm btn-default">Cancel</button>
+    </div>
+</div>

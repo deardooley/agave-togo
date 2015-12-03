@@ -143,7 +143,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
             "executionSystem": {
                 "type": "string",
                 "description": "The ID of the execution system where this app should run.",
-                                "items": [],
+                "items": [],
                 "title": "Execution system"
             },
             "executionType": {
@@ -519,7 +519,8 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                     {
                         "key": "deploymentSystem",
                         "placeholder": "storage.example.com",
-                        ngModelOptions: { updateOn: 'click' }
+                        "type": "select",
+                        titleMap: []
                     },
                     "templatePath",
                     "testPath",
@@ -536,7 +537,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                 ]
             },
             {
-                "title": "Execution Environment",
+                "title": "Environment",
                 "items": [
                     {
                         key: "executionType",
@@ -689,15 +690,15 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                         },
                                         $validators: {
                                             minLessThanMax: function (value) {
-                                                if (model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
-                                                    value > model.parameters[arrayIndex].semantics.maxCardinality) {
+                                                if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
+                                                    value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
                                                     return false;
                                                 }
                                                 return true
                                             },
                                             gtzeroWhenRequired: function (value) {
-                                                if (model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
-                                                    value > model.parameters[arrayIndex].semantics.maxCardinality) {
+                                                if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
+                                                    value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
                                                     return false;
                                                 }
                                                 return true
@@ -713,16 +714,16 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                         },
                                         $validators: {
                                             minLessThanMax: function (value) {
-                                                if (model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
-                                                    value > model.parameters[arrayIndex].semantics.maxCardinality) {
+                                                if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
+                                                    value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
                                                     return false;
                                                 }
                                                 return true
                                             },
                                             oneWhenBoolish: function (value) {
-                                                if ((model.parameters[arrayIndex].value.type == 'bool' ||
-                                                    model.parameters[arrayIndex].value.type == 'flag') &&
-                                                    model.parameters[arrayIndex].semantics.maxCardinality > 1) {
+                                                if (value && ($scope.model.parameters[arrayIndex].value.type == 'bool' ||
+                                                    $scope.model.parameters[arrayIndex].value.type == 'flag') &&
+                                                    $scope.model.parameters[arrayIndex].semantics.maxCardinality > 1) {
                                                     return false;
                                                 }
                                                 return true
@@ -750,15 +751,15 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                         },
                                         $validators: {
                                             enumValueRequired: function (value) {
-                                                if (model.parameters[arrayIndex].value.type == 'enum') {
-                                                    return (model.parameters[arrayIndex].value.enum_values.indexOf(value) != -1)
+                                                if (value && $scope.model.parameters[arrayIndex].value.type == 'enum') {
+                                                    return ($scope.model.parameters[arrayIndex].value.enum_values.indexOf(value) != -1)
                                                 }
                                                 return true
                                             },
                                             //defaultRequiredWhenHidden: function(value) {
-                                            //    if ((model.parameters[arrayIndex].value.type == 'bool' ||
-                                            //        model.parameters[arrayIndex].value.type == 'flag') || &&
-                                            //        model.parameters[arrayIndex].semantics.maxCardinality > 1)
+                                            //    if (($scope.model.parameters[arrayIndex].value.type == 'bool' ||
+                                            //        $scope.model.parameters[arrayIndex].value.type == 'flag') || &&
+                                            //        $scope.model.parameters[arrayIndex].semantics.maxCardinality > 1)
                                             //    {
                                             //        return false;
                                             //    }
@@ -774,7 +775,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                         },
                                         $validators: {
                                             enumValueRequired: function (value) {
-                                                return ([string, number].indexOf(model.parameters[arrayIndex].value.type) !== -1);
+                                                return (value && [string, number].indexOf($scope.model.parameters[arrayIndex].value.type) !== -1);
                                             },
                                         }
                                     },
@@ -786,7 +787,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                         },
                                         $validators: {
                                             enumNotSupported: function (value) {
-                                                return (model.parameters[arrayIndex].value.type === 'enum');
+                                                return (value && $scope.model.parameters[arrayIndex].value.type === 'enum');
                                             },
                                         }
                                     },
@@ -803,12 +804,12 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                             {value: false, name: "No"}
                                         ],
                                         onChange: function (modelValue, form) {
-                                            if (modelValue && model.parameters[arrayIndex].semantics.minCardinality == 0) {
-                                                console.log("Updating model.parameters[" + arrayIndex + "].semantics.minCardinality to 1 to satisfy the requirement attribute.");
-                                                model.parameters[arrayIndex].semantics.minCardinality = 1;
-                                            } else if (!modelValue && model.parameters[arrayIndex].semantics.minCardinality > 0) {
-                                                console.log("Updating model.parameters[" + arrayIndex + "].semantics.minCardinality to 0 to satisfy the non-requirement attribute.");
-                                                model.parameters[arrayIndex].semantics.minCardinality = 0;
+                                            if (modelValue && $scope.model.parameters[arrayIndex].semantics.minCardinality == 0) {
+                                                console.log("Updating $scope.model.parameters[" + arrayIndex + "].semantics.minCardinality to 1 to satisfy the requirement attribute.");
+                                                $scope.model.parameters[arrayIndex].semantics.minCardinality = 1;
+                                            } else if (!modelValue && $scope.model.parameters[arrayIndex].semantics.minCardinality > 0) {
+                                                console.log("Updating $scope.model.parameters[" + arrayIndex + "].semantics.minCardinality to 0 to satisfy the non-requirement attribute.");
+                                                $scope.model.parameters[arrayIndex].semantics.minCardinality = 0;
                                             }
                                         }
                                     },
@@ -827,7 +828,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                         onChange: function (modelValue, form) {
                                             if (!modelValue) {
                                                 console.log("Updating model.parameters[" + arrayIndex + "].semantics.minCardinality to 1 to satisfy the hidden attribute.");
-                                                model.parameters[arrayIndex].value.required = true
+                                                $scope.model.parameters[arrayIndex].value.required = true
                                             }
                                         }
                                     },
@@ -871,7 +872,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
         SystemsController.listSystems(null, null).then(
             function(systems) {
                 angular.forEach(systems, function (system, key) {
-                    if (system.type === SystemTypeEnum.STORAGE.toString) {
+                    if (system.type === SystemTypeEnum.STORAGE.toString()) {
                         $scope.systems.storage[system.id] = system;
                         $scope.form[0].tabs[1].items[1].titleMap.push({ value: system.id, name: system.name });
                         if (system.default == true) {
@@ -982,15 +983,6 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
     $scope.prettyModel = '{}';
     $scope.wizview = 'split';
 
-    //{
-    //    parameters: [{
-    //        details: {},
-    //        values: {},
-    //        semantics: {}
-    //    }],
-    //    inputs: [],
-    //    outputs: []
-    //};
 
     // CodeMirror editor support
     $scope.editorConfig = {
@@ -1001,6 +993,20 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
         theme:"neat",
         mode: 'javascript'
     };
+
+    if ($stateParams.appId) {
+        AppsController.getAppDetails($stateParams.appId).then(
+            function (data) {
+                $scope.model = data;
+            },
+            function (data) {
+                console.log(data);
+                App.alert({
+                    type: 'danger',
+                    message: "There was an error contacting the apps service. " + data
+                });
+            });
+    }
 
     $scope.$watch('model', function(value){
 

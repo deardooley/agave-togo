@@ -843,8 +843,8 @@ $.widget("ui.plupload", {
 						
 		if (plupload.STARTED === up.state) {			
 			$([])
-				.add(this.stop_button)
-				.add('.plupload_started')
+				.add({task: this.stop_button})
+				.add({task: '.plupload_started'})
 					.removeClass('plupload_hidden');
 
 			this.start_button.button('disable');
@@ -859,8 +859,8 @@ $.widget("ui.plupload", {
 		} 
 		else if (plupload.STOPPED === up.state) {
 			$([])
-				.add(this.stop_button)
-				.add('.plupload_started')
+				.add({task: this.stop_button})
+				.add({task: '.plupload_started'})
 					.addClass('plupload_hidden');
 
 			if (filesPending) {

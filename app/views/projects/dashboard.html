@@ -1,0 +1,244 @@
+<!-- BEGIN PAGE HEADER-->
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#/dashboard.html">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Projects</a>
+        </li>
+    </ul>
+    <div landing-start-menu></div>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN PAGE CONTENT-->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PROJECTS SIDEBAR -->
+        <div class="todo-ui">
+            <div class="todo-sidebar">
+                <div class="portlet light">
+                    <div class="portlet-title">
+                        <div class="caption" data-toggle="collapse" data-target=".todo-project-list-content">
+                            <span class="caption-subject font-green bold uppercase">PROJECTS </span>
+                            <span class="caption-helper visible-sm-inline-block visible-xs-inline-block">click to view project list</span>
+                        </div>
+                        <div class="actions">
+                            <div class="btn-group">
+                                <a class="btn green btn-sm todo-projects-config" href="#" data-toggle="dropdown" dropdown-menu-hover data-close-others="true">
+                                    <i class="icon-settings"></i> &nbsp;
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li>
+                                        <a href="#">
+                                            <i class="i"></i> New Project </a>
+                                    </li>
+                                    <li class="divider"> </li>
+                                    <li>
+                                        <a href="#"> Active
+                                            <span class="badge badge-danger"> 4 </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"> Completed
+                                            <span class="badge badge-success"> 12 </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"> Frozen
+                                            <span class="badge badge-warning"> 9 </span>
+                                        </a>
+                                    </li>
+                                    <li class="divider"> </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="i"></i> Archived Projects </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet-body todo-project-list-content">
+                        <div class="todo-project-list">
+                            <ul class="nav nav-stacked">
+                                <li ng-repeat="project in projects track by $index">
+                                    <a href="#">
+                                        <span class="badge badge-success"> {{ project.tasks.length }} </span> {{ project.name }} </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet light">
+                    <div class="portlet-title">
+                        <div class="caption" data-toggle="collapse" data-target=".todo-project-list-content">
+                            <span class="caption-subject font-green bold uppercase">TAGS </span>
+                            <span class="caption-helper visible-sm-inline-block visible-xs-inline-block">click to view tags list</span>
+                        </div>
+                        <div class="actions">
+                            <div class="actions">
+                                <a class="btn grey-salsa btn-outline btn-sm" href="javascript:;">
+                                    <i class="fa fa-plus"></i> Add </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet-body todo-project-list-content">
+                        <div class="todo-project-list">
+                            <ul class="nav nav-stacked">
+                                <li ng-repeat="tags in allTags track by $index">
+                                    <a href="#">
+                                        <span class="badge badge-success"> {{ tag.resources.length }} </span> {{ tag.name }} </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END TODO SIDEBAR -->
+            <!-- BEGIN TODO CONTENT -->
+            <div class="todo-content">
+                <div class="portlet light">
+                    <!-- PROJECT HEAD -->
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="icon-bar-chart font-green hide"></i>
+                            <span class="caption-helper">PROJECT:</span> &nbsp;
+                            <span class="caption-subject font-green bold uppercase">{{ activeProject.name }}</span>
+                        </div>
+                        <div class="actions">
+                            <div class="btn-group">
+                                <a class="btn green btn-outline btn-sm" href="#" data-toggle="dropdown" dropdown-menu-hover data-close-others="true"> MANAGE
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li>
+                                        <a href="#">
+                                            <i class="i"></i> New Task </a>
+                                    </li>
+                                    <li class="divider"> </li>
+                                    <li>
+                                        <a href="#"> Active
+                                            <span class="badge badge-danger"> tasks | status:active </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"> Completed
+                                            <span class="badge badge-success"> tasks | status:completed </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"> Frozen
+                                            <span class="badge badge-warning"> tasks | status:frozen </span>
+                                        </a>
+                                    </li>
+                                    <li class="divider"> </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="i"></i> Delete Project </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end PROJECT HEAD -->
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-5 col-sm-4">
+                                <div style="min-height: 600px;">
+                                    <div class="todo-tasklist">
+                                        <div class="todo-tasklist-item todo-tasklist-item-border-{{ colors | pickOne }}" ng-repeat="task in tasks track by $index">
+                                            <img class="todo-userpic pull-left" ng-src="{{ task.owner | gravatar }}" width="27px" height="27px">
+                                            <div class="todo-tasklist-item-title"> {{ task.name }} </div>
+                                            <div class="todo-tasklist-item-text"> {{ task.description }} </div>
+                                            <div class="todo-tasklist-controls pull-left">
+                                                <span class="todo-tasklist-date">
+                                                    <i class="fa fa-calendar"></i> {{ task.lastModified | amDateFormat:'dd MM YYYY' }} </span>
+                                                <span class="todo-tasklist-badge badge badge-roundless" ng-repeat="taskTag in task.tags"> {{ taskTag.name }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="todo-tasklist-devider"> </div>
+                            <div class="col-md-7 col-sm-8">
+                                <div style="min-height: 600px;">
+                                    <form action="#" class="form-horizontal">
+                                        <!-- TASK HEAD -->
+                                        <!-- BEGIN TASK CONTENT -->
+                                        <div ui-view class="task-content fade-in-up"> </div>
+                                        <!-- END TASK CONTENT -->
+                                        <div ui-view class="task-content fade-in-up"> </div>
+                                        <div class="tabbable-line">
+                                            <ul class="nav nav-tabs ">
+                                                <li class="active">
+                                                    <a href="#" data-target="#task_comment_tab" data-toggle="tab"> Comments </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" data-target="#task_history_tab" data-toggle="tab"> History </a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="task_comment_tab">
+                                                    <!-- TASK COMMENTS -->
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <ul class="media-list">
+                                                                <li class="media" ng-repeat="comment in task.comments track by $index">
+                                                                    <a class="pull-left" href="#">
+                                                                        <img class="todo-userpic" ng-src="{{ comment.owner | gravatar }}" width="27px" height="27px"> </a>
+                                                                    <div class="media-body todo-comment">
+                                                                        <button ng-click="deleteComment(comment)" type="button" class="todo-comment-btn btn btn-circle btn-danger btn-xs">&nbsp; Delete &nbsp;</button>
+                                                                        <p class="todo-comment-head">
+                                                                            <span class="todo-comment-username">{{ comment.owner.firstName + ' ' + comment.owner.lastName }}</span> &nbsp;
+                                                                            <span class="todo-comment-date" am-time-ago="comment.created"></span>
+                                                                        </p>
+                                                                        <p class="todo-text-color"> {{ comment.text }} </p>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <!-- END TASK COMMENTS -->
+                                                    <!-- TASK COMMENT FORM -->
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <ul class="media-list">
+                                                                <li class="media">
+                                                                    <a class="pull-left" href="#">
+                                                                        <img class="todo-userpic" ng-src="{{currentUser | gravatar}} " width="27px" height="27px"> </a>
+                                                                    <div class="media-body">
+                                                                        <textarea class="form-control todo-taskbody-taskdesc" rows="4" ng-model="newCommment.text" placeholder="Type comment..."></textarea>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                            <button ng-click="addComment(newComment)" type="button" class="pull-right btn btn-sm btn-circle green"> &nbsp; Submit &nbsp; </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- END TASK COMMENT FORM -->
+                                                </div>
+                                                <div class="tab-pane" id="task_history_tab">
+                                                    <ul class="todo-task-history">
+                                                        <li ng-repeat="hist in task.history track by $index">
+                                                            <div class="todo-task-history-date" am-time-ago="hist.created"></div>
+                                                            <div class="todo-task-history-desc"> {{ hist.description }}</div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END TODO CONTENT -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+</div>
+<!-- END PAGE CONTENT-->

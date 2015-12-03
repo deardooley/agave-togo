@@ -2,12 +2,9 @@
   "name": "agave-togo",
   "version": "2.0.0",
   "description": "Reference webapp for the Agave Platform",
-  "main": "gulpfile.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
+  "author": "Rion Dooley <dooley@tacc.utexas.edu>",
   "license": "BSD-2Clause",
+  "repository": "https://bitbucket.org/deardooley/agave-togo",
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-ignore": "^2.0.1",
@@ -22,5 +19,12 @@
   },
   "dependencies": {
     "bower": "^1.6.5"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+
+    "start": "http-server -a localhost -p 9000 -c-1",
+
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

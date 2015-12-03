@@ -31,7 +31,7 @@ angular.module('AgaveToGo').controller('DashboardController', function($rootScop
     };
 
     $scope.fakeUsers = usergen(20);
-    
+
     var projectStatGen = function(count, numberOfDays) {
         var leaders = [];
         angular.forEach(usergen(count), function (leader, i) {
@@ -123,7 +123,7 @@ angular.module('AgaveToGo').controller('DashboardController', function($rootScop
 
 
 
-    JobsController.getJobHistory('3679479586933314021-e0bd34dffff8de6-0001-007', 1).then(
+    JobsController.getJobHistory('3679479586933314021-e0bd34dffff8de6-0001-007', 15).then(
         function(data) {
             $timeout(function() {
                 $scope.jobHistory = data;

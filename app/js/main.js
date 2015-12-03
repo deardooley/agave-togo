@@ -48,17 +48,6 @@ AgaveToGo.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
                 //"../bower_components/angular-filebrowser/src/css/animations.css",
                 //"../bower_components/angular-filebrowser/src/css/dialogs.css",
                 //"../bower_components/angular-filebrowser/src/css/main.css",
-                "../bower_components/select2/dist/css/select2.min.css"
-            ]
-        },{
-            name: "schemaFormWizard",
-            files: [
-                "../bower_components/tv4/tv4.js",
-                "../bower_components/angular-sanitize/angular-sanitize.min.js",
-                "../bower_components/objectpath/lib/ObjectPath.js",
-                "../bower_components/angular-schema-form/dist/schema-form.min.js",
-                "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
-                "../app/js/services/WizardHandler.js",
             ]
         }, {
             name: "ui.codemirror",
@@ -208,13 +197,13 @@ AgaveToGo.controller('FooterController', ['$scope', function($scope) {
 /* Setup Rounting For All Pages */
 AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     // Redirect any unmatched url
-    $urlRouterProvider.otherwise("/dashboard.html");  
+    $urlRouterProvider.otherwise("/dashboard");
     
     $stateProvider
 
         // Dashboard
         .state('dashboard', {
-            url: "/dashboard.html",
+            url: "/dashboard",
             templateUrl: "views/dashboard.html",            
             data: {pageTitle: 'Admin Dashboard Template'},
             controller: "DashboardController",
@@ -737,34 +726,47 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             }
         })
 
-        // Todo
-        .state('todo', {
-            url: "/todo",
-            templateUrl: "views/todo.html",
-            data: {pageTitle: 'Todo'},
-            controller: "TodoController",
+        /**********************************************************************/
+        /**********************************************************************/
+        /***                                                                ***/
+        /***                       Project Routes                           ***/
+        /***                                                                ***/
+        /**********************************************************************/
+        /**********************************************************************/
+
+        // Projects
+        .state('projects', {
+            url: "/projects",
+            templateUrl: "views/projects/dashboard.html",
+            data: {pageTitle: 'Projects'},
+            controller: "ProjectDashboardController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({ 
                         name: 'AgaveToGo',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            '../assets/apps/css/todo-2.css',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
-
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-                            
-                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-
-                            '../assets/apps/scripts/todo-2.min.js',
-
-                            'js/controllers/TodoController.js'  
+                            '../assets/apps/css/todo.css',
+                            'js/services/Projects.js',
+                            'js/services/Tasks.js',
+                            'js/services/Comments.js',
+                            'js/controllers/projects/ProjectDashboardController.js'
                         ]                    
                     });
                 }]
             }
+        })
+
+        .state('project.new', {
+            url: "/projects/new",
+            templateUrl: "views/projects/editor.html",
+            data: {pageTitle: 'New Project'}
+        })
+
+        .state('project.edit', {
+            url: "/projects/edit",
+            templateUrl: "views/projects/editor.html",
+            data: {pageTitle: 'New Project'}
         })
 
 }]);

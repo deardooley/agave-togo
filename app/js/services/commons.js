@@ -1140,4 +1140,9 @@ angular.module('CommonsService', []).service('Commons', ['$rootScope', '$window'
 
             return input;
         };
-    });
+    })
+    .filter('pickOne', [ 'Commons', function(Commons) {
+        return function(input) {
+            return Commons.pick(input, 1)[0];
+        };
+    }]);

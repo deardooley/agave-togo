@@ -1202,7 +1202,7 @@
 				body;
 
 			// Reset dimensions so we could re-check actual size
-			wrap.add(skin).add(inner).width('auto').height('auto').removeClass('fancybox-tmp');
+			wrap.add({task: skin}).add({task: inner}).width('auto').height('auto').removeClass('fancybox-tmp');
 
 			wPadding = getScalar(skin.outerWidth(true)  - skin.width());
 			hPadding = getScalar(skin.outerHeight(true) - skin.height());

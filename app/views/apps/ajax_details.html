@@ -29,8 +29,8 @@
             </ul>
 
         </div>
-        <a ng-if="currentApp.helpURI" ui-sref=="app.helpURI" target="_blank" class="cbp-l-inline-view btn dark btn-outline">VIEW HELP</a>
-        <a ng-if="currentApp.available" ui-sref="job-submit({appId: currentApp.id});" class="cbp-l-inline-view btn green btn-outline">USE THIS</a>
-        <a ng-if="currentApp.pems.write" ui-sref="app-edit({appId: currentApp.id});" class="cbp-l-inline-view btn blue btn-outline">EDIT</a>
+        <a ng-if="currentApp.helpURI" href=="app.helpURI" target="_blank" class="cbp-l-inline-view btn dark btn-outline">VIEW HELP</a>
+        <a ng-if="currentApp.available" ui-sref="submitJob(currentApp.id);" class="cbp-l-inline-view btn green btn-outline">USE THIS</a>
+        <a ng-if="currentApp.pems.write" ui-sref="apps-wizard({appId: currentApp.id});" class="cbp-l-inline-view btn blue btn-outline">EDIT</a>
     </div>
 </div>
