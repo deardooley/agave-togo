@@ -28,4 +28,9 @@ AgaveToGo.filter('propsFilter', function () {
 
         return out;
     };
+})
+.filter('isOwner', function () {
+    return function (username) {
+        return Apps.getAuthenticatedUserProfile().username === username;
+    }
 });

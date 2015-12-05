@@ -8,6 +8,8 @@ angular.module('AgaveToGo').service('DatasetCollections', function ($rootScope, 
         collection.setName(metadataKey);
         collection.setValue({
             icon: '',
+            color: '',
+            thumbnail: '',
             name: '',
             description: '',
             collectionCount: 0,
