@@ -1,0 +1,23 @@
+<div class="page-body">
+    <div ng-if="loggedIn" class="lock-head"> Login Success </div>
+    <div class="lock-body">
+        <div class="message"></div>
+        <div class="pull-left lock-avatar-block">
+            <img ng-src="http://www.gravatar.com/avatar/{{ profile.email | gravatar }}" class="lock-avatar"> </div>
+
+        <form class="lock-form pull-left">
+            <h4>{{profile.firstName + ' ' + profile.lastName}}</h4>
+            <div class="form-group">
+                <input class="form-control" type="text" disabled="disabled" value="{{profile.email}}"/>
+            </div>
+            <div class="form-group">
+                <div class="coming-soon-countdown">
+                    <div id="tokenCountdown"> </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="lock-bottom">
+        <a href="/app/" target="_blank">Go to your Dashboard</a>
+    </div>
+</div>

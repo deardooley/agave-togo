@@ -1,0 +1,277 @@
+body {
+    background-color: #465568 !important;
+    padding: 0;
+    margin: 0; }
+.page-footer-custom {
+    display: none;
+}
+.page-footer-custom.hide {
+    display: block!important;
+}
+.page-lock {
+    margin: 90px auto 30px auto;
+    width: 450px; }
+
+.page-lock .page-logo {
+    text-align: center;
+    margin-bottom: 15px; }
+
+.page-lock .page-body {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #3a4554;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -ms-border-radius: 7px;
+    -o-border-radius: 7px;
+    border-radius: 7px; }
+
+.lock-head {
+    display: block;
+    background-color: #323d4b;
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 22px;
+    font-weight: 400;
+    color: #68BFCE;
+    -webkit-border-radius: 7px 7px 0 0;
+    -moz-border-radius: 7px 7px 0 0;
+    -ms-border-radius: 7px 7px 0 0;
+    -o-border-radius: 7px 7px 0 0;
+    border-radius: 7px 7px 0 0; }
+
+.lock-body {
+    display: block;
+    margin: 35px;
+    overflow: hidden; }
+
+.lock-body .oauth img {
+    width: 100%;
+}
+.lock-body .expired .oauth img {
+    max-width: 208px;
+}
+
+.lock-form .form-group .btn-default.form-control.ui-select-toggle {
+    color: #BCC0C5;
+    line-height: 1.8;
+}
+
+.lock-form .form-group .btn-default.form-control.ui-select-toggle span.ui-select-match-text.pull-left {
+    width: 93%;
+    overflow:hidden;
+}
+
+.lock-form .form-group .ui-select-container.ui-select-bootstrap {
+    position: absolute
+}
+
+.lock-form .form-group .ui-select-bootstrap .ui-select-choices-row>a {
+    padding: 5px 5px;
+    border-bottom: 1px solid #34495e;
+}
+.lock-form .form-group .ui-select-bootstrap .ui-select-choices-row:last-child>a {
+    border-bottom: none;
+}
+
+.lock-avatar {
+    margin-top: 15px;
+    height: 110px;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+    background-color: #FFF;}
+
+.lock-form {
+    padding-left: 30px; }
+
+.lock-form h4 {
+    margin-top: 0px;
+    color: #dbe2ea;
+    font-size: 18px;
+    font-weight: 400; }
+
+.lock-form .form-group {
+    margin-top: 20px; }
+
+.lock-form .form-group .form-control {
+    background-color: #303a48;
+    border: none;
+    width: 220px;
+    height: 40px;
+    color: #697687; }
+
+.lock-form .form-group .form-control::-moz-placeholder {
+    color: #556376;
+    opacity: 1; }
+
+.lock-form .form-group .form-control:-ms-input-placeholder {
+    color: #556376; }
+
+.lock-form .form-group .form-control::-webkit-input-placeholder {
+    color: #556376; }
+
+.lock-form .form-group .form-control:focus {
+    background-color: #2b3542; }
+
+.lock-form .form-actions {
+    position: absolute;
+    margin-top: 50px; }
+
+.lock-form .form-actions .btn {
+    width: 220px;
+    font-weight: 600;
+    padding: 10px; }
+
+.lock-bottom {
+    display: block;
+    background-color: #323d4b;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    -webkit-border-radius: 0 0 7px 7px;
+    -moz-border-radius: 0 0 7px 7px;
+    -ms-border-radius: 0 0 7px 7px;
+    -o-border-radius: 0 0 7px 7px;
+    border-radius: 0 0 7px 7px; }
+
+.lock-bottom a {
+    font-size: 14px;
+    font-weight: 400;
+    color: #638cac; }
+
+.lock-bottom a:hover {
+    color: #7ba2c0; }
+
+.lock-bottom .row.login-options{
+    margin: 0 15px;
+}
+.lock-bottom .login-options .tenant-icons {
+    /*float: right;*/
+    padding-top: 3px; }
+
+.lock-bottom .login-options .tenant-icons li a img.thumbnail {
+    width: 32px;
+    height: 32px;
+}
+
+.lock-bottom .login-options h4 {
+    float: left;
+    font-weight: 600;
+    font-size: 15px;
+    color: #7d91aa !important; }
+
+.page-footer-custom {
+    text-align: center;
+    padding-top: 40px;
+    color: #5f6e83; }
+
+#tokenCountdown {
+    margin: 0;
+    overflow: hidden
+}
+
+#tokenCountdown span.countdown_row {
+    overflow: hidden
+}
+
+#tokenCountdown span.countdown_row span {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 20px;
+    margin-right: 4px
+}
+
+#tokenCountdown span.countdown_row>span {
+    float: left
+}
+
+#tokenCountdown span.countdown_section {
+    color: #fff;
+    padding: 7px 9px!important;
+    margin-bottom: 2px;
+    font-weight: 300;
+    background: url(../img/bg-white.png);
+    text-align: center;
+}
+
+#tokenCountdown span.countdown_section:last-child {
+    margin-right: 0;
+}
+
+#tokenCountdown span.countdown_amount {
+    display: inline-block;
+    font-size: 21px!important;
+    padding: 9px!important;
+    font-weight: 300;
+    text-align: center;
+    width: 100%;
+}
+
+@media (max-width: 1024px) {
+    #tokenCountdown span.countdown_amount {
+        padding:10px
+    }
+}
+
+@media (max-width: 320px) {
+    .coming-soon-content .btn-subscribe span {
+        display:none
+    }
+}
+
+@media (max-width: 768px) {
+    .page-lock {
+        margin: 100px auto; }
+    .coming-soon-content,.coming-soon-countdown,.coming-soon-footer,.coming-soon-header {
+        margin-top:0;
+        padding: 10px
+    }
+}
+
+@media (max-width: 560px) {
+    .page-lock {
+        margin: 50px auto;
+        width: 400px; }
+    .lock-body {
+        margin: 30px; }
+    .lock-avatar {
+        width: 120px;
+        height: 120px;
+        margin-top: 20px; }
+    .lock-form h4 {
+        font-size: 16px; }
+    .lock-form .form-group .form-control {
+        padding: 20px 20px;
+        width: 170px; }
+    .lock-form .form-actions .btn-success {
+        width: 170px;
+        margin-bottom: 10px; } }
+
+@media (max-width: 420px) {
+    .page-lock {
+        margin: 30px auto;
+        width: 280px; }
+    .lock-body {
+        margin: 0px; }
+    .page-lock .page-body {
+        margin-top: 30px; }
+    .lock-avatar {
+        margin-top: 20px; }
+    .lock-avatar-block {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px; }
+    .lock-form {
+        padding-left: 20px; }
+    .lock-form h4 {
+        font-size: 16px;
+        text-align: center; }
+    .lock-form .form-group .form-control {
+        padding: 20px 20px;
+        width: 240px; }
+    .lock-form .form-actions .btn-success {
+        width: 240px;
+        margin-bottom: 20px; } }

@@ -1,0 +1,47 @@
+<div class="page-body">
+    <div class="lock-head"> Session Expired </div>
+    <div class="lock-body">
+        <div class="message"></div>
+        <div class="pull-left lock-avatar-block">
+            <img ng-src="http://www.gravatar.com/avatar/{{ profile.email | gravatar }}" class="lock-avatar"> </div>
+        <form class="lock-form pull-left expired">
+            <h4>{{profile.firstName + ' ' + profile.lastName}}</h4>
+            <div class="form-group">
+                <oauth
+                        template="/auth/views/templates/oauth-ng-button.html"
+                        site="tenant.baseUrl"
+                        client-id="settings.oauth.clients[tenant.code]"
+                        redirect-uri="http://localhost:9000/auth"
+                        authorize-path="/authorize",
+                        state="12345"
+                        scope="{{settings.oauth.scope}}"
+                        tenant="tenant">
+                </oauth>
+            </div>
+            <div class="form-group">
+                <div class="coming-soon-countdown">
+                    <div id="tokenCountdown" class="hasCountdown">
+                        <span class="countdown_row countdown_show4">
+                            <span class="countdown_section">
+                                <span class="countdown_amount">0</span>
+                                <br>Days
+                            </span>
+                           <span class="countdown_section">
+                                <span class="countdown_amount">0</span>
+                                <br>Hrs
+                            </span>
+                            <span class="countdown_section">
+                                <span class="countdown_amount">0</span>
+                                <br>Mins
+                            </span>
+                            <span class="countdown_section">
+                                <span class="countdown_amount">0</span>
+                                <br>Secs
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

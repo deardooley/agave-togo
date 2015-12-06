@@ -773,7 +773,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
 
 /* Init global settings and run the app */
 //AgaveToGo.run(["$rootScope", "settings", "$state", 'ProfilesController', function($rootScope, settings, $state) { //}, ProfilesController) {
-AgaveToGo.run(["$rootScope", "settings", "$state", "$http", "CacheFactory", function($rootScope, settings, $state, $http, CacheFactory) {
+AgaveToGo.run(["$rootScope", "settings", "$state", "$http", "CacheFactory", "Alerts", function($rootScope, settings, $state, $http, CacheFactory, Alerts) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
     //$rootScope.$on('oauth:error', function(event, rejection) {
