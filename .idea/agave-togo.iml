@@ -172,7 +172,7 @@
       <excludeFolder url="file://$MODULE_DIR$/bower_components/iCheck" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/ion.rangeslider" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/jq-idle-timer" />
-      <excludeFolder url="file://$MODULE_DIR$/bower_components/jquery" />
+      <excludeFolder url="file://$MODULE_DIR$/bower_components/jQuery" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/jquery-backstretch" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/jquery-bootpag" />
       <excludeFolder url="file://$MODULE_DIR$/bower_components/jquery-gantt" />

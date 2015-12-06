@@ -9,7 +9,7 @@ angular.module('AgaveAuth').controller('LoginSuccessController', function ($inje
 
         $scope.loggedIn = !!$scope.authToken;// && (moment().diff(moment($scope.authToken.expires_at)) > 0);
 
-        //if (!!$scope.loggedIn) {
+        if ($scope.loggedIn) {
 
             $scope.profile = $localStorage.activeProfile;
             console.log($scope.profile);
@@ -21,10 +21,10 @@ angular.module('AgaveAuth').controller('LoginSuccessController', function ($inje
             $('#tokenCountdown').countdown({
                 until: tokenEndsAt
             });
-        //} else {
-        //    $location.path("/logout");
-        //    $location.replace();
-        //}
+        } else {
+            $location.path("/logout");
+            $location.replace();
+        }
     }, 50);
 
 });
