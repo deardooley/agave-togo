@@ -30,9 +30,10 @@ AgaveToGo.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
         modules: [{
             name: 'FileManagerApp',
             files: [
+                "../bower_components/angular-cookies/angular-cookies.min.js",
+                "../bower_components/angular-filebrowser/src/js/providers/config.js",
                 "../bower_components/angular-filebrowser/src/js/directives/directives.js",
                 "../bower_components/angular-filebrowser/src/js/filters/filters.js",
-                "../bower_components/angular-filebrowser/src/js/providers/config.js",
                 "../bower_components/angular-filebrowser/src/js/entities/acl.js",
                 "../bower_components/angular-filebrowser/src/js/entities/chmod.js",
                 "../bower_components/angular-filebrowser/src/js/entities/fileitem.js",
@@ -41,7 +42,6 @@ AgaveToGo.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
                 "../bower_components/angular-filebrowser/src/js/services/fileuploader.js",
                 "../bower_components/angular-filebrowser/src/js/providers/translations.js",
                 "../bower_components/angular-filebrowser/src/js/app.js",
-                "../bower_components/select2/dist/js/select2.min.js",
                 "../bower_components/angular-filebrowser/src/js/controllers/main.js",
                 "../bower_components/angular-filebrowser/src/js/controllers/selector-controller.js",
                 "../bower_components/angular-filebrowser/src/css/angular-filemanager.css",
@@ -158,7 +158,10 @@ initialization can be disabled and Layout.init() should be called on page load c
 ***/
 
 /* Setup Layout Part - Header */
-AgaveToGo.controller('HeaderController', ['$scope', function($scope) {
+AgaveToGo.controller('HeaderController', ['$scope', '$localStorage', function($scope, $localStorage) {
+
+    $scope.authenticatedUser = $localStorage.activeProfile;
+
     $scope.$on('$includeContentLoaded', function() {
         Layout.initHeader(); // init header
     });
@@ -351,9 +354,9 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
 
         // AngularJS plugins
         .state('data-explorer', {
-            url: "data/explorer",
+            url: "/data/explorer",
             templateUrl: "views/data/explorer.html",
-            data: {pageTitle: 'File Explorer'},
+            data: { pageTitle: 'File Explorer' },
             controller: "FileExplorerController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -361,23 +364,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         {
                             name: 'AgaveToGo',
                             files: [
-                                "../bower_components/angular-filebrowser/src/js/directives/directives.js",
-                                "../bower_components/angular-filebrowser/src/js/filters/filters.js",
-                                "../bower_components/angular-filebrowser/src/js/providers/config.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/acl.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/chmod.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/fileitem.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/item.js",
-                                "../bower_components/angular-filebrowser/src/js/services/filenavigator.js",
-                                "../bower_components/angular-filebrowser/src/js/services/fileuploader.js",
-                                "../bower_components/angular-filebrowser/src/js/providers/translations.js",
-                                "../bower_components/angular-filebrowser/src/js/app.js",
-                                "../bower_components/angular-filebrowser/src/js/controllers/main.js",
-                                "../bower_components/angular-filebrowser/src/js/controllers/selector-controller.js",
-                                "../bower_components/angular-filebrowser/src/css/angular-filemanager.css",
                                 'js/controllers/data/FileExplorerController.js'
                             ]
-                        }
+                        },
+                        "FileManagerApp"
                     ]);
                 }]
             }
@@ -411,7 +401,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
 
                             '../assets/pages/scripts/profile.min.js',
 
-                            'js/controllers/UserProfileController.js'
+                            'js/controllers/profiles/UserProfileController.js'
                         ]
                     });
                 }]

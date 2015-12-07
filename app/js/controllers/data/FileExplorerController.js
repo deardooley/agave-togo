@@ -1,45 +1,45 @@
-angular.module('AgaveToGo').controller('FileExplorerController', function($rootScope, $scope, $http, $timeout, SystemsController) {
+angular.module('AgaveToGo').controller('FileExplorerController', function($rootScope, $scope, $http, $timeout, $stateParams, SystemsController) {
 
-    var self = this;
-    var deferredHandler = function(data, deferred, defaultMsg) {
-        if (!data || typeof data !== 'object') {
-            this.error = 'Bad response from the server, please check the docs';
-        }
-        if (data.result && data.result.error) {
-            this.error = data.result.error;
-        }
-        if (!this.error && data.error) {
-            this.error = data.error.message;
-        }
-        if (!this.error && defaultMsg) {
-            this.error = defaultMsg;
-        }
-        if (this.error) {
-            return deferred.reject(data);
-        }
+    $scope.system = undefined;
 
-        return deferred.resolve(data);
-    };
-
-    $scope.resource = undefined;
-
-    $scope.getResourceId = $scope.getResourceId || function () {
-        return $stateParams[$scope.resource.id];
-    };
-
-
-    $scope.$on('$viewContentLoaded', function() {
-
-        SystemsController.getSystemDetails($scope.getResourceId())
-            .success(function(data) {
-                $scope.resource = data;
-            }).error(function(data) {
-                $scope.resource = undefined;
-                self.deferredHandler(data, deferred, $translate.instant('error_fetching_system'));
-            })['finally'](function() {
-
+    SystemsController.listSystems(9999, 0).then(
+        function (response) {
+            $scope.systems = response;
+            var defaultSystems = [];
+            angular.forEach(response, function (system, key) {
+                if ($stateParams.systemId) {
+                    if ($stateParams.systemId === system.id) {
+                        $scope.system = system;
+                        return false;
+                    }
+                } else if (system.default) {
+                    $scope.system = system;
+                    return false;
+                }
             });
-    });
+
+            if ($stateParams.systemId && !$scope.system) {
+                App.alert({type: 'danger', message: "No system found with the given system id."})
+            }
+        },
+        function (data) {
+            $scope.resource = undefined;
+            App.alert({type: 'danger', message: "There was an error fetching your list of available systems"})
+        });
+
+    //if ($stateParams.systemId) {
+    //    SystemsController.getSystemDetails($stateParams.systemId).then(
+    //        function (data) {
+    //            $scope.system = data;
+    //        },
+    //        function (data) {
+    //            $scope.system = undefined;
+    //            self.deferredHandler(data, deferred, $translate.instant('error_fetching_system'));
+    //        });
+    //} else {
+    //
+    //}
+
 
 
 });

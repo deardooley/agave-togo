@@ -6,8 +6,12 @@ angular.module('AgaveAuth').controller('LoginSuccessController', function ($inje
     $timeout(function () {
 
         $scope.authToken = $localStorage.token;//AccessToken.get();
-
-        $scope.loggedIn = !!$scope.authToken;// && (moment().diff(moment($scope.authToken.expires_at)) > 0);
+        console.log($scope.authToken);
+        $scope.loggedIn = (!!$scope.authToken) && (moment($scope.authToken.expires_at).diff(moment()) > 0);
+        console.log("Logged in: " +  $scope.loggedIn);
+        console.log("now: " + moment());
+        console.log("expires at: " + moment($scope.authToken.expires_at));
+        console.log("Time Left: " +  moment().diff(moment($scope.authToken.expires_at)));
 
         if ($scope.loggedIn) {
 

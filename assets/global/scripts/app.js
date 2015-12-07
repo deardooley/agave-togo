@@ -650,11 +650,6 @@ var App = function() {
             handleBootstrapConfirmation(); // handle bootstrap confirmations
         },
 
-        // user data
-        getAuthenticatedUserProfile: function() {
-            return ProfilesController.getProfile("me");
-        },
-
         // ongoing alerts
         loadNotifications: function() {
             StatusIoController.listStatuses().then(
@@ -833,6 +828,11 @@ var App = function() {
         // function to scroll to the top
         scrollTop: function() {
             App.scrollTo();
+        },
+
+        // user data
+        activeUserProfile: function() {
+            return $localStorage.activeProfile;
         },
 
         // wrApper function to  block element(indicate loading)

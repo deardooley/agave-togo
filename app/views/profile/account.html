@@ -11,7 +11,7 @@
                         <a href="#" data-target="#tab_1_1" data-toggle="tab">Personal Info</a>
                     </li>
                     <li>
-                        <a href="#" data-target="#tab_1_2" data-toggle="tab">Change Avatar</a>
+                        <a href="#" data-target="#tab_1_2" data-toggle="tab">Contact Info</a>
                     </li>
                     <li>
                         <a href="#" data-target="#tab_1_3" data-toggle="tab">Change Password</a>
@@ -28,26 +28,23 @@
                         <form role="form" action="#">
                             <div class="form-group">
                                 <label class="control-label">First Name</label>
-                                <input type="text" placeholder="John" class="form-control" /> </div>
+                                <input type="text" ng-model="profile.firstName" placeholder="John" class="form-control" /> </div>
                             <div class="form-group">
                                 <label class="control-label">Last Name</label>
-                                <input type="text" placeholder="Doe" class="form-control" /> </div>
+                                <input type="text" ng-model="profile.lastName" placeholder="Doe" class="form-control" /> </div>
                             <div class="form-group">
-                                <label class="control-label">Mobile Number</label>
-                                <input type="text" placeholder="+1 646 580 DEMO (6284)" class="form-control" /> </div>
+                                <label class="control-label">Research Interests</label>
+                                <input type="text" placeholder="Neurology, Thermodynamics, Distributed Systems" class="form-control" /> </div>
                             <div class="form-group">
-                                <label class="control-label">Interests</label>
-                                <input type="text" placeholder="Design, Web etc." class="form-control" /> </div>
-                            <div class="form-group">
-                                <label class="control-label">Occupation</label>
-                                <input type="text" placeholder="Web Developer" class="form-control" /> </div>
+                                <label class="control-label">Position</label>
+                                <input type="text" ng-model="profile.position" placeholder="Professor" class="form-control" /> </div>
                             <div class="form-group">
                                 <label class="control-label">About</label>
-                                <textarea class="form-control" rows="3" placeholder="We are KeenThemes!!!"></textarea>
+                                <textarea class="form-control" ng-model="profile.bio" rows="3" placeholder="Enter a short bio"></textarea>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Website Url</label>
-                                <input type="text" placeholder="http://www.mywebsite.com" class="form-control" /> </div>
+                                <input type="text" ng-model="profile.website" placeholder="http://www.mywebsite.com" class="form-control" /> </div>
                             <div class="margiv-top-10">
                                 <a href="#" class="btn green-haze"> Save Changes </a>
                                 <a href="#" class="btn default"> Cancel </a>
@@ -55,36 +52,47 @@
                         </form>
                     </div>
                     <!-- END PERSONAL INFO TAB -->
-                    <!-- CHANGE AVATAR TAB -->
-                    <div class="tab-pane" id="tab_1_2">
-                        <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. </p>
-                        <form action="#"
-                        role="form">
+                    <!-- PERSONAL INFO TAB -->
+                    <div class="tab-pane active" id="tab_1_2">
+                        <form role="form" action="#">
                             <div class="form-group">
-                                <div class="fileinput fileinput-new" data-provides="fileinput">
-                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" /> </div>
-                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"> </div>
-                                    <div>
-                                        <span class="btn default btn-file">
-                                            <span class="fileinput-new"> Select image </span>
-                                            <span class="fileinput-exists"> Change </span>
-                                            <input type="file" name="..."> </span>
-                                        <a href="#" class="btn default fileinput-exists" data-dismiss="fileinput"> Remove </a>
-                                    </div>
-                                </div>
-                                <div class="clearfix margin-top-10">
-                                    <span class="label label-danger">NOTE! </span>
-                                    <span>Attached image thumbnail is supported in Latest Firefox, Chrome, Opera, Safari and Internet Explorer 10 only </span>
-                                </div>
-                            </div>
-                            <div class="margin-top-10">
-                                <a href="#" class="btn green-haze"> Submit </a>
+                                <label class="control-label">Email</label>
+                                <input type="text" ng-model="profile.email" placeholder="foo@example.com" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">Mobile Number</label>
+                                <input type="text" ng-model="profile.mobile" placeholder="+1 444-444-4444" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">Office Number</label>
+                                <input type="text" ng-model="profile.phone" placeholder="+1 555-555-5555" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">Fax Number</label>
+                                <input type="text" ng-model="profile.fax" placeholder="+1 666-666-6666" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">Department</label>
+                                <input type="text" ng-model="profile.department" placeholder="Computer Science" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">Institution</label>
+                                <input type="text" ng-model="profile.institution" placeholder="University of Texas" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">City/Locality</label>
+                                <input type="text" ng-model="profile.city" placeholder="John" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">State/Region</label>
+                                <select ng-model="profile.state" class="bs-select form-control">
+                                    <option ng-repeat="state in Commons.getStates() track by $index" value="{{state.abbreviation}}">{{state.name}}</option>
+                                </select></div>
+                            <div class="form-group">
+                                <label class="control-label">Country</label>
+                                <select ng-model="profile.country" class="bs-select form-control">
+                                    <option ng-repeat="country in Commons.getCountries() track by $index" value="{{country.code}}">{{country.name}}</option>
+                                </select></div>
+                            <div class="margiv-top-10">
+                                <a href="#" class="btn green-haze"> Save Changes </a>
                                 <a href="#" class="btn default"> Cancel </a>
                             </div>
                         </form>
                     </div>
-                    <!-- END CHANGE AVATAR TAB -->
+                    <!-- END PERSONAL INFO TAB -->
                     <!-- CHANGE PASSWORD TAB -->
                     <div class="tab-pane" id="tab_1_3">
                         <form action="#">

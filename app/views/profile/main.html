@@ -57,12 +57,12 @@
             <div class="portlet light profile-sidebar-portlet">
                 <!-- SIDEBAR USERPIC -->
                 <div class="profile-userpic">
-                    <img src="{{settings.assetsPath}}/pages/media/profile/profile_user.jpg" class="img-responsive" alt=""> </div>
+                    <img ng-src="http://www.gravatar.com/avatar/{{ profile.email | gravatar }}" class="img-responsive" alt=""> </div>
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
-                    <div class="profile-usertitle-name"> Marcus Doe </div>
-                    <div class="profile-usertitle-job"> Developer </div>
+                    <div class="profile-usertitle-name"> {{ profile.firstName }} {{ profile.lastName }} </div>
+                    <div ng-if="!!profile.position && profile.position !== 'null'" class="profile-usertitle-job"> {{ profile.position }} </div>
                 </div>
                 <!-- END SIDEBAR USER TITLE -->
                 <!-- SIDEBAR BUTTONS -->
@@ -114,19 +114,19 @@
                 </div>
                 <!-- END STAT -->
                 <div>
-                    <h4 class="profile-desc-title">About Marcus Doe</h4>
-                    <span class="profile-desc-text"> Lorem ipsum dolor sit amet diam nonummy nibh dolore. </span>
-                    <div class="margin-top-20 profile-desc-link">
-                        <i class="fa fa-globe"></i>
-                        <a href="http://www.keenthemes.com">www.keenthemes.com</a>
+                    <h4 class="profile-desc-title">About {{ profile.firstName }} {{ profile.lastName }}</h4>
+                    <span class="profile-desc-text"> {{profile.firstName}}{{ (!!profile.position && profile.position !== 'null') ? ' is a ' + profile.position : '' }}{{ !!profile.institution ? ' at ' + profile.institution : '' }}{{ !!profile.city ? ' in ' + profile.city : '' }}{{ (!!profile.state && !!profile.city) ? ', ' + profile.state : '' }} </span>
+                    <div ng-if="profile.institution" class="margin-top-20 profile-desc-link">
+                        <i class="fa fa-institution"></i>
+                        {{ profile.institution }}
                     </div>
-                    <div class="margin-top-20 profile-desc-link">
-                        <i class="fa fa-twitter"></i>
-                        <a href="http://www.twitter.com/keenthemes/">@keenthemes</a>
+                    <div ng-if="profile.department" class="margin-top-20 profile-desc-link">
+                        <i class="fa fa-graduation-cap"></i>
+                        {{ profile.department }}
                     </div>
-                    <div class="margin-top-20 profile-desc-link">
-                        <i class="fa fa-facebook"></i>
-                        <a href="http://www.facebook.com/keenthemes/">keenthemes</a>
+                    <div ng-if="profile.email" class="margin-top-20 profile-desc-link">
+                        <i class="fa fa-envelope"></i>
+                        <a href="profile.email">{{profile.email}}</a>
                     </div>
                 </div>
             </div>
