@@ -8,29 +8,29 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                 "type": "string",
                 "description": "A unique identifier you assign to the system. A system id must be globally unique across a tenant and cannot be reused once deleted",
                 "title": "ID",
-                "validator": "[a-zA-Z_\\-\\.]+",
-                "minLength": 3,
-                "maxLength": 64
+                // "validator": "[a-zA-Z_\\-\\.]+",
+                // "minLength": 3,
+                // "maxLength": 64
             },
             "name": {
                 "type": "string",
                 "description": "Common display name for this system",
                 "title": "Name",
-                "validator": "[a-zA-Z_\\-\\.]+",
-                "minLength": 3,
-                "maxLength": 64
+                // "validator": "[a-zA-Z_\\-\\.]+",
+                // "minLength": 3,
+                // "maxLength": 64
             },
             "site": {
                 "type": "string",
                 "description": "The site associated with this system. Primarily for logical grouping",
                 "format": "url",
                 "title": "Site",
-                "validator": "(http|https)://[\\w-]+(\\.[\\w-]*)+([\\w.,@?^=%&amp;:/~+#-]*[\\w@?^=%&amp;/~+#-])?"
+                // "validator": "(http|https)://[\\w-]+(\\.[\\w-]*)+([\\w.,@?^=%&amp;:/~+#-]*[\\w@?^=%&amp;/~+#-])?"
             },
             "description": {
                 "type": "string",
                 "description": "Verbose description of this system",
-                "maxLength": 32768,
+                // "maxLength": 32768,
                 "title": "Description"
             },
             "username":{
@@ -126,7 +126,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                      "enum": [
                         "cred", "mpg", "myproxy"
                     ],
-                     "title": "Select FTP configuration type"
+                     "title": "Select GRIDFTP configuration type"
                   },
                   "IRODS":{
                      "type": "string",
@@ -198,9 +198,9 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                               "type": "string",
                               "description": "Proxy Name",
                               "title": "Name",
-                              "validator": "[a-zA-Z_\\-\\.]+",
-                              "minLength": 3,
-                              "maxLength": 64
+                              // "validator": "[a-zA-Z_\\-\\.]+",
+                              // "minLength": 3,
+                              // "maxLength": 64
                           },
                           "port":{
                             "type": "string",
@@ -223,9 +223,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
 
     $scope.form = [{
         "type": "wizard",
-        "legend": "General Info",
         "tabs": [
-
           {
               "title": "Type",
               "items": [
@@ -235,48 +233,136 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                     {
                       "key": "storage.protocol",
                       ngModelOptions: { updateOn: 'default blur' },
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                       // onChange: function(value, formModel){
                       // }
                     },
                     {
                       "key":"storage.SFTP",
-                      "condition": "model.storage.protocol === 'SFTP'"
+                      "condition": "model.storage.protocol === 'SFTP'",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key":"storage.GRIDFTP",
-                      "condition": "model.storage.protocol === 'GRIDFTP'"
+                      "condition": "model.storage.protocol === 'GRIDFTP'",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key":"storage.IRODS",
-                      "condition": "model.storage.protocol === 'IRODS'"
+                      "condition": "model.storage.protocol === 'IRODS'",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key": "storage.host",
-                      "condition": "model.storage.protocol"
+                      "condition": "model.storage.protocol",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key": "storage.port",
-                      "condition": "model.storage.protocol"
+                      "condition": "model.storage.protocol",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key": "storage.rootDir",
-                      "condition": "model.storage.protocol"
+                      "condition": "model.storage.protocol",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key": "storage.homeDir",
-                      "condition": "model.storage.protocol"
+                      "condition": "model.storage.protocol",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key": "storage.resource",
-                      "condition": "model.storage.protocol === 'IRODS'"
+                      "condition": "model.storage.protocol === 'IRODS'",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key": "storage.zone",
-                      "condition": "model.storage.protocol === 'IRODS'"
+                      "condition": "model.storage.protocol === 'IRODS'",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key": "storage.container",
-                      "condition": "model.storage.protocol === 'S3'"
+                      "condition": "model.storage.protocol === 'S3'",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
 
                   ]
@@ -286,10 +372,31 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
           {
               "title": "Details",
               "items": [
-                "id",
-                "name",
-                "description",
-                "site"
+                {
+                  "key": "id",
+                  validationMessage: {
+                   'required': 'Missing required',
+                  },
+                  $validators: {
+                   required: function(value) {
+                     return value ? true: false;
+                   },
+                 },
+                //  startEmpty: true
+                },
+                {
+                  "key": "name",
+                  validationMessage: {
+                   'required': 'Missing required',
+                  },
+                  $validators: {
+                   required: function(value) {
+                     return value ? true: false;
+                   },
+                 },
+               },
+               "description",
+               "site"
               ]
           },
           {
@@ -311,7 +418,15 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                         "(model.storage.protocol === 'NCBI') || " +
                         "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'password') || " +
                         "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'sshkeys') || " +
-                        "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'tunnel')"
+                        "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'tunnel')",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key": "storage.auth.password",
@@ -324,12 +439,28 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                         "(model.storage.protocol === 'IRODS' && model.storage.IRODS === 'password') || " +
                         "(model.storage.protocol === 'NCBI') || " +
                         "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'password') || " +
-                        "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'tunnel')"
+                        "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'tunnel')",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key": "storage.auth.credential",
                       "condition":
-                        "(model.storage.protocol === 'GRIDFTP' && model.storage.GRIDFTP === 'cred')"
+                        "(model.storage.protocol === 'GRIDFTP' && model.storage.GRIDFTP === 'cred')",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key": "storage.auth.type",
@@ -345,19 +476,43 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                         "(model.storage.protocol === 'NCBI') || " +
                         "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'password') || " +
                         "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'sshkeys') || " +
-                        "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'tunnel')"
+                        "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'tunnel')",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key": "storage.auth.publicKey",
                       "condition":
                         "(model.storage.protocol === 'S3') || " +
-                        "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'sshkeys')"
+                        "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'sshkeys')",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key": "storage.auth.privateKey",
                       "condition":
                         "(model.storage.protocol === 'S3') || " +
-                        "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'sshkeys')"
+                        "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'sshkeys')",
+                      validationMessage: {
+                       'required': 'Missing required',
+                      },
+                      $validators: {
+                       required: function(value) {
+                         return value ? true: false;
+                       },
+                     },
                     },
                     {
                       "key": "storage.auth.server",
@@ -368,7 +523,15 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             "(model.storage.protocol === 'GRIDFTP' && model.storage.GRIDFTP === 'mpg') || " +
                             "(model.storage.protocol === 'GRIDFTP' && model.storage.GRIDFTP === 'myproxy') || " +
                             "(model.storage.protocol === 'IRODS' && model.storage.IRODS === 'mpg') || " +
-                            "(model.storage.protocol === 'IRODS' && model.storage.IRODS === 'myproxy')"
+                            "(model.storage.protocol === 'IRODS' && model.storage.IRODS === 'myproxy')",
+                          validationMessage: {
+                           'required': 'Missing required',
+                          },
+                          $validators: {
+                           required: function(value) {
+                             return value ? true: false;
+                           },
+                         },
                         },
                         {
                           "key": "storage.auth.server.endpoint",
@@ -376,7 +539,15 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             "(model.storage.protocol === 'GRIDFTP' && model.storage.GRIDFTP === 'mpg') || " +
                             "(model.storage.protocol === 'GRIDFTP' && model.storage.GRIDFTP === 'myproxy') || " +
                             "(model.storage.protocol === 'IRODS' && model.storage.IRODS === 'mpg') || " +
-                            "(model.storage.protocol === 'IRODS' && model.storage.IRODS === 'myproxy')"
+                            "(model.storage.protocol === 'IRODS' && model.storage.IRODS === 'myproxy')",
+                          validationMessage: {
+                           'required': 'Missing required',
+                          },
+                          $validators: {
+                           required: function(value) {
+                             return value ? true: false;
+                           },
+                         },
                         },
                         {
                           "key": "storage.auth.server.port",
@@ -384,7 +555,15 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             "(model.storage.protocol === 'GRIDFTP' && model.storage.GRIDFTP === 'mpg') || " +
                             "(model.storage.protocol === 'GRIDFTP' && model.storage.GRIDFTP === 'myproxy') || " +
                             "(model.storage.protocol === 'IRODS' && model.storage.IRODS === 'mpg') || " +
-                            "(model.storage.protocol === 'IRODS' && model.storage.IRODS === 'myproxy')"
+                            "(model.storage.protocol === 'IRODS' && model.storage.IRODS === 'myproxy')",
+                          validationMessage: {
+                           'required': 'Missing required',
+                          },
+                          $validators: {
+                           required: function(value) {
+                             return value ? true: false;
+                           },
+                         },
                         },
                         {
                           "key": "storage.auth.server.protocol",
@@ -392,7 +571,15 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             "(model.storage.protocol === 'GRIDFTP' && model.storage.GRIDFTP === 'mpg') || " +
                             "(model.storage.protocol === 'GRIDFTP' && model.storage.GRIDFTP === 'myproxy') || " +
                             "(model.storage.protocol === 'IRODS' && model.storage.IRODS === 'mpg') || " +
-                            "(model.storage.protocol === 'IRODS' && model.storage.IRODS === 'myproxy')"
+                            "(model.storage.protocol === 'IRODS' && model.storage.IRODS === 'myproxy')",
+                          validationMessage: {
+                           'required': 'Missing required',
+                          },
+                          $validators: {
+                           required: function(value) {
+                             return value ? true: false;
+                           },
+                         },
                         },
                       ]
                     },
@@ -402,17 +589,41 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                         {
                           "key": "storage.auth.proxy.name",
                           "condition":
-                            "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'tunnel')"
+                            "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'tunnel')",
+                          validationMessage: {
+                           'required': 'Missing required',
+                          },
+                          $validators: {
+                           required: function(value) {
+                             return value ? true: false;
+                           },
+                         },
                         },
                         {
                           "key": "storage.auth.proxy.host",
                           "condition":
-                            "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'tunnel')"
+                            "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'tunnel')",
+                          validationMessage: {
+                           'required': 'Missing required',
+                          },
+                          $validators: {
+                           required: function(value) {
+                             return value ? true: false;
+                           },
+                         },
                         },
                         {
                           "key": "storage.auth.proxy.port",
                           "condition":
-                            "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'tunnel')"
+                            "(model.storage.protocol === 'SFTP' && model.storage.SFTP === 'tunnel')",
+                          validationMessage: {
+                           'required': 'Missing required',
+                          },
+                          $validators: {
+                           required: function(value) {
+                             return value ? true: false;
+                           },
+                         },
                         }
                       ]
                     }
@@ -459,8 +670,9 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
         }
     };
 
-    $scope.nextStep = function () {
-        WizardHandler.validateTab($scope, $scope.currentTabIndex).then(function () {
+    $scope.nextStep = function (currentTab) {
+
+        WizardHandler.validateTab($scope, $scope.currentTabIndex).then(function (value) {
             WizardHandler.activateTab($scope, ++$scope.currentTabIndex);
         });
 
@@ -483,20 +695,6 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
         theme:"neat",
         mode: 'javascript'
     };
-
-    if ($stateParams.appId) {
-        AppsController.getAppDetails($stateParams.appId).then(
-            function (data) {
-                $scope.model = data;
-            },
-            function (data) {
-                console.log(data);
-                App.alert({
-                    type: 'danger',
-                    message: "There was an error contacting the apps service. " + data
-                });
-            });
-    }
 
     $scope.$watch('model', function(value){
         if (value) {
