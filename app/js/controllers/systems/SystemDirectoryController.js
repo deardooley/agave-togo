@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('SystemsDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, Commons, SystemsController, SystemActionTypeEnum) {
+angular.module('AgaveToGo').controller('SystemDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, Commons, SystemsController, SystemActionTypeEnum) {
 
     $scope.offset = $scope.offset || 0;
     $scope.limit = $scope.limit || 50;
