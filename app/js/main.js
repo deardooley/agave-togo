@@ -766,46 +766,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
 AgaveToGo.run(["$rootScope", "settings", "$state", "$http", "CacheFactory", function($rootScope, settings, $state, $http, CacheFactory) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
-    //$rootScope.$on('oauth:error', function(event, rejection) {
-    //    // Ignore `invalid_grant` error - should be catched on `LoginController`.
-    //    if ('invalid_grant' === rejection.data.error) {
-    //        return;
-    //    }
-    //
-    //    // Refresh token when a `invalid_token` error occurs.
-    //    if ('invalid_token' === rejection.data.error) {
-    //        return OAuth.getRefreshToken();
-    //    }
-    //
-    //    // Redirect to `/login` with the `error_reason`.
-    //    return $window.location.href = '/login?error_reason=' + rejection.data.error;
-    //});
-
-    $rootScope.$on('oauth:login', function(event, token) {
-        console.log('Authorized third party app with token', token.access_token);
-        //ProfilesController.getProfile('me')
-
-    });
-
-    $rootScope.$on('oauth:logout', function(event) {
-        console.log('The user has signed out');
-    });
-
-    $rootScope.$on('oauth:loggedOut', function(event) {
-        console.log('The user is not signed in');
-    });
-
-    $rootScope.$on('oauth:denied', function(event) {
-        console.log('The user did not authorize the third party app');
-    });
-
-    $rootScope.$on('oauth:expired', function(event) {
-        console.log('The access token is expired. Please refresh.');
-    });
-
-    $rootScope.$on('oauth:profile', function(profile) {
-        console.log('User profile data retrieved: ', profile);
-    });
 
     $http.defaults.cache = CacheFactory('defaultCache', {
         maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day

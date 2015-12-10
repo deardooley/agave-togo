@@ -41,7 +41,12 @@ AgaveAuth.factory('settings', ['$rootScope', function($rootScope) {
     var settings = {
         oauth: {
             clients: {
-                'iplantc.org': 'fGxFxuyIuIkNMTXhjW3HvyEs_dEa'
+                'iplantc.org': 'fGxFxuyIuIkNMTXhjW3HvyEs_dEa',
+                'dev.staging': 'FxWrkKJF5CqbYUVfT7x1M_hfT7Ua',
+                'tacc.prod': 'Z42qhthQeHJOwmJc2e6XROYJoZ8a',
+                //'irec': 'fGxFxuyIuIkNMTXhjW3HvyEs_dEa',
+                //'irmacs': 'fGxFxuyIuIkNMTXhjW3HvyEs_dEa',
+
             }, // sidebar menu state
             scope: 'PRODUCTION'
         },
@@ -99,6 +104,9 @@ AgaveAuth.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             controller: function ($location, AccessToken,ProfilesController, $localStorage) {
                 var hash = $location.path().substr(1);
                 AccessToken.setTokenFromString(hash);
+
+                $location.path("/success");
+                $location.replace();
             }
         })
 
@@ -286,9 +294,12 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
                     $localStorage.activeProfile = profile;
                     $location.path("/success");
                     $location.replace();
+                    $rootScope.$broadcast('oauth:profile', profile);
                 },
                 function(message) {
                     $localStorage.activeProfile = null;
+                    //$location.path("/error");
+                    //$location.replace();
                 }
             )
         }, 50);
