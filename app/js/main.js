@@ -4,7 +4,7 @@ Agave ToGo AngularJS App Main Script
 
 /* Metronic App */
 var AgaveToGo = angular.module("AgaveToGo", [
-    "ui.router", 
+    "ui.router",
     "ui.bootstrap",
     "oc.lazyLoad",
     "ngSanitize",
@@ -147,13 +147,13 @@ AgaveToGo.factory('settings', ['$rootScope', function($rootScope) {
 AgaveToGo.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {
         //App.initComponents(); // init core components
-        //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
+        //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive
     });
 }]);
 
 /***
 Layout Partials.
-By default the partials are loaded through AngularJS ng-include directive. In case they loaded in server side(e.g: PHP include function) then below partial 
+By default the partials are loaded through AngularJS ng-include directive. In case they loaded in server side(e.g: PHP include function) then below partial
 initialization can be disabled and Layout.init() should be called on page load complete as explained above.
 ***/
 
@@ -178,7 +178,7 @@ AgaveToGo.controller('SidebarController', ['$scope', function($scope) {
 AgaveToGo.controller('QuickSidebarController', ['$scope', function($scope) {
     $scope.$on('$includeContentLoaded', function() {
        setTimeout(function(){
-            QuickSidebar.init(); // init quick sidebar        
+            QuickSidebar.init(); // init quick sidebar
         }, 2000)
     });
 }]);
@@ -201,13 +201,13 @@ AgaveToGo.controller('FooterController', ['$scope', function($scope) {
 AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     // Redirect any unmatched url
     $urlRouterProvider.otherwise("/dashboard");
-    
+
     $stateProvider
 
         // Dashboard
         .state('dashboard', {
             url: "/dashboard",
-            templateUrl: "views/dashboard.html",            
+            templateUrl: "views/dashboard.html",
             data: {pageTitle: 'Admin Dashboard Template'},
             controller: "DashboardController",
             resolve: {
@@ -216,14 +216,14 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         name: 'AgaveToGo',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
-                            '../assets/global/plugins/morris/morris.css',                            
+                            '../assets/global/plugins/morris/morris.css',
                             '../assets/global/plugins/morris/morris.min.js',
-                            '../assets/global/plugins/morris/raphael-min.js',                            
+                            '../assets/global/plugins/morris/raphael-min.js',
                             '../assets/global/plugins/jquery.sparkline.min.js',
                             '../assets/pages/scripts/dashboard.min.js',
                             '../bower_components/faker/build/build/faker.min.js',
                             'js/controllers/DashboardController.js',
-                        ] 
+                        ]
                     });
                 }]
             }
@@ -330,13 +330,13 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                             //'../assets/global/plugins/datatables/datatables.all.min.js',
                             //'../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
                             //'../assets/global/scripts/datatable.js',
-                            '../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
-                            '../bower_components/datatables/media/css/dataTables.css',
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-
-                            '../bower_components/datatables/dataTables.bootstrap.min.js',
-                            '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            '../assets/global/scripts/datatable.js',
+                            // '../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
+                            // '../bower_components/datatables/media/css/dataTables.css',
+                            // '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            //
+                            // '../bower_components/datatables/dataTables.bootstrap.min.js',
+                            // '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            // '../assets/global/scripts/datatable.js',
                             'js/controllers/apps/AppDirectoryController.js'
                         ]
                     });
@@ -441,7 +441,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             url: "/systems",
             templateUrl: "views/systems/manager.html",
             data: {pageTitle: 'Systems Manager'},
-            controller: "SystemsDirectoryController",
+            controller: "SystemDirectoryController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -458,6 +458,36 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                             'js/controllers/systems/SystemDirectoryController.js'
                         ]
                     });
+                }]
+            }
+        })
+
+        .state('systems-new', {
+            url: "/systems/new",
+            templateUrl: "views/systems/wizard.html",
+            data: {pageTitle: 'System Builder Wizard'},
+            controller: "SystemBuilderWizardController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                            name: 'AgaveToGo',
+                            files: [
+                                //'../bower_components/bootstrap-wizard/jquery.bootstrap.wizard.min.js',
+                                // "../bower_components/angular-sanitize/angular-sanitize.min.js",
+                                // "../bower_components/tv4/tv4.js",
+                                // "../bower_components/objectpath/lib/ObjectPath.js",
+                                // "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+                                // "../bower_components/angular-schema-form/dist/schema-form.js",
+                                // "../app/js/services/WizardHandler.js",
+                                "../bower_components/codemirror/lib/codemirror.css",
+                                "../bower_components/codemirror/theme/neo.css",
+                                "../bower_components/codemirror/lib/codemirror.js",
+                                "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+                                'js/controllers/systems/SystemBuilderWizardController.js'
+                            ]
+                        },
+                        "ui.codemirror"
+                    );
                 }]
             }
         })
@@ -479,7 +509,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                             '../bower_components/datatables/media/js/jquery.dataTables.min.js',
                             '../bower_components/datatables/media/js/dataTables.bootstrap.min.js',
                             '../assets/global/scripts/datatable.js',
-                            'js/controllers/systems/SystemDetailsController.js'
+                            'js/controllers/systems/SystemDirectoryController.js'
                         ]
                     });
                 }]
@@ -509,12 +539,12 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         files: [
                             '../assets/global/plugins/angularjs/plugins/ui-select/select.min.css',
                             '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js'
-                        ] 
+                        ]
                     }, {
                         name: 'AgaveToGo',
                         files: [
                             'js/controllers/UISelectController.js'
-                        ] 
+                        ]
                     }]);
                 }]
             }
@@ -532,9 +562,9 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         name: 'AgaveToGo',
                         files: [
                             'js/controllers/GeneralPageController.js'
-                        ] 
+                        ]
                     }]);
-                }] 
+                }]
             }
         })
 
@@ -555,11 +585,11 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                             '../assets/global/plugins/jstree/dist/jstree.min.js',
                             '../assets/pages/scripts/ui-tree.min.js',
                             'js/controllers/GeneralPageController.js'
-                        ] 
+                        ]
                     }]);
-                }] 
+                }]
             }
-        })     
+        })
 
         // Form Tools
         .state('formtools', {
@@ -591,11 +621,11 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                             '../assets/pages/scripts/components-form-tools-2.min.js',
 
                             'js/controllers/GeneralPageController.js'
-                        ] 
+                        ]
                     }]);
-                }] 
+                }]
             }
-        })        
+        })
 
         // Date & Time Pickers
         .state('pickers', {
@@ -627,9 +657,9 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                             '../assets/pages/scripts/components-date-time-pickers.min.js',
 
                             'js/controllers/GeneralPageController.js'
-                        ] 
+                        ]
                     }]);
-                }] 
+                }]
             }
         })
 
@@ -656,11 +686,11 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                             '../assets/pages/scripts/components-select2.min.js',
 
                             'js/controllers/GeneralPageController.js'
-                        ] 
+                        ]
                     }]);
-                }] 
+                }]
             }
-        }) 
+        })
 
         // Advanced Datatables
         .state('datatablesAdvanced', {
@@ -673,8 +703,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                     return $ocLazyLoad.load({
                         name: 'AgaveToGo',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [                             
-                            '../assets/global/plugins/datatables/datatables.min.css', 
+                        files: [
+                            '../assets/global/plugins/datatables/datatables.min.css',
                             '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
 
                             '../assets/global/plugins/datatables/datatables.all.min.js',
@@ -700,7 +730,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         name: 'AgaveToGo',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/datatables/datatables.min.css', 
+                            '../assets/global/plugins/datatables/datatables.min.css',
                             '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
                             '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
 
@@ -732,7 +762,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             controller: "ProjectDashboardController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({ 
+                    return $ocLazyLoad.load({
                         name: 'AgaveToGo',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
@@ -741,7 +771,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                             'js/services/Tasks.js',
                             'js/services/Comments.js',
                             'js/controllers/projects/ProjectDashboardController.js'
-                        ]                    
+                        ]
                     });
                 }]
             }
