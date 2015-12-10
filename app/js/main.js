@@ -330,13 +330,13 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                             //'../assets/global/plugins/datatables/datatables.all.min.js',
                             //'../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
                             //'../assets/global/scripts/datatable.js',
-                            '../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
-                            '../bower_components/datatables/media/css/dataTables.css',
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-
-                            '../bower_components/datatables/dataTables.bootstrap.min.js',
-                            '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            '../assets/global/scripts/datatable.js',
+                            // '../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
+                            // '../bower_components/datatables/media/css/dataTables.css',
+                            // '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            //
+                            // '../bower_components/datatables/dataTables.bootstrap.min.js',
+                            // '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            // '../assets/global/scripts/datatable.js',
                             'js/controllers/apps/AppDirectoryController.js'
                         ]
                     });
@@ -441,7 +441,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             url: "/systems",
             templateUrl: "views/systems/manager.html",
             data: {pageTitle: 'Systems Manager'},
-            controller: "SystemsDirectoryController",
+            controller: "SystemDirectoryController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -509,7 +509,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                             '../bower_components/datatables/media/js/jquery.dataTables.min.js',
                             '../bower_components/datatables/media/js/dataTables.bootstrap.min.js',
                             '../assets/global/scripts/datatable.js',
-                            'js/controllers/systems/SystemDetailsController.js'
+                            'js/controllers/systems/SystemDirectoryController.js'
                         ]
                     });
                 }]
