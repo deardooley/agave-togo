@@ -354,7 +354,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
 
         // AngularJS plugins
         .state('data-explorer', {
-            url: "/data/explorer",
+            url: "/data/explorer/:systemId/{path:.*}",
             templateUrl: "views/data/explorer.html",
             data: { pageTitle: 'File Explorer' },
             controller: "FileExplorerController",

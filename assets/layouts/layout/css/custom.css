@@ -2,4 +2,5 @@
 .page-header.navbar {
   /* Header logo */ }
   .page-header.navbar .page-logo .logo-default {
-    margin: 8px 0 0 0; }
+    margin: 8px 0 0 0;
+    height: 27px; }

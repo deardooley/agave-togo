@@ -1,30 +1,60 @@
 angular.module('AgaveToGo').controller('FileExplorerController', function($rootScope, $scope, $http, $timeout, $stateParams, SystemsController) {
 
     $scope.system = undefined;
+    $scope.systems = [];
+    $scope.path = '';
 
-    SystemsController.listSystems(9999, 0).then(
+    App.blockUI({
+        target: '#agave-filemanager',
+        overlayColor: '#FFF',
+        animate: true
+    });
+
+    SystemsController.listSystems(5, 0, true, true).then(
         function (response) {
             $scope.systems = response;
             var defaultSystems = [];
+            var currentSystem;
             angular.forEach(response, function (system, key) {
                 if ($stateParams.systemId) {
                     if ($stateParams.systemId === system.id) {
-                        $scope.system = system;
+                        currentSystem = system;
                         return false;
                     }
                 } else if (system.default) {
-                    $scope.system = system;
+                    currentSystem = system;
                     return false;
                 }
             });
 
-            if ($stateParams.systemId && !$scope.system) {
+
+            if ($stateParams.systemId && !currentSystem) {
+                $scope.path = $stateParams.path ? $stateParams.path : '';
+                $scope.system = '';
                 App.alert({type: 'danger', message: "No system found with the given system id."})
+                App.unblockUI('#agave-filemanager');
+            } else {
+                SystemsController.getSystemDetails(currentSystem.id).then(
+                    function(data) {
+                        $scope.path = $stateParams.path ? $stateParams.path : data.storage.homeDir;
+                        $scope.system = data;
+                        App.unblockUI('#agave-filemanager');
+                    },
+                    function(msg) {
+                        $scope.path = $stateParams.path ? $stateParams.path : '';
+                        $scope.system = '';
+                        App.alert({type: 'danger', message: "Unable to fetch system details. " + msg});
+                        App.unblockUI('#agave-filemanager');
+                    }
+                );
             }
+
         },
         function (data) {
-            $scope.resource = undefined;
-            App.alert({type: 'danger', message: "There was an error fetching your list of available systems"})
+            $scope.path = $stateParams.path ? $stateParams.path : '';
+            $scope.system = '';
+            App.alert({type: 'danger', message: "There was an error fetching your list of available systems"});
+            App.unblockUI('#agave-filemanager');
         });
 
     //if ($stateParams.systemId) {

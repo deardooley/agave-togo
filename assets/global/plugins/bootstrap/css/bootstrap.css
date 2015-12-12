@@ -2693,7 +2693,7 @@ select[multiple].input-lg,
   color: #e73d4a; }
 
 .has-feedback label ~ .form-control-feedback {
-  top: 34px; }
+  top: 25px; }
 
 .has-feedback label.sr-only ~ .form-control-feedback {
   top: 0; }

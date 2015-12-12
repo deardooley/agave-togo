@@ -343,13 +343,22 @@ angular.module('CommonsService', []).service('Commons', ['$rootScope', '$window'
         dict = {};
     };
 
-    this.getIconHtmlExtension = function (extension) {
+    this.getFileExtension = function(filename) {
+        return filename.substr((~-filename.lastIndexOf(".") >>> 0) + 2);
+    };
+
+    this.getFileTypeFontIconClass = function (filename) {
+        var extension = this.getFileExtension(filename);
+        return this.getIconHtmlExtension(extension, true);
+    };
+
+    this.getIconHtmlExtension = function (extension, onlyClass) {
         if (extension) {
             var iconClass = extensionIcons[extension.toLowerCase()];
             if (iconClass) {
-                return '<i class="fa ' + iconClass + '"/>';
+                return onlyClass ? iconClass : '<i class="fa ' + iconClass + '"/>';
             } else {
-                return '<i class="fa fa-file-alt" style="background:#FFF; content:' + extension.toUpperCase() + '"/>';
+                return onlyClass ? 'fa-file-alt' : '<i class="fa fa-file-alt" style="background:#FFF; content:' + extension.toUpperCase() + '"/>';
             }
         } else {
             return '<i class="fa fa-file-o"/>';

@@ -1,0 +1,22 @@
+@media (min-width: 768px) {
+  .filebrowser {
+    .main {
+      margin-left: 0 !important;
+    }
+    .sidebar {
+      position: inherit !important;
+      top: inherit !important;
+      bottom: inherit !important;
+    }
+  }
+}
+
+#context-menu {
+  ul.dropdown-menu.dropdown-right-click:after,
+  ul.dropdown-menu.dropdown-right-click:before,
+  .dropdown > .dropdown-menu:after,
+  .dropdown-toggle > .dropdown-menu:after,
+  .btn-group > .dropdown-menu:after {
+    display: none!important;
+  }
+}

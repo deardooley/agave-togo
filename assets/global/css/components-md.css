@@ -5352,6 +5352,21 @@ System feeds
         font-style: italic;
         color: #c1cbd0; }
 
+@media (min-width: 768px) {
+  .filebrowser .main {
+    margin-left: 0 !important; }
+  .filebrowser .sidebar {
+    position: inherit !important;
+    top: inherit !important;
+    bottom: inherit !important; } }
+
+#context-menu ul.dropdown-menu.dropdown-right-click:after,
+#context-menu ul.dropdown-menu.dropdown-right-click:before,
+#context-menu .dropdown > .dropdown-menu:after,
+#context-menu .dropdown-toggle > .dropdown-menu:after,
+#context-menu .btn-group > .dropdown-menu:after {
+  display: none !important; }
+
 /***
 Form Layouts
 ****/
