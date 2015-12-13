@@ -364,6 +364,16 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         {
                             name: 'AgaveToGo',
                             files: [
+                                "../bower_components/codemirror/lib/codemirror.css",
+                                "../bower_components/codemirror/theme/neo.css",
+                                "../bower_components/codemirror/theme/solarized.css",
+                                //"../bower_components/codemirror/lib/codemirror.js",
+                                "../bower_components/codemirror/mode/javascript/javascript.js",
+                                "../bower_components/codemirror/mode/markdown/markdown.js",
+                                "../bower_components/codemirror/mode/clike/clike.js",
+                                "../bower_components/codemirror/mode/shell/shell.js",
+                                "../bower_components/codemirror/mode/python/python.js",
+                                "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
                                 'js/controllers/data/FileExplorerController.js'
                             ]
                         },
