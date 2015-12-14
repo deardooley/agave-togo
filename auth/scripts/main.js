@@ -288,21 +288,19 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
         console.log('Authorized third party app with token', token.access_token);
         $localStorage.token = token;
 
-        $timeout(function() {
-            ProfilesController.getProfile('me').then(
-                function(profile) {
-                    $localStorage.activeProfile = profile;
-                    $location.path("/success");
-                    $location.replace();
-                    $rootScope.$broadcast('oauth:profile', profile);
-                },
-                function(message) {
-                    $localStorage.activeProfile = null;
-                    //$location.path("/error");
-                    //$location.replace();
-                }
-            )
-        }, 50);
+        ProfilesController.getProfile('me').then(
+            function(profile) {
+                $localStorage.activeProfile = profile;
+                $rootScope.$broadcast('oauth:profile', profile);
+                $location.path("/success");
+                $location.replace();
+            },
+            function(message) {
+                $localStorage.activeProfile = null;
+                //$location.path("/error");
+                //$location.replace();
+            }
+        )
     });
 
     $rootScope.$on('oauth:logout', function(event) {

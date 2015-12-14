@@ -30,4 +30,8 @@ angular.module('AgaveAuth').controller('LoginSuccessController', function ($inje
         }
     }, 50);
 
+    $rootScope.$on('oauth:profile', function(profile) {
+        $scope.profile = $localStorage.activeProfile;
+    });
+
 });

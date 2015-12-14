@@ -31,6 +31,12 @@ angular.module('AgaveAuth').controller('LogoutController', function ($injector, 
         }
     }, 50);
 
+    $scope.$watch('$localStorage.profile', function(value){
+        $timeout(function () {
+            $scope.profile = $localStorage.activeProfile;
+        }, 0);
+    }, true);
+
     $scope.$watch('settings.tenants', function(value){
         $timeout(function () {
             $rootScope.$broadcast('oauth:template:update', '/auth/views/templates/oauth-ng-button.html');
