@@ -6,7 +6,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
         "properties": {
             "id": {
                 "type": "string",
-                "description": "A unique identifier you assign to the system. A system id must be globally unique across a tenant and cannot be reused once deleted",
+                "description": "Give the system a unique identifier. This can be anything you like. E.g. demo.storage.example.com",
                 "title": "ID",
                 // "validator": "[a-zA-Z_\\-\\.]+",
                 // "minLength": 3,
@@ -14,7 +14,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
             },
             "name": {
                 "type": "string",
-                "description": "Common display name for this system",
+                "description": "Give a name to this system. E.g. Demo Storage Example",
                 "title": "Name",
                 // "validator": "[a-zA-Z_\\-\\.]+",
                 // "minLength": 3,
@@ -22,14 +22,14 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
             },
             "site": {
                 "type": "string",
-                "description": "The site associated with this system. Primarily for logical grouping",
+                "description": "Give a site to this system. E.g. example.com",
                 "format": "url",
                 "title": "Site",
                 // "validator": "(http|https)://[\\w-]+(\\.[\\w-]*)+([\\w.,@?^=%&amp;:/~+#-]*[\\w@?^=%&amp;/~+#-])?"
             },
             "description": {
                 "type": "string",
-                "description": "Verbose description of this system",
+                "description": "Give a description for this system",
                 // "maxLength": 32768,
                 "title": "Description"
             },
@@ -378,7 +378,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                           $scope.model.storage.protocol = "SFTP";
 
                           $scope.model.storage.SFTP = {};
-                          $scope.model.storage.SFTP = "sshkeys"
+                          $scope.model.storage.SFTP = "sshkeys";
                       },
                       $validators: {
                           required: function(value) {
@@ -1010,32 +1010,154 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             }
                   ]
                 }]
-            }, {
+            },
+            {
                 "title": "Details",
-                "items": [{
-                        "key": "id",
-                        validationMessage: {
-                            'required': 'Missing required',
+                "items": [
+                  // ID
+                  {
+                    "type": "section",
+                      "htmlClass": "col-xs-8",
+                      "items": [
+                        {
+                          "key": "id",
+                          ngModelOptions: {
+                            updateOnDefault: true
+                          },
+                          onChange: function(value, formModel){
+                            // Make sure systems are there before displaying message
+                            if ($scope.systems.length > 0) {
+                              formModel.description = '<span class="text-success">'+ value + ' is available</span>';
+                            }
+                          },
+                          validationMessage: {
+                              'required': 'Missing required',
+                              'notavailable': '{{viewValue}} is not available'
+                          },
+                          $validators: {
+                              required: function(value) {
+                                  return value ? true : false;
+                              },
+                              notavailable: function(value){
+                                var systemFound =_.find($scope.systems, function(system){
+                                  if (system.id === value){
+                                    return true;
+                                  }
+                                });
+                                return systemFound ? false : true;
+                              }
+                          },
                         },
-                        $validators: {
-                            required: function(value) {
-                                return value ? true : false;
-                            },
-                        },
-                        //  startEmpty: true
-                    }, {
-                        "key": "name",
-                        validationMessage: {
-                            'required': 'Missing required',
-                        },
-                        $validators: {
-                            required: function(value) {
-                                return value ? true : false;
-                            },
-                        },
+                      ]
+                  },
+                  {
+                     "type": "section",
+                     "htmlClass": "col-xs-4",
+                     "items": [
+                       {
+                          "type": "template",
+                          "template":
+
+                          '<div class="form-group ">'+
+                          	'<label class="control-label">&nbsp;</label>'+
+                          	'<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                          		'<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="A unique identifier you assign to the system. A system id must be globally unique across a tenant and cannot be reused once deleted"></i>'+
+                          	'</div>'+
+                          	'<div class="help-block"></div>'+
+                          '</div>',
+                       }
+                     ]
+                   },
+                   // name
+                   {
+                     "type": "section",
+                       "htmlClass": "col-xs-8",
+                       "items": [
+                         {
+                           "key": "name",
+                           validationMessage: {
+                               'required': 'Missing required',
+                           },
+                           $validators: {
+                               required: function(value) {
+                                   return value ? true : false;
+                               },
+                           },
+                         },
+                       ]
+                   },
+                   {
+                      "type": "section",
+                      "htmlClass": "col-xs-4",
+                      "items": [
+                        {
+                           "type": "template",
+                           "template":
+
+                           '<div class="form-group ">'+
+                            '<label class="control-label">&nbsp;</label>'+
+                            '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                              '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Common display name for this system"></i>'+
+                            '</div>'+
+                            '<div class="help-block"></div>'+
+                           '</div>',
+                        }
+                      ]
                     },
-                    "description",
-                    "site"
+                    // description
+                    {
+                      "type": "section",
+                        "htmlClass": "col-xs-8",
+                        "items": [
+                           "description",
+                        ]
+                    },
+                    {
+                       "type": "section",
+                       "htmlClass": "col-xs-4",
+                       "items": [
+                         {
+                            "type": "template",
+                            "template":
+
+                            '<div class="form-group ">'+
+                             '<label class="control-label">&nbsp;</label>'+
+                             '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                               '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Verbose description of this system"></i>'+
+                             '</div>'+
+                             '<div class="help-block"></div>'+
+                            '</div>',
+                         }
+                       ]
+                     },
+                     // site
+                     {
+                       "type": "section",
+                         "htmlClass": "col-xs-8",
+                         "items": [
+                            "site",
+                         ]
+                     },
+                     {
+                        "type": "section",
+                        "htmlClass": "col-xs-4",
+                        "items": [
+                          {
+                             "type": "template",
+                             "template":
+
+                             '<div class="form-group ">'+
+                              '<label class="control-label">&nbsp;</label>'+
+                              '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The site associated with this system. Primarily for logical grouping"></i>'+
+                              '</div>'+
+                              '<div class="help-block"></div>'+
+                             '</div>',
+                          }
+                        ]
+                      },
+
+                  //   "site"
                 ]
             },
 
@@ -1261,11 +1383,25 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
     $scope.currentTabIndex = 0;
     $scope.codeview = false;
 
+    $scope.fetchSystems = function() {
+        $scope.systems = [];
+        SystemsController.listSystems()
+          .then(function(response){
+            $scope.systems = response;
+          })
+          .catch(function(response) {
+            $scope.systems = [];
+          });
+    };
+
     $scope.init = function() {
+        $scope.fetchSystems();
         WizardHandler.activateTab($scope, $scope.currentTabIndex);
     }
 
     $scope.init();
+
+
 
 
     $scope.submit = function() {
