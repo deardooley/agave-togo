@@ -217,6 +217,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                         "enum": [
                             "SFTP", "GRIDFTP", "IRODS", "LOCAL", "S3"
                         ],
+                        // "default": "SFTP"
                     },
                     "rootDir": {
                         "type": "string",
@@ -368,13 +369,24 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                   "items": [
                     {
                       "key": "type",
-                      validationMessage: {
-                          'required': 'Missing required',
+                      ngModelOptions: {
+                          updateOnDefault: true
+                      },
+                      onChange: function(value, formModel) {
+                          // pre-select SFTP and sshkeys by default
+                          $scope.model.storage = {};
+                          $scope.model.storage.protocol = "SFTP";
+
+                          $scope.model.storage.SFTP = {};
+                          $scope.model.storage.SFTP = "sshkeys"
                       },
                       $validators: {
                           required: function(value) {
                               return value ? true : false;
                           },
+                      },
+                      validationMessage: {
+                          'required': 'Missing required',
                       },
                     }
                   ],
@@ -421,7 +433,6 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                 updateOnDefault: true
                             },
                             onChange: function(value, formModel) {
-                                console.log('Protocol changed ' + value);
                             },
                             validationMessage: {
                                 'required': 'Missing required',
@@ -598,11 +609,11 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                         "items": [
                           {
                               "key": "storage.protocol",
+                              "title": "Protocol",
                               ngModelOptions: {
                                 updateOnDefault: true
                               },
                               // "condition": "model.type",
-                              "title": "Protocol",
                           },
                         ]
                     },
@@ -632,6 +643,9 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                           {
                             "key": "storage.SFTP",
                             "condition": "model.storage.protocol === 'SFTP'",
+                            ngModelOptions: {
+                                updateOnDefault: true
+                            },
                             validationMessage: {
                                 'required': 'Missing required',
                             },
@@ -1286,6 +1300,13 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
         theme: "neat",
         mode: 'javascript'
     };
+
+    // Watch protocol. reset if default SFTP/default changes
+    $scope.$watch('model.storage.protocol', function(newValue, oldValue) {
+      if (typeof newValue !== 'undefined' && typeof oldValue !== 'undefined'){
+          $scope.model.storage[oldValue] = undefined;
+      }
+    }, true);
 
     $scope.$watch('model', function(value) {
         if (value) {
