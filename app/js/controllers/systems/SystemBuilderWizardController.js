@@ -48,7 +48,14 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                 "enum": [
                     "STORAGE", "EXECUTION"
                 ],
-                "description": "System Type",
+                "description": "What type of system is it?",
+                // "description": "Systems come in two flavors: storage and execution. Storage systems are only used for storing and interacting with data. Execution systems are used for running apps (aka jobs or batch jobs) as well as storing and interacting with data.",
+                "title": "Select System Type"
+            },
+            "test": {
+                "type": "template",
+                "description": "What kind of storage system is it?",
+                // "description": "Systems come in two flavors: storage and execution. Storage systems are only used for storing and interacting with data. Execution systems are used for running apps (aka jobs or batch jobs) as well as storing and interacting with data.",
                 "title": "Select System Type"
             },
             "credential": {
@@ -72,7 +79,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                 "properties": {
                     "host": {
                         "type": "string",
-                        "description": "The hostname or ip address of the storage server",
+                        "description": "Hostname",
                         "title": "Host"
                     },
                     "port": {
@@ -195,7 +202,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                 "properties": {
                     "host": {
                         "type": "string",
-                        "description": "The hostname or ip address of the storage server",
+                        "description": "Hostname",
                         "title": "Host"
                     },
                     "port": {
@@ -206,24 +213,25 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                     "protocol": {
                         "type": "string",
                         "title": "Protocol",
+                        "description": "What kind of Storage System is it?",
                         "enum": [
                             "SFTP", "GRIDFTP", "IRODS", "LOCAL", "S3"
                         ],
                     },
                     "rootDir": {
                         "type": "string",
-                        "description": "The path on the remote system to use as the virtual root directory for all API requests. Defaults to '/'",
+                        "description": "Where would you like to restrict access on the system?",
                         "title": "rootDir"
                     },
                     "homeDir": {
                         "type": "string",
-                        "description": "The path on the remote system, relative to rootDir to use as the virtual home directory for all API requests. This will be the base of any requested paths that do not being with a '/'. Defaults to '/', thus being equivalent to rootDir",
+                        "description": "Would you like to specify a home directory?",
                         "title": "homeDir"
                     },
                     "resource": {
                         "type": "string",
                         "description": "The name of the default resource to use when defining an X system.",
-                        "title": "Resources"
+                        "title": "Resource"
                     },
                     "zone": {
                         "type": "string",
@@ -232,20 +240,20 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                     },
                     "container": {
                         "type": "string",
-                        "description": "The container to use when interacting with an object store. Specifying a container provides isolation when exposing your cloud storage accounts so users do not have access to your entire storage account. This should be used in combination with delegated cloud credentials such as an AWS IAM user credential",
+                        "description": "What container wouuld you like to isolate?",
                         "title": "Container"
                     },
                     "SFTP": {
                         "type": "string",
-                        "description": "",
+                        "description": "How would you like to authenticate?",
                         "enum": [
-                            "password", "sshkeys", "tunnel"
+                            "password", "sshkeys"
                         ],
                         "title": "Select SFTP configuration type"
                     },
                     "GRIDFTP": {
                         "type": "string",
-                        "description": "",
+                        "description": "How would you like to authenticate?",
                         "enum": [
                             "cred", "mpg", "myproxy"
                         ],
@@ -253,7 +261,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                     },
                     "IRODS": {
                         "type": "string",
-                        "description": "",
+                        "description": "How would you like to authenticate?",
                         "enum": [
                             "mpg", "myproxy", "pam", "password"
                         ],
@@ -355,17 +363,40 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                 "title": "Type",
                 "items": [
                   {
-                    "key": "type",
-                    ngModelOptions: { updateOn: 'default blur' },
-                    validationMessage: {
-                     'required': 'Missing required',
-                    },
-                    $validators: {
-                     required: function(value) {
-                       return value ? true: false;
-                     },
-                   },
-                  }
+                  "type": "section",
+                  "htmlClass": "col-xs-8",
+                  "items": [
+                    {
+                      "key": "type",
+                      validationMessage: {
+                          'required': 'Missing required',
+                      },
+                      $validators: {
+                          required: function(value) {
+                              return value ? true : false;
+                          },
+                      },
+                    }
+                  ],
+                 },
+                 {
+                   "type": "section",
+                   "htmlClass": "col-xs-4",
+                   "items": [
+                     {
+                        "type": "template",
+                        "template":
+
+                        '<div class="form-group ">'+
+                        	'<label class="control-label">&nbsp;</label>'+
+                        	'<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                        		'<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Systems come in two flavors: storage and execution. Storage systems are only used for storing and interacting with data. Execution systems are used for running apps (aka jobs or batch jobs) as well as storing and interacting with data"></i>'+
+                        	'</div>'+
+                        	'<div class="help-block"></div>'+
+                        '</div>',
+                     }
+                   ]
+                 }
                 ]
             },
             {
@@ -559,137 +590,411 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                     /**********************************************************************/
 
                     "key": "storage",
-                    "items": [{
-                        "key": "storage.protocol",
-                        // "condition": "model.type",
-                        "title": "Protocol",
-                        // ngModelOptions: { updateOn: 'default blur' },
-                        ngModelOptions: {
-                            updateOnDefault: true
-                        },
-                        onChange: function(value, formModel) {
-                            console.log('Protocol changed ' + value);
-                        },
-                        validationMessage: {
-                            'required': 'Missing required',
-                        },
-                        $validators: {
-                            required: function(value) {
-                                return value ? true : false;
-                            },
-                        },
+                    "items": [
+                    // Protocol
+                    {
+                      "type": "section",
+                        "htmlClass": "col-xs-8",
+                        "items": [
+                          {
+                              "key": "storage.protocol",
+                              ngModelOptions: {
+                                updateOnDefault: true
+                              },
+                              // "condition": "model.type",
+                              "title": "Protocol",
+                          },
+                        ]
+                    },
+                    {
+                       "type": "section",
+                       "htmlClass": "col-xs-4",
+                       "items": [
+                         {
+                            "type": "template",
+                            "template":
 
-                    }, {
-                        "key": "storage.SFTP",
-                        "condition": "model.storage.protocol === 'SFTP'",
-                        validationMessage: {
-                            'required': 'Missing required',
-                        },
-                        $validators: {
-                            required: function(value) {
-                                return value ? true : false;
+                            '<div class="form-group ">'+
+                            	'<label class="control-label">&nbsp;</label>'+
+                            	'<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                            		'<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The protocol used to authenticate to the storage server"></i>'+
+                            	'</div>'+
+                            	'<div class="help-block"></div>'+
+                            '</div>',
+                         }
+                       ]
+                     },
+                    // subprotocol-SFTP
+                    {
+                      "type": "section",
+                        "htmlClass": "col-xs-8",
+                        "items": [
+                          {
+                            "key": "storage.SFTP",
+                            "condition": "model.storage.protocol === 'SFTP'",
+                            validationMessage: {
+                                'required': 'Missing required',
                             },
-                        },
-                    }, {
-                        "key": "storage.GRIDFTP",
-                        "condition": "model.storage.protocol === 'GRIDFTP'",
-                        validationMessage: {
-                            'required': 'Missing required',
-                        },
-                        $validators: {
-                            required: function(value) {
-                                return value ? true : false;
+                            $validators: {
+                                required: function(value) {
+                                    return value ? true : false;
+                                },
                             },
-                        },
-                    }, {
-                        "key": "storage.IRODS",
-                        "condition": "model.storage.protocol === 'IRODS'",
-                        validationMessage: {
-                            'required': 'Missing required',
-                        },
-                        $validators: {
-                            required: function(value) {
-                                return value ? true : false;
-                            },
-                        },
-                    }, {
-                        "key": "storage.host",
+                          },
+                        ]
+                    },
+                    {
+                       "type": "section",
+                       "htmlClass": "col-xs-4",
+                       "condition": "model.storage.protocol === 'SFTP'",
+                       "items": [
+                         {
+                            "type": "template",
+                            "template":
+                            '<div class="form-group ">'+
+                            	'<label class="control-label">&nbsp;</label>'+
+                            	'<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                            		'<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The SFTP configuration type used to authenticate to the storage server"></i>'+
+                            	'</div>'+
+                            	'<div class="help-block"></div>'+
+                            '</div>',
+                         }
+                       ]
+                     },
+                    // subprotocol-GRIDFTP
+                    {
+                      "type": "section",
+                        "htmlClass": "col-xs-8",
+                        "items": [
+                          {
+                              "key": "storage.GRIDFTP",
+                              "condition": "model.storage.protocol === 'GRIDFTP'",
+                              validationMessage: {
+                                  'required': 'Missing required',
+                              },
+                              $validators: {
+                                  required: function(value) {
+                                      return value ? true : false;
+                                  },
+                              },
+                          }
+                        ]
+                    },
+                    {
+                       "type": "section",
+                       "htmlClass": "col-xs-4",
+                      "condition": "model.storage.protocol === 'GRIDFTP'",
+                       "items": [
+                         {
+                            "type": "template",
+                            "template":
+                            '<div class="form-group ">'+
+                              '<label class="control-label">&nbsp;</label>'+
+                              '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The GRIDFTP configuration type used to authenticate to the storage server"></i>'+
+                              '</div>'+
+                              '<div class="help-block"></div>'+
+                            '</div>',
+                         }
+                       ]
+                     },
+                    // subprotocol-IRODS
+                    {
+                      "type": "section",
+                        "htmlClass": "col-xs-8",
+                        "items": [
+                          {
+                              "key": "storage.IRODS",
+                              "condition": "model.storage.protocol === 'IRODS'",
+                              validationMessage: {
+                                  'required': 'Missing required',
+                              },
+                              $validators: {
+                                  required: function(value) {
+                                      return value ? true : false;
+                                  },
+                              },
+                          }
+                        ]
+                    },
+                    {
+                       "type": "section",
+                       "htmlClass": "col-xs-4",
+                       "condition": "model.storage.protocol === 'IRODS'",
+                       "items": [
+                         {
+                            "type": "template",
+                            "template":
+                            '<div class="form-group ">'+
+                              '<label class="control-label">&nbsp;</label>'+
+                              '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The IRODS configuration type used to authenticate to the storage server"></i>'+
+                              '</div>'+
+                              '<div class="help-block"></div>'+
+                            '</div>',
+                         }
+                       ]
+                     },
+                     // host
+                     {
+                       "type": "section",
+                         "htmlClass": "col-xs-8",
+                         "items": [
+                           {
+                               "key": "storage.host",
+                               "condition": "model.storage.protocol",
+                               validationMessage: {
+                                   'required': 'Missing required',
+                               },
+                               $validators: {
+                                   required: function(value) {
+                                       return value ? true : false;
+                                   },
+                               },
+                           }
+                         ]
+                     },
+                     {
+                        "type": "section",
+                        "htmlClass": "col-xs-4",
                         "condition": "model.storage.protocol",
-                        validationMessage: {
-                            'required': 'Missing required',
+                        "items": [
+                          {
+                             "type": "template",
+                             "template":
+                             '<div class="form-group ">'+
+                               '<label class="control-label">&nbsp;</label>'+
+                               '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                 '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The hostname or ip address of the storage server"></i>'+
+                               '</div>'+
+                               '<div class="help-block"></div>'+
+                             '</div>',
+                          }
+                        ]
+                      },
+                      // port
+                      {
+                        "type": "section",
+                          "htmlClass": "col-xs-8",
+                          "items": [
+                            {
+                                "key": "storage.port",
+                                "condition": "model.storage.protocol",
+                                validationMessage: {
+                                    'required': 'Missing required',
+                                },
+                                $validators: {
+                                    required: function(value) {
+                                        return value ? true : false;
+                                    },
+                                },
+                            }
+                          ]
+                      },
+                      {
+                         "type": "section",
+                         "htmlClass": "col-xs-4",
+                         "condition": "model.storage.protocol",
+                         "items": [
+                           {
+                              "type": "template",
+                              "template":
+                              '<div class="form-group ">'+
+                                '<label class="control-label">&nbsp;</label>'+
+                                '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                  '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The port number of the storage server"></i>'+
+                                '</div>'+
+                                '<div class="help-block"></div>'+
+                              '</div>',
+                           }
+                         ]
+                       },
+                       // rootDir
+                       {
+                         "type": "section",
+                           "htmlClass": "col-xs-8",
+                           "items": [
+                             {
+                                 "key": "storage.rootDir",
+                                 "condition": "model.storage.protocol",
+                                 validationMessage: {
+                                     'required': 'Missing required',
+                                 },
+                                 $validators: {
+                                     required: function(value) {
+                                         return value ? true : false;
+                                     },
+                                 },
+                             }
+                           ]
+                       },
+                       {
+                          "type": "section",
+                          "htmlClass": "col-xs-4",
+                          "condition": "model.storage.protocol",
+                          "items": [
+                            {
+                               "type": "template",
+                               "template":
+                               '<div class="form-group ">'+
+                                 '<label class="control-label">&nbsp;</label>'+
+                                 '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                   '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The path on the remote system to use as the virtual root directory for all API requests. Defaults to /"></i>'+
+                                 '</div>'+
+                                 '<div class="help-block"></div>'+
+                               '</div>',
+                            }
+                          ]
                         },
-                        $validators: {
-                            required: function(value) {
-                                return value ? true : false;
-                            },
+                        // homeDir
+                        {
+                          "type": "section",
+                            "htmlClass": "col-xs-8",
+                            "items": [
+                              {
+                                "key": "storage.homeDir",
+                                "condition": "model.storage.protocol",
+                                validationMessage: {
+                                    'required': 'Missing required',
+                                },
+                                $validators: {
+                                    required: function(value) {
+                                        return value ? true : false;
+                                    },
+                                  },
+                              }
+                            ]
                         },
-                    }, {
-                        "key": "storage.port",
-                        "condition": "model.storage.protocol",
-                        validationMessage: {
-                            'required': 'Missing required',
-                        },
-                        $validators: {
-                            required: function(value) {
-                                return value ? true : false;
-                            },
-                        },
-                    }, {
-                        "key": "storage.rootDir",
-                        "condition": "model.storage.protocol",
-                        validationMessage: {
-                            'required': 'Missing required',
-                        },
-                        $validators: {
-                            required: function(value) {
-                                return value ? true : false;
-                            },
-                        },
-                    }, {
-                        "key": "storage.homeDir",
-                        "condition": "model.storage.protocol",
-                        validationMessage: {
-                            'required': 'Missing required',
-                        },
-                        $validators: {
-                            required: function(value) {
-                                return value ? true : false;
-                            },
-                        },
-                    }, {
-                        "key": "storage.resource",
-                        "condition": "model.storage.protocol === 'IRODS'",
-                        validationMessage: {
-                            'required': 'Missing required',
-                        },
-                        $validators: {
-                            required: function(value) {
-                                return value ? true : false;
-                            },
-                        },
-                    }, {
-                        "key": "storage.zone",
-                        "condition": "model.storage.protocol === 'IRODS'",
-                        validationMessage: {
-                            'required': 'Missing required',
-                        },
-                        $validators: {
-                            required: function(value) {
-                                return value ? true : false;
-                            },
-                        },
-                    }, {
-                        "key": "storage.container",
-                        "condition": "model.storage.protocol === 'S3'",
-                        validationMessage: {
-                            'required': 'Missing required',
-                        },
-                        $validators: {
-                            required: function(value) {
-                                return value ? true : false;
-                            },
-                        },
-                    }]
+                        {
+                           "type": "section",
+                           "htmlClass": "col-xs-4",
+                           "condition": "model.storage.protocol",
+                           "items": [
+                             {
+                                "type": "template",
+                                "template":
+                                '<div class="form-group ">'+
+                                  '<label class="control-label">&nbsp;</label>'+
+                                  '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                    '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The path on the remote system, relative to rootDir to use as the virtual home directory for all API requests. This will be the base of any requested paths that do not being with a /. Defaults to /, thus being equivalent to rootDir"></i>'+
+                                  '</div>'+
+                                  '<div class="help-block"></div>'+
+                                '</div>',
+                             }
+                           ]
+                         },
+                         // storage.resource
+                         {
+                           "type": "section",
+                             "htmlClass": "col-xs-8",
+                             "items": [
+                               {
+                                   "key": "storage.resource",
+                                   "condition": "model.storage.protocol === 'IRODS'",
+                                   validationMessage: {
+                                       'required': 'Missing required',
+                                   },
+                                   $validators: {
+                                       required: function(value) {
+                                           return value ? true : false;
+                                       },
+                                   },
+                               }
+                             ]
+                         },
+                         {
+                            "type": "section",
+                            "htmlClass": "col-xs-4",
+                            "condition": "model.storage.protocol === 'IRODS'",
+                            "items": [
+                              {
+                                 "type": "template",
+                                 "template":
+                                 '<div class="form-group ">'+
+                                   '<label class="control-label">&nbsp;</label>'+
+                                   '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                     '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The name of the default resource to use when defining an IRODS system"></i>'+
+                                   '</div>'+
+                                   '<div class="help-block"></div>'+
+                                 '</div>',
+                              }
+                            ]
+                          },
+                          // storage.zone
+                          {
+                            "type": "section",
+                              "htmlClass": "col-xs-8",
+                              "items": [
+                                {
+                                    "key": "storage.zone",
+                                    "condition": "model.storage.protocol === 'IRODS'",
+                                    validationMessage: {
+                                        'required': 'Missing required',
+                                    },
+                                    $validators: {
+                                        required: function(value) {
+                                            return value ? true : false;
+                                        },
+                                    },
+                                }
+                              ]
+                          },
+                          {
+                             "type": "section",
+                             "htmlClass": "col-xs-4",
+                             "condition": "model.storage.protocol === 'IRODS'",
+                             "items": [
+                               {
+                                  "type": "template",
+                                  "template":
+                                  '<div class="form-group ">'+
+                                    '<label class="control-label">&nbsp;</label>'+
+                                    '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                      '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The name of the default zone to use when defining an IRODS system"></i>'+
+                                    '</div>'+
+                                    '<div class="help-block"></div>'+
+                                  '</div>',
+                               }
+                             ]
+                           },
+                           // storage.container
+                           {
+                             "type": "section",
+                               "htmlClass": "col-xs-8",
+                               "items": [
+                                 {
+                                     "key": "storage.container",
+                                     "condition": "model.storage.protocol === 'S3'",
+                                     validationMessage: {
+                                         'required': 'Missing required',
+                                     },
+                                     $validators: {
+                                         required: function(value) {
+                                             return value ? true : false;
+                                         },
+                                     },
+                                 }
+                               ]
+                           },
+                           {
+                              "type": "section",
+                              "htmlClass": "col-xs-4",
+                              "condition": "model.storage.protocol === 'S3'",
+                              "items": [
+                                {
+                                   "type": "template",
+                                   "template":
+                                   '<div class="form-group ">'+
+                                     '<label class="control-label">&nbsp;</label>'+
+                                     '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                       '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The container to use when interacting with an object store. Specifying a container provides isolation when exposing your cloud storage accounts so users do not have access to your entire storage account. This should be used in combination with delegated cloud credentials such as an AWS IAM user credential"></i>'+
+                                     '</div>'+
+                                     '<div class="help-block"></div>'+
+                                   '</div>',
+                                }
+                              ]
+                            }
+                  ]
                 }]
             }, {
                 "title": "Details",
