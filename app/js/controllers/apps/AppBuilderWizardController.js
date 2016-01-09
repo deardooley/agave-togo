@@ -984,6 +984,20 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
     $scope.wizview = 'split';
 
 
+    $scope.codemirrorLoaded = function(_editor) {
+        // Events
+        _editor.on("change", function () {
+            if (_editor.hasFocus()) {
+                $scope.model = JSON.parse(_editor.getValue());
+            }
+        });
+        _editor.on("blur", function () {
+            if (_editor.hasFocus()) {
+                $scope.model = JSON.parse(_editor.getValue());
+            }
+        });
+    };
+
     // CodeMirror editor support
     $scope.editorConfig = {
         lineWrapping : true,
@@ -991,7 +1005,10 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
         matchBrackets: true,
         styleActiveLine: false,
         theme:"neat",
-        mode: 'javascript'
+        mode: 'javascript',
+        json: true,
+        statementIndent: 2,
+        onLoad: $scope.codemirrorLoaded
     };
 
     if ($stateParams.appId) {
@@ -1019,8 +1036,5 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
 
     $scope.updateWizardLayout = function() {
         console.log($scope.wizview);
-    };;
-    //$('.btn-view-option').on('click', function (e) {
-    //    $scope.wizview = $(this).children('input').val();
-    //});
+    };
 });

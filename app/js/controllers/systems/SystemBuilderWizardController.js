@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('SystemBuilderWizardController', function($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, Commons, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
+angular.module('AgaveToGo').controller('SystemBuilderWizardController', function($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $filter, Commons, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
 
     $scope.schema = {
         "type": "object",
@@ -248,7 +248,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                         "type": "string",
                         "description": "How would you like to authenticate?",
                         "enum": [
-                            "password", "sshkeys"
+                            "PASSWORD", "SSHKEYS"
                         ],
                         "title": "Select SFTP configuration type"
                     },
@@ -264,7 +264,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                         "type": "string",
                         "description": "How would you like to authenticate?",
                         "enum": [
-                            "mpg", "myproxy", "pam", "password"
+                            "MPG", "MYPROXY", "PAM", "PASSWORD"
                         ],
                         "title": "Select IRODS configuration type"
                     },
@@ -1039,12 +1039,12 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                   return value ? true : false;
                               },
                               notavailable: function(value){
-                                var systemFound =_.find($scope.systems, function(system){
-                                  if (system.id === value){
-                                    return true;
+                                  if ($scope.systems.length && value) {
+                                    return !($filter('filter')($scope.systems, {id: value}));
+                                  } else {
+                                      return true;
                                   }
-                                });
-                                return systemFound ? false : true;
+
                               }
                           },
                         },
@@ -1452,5 +1452,35 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
 
     $scope.updateWizardLayout = function() {
         console.log($scope.wizview);
+    };
+
+    $scope.codemirrorLoaded = function(_editor) {
+        // Events
+        _editor.on("change", function () {
+            //if (_editor.hasFocus()) {
+            $timeout(function() {
+                $scope.model = JSON.parse(_editor.getValue());
+            }, 0);
+
+            //}
+        });
+        _editor.on("blur", function () {
+            if (_editor.hasFocus()) {
+                $scope.model = JSON.parse(_editor.getValue());
+            }
+        });
+    };
+
+    // CodeMirror editor support
+    $scope.editorConfig = {
+        lineWrapping : true,
+        lineNumbers: true,
+        matchBrackets: true,
+        styleActiveLine: false,
+        theme:"neat",
+        mode: 'javascript',
+        json: true,
+        statementIndent: 2,
+        onLoad: $scope.codemirrorLoaded
     };
 });

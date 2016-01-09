@@ -1,0 +1,7 @@
+web:
+  image: agaveapi/apache-dev:latest
+  restart: always
+  ports:
+    - '9000:80'
+  volumes:
+    - '.:/var/www/html:ro'
