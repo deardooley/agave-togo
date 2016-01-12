@@ -344,12 +344,12 @@ angular.module('CommonsService', []).service('Commons', ['$rootScope', '$window'
     };
 
     this.getIconHtmlExtension = function (extension) {
-        if (extension) {
+        if (extension && extensionIcons.indexOf(extension) !== -1) {
             var iconClass = extensionIcons[extension.toLowerCase()];
             if (iconClass) {
                 return '<i class="fa ' + iconClass + '"/>';
             } else {
-                return '<i class="fa fa-file-alt" style="background:#FFF; content:' + extension.toUpperCase() + '"/>';
+                return '<i class="fa fa-file-o" style="background:#FFF; content:' + extension.toUpperCase() + '"/>';
             }
         } else {
             return '<i class="fa fa-file-o"/>';

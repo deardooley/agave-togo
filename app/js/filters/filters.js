@@ -33,4 +33,17 @@ AgaveToGo.filter('propsFilter', function () {
     return function (username) {
         return Apps.getAuthenticatedUserProfile().username === username;
     }
-});
+})
+.filter('getAbsoluteAgaveSystemPath', [ '$localStorage', function($localStorage) {
+    return function(system) {
+        var path = "";
+        if (system.storage.homeDir) {
+            path = system.storage.homeDir;
+        }
+        if (system.public) {
+            path = "/" + $localStorage.activeProfile.username;
+        }
+        return path;
+    }
+}])
+;

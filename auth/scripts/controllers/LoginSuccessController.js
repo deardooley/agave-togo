@@ -1,4 +1,4 @@
-angular.module('AgaveAuth').controller('LoginSuccessController', function ($injector, $timeout, $rootScope, $scope, $state, moment, settings, $localStorage, AccessToken, $location, Alerts) {
+angular.module('AgaveAuth').controller('LoginSuccessController', function ($injector, $timeout, $rootScope, $scope, $state, moment, settings, $localStorage, AccessToken, $location, Alerts, ProfilesController) {
 
     settings.layout.tenantPage = true;
     settings.layout.loginPage = false;
@@ -13,7 +13,14 @@ angular.module('AgaveAuth').controller('LoginSuccessController', function ($inje
 
             $scope.profile = $localStorage.activeProfile;
             if (!$scope.profile) {
-                $rootScope.$broadcast('oauth:login', $localStorage.token);
+                ProfilesController.getProfile('me').then(
+                    function(profile) {
+                        $rootScope.$broadcast('oauth:profile', profile);
+                    },
+                    function(message) {
+                        Alerts.danger({message:"Failed to fetch user profile."});
+                    }
+                );
             }
             console.log($scope.profile);
 
@@ -30,8 +37,11 @@ angular.module('AgaveAuth').controller('LoginSuccessController', function ($inje
         }
     }, 50);
 
-    $rootScope.$on('oauth:profile', function(profile) {
-        $scope.profile = $localStorage.activeProfile;
+    $rootScope.$on('oauth:profile', function(event, profile) {
+        $localStorage.activeProfile = profile;
+        $timeout(function () {
+            $scope.profile = profile;
+        },0);
     });
 
 });

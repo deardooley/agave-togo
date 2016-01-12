@@ -290,7 +290,6 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
 
         ProfilesController.getProfile('me').then(
             function(profile) {
-                $localStorage.activeProfile = profile;
                 $rootScope.$broadcast('oauth:profile', profile);
                 $location.path("/success");
                 $location.replace();
@@ -300,7 +299,7 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
                 //$location.path("/error");
                 //$location.replace();
             }
-        )
+        );
     });
 
     $rootScope.$on('oauth:logout', function(event) {
@@ -321,7 +320,10 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
         //$location.href("/login");
     });
 
-    $rootScope.$on('oauth:profile', function(profile) {
+    $rootScope.$on('oauth:profile', function(event, profile) {
+        $timeout(function() {
+            $localStorage.activeProfile = profile;
+        }, 0);
         console.log('User profile data retrieved: ', profile);
     });
 

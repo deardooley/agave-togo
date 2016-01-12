@@ -199,6 +199,10 @@ AgaveToGo.controller('FooterController', ['$scope', function($scope) {
 
 /* Setup Rounting For All Pages */
 AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+    function valToString(val) { return val != null ? val.toString() : val; }
+    function valFromString(val) { return val != null ? val.toString() : val; }
+    function regexpMatches(val) { /*jshint validthis:true */ return this.pattern.test(val); }
+
     // Redirect any unmatched url
     $urlRouterProvider.otherwise("/dashboard");
 
@@ -352,9 +356,29 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
         /**********************************************************************/
         /**********************************************************************/
 
+        .state('data-explorer-default', {
+            url: "/data/explorer/",
+            templateUrl: "",
+            data: { pageTitle: 'File Explorer' },
+            controller: function($location) {
+                $location.path("/data/explorer//");
+                $location.replace();
+            }
+        })
+
+        .state('data-explorer-default-noslash', {
+            url: "/data/explorer",
+            templateUrl: "",
+            data: { pageTitle: 'File Explorer' },
+            controller: function($location) {
+                $location.path("/data/explorer//");
+                $location.replace();
+            }
+        })
+
         // AngularJS plugins
         .state('data-explorer', {
-            url: "/data/explorer/:systemId/{path:.*}",
+            url: "/data/explorer/:systemId/{path:any}",
             templateUrl: "views/data/explorer.html",
             data: { pageTitle: 'File Explorer' },
             controller: "FileExplorerController",
@@ -382,6 +406,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                 }]
             }
         })
+
 
         /**********************************************************************/
         /**********************************************************************/
