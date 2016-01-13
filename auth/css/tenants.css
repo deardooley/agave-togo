@@ -63,14 +63,54 @@ body {
     overflow:hidden;
 }
 
+.lock-form .form-group .form-control,
 .lock-form .form-group .ui-select-container.ui-select-bootstrap {
-    position: absolute
+    width: 260px;
 }
 
-.lock-form .form-group .ui-select-bootstrap .ui-select-choices-row>a {
-    padding: 5px 5px;
-    border-bottom: 1px solid #34495e;
+.lock-form .form-group .ui-select-container.ui-select-bootstrap {
+    position: absolute;
 }
+
+.lock-form .form-group .ui-select-container.ui-select-bootstrap>.ui-select-choices {
+    margin-top: 2px;
+    background: #3f4f62;
+    border: none;
+    max-height: none;
+}
+
+
+.lock-form .form-group .ui-select-bootstrap .ui-select-choices-row>a,
+.lock-form .form-group .ui-select-bootstrap .ui-select-choices-row.active>a{
+    padding: 5px 5px;
+    color: #bcc7d4;
+    border-top: none;
+    border-left: 1px solid #364150;
+    border-right: 1px solid #364150;
+    border-bottom: 1px solid #4b5e75;
+    background-color: #364150;
+}
+
+.lock-form .form-group .ui-select-bootstrap .ui-select-choices-row>a:hover {
+    background-color: #47596e;
+    border-left: 1px solid #47596e;
+    border-right: 1px solid #47596e;
+    border-bottom: 1px solid #47596e;
+
+}
+
+
+.lock-form .form-group .ui-select-bootstrap .ui-select-choices-row>a .select2-result-repository__title {
+    color: #337ab7;
+    font-size: 1.3em;
+    line-height: 1.5;
+    margin-bottom: 0px;
+    width: 100%;
+    overflow: hidden;
+    text-wrap: none;
+    text-overflow: ellipsis;
+}
+
 .lock-form .form-group .ui-select-bootstrap .ui-select-choices-row:last-child>a {
     border-bottom: none;
 }
@@ -84,7 +124,7 @@ body {
     background-color: #FFF;}
 
 .lock-form {
-    padding-left: 30px; }
+    padding-left: 10px; }
 
 .lock-form h4 {
     margin-top: 0px;
@@ -98,7 +138,7 @@ body {
 .lock-form .form-group .form-control {
     background-color: #303a48;
     border: none;
-    width: 220px;
+    width: 260px;
     height: 40px;
     color: #697687; }
 
@@ -120,7 +160,7 @@ body {
     margin-top: 50px; }
 
 .lock-form .form-actions .btn {
-    width: 220px;
+    width: 260px;
     font-weight: 600;
     padding: 10px; }
 
@@ -177,7 +217,7 @@ body {
 }
 
 #tokenCountdown span.countdown_row span {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 300;
     line-height: 20px;
     margin-right: 4px
@@ -189,7 +229,7 @@ body {
 
 #tokenCountdown span.countdown_section {
     color: #fff;
-    padding: 7px 9px!important;
+    padding: 7px 13px!important;
     margin-bottom: 2px;
     font-weight: 300;
     background: url(../img/bg-white.png);

@@ -3,7 +3,7 @@ angular.module('AgaveAuth').controller('TenantSelectionController', function ($i
     settings.layout.tenantPage = true;
     settings.layout.loginPage = false;
 
-    $scope.tenant = {selected: "iplantc.org", code: "iplantc.org", name: "iPlant Collaborative Science APIs"};
+    $scope.tenant = {selected: "agave.prod", code: "agave.prod", name: "Agave Science-as-a-Service Platform"};
     $scope.tenants = [];
     $scope.displayTenant = undefined;
 
@@ -55,7 +55,9 @@ angular.module('AgaveAuth').controller('TenantSelectionController', function ($i
     //);
 
     $scope.updateTenant = function(item, model) {
-        $scope.displayTenant = item;
+        $timeout(function() {
+            $scope.displayTenant = item;
+        }, 0);
     }
 
     $scope.loadTenant = function() {

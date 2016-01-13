@@ -11,7 +11,7 @@ angular.module('AgaveAuth').controller('LoginController', function ($injector, $
         $scope.profile = $localStorage.activeProfile;
     }
 
-    $scope.user = angular.copy($localStorage.client) || {
+    $scope.user = ($localStorage.client && angular.copy($localStorage.client)) || {
             username: '',
             password: '',
             client_key: '',

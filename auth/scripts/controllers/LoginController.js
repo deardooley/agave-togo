@@ -3,8 +3,11 @@ angular.module('AgaveAuth').controller('LoginController', function ($injector, $
     settings.layout.tenantPage = true;
     settings.layout.loginPage = false;
     $scope.useImplicit = true;
+    $scope.randomState = function() {
+        return (Math.ceil(Math.random() * 9));
+    }
 
-    $scope.user = angular.copy($localStorage.client) || {
+    $scope.user = ($localStorage.client && angular.copy($localStorage.client)) || {
             username: '',
             password: '',
             client_key: '',

@@ -1,4 +1,5 @@
-angular.module('AgaveAuth').filter('propsFilter', function () {
+angular.module('AgaveAuth')
+.filter('propsFilter', function () {
     return function(items, props) {
         var out = [];
 
@@ -27,5 +28,22 @@ angular.module('AgaveAuth').filter('propsFilter', function () {
         }
 
         return out;
+    };
+})
+.filter('tenantWebsite', function () {
+    return function (tenantCode, defaultUrl) {
+        if (tenantCode === 'agave.prod') {
+            return 'https://agaveapi.co/';
+        } else if (tenantCode === 'iplantc.org') {
+            return 'https://iplantcollaborative.co/';
+        } else if (tenantCode === 'araport') {
+            return 'https://araport.org/';
+        } else if (tenantCode === 'tacc.prod') {
+            return 'https://tacc.utexas.edu/';
+        } else if (tenantCode === 'designsafe') {
+            return 'https://designsafe-ci.org/';
+        } else {
+            return defaultUrl;
+        }
     };
 });

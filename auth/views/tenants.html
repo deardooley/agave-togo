@@ -16,10 +16,24 @@
                             <div class="select2-result-repository__meta">
                                 <div class="select2-result-repository__title" ng-bind-html="item.name | highlight: $select.search"> {{item.name}}</div>
                                 <div class="select2-result-repository__statistics">
-                                    <div ng-if="item.projectUrl" class="select2-result-repository__forks"><a href="{{item.projectUrl}}"><span class="fa fa-globe"></span> website </a></div>
-                                    <div ng-if="item.projectUrl" class="select2-result-repository__forks"><a href="{{item.projectUrl}}"><span class="fa fa-support"></span> website </a></div>
+                                    <div ng-if="item.projectUrl" class="select2-result-repository__forks">
+                                        <a href="{{item.projectUrl}}">
+                                            <span class="fa fa-globe"></span> website
+                                        </a>
+                                    </div>
+                                    <div ng-if="item.projectUrl" class="select2-result-repository__forks">
+                                        <a href="{{item.projectUrl}}">
+                                            <span class="fa fa-support"></span> website
+                                        </a>
+                                    </div>
                                     <!--<div ng-if="item.domain" class="select2-result-repository__stargazers"><span ng-repeat="tag in item.tags track by $index" class="glyphicon glyphicon-{{tag | tagIcon}}" title="{{tag}}"></span> </div>-->
-                                    <div class="select2-result-repository__watchers"><span class="fa fa-birthday-cake"></span> {{ item.created | amDateFormat: 'MMM YYYY'}} </div>
+
+                                    <div class="select2-result-repository__watchers">
+                                        <span class="fa fa-globe"></span> {{ item.code | tenantWebsite:item.baseUrl }}
+                                    </div>
+                                    <!--<div class="select2-result-repository__watchers">-->
+                                        <!--<span class="fa fa-birthday-cake"></span> {{ item.created | amDateFormat: 'MMM YYYY'}}-->
+                                    <!--</div>-->
                                 </div>
                             </div>
                         </div>

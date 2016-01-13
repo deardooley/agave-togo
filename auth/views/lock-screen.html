@@ -9,6 +9,8 @@
                     template="/auth/views/templates/oauth-ng-button.html"
                     site="tenant.baseUrl"
                     client-id="clientId"
+                    client-id="settings.oauth.clients[tenant.code].clientKey"
+                    redirect-uri="{{settings.oauth.clients[tenant.code].callbackUrl}}"
                     redirect-uri="http://localhost:9000/auth"
                     authorize-path="/authorize",
                     state="12345"

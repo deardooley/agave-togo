@@ -1,0 +1,28 @@
+// production
+var OAuthClients = {
+    'public.prod': {
+        'clientKey': 'fasdfadsfasdfadfasdf',
+        'callbackUrl': 'https://togo.agaveapi.co/auth',
+        'scope': 'PRODUCTION'
+    },
+    'iplantc.org': {
+        'clientKey': 'wertyerthdfgbwergwerg2345dfsgwer',
+        'callbackUrl': 'https://togo.agaveapi.co/auth',
+        'scope': 'PRODUCTION'
+    },
+    'tacc.prod': {
+        'clientKey': '234t23wergwef_OUIYOIJwerfwer',
+        'callbackUrl': 'https://togo.agaveapi.co/auth',
+        'scope': 'PRODUCTION'
+    },
+    'araport': {
+        'clientKey': 'fwlifuyoqwieyfhd986987HKLHJLKJ',
+        'callbackUrl': 'https://togo.agaveapi.co/auth',
+        'scope': 'PRODUCTION'
+    },
+    'designsafe': {
+        'clientKey': 'IOUYWOEIR09780870_asdfAFASDasdfj',
+        'callbackUrl': 'https://togo.agaveapi.co/auth',
+        'scope': 'PRODUCTION'
+    }
+};

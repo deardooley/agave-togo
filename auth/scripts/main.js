@@ -40,14 +40,7 @@ AgaveAuth.factory('settings', ['$rootScope', function($rootScope) {
     // supported languages
     var settings = {
         oauth: {
-            clients: {
-                'iplantc.org': 'fGxFxuyIuIkNMTXhjW3HvyEs_dEa',
-                'dev.staging': 'FxWrkKJF5CqbYUVfT7x1M_hfT7Ua',
-                'tacc.prod': 'Z42qhthQeHJOwmJc2e6XROYJoZ8a',
-                //'irec': 'fGxFxuyIuIkNMTXhjW3HvyEs_dEa',
-                //'irmacs': 'fGxFxuyIuIkNMTXhjW3HvyEs_dEa',
-
-            }, // sidebar menu state
+            clients: OAuthClients,
             scope: 'PRODUCTION'
         },
         layout: {
@@ -266,17 +259,13 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
         function (response) {
             console.log(response);
             angular.forEach(response, function (tenant, key) {
-                if (settings.debug
-                    || !(Commons.contains(tenant.name.toLowerCase(), 'staging')
-                        || Commons.contains(tenant.name.toLowerCase(), 'dev')))
+                if (settings.oauth.clients[tenant.code] &&
+                        settings.oauth.clients[tenant.code].clientKey)
                 {
+                    console.log("Adding " + tenant.name + " to list of tenant.");
                     settings.tenants.push(tenant);
                 }
             });
-            console.log(settings.tenants);
-            //$timeout(function () {
-            //
-            //}, 50);
         },
         function (message) {
             console.log("error: " + message);
@@ -295,7 +284,7 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
                 $location.replace();
             },
             function(message) {
-                $localStorage.activeProfile = null;
+                //$localStorage.activeProfile = null;
                 //$location.path("/error");
                 //$location.replace();
             }
