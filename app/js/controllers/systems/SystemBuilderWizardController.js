@@ -1,4 +1,48 @@
-angular.module('AgaveToGo').controller('SystemBuilderWizardController', function($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $filter, Commons, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
+angular.module('AgaveToGo').controller('SystemBuilderWizardController', function($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $filter, $uibModal, $localStorage, Commons, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
+
+      $scope.getSystemsTitleMap = function(){
+        $scope.systemsTitleMap = [];
+
+        // Push default option to use local disk
+        // TO-DO: local disk input field
+        $scope.systemsTitleMap.push({"value": "Local Disk", "name": "Local Disk - TO-DO"});
+
+        // get only default system for now.
+        // TO-DO: get all storage systems
+        SystemsController.listSystems(1, 0, true, null, "STORAGE")
+          .then(function(response){
+            _.each(response, function(system){
+              $scope.systemsTitleMap.push({"value": system.id, "name": system.id});
+            });
+          })
+          .catch(function(response){
+            // log error
+          });
+
+        // // get default system first
+        // SystemsController.listSystems(null, 0, true, null, "STORAGE")
+        //   .then(function(response){
+        //     _.each(response, function(system){
+        //       $scope.systemsTitleMap.push({"value": system.id, "name": system.id});
+        //     });
+        //   })
+        //   .catch(function(response){
+        //     // log error
+        //   });
+        //
+        // // get private systems
+        // SystemsController.listSystems(null, 0, null, false, null)
+        //   .then(function(response){
+        //     _.each(response, function(system){
+        //       $scope.systemsTitleMap.push({"value": system.id, "name": system.id});
+        //     });
+        //   })
+        //   .catch(function(response){
+        //     // log error
+        //   });
+
+        return $scope.systemsTitleMap;
+    };
 
     $scope.schema = {
         "type": "object",
@@ -363,6 +407,98 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
             {
                 "title": "Type",
                 "items": [
+                  /********** publicKey field ************/
+                  {
+                    "type": "section",
+                    "htmlClass": "col-xs-8",
+                    "items": [
+                      {
+                          "key": "login.auth.publicKey"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "section",
+                    "htmlClass": "col-xs-2",
+                    "items": [
+                      {
+                        "type": "select",
+                        "title":"Upload",
+                        "titleMap": $scope.getSystemsTitleMap(),
+                        ngModelOptions: {
+                            updateOnDefault: true
+                        },
+                        onChange: function(systemId, formModel) {
+                          SystemsController.getSystemDetails(systemId).then(
+                              function(sys) {
+                                  console.log('inside SystemController');
+                                  if ($stateParams.path) {
+                                      $scope.path = $stateParams.path;
+                                  } else {
+                                      $scope.path = $localStorage.activeProfile.username;
+                                      $stateParams.path = $scope.path;
+                                      // $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
+                                  }
+                                  $scope.system = sys;
+                                  $rootScope.uploadFileContent = '';
+                                  $uibModal.open({
+                                    templateUrl: "views/systems/filemanager.html",
+                                    // resolve: {
+                                    // },
+                                    scope: $scope,
+                                    controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                                      $scope.ok = function()
+                                      {
+                                        // TO-DO
+                                      };
+
+                                      $scope.cancel = function()
+                                      {
+                                          $modalInstance.dismiss('cancel');
+                                      };
+
+                                      $scope.close = function(){
+                                          $modalInstance.close();
+                                      }
+
+                                      $scope.$watch('uploadFileContent', function(uploadFileContent){
+                                          if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
+                                            $scope.model.login = {'auth' : {'publicKey': ''}};
+                                            $scope.model.login.auth.publicKey = uploadFileContent;
+                                            $scope.close();
+                                          }
+                                      });
+                                    }]
+                                  });
+                              },
+                              function(msg) {
+                                  $scope.path = $stateParams.path ? $stateParams.path : '';
+                                  $scope.system = '';
+                              }
+                          );
+                        }
+                      }
+                    ]
+                  },
+                  {
+                   "type": "section",
+                   "htmlClass": "col-xs-2",
+                   "items": [
+                     {
+                        "type": "template",
+                        "template":
+
+                        '<div class="form-group ">'+
+                          '<label class="control-label">&nbsp;</label>'+
+                          '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                            '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Copy and paste your publicKey or use the Upload File Manager"></i>'+
+                          '</div>'+
+                          '<div class="help-block"></div>'+
+                        '</div>',
+                     }
+                   ]
+                 },
+                /********** publicKey field ************/
                   {
                   "type": "section",
                   "htmlClass": "col-xs-8",
