@@ -389,6 +389,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                     return $ocLazyLoad.load([
                         {
                             name: 'AgaveToGo',
+                            insertBefore: '#ng_load_plugins_before',
                             files: [
                                 /********* File Manager ******/
                                 "../bower_components/angular-cookies/angular-cookies.min.js",
@@ -526,6 +527,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
                             name: 'AgaveToGo',
+                            insertBefore: '#ng_load_plugins_before',
                             files: [
                                 /********* File Manager ******/
                                 "../bower_components/angular-cookies/angular-cookies.min.js",
@@ -560,6 +562,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                                 "js/controllers/systems/SystemBuilderWizardController.js"
                             ]
                         },
+                        // "FileManagerApp",
                         "ui.codemirror"
                     );
                 }]
