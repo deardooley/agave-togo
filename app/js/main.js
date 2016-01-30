@@ -558,7 +558,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                                 "../bower_components/codemirror/theme/neo.css",
                                 "../bower_components/codemirror/lib/codemirror.js",
                                 "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
-                                "js/controllers/modals/ModalSystemFileManagerController.js",
                                 "js/controllers/systems/SystemBuilderWizardController.js"
                             ]
                         },
