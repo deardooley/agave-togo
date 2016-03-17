@@ -34,7 +34,7 @@ var OAuthClients = {
 
 //// production
 //var OAuthClients = {
-//    'public.prod': {
+//    'agave.prod': {
 //        'clientKey': 'xFy3FbPFiSK8WqOU66Ucxb9bxCIa',
 //        'callbackUrl': 'http://togo.agaveapi.co/auth',
 //        'scope': 'PRODUCTION'
@@ -49,7 +49,7 @@ var OAuthClients = {
 //        'callbackUrl': 'http://togo.agaveapi.co/auth',
 //        'scope': 'PRODUCTION'
 //    },
-//    'araport': {
+//    'araport.org': {
 //        'clientKey': 'U4CR52VoJeev4jQOmdDeLlrXEj8a',
 //        'callbackUrl': 'http://togo.agaveapi.co/auth',
 //        'scope': 'PRODUCTION'
