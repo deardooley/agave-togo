@@ -738,6 +738,119 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                    ]
                  },
 
+                 // EXECUTION.scheduler
+                 // HPC -> LSF, LOADLEVELER, PSB, SGE, COBALT, TORQUE, MOAB, SLURM
+                 {
+                   "type": "section",
+                     "htmlClass": "col-xs-8",
+                     "condition": "model.type === 'EXECUTION' && model.executionType === 'HPC'",
+                     "items": [
+                       {
+                         "key": "scheduler",
+                         "type": "select",
+                         "titleMap": {
+                           "LSF": "LSF",
+                           "LOADLEVELER": "LOADLEVELER",
+                           "PSB": "PSB",
+                           "SGE": "SGE",
+                           "COBALT": "COBALT",
+                           "TORQUE": "TORQUE",
+                           "MOAB": "MOAB",
+                           "SLURM": "SLURM"
+                         }
+                       }
+                     ]
+                 },
+                 {
+                    "type": "section",
+                    "htmlClass": "col-xs-4",
+                    "condition": "model.type === 'EXECUTION' && model.executionType === 'HPC'",
+                    "items": [
+                      {
+                         "type": "template",
+                         "template":
+
+                         '<div class="form-group ">'+
+                          '<label class="control-label">&nbsp;</label>'+
+                          '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                            '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The type of batch scheduler available on the system. This only applies to systems with executionType HPC and CONDOR"></i>'+
+                          '</div>'+
+                          '<div class="help-block"></div>'+
+                         '</div>',
+                      }
+                    ]
+                  },
+
+                  // CONDOR -> CONDOR
+                  {
+                    "type": "section",
+                      "htmlClass": "col-xs-8",
+                      "condition": "model.type === 'EXECUTION' && model.executionType === 'CONDOR'",
+                      "items": [
+                        {
+                          "key": "scheduler",
+                          "type": "select",
+                          "titleMap": {
+                            "CONDOR": "CONDOR"
+                          }
+                        }
+                      ]
+                  },
+                  {
+                     "type": "section",
+                     "htmlClass": "col-xs-4",
+                     "condition": "model.type === 'EXECUTION' && model.executionType === 'CONDOR'",
+                     "items": [
+                       {
+                          "type": "template",
+                          "template":
+
+                          '<div class="form-group ">'+
+                           '<label class="control-label">&nbsp;</label>'+
+                           '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                             '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The type of batch scheduler available on the system. This only applies to systems with executionType HPC and CONDOR"></i>'+
+                           '</div>'+
+                           '<div class="help-block"></div>'+
+                          '</div>',
+                       }
+                     ]
+                   },
+
+                   // CLI-> FORK
+                   {
+                     "type": "section",
+                       "htmlClass": "col-xs-8",
+                       "condition": "model.type === 'EXECUTION' && model.executionType === 'CLI'",
+                       "items": [
+                         {
+                           "key": "scheduler",
+                           "type": "select",
+                           "titleMap": {
+                             "FORK": "FORK"
+                           }
+                         }
+                       ]
+                   },
+                   {
+                      "type": "section",
+                      "htmlClass": "col-xs-4",
+                      "condition": "model.type === 'EXECUTION' && model.executionType === 'CLI'",
+                      "items": [
+                        {
+                           "type": "template",
+                           "template":
+
+                           '<div class="form-group ">'+
+                            '<label class="control-label">&nbsp;</label>'+
+                            '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                              '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The type of batch scheduler available on the system. This only applies to systems with executionType HPC and CONDOR"></i>'+
+                            '</div>'+
+                            '<div class="help-block"></div>'+
+                           '</div>',
+                        }
+                      ]
+                    },
+
                  // EXECUTION.maxSystemJobs
                  {
                    "type": "section",
@@ -831,36 +944,6 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                       ]
                     },
 
-                    // EXECUTION.scheduler
-                    {
-                      "type": "section",
-                        "htmlClass": "col-xs-8",
-                        "condition": "model.type === 'EXECUTION'",
-                        "items": [
-                          {
-                            "key": "scheduler"
-                          }
-                        ]
-                    },
-                    {
-                       "type": "section",
-                       "htmlClass": "col-xs-4",
-                       "condition": "model.type === 'EXECUTION'",
-                       "items": [
-                         {
-                            "type": "template",
-                            "template":
-
-                            '<div class="form-group ">'+
-                             '<label class="control-label">&nbsp;</label>'+
-                             '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
-                               '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="The type of batch scheduler available on the system. This only applies to systems with executionType HPC and CONDOR"></i>'+
-                             '</div>'+
-                             '<div class="help-block"></div>'+
-                            '</div>',
-                         }
-                       ]
-                     },
 
                      // EXECUTION.environment
                      {
@@ -943,7 +1026,11 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                  "queues[].maxMemoryPerNode",
                                  "queues[].maxProcessorsPerNode",
                                  "queues[].maxRequestedTime",
-                                 "queues[].customDirectives",
+                                 {
+                                   "key": "queues[].customDirectives",
+                                   "type": "textarea"
+                                 },
+
                                  "queues[].default"
                                ]
                              }
