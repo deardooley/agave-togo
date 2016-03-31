@@ -3,48 +3,23 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
       $scope.getSystemsTitleMap = function(){
         $scope.systemsTitleMap = [];
 
-        // Push default option to use local disk
         $scope.systemsTitleMap.push({"value": "Local Disk", "name": "Local Disk"});
-        $scope.systemsTitleMap.push({"value": "data.iplantcollaborative.org", "name": "data.iplantcollaborative.org"});
 
-        // get only default system for now.
-        // TO-DO: get all storage systems
-        // SystemsController.listSystems(1, 0, true, null, "STORAGE")
-        //   .then(function(response){
-        //
-        //     _.each(response, function(system){
-        //       $scope.systemsTitleMap.push({"value": system.id, "name": system.id});
-        //
-        //     });
-        //   })
-        //   .catch(function(response){
-        //     // log error
-        //   });
-
-        // // get default system first
-        // SystemsController.listSystems(null, 0, true, null, "STORAGE")
-        //   .then(function(response){
-        //     _.each(response, function(system){
-        //       $scope.systemsTitleMap.push({"value": system.id, "name": system.id});
-        //     });
-        //   })
-        //   .catch(function(response){
-        //     // log error
-        //   });
-        //
-        // // get private systems
-        // SystemsController.listSystems(null, 0, null, false, null)
-        //   .then(function(response){
-        //     _.each(response, function(system){
-        //       $scope.systemsTitleMap.push({"value": system.id, "name": system.id});
-        //     });
-        //   })
-        //   .catch(function(response){
-        //     // log error
-        //   });
+        SystemsController.listSystems(1, 0, true, null, "STORAGE")
+          .then(function(response){
+            _.each(response, function(system){
+              $scope.systemsTitleMap.push({"value": system.id, "name": system.id});
+            });
+            return $scope.systemsTitleMap;
+          })
+          .catch(function(response){
+            // log error
+          });
 
         return $scope.systemsTitleMap;
     };
+
+    $scope.systemsTitleMap = $scope.getSystemsTitleMap();
 
     $scope.schema = {
         "type": "object",
@@ -153,32 +128,59 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                 "properties": {
                   "name": {
                     "title": "Name",
-                    "type": "string"
+                    "type": "string",
+                    "description": "Arbitrary name for the queue. This will be used in the job submission process, so it should line up with the name of an actual queue on the execution system"
                   },
                   "maxJobs": {
                     "title": "Maximum Jobs",
-                    "type": "number"
+                    "type": "number",
+                    "description": "Maximum number of jobs that can be queued or running within this queue at a given time. Defaults to 10. -1 for no limit",
+                    "x-schema-form": {
+                      "type": "number",
+                      "placeholder": 10
+                    }
                   },
                   "maxUserJobs": {
                     "title": "Maximum User Jobs",
-                    "type": "number"
+                    "type": "number",
+                    "description": "Maximum number of jobs that can be queued or running by any single user within this queue at a given time. Defaults to 10. -1 for no limit",
+                    "x-schema-form": {
+                      "type": "number",
+                      "placeholder": 1
+                    }
                   },
                   "maxNodes": {
                     "title": "Maximum Nodes",
-                    "type": "number"
+                    "type": "number",
+                    "description": "Maximum number of nodes that can be requested for any job in this queue. -1 for no limit",
+                    "x-schema-form": {
+                      "type": "number",
+                      "placeholder": 1
+                    }
+                  },
+                  "maxProcessorsPerNode": {
+                    "title": "Maximum Processors Per Node",
+                    "type": "number",
+                    "description": "Maximum number of processors per node that can be requested for any job in this queue. -1 for no limit",
+                    "x-schema-form": {
+                      "type": "number",
+                      "placeholder": -1
+                    }
                   },
                   "maxMemoryPerNode": {
                     "title": "Maximum Memory Per Node",
-                    "type": "string"
-                  },
-                  "maxProcessorsPerNode": {
-                    "title": "Maximum Nodes Per Node",
-                    "type": "number"
+                    "type": "string",
+                    "description": "Maximum memory per node for jobs submitted to this queue in ###.#[E|P|T|G]B format",
+                    "x-schema-form": {
+                      "type": "string",
+                      "placeholder": "1024GB"
+                    }
                   },
                   "maxRequestedTime": {
                     "type": "string",
                     "maxLength": 10,
                     "title": "Maximum Requested Time",
+                    "description": "Maximum run time for any job in this queue given in hh:mm:ss format",
                     "x-schema-form": {
                         "type": "input",
                         "placeholder": "24:00:00"
@@ -187,19 +189,24 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                   "customDirectives": {
                     "title": "Custom Directives",
                     "type": "string",
+                    "description": "Arbitrary text that will be appended to the end of the scheduler directives in a batch submit script. This could include a project number, system-specific directives, etc"
                   },
                   "default": {
                     "type": "boolean",
                     "title": "Default",
+                    "description": "True if this is the default queue for the system, false otherwise",
+                    "enum": [
+                      true, false
+                    ]
                   }
                 },
               }
             },
 
-
+            // STORAGE.storage
             "storage": {
                 "type": "object",
-                "title": "STORAGE.storage", // STORAGE.storage
+                "title": "STORAGE.storage",
                 "properties": {
                     "host": {
                         "type": "string",
@@ -215,7 +222,6 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                         "enum": [
                             "FTP", "SFTP", "GRIDFTP", "IRODS", "LOCAL", "S3"
                         ],
-                        // "default": "SFTP"
                     },
                     "rootDir": {
                         "type": "string",
@@ -241,8 +247,8 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                     "proxyTunnel": {
                       "type": "string",
                       "enum": [
-                        "off",
-                        "on"
+                        "YES",
+                        "NO"
                       ]
                     },
                     "auth": {
@@ -368,8 +374,8 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                     "proxyTunnel": {
                       "type": "string",
                       "enum": [
-                        "off",
-                        "on"
+                        "YES",
+                        "NO"
                       ]
                     },
                     "auth": {
@@ -482,32 +488,32 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                 "title": "Type",
                 "items": [
                   {
-                  "type": "section",
-                  "htmlClass": "col-xs-8",
-                  "items": [
-                    {
-                      "key": "type",
-                      ngModelOptions: {
-                          updateOnDefault: true
-                      },
-                      onChange: function(value, formModel) {
-                          // pre-select SFTP and sshkeys by default
-                          $scope.model.storage = {};
-                          $scope.model.storage.protocol = "SFTP";
+                    "type": "section",
+                    "htmlClass": "col-xs-8",
+                    "items": [
+                      {
+                        "key": "type",
+                        ngModelOptions: {
+                            updateOnDefault: true
+                        },
+                        onChange: function(value, formModel) {
+                            // pre-define storage protocol and proxyTunnel
+                            $scope.model.storage = {};
+                            $scope.model.storage.protocol = "SFTP";
 
-                          $scope.model.storage.SFTP = {};
-                          $scope.model.storage.SFTP = "sshkeys";
-                      },
-                      $validators: {
-                          required: function(value) {
-                              return value ? true : false;
-                          },
-                      },
-                      validationMessage: {
-                          'required': 'Missing required',
-                      },
-                    }
-                  ],
+                            // $scope.model.storage.SFTP = {};
+                            // $scope.model.storage.SFTP = "sshkeys";
+                        },
+                        $validators: {
+                            required: function(value) {
+                                return value ? true : false;
+                            },
+                        },
+                        validationMessage: {
+                            'required': 'Missing required',
+                        },
+                      }
+                    ],
                  },
                  {
                    "type": "section",
@@ -938,15 +944,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                  "queues[].maxProcessorsPerNode",
                                  "queues[].maxRequestedTime",
                                  "queues[].customDirectives",
-                                 {
-                                   "key": "queues[].default",
-                                  //  "type": "radiobuttons",
-                                  //  "titleMap": [
-                                  //    {"value": true, "name": "True"},
-                                  //    {"value": false, "name": "False"}
-                                  //  ]
-                                 }
-
+                                 "queues[].default"
                                ]
                              }
                            ]
@@ -1328,7 +1326,8 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             {
                               "type": "select",
                               "title": "Upload",
-                              "titleMap": $scope.getSystemsTitleMap(),
+                              // "titleMap": $scope.getSystemsTitleMap(),
+                              "titleMap": $scope.systemsTitleMap,
                               ngModelOptions: {
                                   updateOnDefault: true
                               },
@@ -1502,7 +1501,8 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                              {
                                "type": "select",
                                "title": "Upload",
-                               "titleMap": $scope.getSystemsTitleMap(),
+                              //  "titleMap": $scope.getSystemsTitleMap(),
+                               "titleMap": $scope.systemsTitleMap,
                                ngModelOptions: {
                                    updateOnDefault: true
                                },
@@ -1641,7 +1641,8 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             {
                               "type": "select",
                               "title": "Upload",
-                              "titleMap": $scope.getSystemsTitleMap(),
+                              // "titleMap": $scope.getSystemsTitleMap(),
+                              "titleMap": $scope.systemsTitleMap,
                               ngModelOptions: {
                                   updateOnDefault: true
                               },
@@ -1891,13 +1892,13 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                  // EXECUTION.login.proxy
                  {
                    "key": "login.proxy",
-                   "condition": "model.type === 'EXECUTION' && model.login.protocol === 'SSH' && model.login.proxyTunnel === 'on'",
+                   "condition": "model.type === 'EXECUTION' && model.login.protocol === 'SSH' && model.login.proxyTunnel === 'YES'",
                    "items": [
                       // EXECUTION.login.proxy.name
                       {
                         "type": "section",
                           "htmlClass": "col-xs-8",
-                          "condition": "model.login.protocol === 'SSH' && model.login.proxyTunnel === 'on'",
+                          "condition": "model.login.protocol === 'SSH' && model.login.proxyTunnel === 'YES'",
                           "items": [
                             {
                                 "key": "login.proxy.name",
@@ -1907,7 +1908,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                       {
                          "type": "section",
                          "htmlClass": "col-xs-4",
-                         "condition": "model.login.protocol === 'SSH' && model.login.proxyTunnel === 'on'",
+                         "condition": "model.login.protocol === 'SSH' && model.login.proxyTunnel === 'YES'",
                          "items": [
                            {
                               "type": "template",
@@ -1927,7 +1928,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                        {
                          "type": "section",
                            "htmlClass": "col-xs-8",
-                           "condition": "model.login.protocol === 'SSH' && model.login.proxyTunnel === 'on'",
+                           "condition": "model.login.protocol === 'SSH' && model.login.proxyTunnel === 'YES'",
                            "items": [
                              {
                                  "key": "login.proxy.host",
@@ -1937,7 +1938,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                        {
                           "type": "section",
                           "htmlClass": "col-xs-4",
-                          "condition": "model.login.protocol === 'SSH' && model.login.proxyTunnel === 'on'",
+                          "condition": "model.login.protocol === 'SSH' && model.login.proxyTunnel === 'YES'",
                           "items": [
                             {
                                "type": "template",
@@ -1957,7 +1958,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                         {
                           "type": "section",
                             "htmlClass": "col-xs-8",
-                            "condition": "model.login.protocol === 'SSH' && model.login.proxyTunnel === 'on'",
+                            "condition": "model.login.protocol === 'SSH' && model.login.proxyTunnel === 'YES'",
                             "items": [
                               {
                                   "key": "login.proxy.port",
@@ -1967,7 +1968,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                         {
                            "type": "section",
                            "htmlClass": "col-xs-4",
-                           "condition": "model.login.protocol === 'SSH' && model.login.proxyTunnel === 'on'",
+                           "condition": "model.login.protocol === 'SSH' && model.login.proxyTunnel === 'YES'",
                            "items": [
                              {
                                 "type": "template",
@@ -2402,7 +2403,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                              ]
                            },
 
-                           // storage.tunnel
+                           // storage.proxyTunnel
                            {
                              "type": "section",
                                "htmlClass": "col-xs-8",
@@ -2667,7 +2668,8 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                               {
                                 "type": "select",
                                 "title": "Upload",
-                                "titleMap": $scope.getSystemsTitleMap(),
+                                // "titleMap": $scope.getSystemsTitleMap(),
+                                "titleMap": $scope.systemsTitleMap,
                                 ngModelOptions: {
                                     updateOnDefault: true
                                 },
@@ -2804,7 +2806,8 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                {
                                  "type": "select",
                                  "title": "Upload",
-                                 "titleMap": $scope.getSystemsTitleMap(),
+                                //  "titleMap": $scope.getSystemsTitleMap(),
+                                "titleMap": $scope.systemsTitleMap,
                                  ngModelOptions: {
                                      updateOnDefault: true
                                  },
@@ -2943,7 +2946,8 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                               {
                                 "type": "select",
                                 "title": "Upload",
-                                "titleMap": $scope.getSystemsTitleMap(),
+                                // "titleMap": $scope.getSystemsTitleMap(),
+                                "titleMap": $scope.systemsTitleMap,
                                 ngModelOptions: {
                                     updateOnDefault: true
                                 },
@@ -3196,7 +3200,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                   // STORAGE.storage.proxy
                   {
                     "key": "storage.proxy",
-                    "condition": "model.storage.protocol === 'SFTP' && model.storage.proxyTunnel === 'on'",
+                    "condition": "model.storage.protocol === 'SFTP' && model.storage.proxyTunnel === 'YES'",
                     "items": [
                        // STORAGE.storage.proxy.name
                        {
@@ -3371,8 +3375,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
         }
     };
 
-    $scope.nextStep = function(currentTab) {
-
+    $scope.nextStep = function() {
         WizardHandler.validateTab($scope, $scope.currentTabIndex).then(function(value) {
             WizardHandler.activateTab($scope, ++$scope.currentTabIndex);
         });
@@ -3397,18 +3400,41 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
         mode: 'javascript'
     };
 
-    // Watch protocol. reset if default SFTP/default changes
-    $scope.$watch('model.storage.protocol', function(newValue, oldValue) {
-      if (typeof newValue !== 'undefined' && typeof oldValue !== 'undefined'){
-          $scope.model.storage[oldValue] = undefined;
-      }
-    }, true);
-
     $scope.$watch('model', function(currentModel) {
         if (currentModel) {
           $scope.prettyModel = JSON.stringify(currentModel, undefined, 2);
         }
     }, true);
+
+    $scope.$watch('model.type', function(newValue, oldValue) {
+      if (oldValue === "EXECUTION" && newValue === "STORAGE"){
+        delete $scope.model.login;
+      }
+
+      // if (oldValue === "STORAGE" && newValue === "EXECUTION"){
+      // }
+    }, true);
+
+    // Watch protocol. reset if default SFTP/default changes
+    $scope.$watch('model.storage.protocol', function(newValue, oldValue) {
+      // always set defaul proxyTunnel to NO
+      if (newValue === 'SFTP'){
+        $scope.model.storage.proxyTunnel = "NO";
+      }
+
+      if (typeof newValue !== 'undefined' && typeof oldValue !== 'undefined'){
+          $scope.model.storage[oldValue] = undefined;
+      }
+    }, true);
+
+    // Watch login.protocol. reset if default SFTP/default changes
+    $scope.$watch('model.login.protocol', function(newValue, oldValue) {
+      // always set defaul proxyTunnel to NO
+      if (newValue === 'SSH'){
+        $scope.model.login.proxyTunnel = "NO";
+      }
+    }, true);
+
 
     $scope.updateWizardLayout = function() {
         console.log($scope.wizview);
