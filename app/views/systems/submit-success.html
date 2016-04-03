@@ -1,0 +1,65 @@
+<div modal="submitSuccess">
+    <div class="modal-header">
+      <h3 class="modal-title">System Builder Wizard</h3>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-success">
+        <strong>You have successfully created your system</strong>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-if="model.id">
+              <td>
+                ID
+              </td>
+              <td>
+                {{model.id}}
+              </td>
+            </tr>
+            <tr ng-if="model.name">
+              <td>
+                Name
+              </td>
+              <td>
+                {{model.name}}
+              </td>
+            </tr>
+            <tr ng-if="model.status">
+              <td>
+                Status
+              </td>
+              <td>
+                {{model.status}}
+              </td>
+            </tr>
+            <tr ng-if="model.type">
+              <td>
+                Type
+              </td>
+              <td>
+                {{model.type}}
+              </td>
+            </tr>
+            <tr ng-if="model.description">
+              <td>
+                Description
+              </td>
+              <td>
+                {{model.description}}
+              </td>
+            </tr>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-warning" type="button" ng-click="close()">Close</button>
+      <button ng-click="browse()" class="btn btn-primary">Browse Systems</button>
+    </div>
+</div>
