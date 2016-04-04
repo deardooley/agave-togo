@@ -206,7 +206,8 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
             // STORAGE.storage
             "storage": {
                 "type": "object",
-                "title": "STORAGE.storage",
+                // "title": "STORAGE.storage",
+                "title": "Storage",
                 "properties": {
                     "host": {
                         "type": "string",
@@ -225,11 +226,11 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                     },
                     "rootDir": {
                         "type": "string",
-                        "title": "rootDir"
+                        "title": "Root Directory"
                     },
                     "homeDir": {
                         "type": "string",
-                        "title": "homeDir"
+                        "title": "Home Directory"
                     },
                     "resource": {
                         "type": "string",
@@ -245,6 +246,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                     },
                     // custom field for tunnel proxy option
                     "proxyTunnel": {
+                      "title": "Proxy Tunnel",
                       "type": "string",
                       "enum": [
                         "YES",
@@ -253,16 +255,20 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                     },
                     "auth": {
                         "type": "object",
-                        "title": "STORAGE.storage.auth",
+                        // "title": "STORAGE.storage.auth",
+                        "title": "Storage Authentication",
                         "properties": {
                             "username": {
-                                "type": "string"
+                                "type": "string",
+                                "title": "Username"
                             },
                             "password": {
-                                "type": "string"
+                                "type": "string",
+                                "title": "Password"
                             },
                             "type": {
                                 "type": "string",
+                                "title": "Type",
                                 "enum": [
                                     "ANONYMOUS","APIKEYS", "LOCAL", "PAM", "PASSWORD", "SSHKEYS", "X509"
                                 ]
@@ -282,6 +288,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             // custom field to select credentail or server options in auth
                             "credentialType": {
                               "type": "string",
+                              "title": "Credential Type",
                               "enum": [
                                 "credential", "server"
                               ]
@@ -306,6 +313,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                     },
                                     "protocol": {
                                         "type": "string",
+                                        "title": "Protocol",
                                         "enum": [
                                           "MPG", "MYPROXY"
                                         ],
@@ -353,7 +361,8 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
             },
             "login": {
                 "type": "object",
-                "title": "EXECUTION.login",
+                // "title": "EXECUTION.login",
+                "title": "Login",
                 "properties": {
                     "host": {
                         "type": "string",
@@ -379,16 +388,20 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                       ]
                     },
                     "auth": {
-                        "title": "EXECUTION.login.auth",
+                        // "title": "EXECUTION.login.auth",
+                        "title": "Login Authentication",
                         "type": "object",
                         "properties": {
                             "username": {
-                                "type": "string"
+                                "type": "string",
+                                "title": "Username"
                             },
                             "password": {
+                                "title": "Password",
                                 "type": "string"
                             },
                             "type": {
+                                "title": "Type",
                                 "type": "string",
                                 "enum": [
                                     "APIKEYS", "LOCAL", "PAM", "PASSWORD", "SSHKEYS", "X509"
@@ -399,6 +412,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                 "title": "System Auth Credential"
                             },
                             "publicKey": {
+
                                 "type": "string",
                                 "title": "SSH Public Key"
                             },
@@ -409,6 +423,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             // custom field to select credentail or server options in auth
                             "credentialType": {
                               "type": "string",
+                              "title": "Credential Type",
                               "enum": [
                                 "credential", "server"
                               ]
@@ -434,6 +449,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                     },
                                     "protocol": {
                                         "type": "string",
+                                        "title": "Protocol",
                                         "enum": [
                                           "MPG", "MYPROXY"
                                         ],
@@ -465,13 +481,16 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                         "type": "object",
                         "properties": {
                             "name": {
-                                "type": "string"
+                              "type": "string",
+                              "title": "Name"
                             },
                             "host": {
-                                "type": "string"
+                              "type": "string",
+                              "title": "Host"
                             },
                             "port": {
-                              "type": "number"
+                              "type": "number",
+                              "title": "Port"
                             }
                         }
                     }
@@ -551,28 +570,29 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                       ngModelOptions: {
                         updateOnDefault: true
                       },
-                      // onChange: function(value, formModel){
-                      //   // Make sure systems are there before displaying message
-                      //   if ($scope.systems.length > 0) {
-                      //     formModel.description = '<span class="text-success">'+ value + ' is available</span>';
-                      //   }
-                      // },
-                      // validationMessage: {
-                      //   'required': 'Missing required',
-                      //   'notavailable': '{{viewValue}} is not available'
-                      // },
-                      // $validators: {
-                      //   required: function(value) {
-                      //   return value ? true : false;
-                      // },
-                      // notavailable: function(value){
-                      //   if ($scope.systems.length && value) {
-                      //     return !($filter('filter')($scope.systems, {id: value}));
-                      //   } else {
-                      //     return true;
-                      //   }
-                      // }
-                      // },
+                      onChange: function(value, formModel){
+                        // Make sure systems are there before displaying message
+                        if ($scope.systems.length > 0) {
+                          formModel.description = '<span class="text-success">'+ value + ' is available</span>';
+                        }
+                      },
+                      validationMessage: {
+                        'required': 'Missing required',
+                        'notavailable': '{{viewValue}} is not available'
+                      },
+                      $validators: {
+                        required: function(value) {
+                          return value ? true : false;
+                        },
+                        notavailable: function(value){
+                          var systemFound =_.find($scope.systems, function(system){
+                            if (system.id === value){
+                              return true;
+                            }
+                          });
+                          return systemFound ? false : true;
+                        }
+                      },
                     },
                 ]
               },
@@ -601,8 +621,19 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                   "htmlClass": "col-xs-8",
                   "items": [
                     {
-                      "key": "name"
-                    },
+                      "key": "name",
+                      ngModelOptions: {
+                        updateOnDefault: true
+                      },
+                      validationMessage: {
+                        'required': 'Missing required'
+                      },
+                      $validators: {
+                        required: function(value) {
+                          return value ? true : false;
+                        }
+                      }
+                    }
                   ]
               },
               {
@@ -716,7 +747,18 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                     "condition": "model.type === 'EXECUTION'",
                     "items": [
                       {
-                        "key": "executionType"
+                        "key": "executionType",
+                        ngModelOptions: {
+                          updateOnDefault: true
+                        },
+                        validationMessage: {
+                          'required': 'Missing required'
+                        },
+                        $validators: {
+                          required: function(value) {
+                            return value ? true : false;
+                          }
+                        }
                       }
                     ]
                 },
@@ -759,6 +801,17 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                            "TORQUE": "TORQUE",
                            "MOAB": "MOAB",
                            "SLURM": "SLURM"
+                         },
+                         ngModelOptions: {
+                           updateOnDefault: true
+                         },
+                         validationMessage: {
+                           'required': 'Missing required'
+                         },
+                         $validators: {
+                           required: function(value) {
+                             return value ? true : false;
+                           }
                          }
                        }
                      ]
@@ -794,6 +847,17 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                           "type": "select",
                           "titleMap": {
                             "CONDOR": "CONDOR"
+                          },
+                          ngModelOptions: {
+                            updateOnDefault: true
+                          },
+                          validationMessage: {
+                            'required': 'Missing required'
+                          },
+                          $validators: {
+                            required: function(value) {
+                              return value ? true : false;
+                            }
                           }
                         }
                       ]
@@ -829,6 +893,17 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                            "type": "select",
                            "titleMap": {
                              "FORK": "FORK"
+                           },
+                           ngModelOptions: {
+                             updateOnDefault: true
+                           },
+                           validationMessage: {
+                             'required': 'Missing required'
+                           },
+                           $validators: {
+                             required: function(value) {
+                               return value ? true : false;
+                             }
                            }
                          }
                        ]
@@ -1078,17 +1153,17 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                           "items": [
                             {
                                 "key": "login.host",
-                                // ngModelOptions: {
-                                //     updateOnDefault: true
-                                // },
-                                // onChange: function(value, model){
-                                //   if (typeof $scope.model.login.auth !== 'undefined'){
-                                //     delete $scope.model.login.auth;
-                                //   }
-                                //   if (typeof $scope.model.login.proxy !== 'undefined'){
-                                //     delete $scope.model.login.proxy;
-                                //   }
-                                // },
+                                ngModelOptions: {
+                                  updateOnDefault: true
+                                },
+                                validationMessage: {
+                                  'required': 'Missing required'
+                                },
+                                $validators: {
+                                  required: function(value) {
+                                    return value ? true : false;
+                                  }
+                                }
                             },
                           ]
                         },
@@ -1117,18 +1192,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                           "htmlClass": "col-xs-8",
                           "items": [
                             {
-                                "key": "login.port",
-                                // ngModelOptions: {
-                                //     updateOnDefault: true
-                                // },
-                                // onChange: function(value, model){
-                                //   if (typeof $scope.model.login.auth !== 'undefined'){
-                                //     delete $scope.model.login.auth;
-                                //   }
-                                //   if (typeof $scope.model.login.proxy !== 'undefined'){
-                                //     delete $scope.model.login.proxy;
-                                //   }
-                                // },
+                                "key": "login.port"
                             },
                           ]
                         },
@@ -1158,17 +1222,17 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                          "items": [
                            {
                                "key": "login.protocol",
-                               // ngModelOptions: {
-                               //     updateOnDefault: true
-                               // },
-                               // onChange: function(value, model){
-                               //   if (typeof $scope.model.login.auth !== 'undefined'){
-                               //     delete $scope.model.login.auth;
-                               //   }
-                               //   if (typeof $scope.model.login.proxy !== 'undefined'){
-                               //     delete $scope.model.login.proxy;
-                               //   }
-                               // },
+                               ngModelOptions: {
+                                 updateOnDefault: true
+                               },
+                               validationMessage: {
+                                 'required': 'Missing required'
+                               },
+                               $validators: {
+                                 required: function(value) {
+                                   return value ? true : false;
+                                 }
+                               }
                            },
                          ]
                        },
@@ -1200,20 +1264,6 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                              {
                                "key": "login.proxyTunnel",
                              }
-                            // {
-                            //   "type": "select",
-                            //   "title": "Select yes or no",
-                            //    "titleMap": [
-                            //      {"value": "yes", "name": "yes"},
-                            //      {"value": "no", "name": "no"}
-                            //    ],
-                            //    ngModelOptions: {
-                            //        updateOnDefault: true
-                            //    },
-                            //    onChange: function(value, model){
-                            //
-                            //    },
-                            // },
                            ]
                        },
                        {
@@ -1254,13 +1304,16 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                              {
                                  "key": "login.auth.type",
                                  ngModelOptions: {
-                                     updateOnDefault: true
+                                   updateOnDefault: true
                                  },
-                                //  onChange: function(value, model){
-                                //    if (typeof $scope.model.login.auth.server !== 'undefined' && value !== 'X509'){
-                                //      delete $scope.model.login.auth['server'];
-                                //    }
-                                //  },
+                                 validationMessage: {
+                                   'required': 'Missing required'
+                                 },
+                                 $validators: {
+                                   required: function(value) {
+                                     return value ? true : false;
+                                   }
+                                 }
                              }
                            ]
                        },
@@ -1415,7 +1468,6 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             {
                               "type": "select",
                               "title": "Upload",
-                              // "titleMap": $scope.getSystemsTitleMap(),
                               "titleMap": $scope.systemsTitleMap,
                               ngModelOptions: {
                                   updateOnDefault: true
@@ -2096,15 +2148,15 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                 ngModelOptions: {
                                     updateOnDefault: true
                                 },
-                                // onChange: function(value, model){
-                                //   if (typeof $scope.model.storage.auth !== 'undefined'){
-                                //     delete $scope.model.storage.auth;
-                                //   }
-                                //   if (typeof $scope.model.storage.proxy !== 'undefined'){
-                                //     delete $scope.model.storage.proxy;
-                                //   }
-                                // },
-                                // "condition": "model.type",
+                                validationMessage: {
+                                  'required': 'Missing required'
+                                },
+                                $validators: {
+                                  required: function(value) {
+                                    return value ? true : false;
+                                  }
+                                }
+
                             },
                           ]
                         },
@@ -2133,7 +2185,18 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                           "htmlClass": "col-xs-8",
                           "items": [
                             {
-                                "key": "storage.host"
+                                "key": "storage.host",
+                                ngModelOptions: {
+                                    updateOnDefault: true
+                                },
+                                validationMessage: {
+                                  'required': 'Missing required'
+                                },
+                                $validators: {
+                                  required: function(value) {
+                                    return value ? true : false;
+                                  }
+                                }
                             }
                           ]
                         },
@@ -2163,14 +2226,17 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             "items": [
                               {
                                   "key": "storage.port",
+                                  ngModelOptions: {
+                                      updateOnDefault: true
+                                  },
                                   validationMessage: {
-                                      'required': 'Missing required',
+                                    'required': 'Missing required'
                                   },
                                   $validators: {
-                                      required: function(value) {
-                                          return value ? true : false;
-                                      },
-                                  },
+                                    required: function(value) {
+                                      return value ? true : false;
+                                    }
+                                  }
                               }
                             ]
                         },
@@ -2408,11 +2474,14 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                    ngModelOptions: {
                                        updateOnDefault: true
                                    },
-                                  //  onChange: function(value, model){
-                                  //    if (typeof $scope.model.storage.auth.server !== 'undefined' && value !== 'X509'){
-                                  //      delete $scope.model.storage.auth['server'];
-                                  //    }
-                                  //  }
+                                   validationMessage: {
+                                     'required': 'Missing required'
+                                   },
+                                   $validators: {
+                                     required: function(value) {
+                                       return value ? true : false;
+                                     }
+                                   }
                                }
                              ]
                          },
@@ -2744,11 +2813,9 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                {
                                  "type": "select",
                                  "title": "Upload",
-                                //  "titleMap": $scope.getSystemsTitleMap(),
                                 "titleMap": $scope.systemsTitleMap,
                                  ngModelOptions: {
-                                    //  updateOnDefault: true
-                                    updateOn: 'click'
+                                     updateOnDefault: true
                                  },
                                  onChange: function(systemId, formModel) {
                                    if (systemId === 'Local Disk'){
@@ -3020,7 +3087,18 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                            "condition": "model.storage.auth.credentialType === 'server'",
                            "items": [
                              {
-                                   "key": "storage.auth.server.protocol"
+                                   "key": "storage.auth.server.protocol",
+                                   ngModelOptions: {
+                                       updateOnDefault: true
+                                   },
+                                   validationMessage: {
+                                     'required': 'Missing required'
+                                   },
+                                   $validators: {
+                                     required: function(value) {
+                                       return value ? true : false;
+                                     }
+                                   }
                              }
                            ]
                         },
@@ -3080,7 +3158,18 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             "condition": "model.storage.auth.credentialType === 'server'",
                             "items": [
                               {
-                                  "key": "storage.auth.server.endpoint"
+                                  "key": "storage.auth.server.endpoint",
+                                  ngModelOptions: {
+                                      updateOnDefault: true
+                                  },
+                                  validationMessage: {
+                                    'required': 'Missing required'
+                                  },
+                                  $validators: {
+                                    required: function(value) {
+                                      return value ? true : false;
+                                    }
+                                  }
                               }
                             ]
                         },
@@ -3110,7 +3199,18 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                              "condition": "model.storage.auth.credentialType === 'server'",
                              "items": [
                                {
-                                   "key": "storage.auth.server.port"
+                                   "key": "storage.auth.server.port",
+                                   ngModelOptions: {
+                                       updateOnDefault: true
+                                   },
+                                   validationMessage: {
+                                     'required': 'Missing required'
+                                   },
+                                   $validators: {
+                                     required: function(value) {
+                                       return value ? true : false;
+                                     }
+                                   }
                                }
                              ]
                          },
@@ -3151,6 +3251,14 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                  ngModelOptions: {
                                      updateOnDefault: true
                                  },
+                                 validationMessage: {
+                                   'required': 'Missing required'
+                                 },
+                                 $validators: {
+                                   required: function(value) {
+                                     return value ? true : false;
+                                   }
+                                 }
                                 //  onChange: function(value, model){
                                 //    if (typeof $scope.model.storage.auth.server !== 'undefined' && value !== 'X509'){
                                 //      delete $scope.model.storage.auth['server'];
@@ -3188,6 +3296,14 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                   ngModelOptions: {
                                       updateOnDefault: true
                                   },
+                                  validationMessage: {
+                                    'required': 'Missing required'
+                                  },
+                                  $validators: {
+                                    required: function(value) {
+                                      return value ? true : false;
+                                    }
+                                  }
                                  //  onChange: function(value, model){
                                  //    if (typeof $scope.model.storage.auth.server !== 'undefined' && value !== 'X509'){
                                  //      delete $scope.model.storage.auth['server'];
@@ -3224,11 +3340,14 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                    ngModelOptions: {
                                        updateOnDefault: true
                                    },
-                                  //  onChange: function(value, model){
-                                  //    if (typeof $scope.model.storage.auth.server !== 'undefined' && value !== 'X509'){
-                                  //      delete $scope.model.storage.auth['server'];
-                                  //    }
-                                  //  },
+                                   validationMessage: {
+                                     'required': 'Missing required'
+                                   },
+                                   $validators: {
+                                     required: function(value) {
+                                       return value ? true : false;
+                                     }
+                                   }
                                }
                              ]
                          },
@@ -3264,12 +3383,10 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
         ]
     }];
 
-    // empty for now
-    $scope.model = {
 
+    $scope.model = {
     };
 
-    // empty for now
     $scope.prettyModel = '{}';
 
     $scope.systems = {
@@ -3281,7 +3398,6 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
         execution: null,
         storage: null
     }
-
 
     $scope.currentTabIndex = 0;
     $scope.codeview = false;
@@ -3394,6 +3510,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
         theme: "neat",
         mode: 'javascript'
     };
+
 
     $scope.$watch('model', function(currentModel) {
         if (currentModel) {
