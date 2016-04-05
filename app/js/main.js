@@ -569,25 +569,51 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
         })
 
         .state('systems-edit', {
-            url: "/systems/edit",
-            templateUrl: "views/apps/editor.html",
-            data: {pageTitle: 'System Manager'},
-            controller: "SystemDirectoryController",
+            url: "/systems/edit/:systemId",
+            templateUrl: "views/systems/edit-wizard.html",
+            data: {pageTitle: 'System Editor Wizard'},
+            controller: "SystemEditorWizardController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
-                        name: 'AgaveToGo',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
-                            '../bower_components/datatables/media/css/jquery.dataTables.min.css',
+                            name: 'AgaveToGo',
+                            insertBefore: '#ng_load_plugins_before',
+                            files: [
+                                /********* File Manager ******/
+                                "../bower_components/angular-cookies/angular-cookies.min.js",
+                                "../bower_components/angular-filebrowser/src/js/providers/config.js",
+                                "../bower_components/angular-filebrowser/src/js/directives/directives.js",
+                                "../bower_components/angular-filebrowser/src/js/filters/filters.js",
+                                "../bower_components/angular-filebrowser/src/js/entities/acl.js",
+                                "../bower_components/angular-filebrowser/src/js/entities/chmod.js",
+                                "../bower_components/angular-filebrowser/src/js/entities/fileitem.js",
+                                "../bower_components/angular-filebrowser/src/js/entities/item.js",
+                                "../bower_components/angular-filebrowser/src/js/services/filenavigator.js",
+                                "../bower_components/angular-filebrowser/src/js/services/fileuploader.js",
+                                "../bower_components/angular-filebrowser/src/js/providers/translations.js",
+                                "../bower_components/angular-filebrowser/src/js/app.js",
+                                "../bower_components/angular-filebrowser/src/js/controllers/main.js",
+                                "../bower_components/angular-filebrowser/src/js/controllers/selector-controller.js",
+                                "../bower_components/angular-filebrowser/src/css/angular-filemanager.css",
+                                /********* File Manager ******/
 
-                            '../bower_components/datatables/media/js/jquery.dataTables.min.js',
-                            '../bower_components/datatables/media/js/dataTables.bootstrap.min.js',
-                            '../assets/global/scripts/datatable.js',
-                            'js/controllers/systems/SystemDirectoryController.js'
-                        ]
-                    });
+                                //'../bower_components/bootstrap-wizard/jquery.bootstrap.wizard.min.js',
+                                // "../bower_components/angular-sanitize/angular-sanitize.min.js",
+                                // "../bower_components/tv4/tv4.js",
+                                // "../bower_components/objectpath/lib/ObjectPath.js",
+                                // "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+                                // "../bower_components/angular-schema-form/dist/schema-form.js",
+                                // "../app/js/services/WizardHandler.js",
+                                "../bower_components/codemirror/lib/codemirror.css",
+                                "../bower_components/codemirror/theme/neo.css",
+                                "../bower_components/codemirror/lib/codemirror.js",
+                                "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+                                "js/controllers/systems/SystemEditorWizardController.js"
+                            ]
+                        },
+                        // "FileManagerApp",
+                        "ui.codemirror"
+                    );
                 }]
             }
         })
