@@ -14,27 +14,56 @@
 #
 ######################################################
 
-FROM alpine:3.2
+FROM mhart/alpine-node:4
+
 MAINTAINER Rion Dooley <dooley@tacc.utexas.edu
 
-RUN apk --update --no-progress add nodejs bash git build-base \
-    && git clone https://github.com/sass/sassc
-RUN cd sassc \
-    && git clone https://github.com/sass/libsass \
-    && SASS_LIBSASS_PATH=/sassc/libsass make \
-    && mv bin/sassc /usr/bin/sass \
-    && cd / \
-    && rm -rf /sassc
+RUN \
+    # Install sass
+    apk --update add git build-base python && \
+    git clone https://github.com/sass/sassc && \
+    cd sassc && \
+    git clone https://github.com/sass/libsass && \
+    SASS_LIBSASS_PATH=/sassc/libsass make && \
 
-ADD . /agave-togo
+    # install
+    mv bin/sassc /usr/bin/sass && \
 
-WORKDIR /agave-togo
+    # cleanup
+    cd / && \
+    rm -rf /sassc && \
+    # sass binary still needs this because of dynamic linking.
+    apk add libstdc++
 
-RUN SKIP_SASS_BINARY_DOWNLOAD_FOR_CI=true npm install --production
-#    && apk del git build-base \
-#    && apk add libstdc++ \
-#    && rm -rf /var/cache/apk/*
+COPY *.json /agave-togo/
 
-EXPOSE 9000
+RUN \
+    cd /agave-togo && \
+    # Now build the static assets
+    npm install
 
-CMD ["npm", "start"]
+COPY assets/global/plugins /agave-togo/assets/global/plugins
+
+RUN \
+    cd /agave-togo && \
+    apk del build-base python && \
+    rm -rf /var/cache/apk/* && \
+    node_modules/bower/bin/bower  --allow-root install && \
+
+COPY . /agave-togo/
+
+RUN \
+    cd /agave-togo && \
+    node_modules/gulp/bin/gulp.js minify && \
+
+RUN \
+    cd /agave-togo && \
+    cp -rf html /var/www/ && \
+    cd / && \
+    rm -rf /agave-togo
+
+ADD docker_entrypoint.sh /docker_entrypoint.sh
+
+EXPOSE 80 443 9000
+
+CMD ["httpd", "-D", "FOREGROUND"]

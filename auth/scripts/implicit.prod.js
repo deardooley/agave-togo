@@ -32,13 +32,14 @@ var OAuthClients = {
     }
 };
 
-//// production
-//var OAuthClients = {
-//    'agave.prod': {
-//        'clientKey': 'xFy3FbPFiSK8WqOU66Ucxb9bxCIa',
-//        'callbackUrl': 'http://togo.agaveapi.co/auth',
-//        'scope': 'PRODUCTION'
-//    },
+// production
+var OAuthClients = {
+    'TENANT_ID': {
+        'clientKey': 'CLIENT_KEY',
+        'callbackUrl': 'CALLBACK_URL',
+        'scope': 'PRODUCTION'
+    }
+}
 //    'iplantc.org': {
 //        'clientKey': 'y90qsf12BeDOsnMTOzf60SZAbKwa',
 //        'callbackUrl': 'http://togo.agaveapi.co/auth',

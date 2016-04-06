@@ -1,5 +1,5 @@
 web:
-  image: agaveapi/httpd:2.4
+  build: node:10
   restart: always
   environment:
     - "LOG_TARGET_STDOUT=1"
