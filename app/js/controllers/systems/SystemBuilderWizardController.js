@@ -3414,6 +3414,14 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
     };
 
     $scope.init = function() {
+        // check if WizardHandler service has current model
+        if (typeof WizardHandler.model !== 'undefined'){
+          if (WizardHandler.model.id){
+            delete WizardHandler.model.id;
+          }
+          $scope.model = WizardHandler.model;
+          delete WizardHandler.model;
+        }
         $scope.fetchSystems();
         WizardHandler.activateTab($scope, $scope.currentTabIndex);
     }
