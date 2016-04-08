@@ -266,6 +266,28 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             }
         })
 
+        // .state('apps-manage', {
+        //     url: "/apps/manage",
+        //     templateUrl: "views/apps/manager.html",
+        //     data: {pageTitle: 'App Manager'},
+        //     controller: "AppDirectoryController",
+        //     resolve: {
+        //         deps: ['$ocLazyLoad', function($ocLazyLoad) {
+        //             return $ocLazyLoad.load({
+        //                 name: 'AgaveToGo',
+        //                 insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+        //                 files: [
+        //                     '../assets/global/scripts/datatable.js',
+        //                     '../bower_components/holderjs/holder.js',
+        //                     'js/controllers/apps/AppDirectoryController.js',
+        //                     'js/controllers/modals/ModalConfirmResourceActionController.js',
+        //                     'js/controllers/modals/ModalPermissionEditorController.js'
+        //                 ]
+        //             });
+        //         }]
+        //     }
+        // })
+
         .state('apps-manage', {
             url: "/apps/manage",
             templateUrl: "views/apps/manager.html",
@@ -279,6 +301,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         files: [
                             '../assets/global/scripts/datatable.js',
                             '../bower_components/holderjs/holder.js',
+                            // 'js/controllers/apps/AppDirectoryController.js',
                             'js/controllers/apps/AppDirectoryController.js',
                             'js/controllers/modals/ModalConfirmResourceActionController.js',
                             'js/controllers/modals/ModalPermissionEditorController.js'

@@ -1,7 +1,7 @@
-angular.module('AgaveToGo').controller('AppDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $uibModal, Commons, AppsController, SystemsController) {
+angular.module('AgaveToGo').controller('AppDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $uibModal, $http, Commons, AppsController, SystemsController) {
 
     $scope.offset = $scope.offset || 0;
-    $scope.limit = $scope.limit || 10;
+    $scope.limit = $scope.limit || 25;
     $scope.systems = [];
 
     // Name of collection, used in route name generation
@@ -11,7 +11,32 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
     // within the view template
     $scope._RESOURCE_NAME = $scope._RESOURCE_NAME || 'app';
 
+    $scope.appsList = [];
+    $scope.appsDetailsList = [];
+
+    $scope.getAppDetails = function(id, callback) {
+        return AppsController.getAppDetails(id).then(
+          function(response){
+            return callback(response);
+          }
+        );
+    };
+
+    $scope.getAppsDetails = function (callback) {
+        var prom = [];
+        $scope.appsList.forEach(function (app, i) {
+            prom.push($scope.getAppDetails(app.id, function(value){
+                $scope.appsDetailsList.push(value);
+            }));
+        });
+        $q.all(prom).then(function () {
+            callback();
+        });
+    };
+
     $scope.refresh = $scope.refresh || function() {
+        $scope.appsList = [];
+        $scope.appsDetailsList = [];
 
         App.blockUI({
             target: '.portlet-datatable .portlet-body',
@@ -20,50 +45,49 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
         });
 
         SystemsController.listSystems(99999).then(
-            function (data) {
-                $scope.systems = data;
+            function (response) {
+              $scope.systems = response;
 
-                AppsController.listApps($scope.limit, $scope.offset)
-                    .then($scope.handleRefreshSuccess, $scope.handleFailure);
+              AppsController.listApps($scope.limit, $scope.offset, { 'privateonly': 'true' })
+                .then(
+                  function(response){
+                    $scope.appsList = response;
+                    $scope.getAppsDetails(function () {
+                      $scope.handleRefreshSuccess($scope.appsDetailsList);
+                    });
+                  }, function(response){
+                    $scope.handleFailure(response);
+                  }
+                );
             },
-            function (data) {
-                App.alert({
-                    type: 'danger',
-                    message: "Error retrieving system list.<br>" + data.message,
-                });
-            });
+            function(response){
+              App.alert({
+                 type: 'danger',
+                 message: "Error retrieving system list.<br>" + response.message,
+              });
+            }
+        );
     };
 
-    $scope.confirmAction = function(selectedApps, selectedAction)
-    {
-        var modalInstance = $uibModal.open(
-            {
-                templateUrl: 'tpl/modals/ModalConfirmResourceAction.html',
-                controller: 'ModalConfirmResourceActionController',
-                //size: 'sm',
-                resolve:
-                {
-                    resourceNames: function() {
-                        var resourceNames = [];
-                        angular.forEach(selectedApps, function (app, key) {
-                            resourceNames.push(app.label + "(" + app.name + '-' + app.version + ')');
-                        });
-                        return resourceNames;
-                    },
-                    resourceAction: function() {
-                        return selectedAction;
-                    }
-                }
-            });
-
-        modalInstance.result.then(function(response)
-            {
-                $log.info('Modal closed at: ' + new Date());
-            },
-            function()
-            {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
+    $scope.confirmAction = function(selectedApp, selectedAction, index){
+        var modalInstance = $uibModal.open({
+          templateUrl: 'tpl/modals/ModalConfirmResourceAction.html',
+          controller: 'ModalConfirmResourceActionController',
+          //size: 'sm',
+          scope: $scope,
+          resolve:
+          {
+              resource: function() {
+                  return selectedApp;
+              },
+              resourceAction: function() {
+                  return selectedAction;
+              },
+              resourceIndex: function(){
+                return index;
+              }
+          }
+        });
     };
 
     $scope.openPermissionEditor = function(resource) {
@@ -86,14 +110,14 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
                 }
             });
 
-        modalInstance.result.then(function(response)
-            {
-                console.log('Modal dismissed at: ' + new Date());
-            },
-            function()
-            {
-                console.log('Modal dismissed at: ' + new Date());
-            });
+        // modalInstance.result.then(function(response)
+        //     {
+        //         console.log('Modal dismissed at: ' + new Date());
+        //     },
+        //     function()
+        //     {
+        //         console.log('Modal dismissed at: ' + new Date());
+        //     });
     }
 
     $scope.doInvokeAction = function (selectedApps, selectedAction) {
