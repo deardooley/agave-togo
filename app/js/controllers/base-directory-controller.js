@@ -88,30 +88,30 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
         ],
 
         // setup responsive extension: http://datatables.net/extensions/responsive/
-        responsive: {
-          details: {
-            display: $.fn.dataTable.Responsive.display.modal({
-              header: function ( row ) {
-                var data = row.data();
-                return 'Details for '+ data[2];
-              }
-            }),
-            renderer: function ( api, rowIdx, columns ) {
-              var data = $.map( columns, function ( col, i ) {
-                if (i > 0) {
-                  return '<tr>' +
-                      '<td>' + col.title + ':' + '</td> ' +
-                      '<td>' + col.data + '</td>' +
-                      '</tr>';
-                } else {
-                  return '';
-                }
-              } ).join('');
-
-              return $('<div class="table-responsive"/>').append($('<table class="table"><thead><tr><th>Field</th><th>Value</th></tr></thead></table>').append('<tbody>' + data + '</tbody>'));
-            }
-          }
-        },
+        // responsive: {
+        //   details: {
+        //     display: $.fn.dataTable.Responsive.display.modal({
+        //       header: function ( row ) {
+        //         var data = row.data();
+        //         return 'Details for '+ data[2];
+        //       }
+        //     }),
+        //     renderer: function ( api, rowIdx, columns ) {
+        //       var data = $.map( columns, function ( col, i ) {
+        //         if (i > 0) {
+        //           return '<tr>' +
+        //               '<td>' + col.title + ':' + '</td> ' +
+        //               '<td>' + col.data + '</td>' +
+        //               '</tr>';
+        //         } else {
+        //           return '';
+        //         }
+        //       } ).join('');
+        //
+        //       return $('<div class="table-responsive"/>').append($('<table class="table"><thead><tr><th>Field</th><th>Value</th></tr></thead></table>').append('<tbody>' + data + '</tbody>'));
+        //     }
+        //   }
+        // },
 
         // setup responsive extension: http://datatables.net/extensions/responsive/
         //responsive: true,
@@ -149,38 +149,38 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
       tableWrapper = table.parents('.dataTables_wrapper');
 
       // build table group actions panel
-      if ($('.table-actions-wrapper', tableContainer).size() === 1) {
-        $('.table-group-actions', tableWrapper).html($('.table-actions-wrapper', tableContainer).html()); // place the panel inside the wrapper
-        $('.table-actions-wrapper', tableContainer).remove(); // remove the template container
-      }
+      // if ($('.table-actions-wrapper', tableContainer).size() === 1) {
+      //   $('.table-group-actions', tableWrapper).html($('.table-actions-wrapper', tableContainer).html()); // place the panel inside the wrapper
+      //   $('.table-actions-wrapper', tableContainer).remove(); // remove the template container
+      // }
 
       // handle group checkboxes check/uncheck
-      $('.group-checkable', table).change(function() {
-        var set = table.find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
-        var checked = $(this).prop("checked");
-        $(set).each(function() {
-          $(this).prop("checked", checked);
-        });
-        $.uniform.update(set);
-        // countSelectedRecords();
-      });
+      // $('.group-checkable', table).change(function() {
+      //   var set = table.find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
+      //   var checked = $(this).prop("checked");
+      //   $(set).each(function() {
+      //     $(this).prop("checked", checked);
+      //   });
+      //   $.uniform.update(set);
+      //   // countSelectedRecords();
+      // });
 
       // handle row's checkbox click
-      table.on('change', 'tbody > tr > td:nth-child(1) input[type="checkbox"]', function() {
-        // countSelectedRecords();
-      });
+      // table.on('change', 'tbody > tr > td:nth-child(1) input[type="checkbox"]', function() {
+      //   // countSelectedRecords();
+      // });
 
       // handle filter submit button click
-      table.on('click', '.filter-submit', function(e) {
-        e.preventDefault();
-        the.submitFilter();
-      });
+      // table.on('click', '.filter-submit', function(e) {
+      //   e.preventDefault();
+      //   the.submitFilter();
+      // });
 
       // handle filter cancel button click
-      table.on('click', '.filter-cancel', function(e) {
-        e.preventDefault();
-        the.resetFilter();
-      });
+      // table.on('click', '.filter-cancel', function(e) {
+      //   e.preventDefault();
+      //   the.resetFilter();
+      // });
 
       App.unblockUI('.portlet-datatable .portlet-body');
 

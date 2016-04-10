@@ -1,0 +1,44 @@
+<div class="table-responsive">
+  <table class="table" ng-repeat="queue in queues">
+    <thead>
+     <tr>
+       <th class="col-sm-2"></th>
+       <th class="col-sm-10"></th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr ng-if="queue.name">
+       <td>Name</td>
+       <td><strong>{{queue.name}}</strong></td>
+     </tr>
+     <tr ng-if="queue.default">
+       <td>Default</td>
+       <td>{{queue.default}}</td>
+     </tr>
+     <tr ng-if="queue.maxJobs">
+       <td>Max Jobs</td>
+       <td>{{queue.maxJobs}}</td>
+     </tr>
+     <tr ng-if="queue.maxUserJobs">
+       <td>Max User Jobs</td>
+       <td>{{queue.maxUserJobs}}</td>
+     </tr>
+     <tr ng-if="queue.maxNodes">
+       <td>Max Nodes</td>
+       <td>{{queue.maxNodes}}</td>
+     </tr>
+     <tr ng-if="queue.maxProcessorsPerNode">
+       <td>Max Processors Per Node</td>
+       <td>{{queue.maxProcessorsPerNode}}</td>
+     </tr>
+     <tr ng-if="queue.maxMemoryPerNode">
+       <td>Max Memory Per Node</td>
+       <td>{{queue.maxMemoryPerNode}}</td>
+     </tr>
+     <tr ng-if="queue.maxRequestedTime">
+       <td>Max Requested Time</td>
+       <td>{{queue.maxRequestedTime}}</td>
+     </tr>
+    </tbody>
+  </table>
+</div>

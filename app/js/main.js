@@ -242,6 +242,61 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
         /**********************************************************************/
         /**********************************************************************/
 
+        // .state("apps", {
+        //   abtract: true,
+        //   url:"/apps/:systemId",
+        //   templateUrl:"views/apps/resource/resource.html",
+        //   controller: "SystemsResourceController",
+        //   resolve: {
+        //     deps: ['$ocLazyLoad', function($ocLazyLoad) {
+        //       return $ocLazyLoad.load([
+        //         {
+        //           name: 'AgaveToGo',
+        //             files: [
+        //               'js/controllers/systems/resource/AppsResourceController.js'
+        //             ]
+        //         }
+        //       ]);
+        //     }]
+        //   }
+        // })
+        //
+        // .state("apps.details", {
+        //   url: "/",
+        //   templateUrl: "views/apps/resource/details.html",
+        //   controller: "AppsResourceDetailsController",
+        //   resolve: {
+        //       deps: ['$ocLazyLoad', function($ocLazyLoad) {
+        //         return $ocLazyLoad.load([
+        //           {
+        //             name: 'AgaveToGo',
+        //             files: [
+        //                 'js/controllers/systems/resource/AppsResourceDetailsController.js'
+        //             ]
+        //           }
+        //         ]);
+        //       }]
+        //   }
+        // })
+        //
+        // .state("apps.stats", {
+        //   url: "/stats",
+        //   controller: "AppsResourceStatsController",
+        //   templateUrl: "views/apps/resource/stats.html",
+        //   resolve: {
+        //       deps: ['$ocLazyLoad', function($ocLazyLoad) {
+        //         return $ocLazyLoad.load([
+        //           {
+        //             name: 'AgaveToGo',
+        //             files: [
+        //                 'js/controllers/systems/resource/SystemsResourceStatsController.js'
+        //             ]
+        //           }
+        //         ]);
+        //       }]
+        //   }
+        // })
+
         .state('apps-catalog', {
             url: "/apps/catalog",
             templateUrl: "views/apps/browser.html",
@@ -514,7 +569,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
         /***                                                                ***/
         /**********************************************************************/
         /**********************************************************************/
-        
+
         .state("systems", {
           abtract: true,
           url:"/systems/:systemId",
@@ -533,9 +588,9 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             }]
           }
         })
+
         .state("systems.details", {
           url: "/",
-          // url: "/:systemId",
           templateUrl: "views/systems/resource/details.html",
           controller: "SystemsResourceDetailsController",
           resolve: {
@@ -551,6 +606,25 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
               }]
           }
         })
+
+        .state("systems.queues", {
+          url: "/queues",
+          controller: "SystemsResourceQueuesController",
+          templateUrl: "views/systems/resource/queues.html",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/controllers/systems/resource/SystemsResourceQueuesController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
         .state("systems.apps", {
           url: "/apps",
           templateUrl: "views/systems/resource/apps.html",
@@ -568,6 +642,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
               }]
           }
         })
+
         .state("systems.stats", {
           url: "/stats",
           controller: "SystemsResourceStatsController",
@@ -585,6 +660,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
               }]
           }
         })
+
         .state('systems-manage', {
             url: "/systems",
             templateUrl: "views/systems/manager.html",
