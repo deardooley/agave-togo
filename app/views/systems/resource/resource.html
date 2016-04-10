@@ -1,0 +1,15 @@
+<div ng-controller="SystemsResourceController">
+  <h3 class="page-title">Systems
+      <small>{{systemId}}</small>
+  </h3>
+
+  <uib-tabset ng-show="!error">
+      <uib-tab
+          ng-repeat="t in tabs"
+          heading="{{t.heading}}"
+          select="go(t.route)"
+          active="t.active">
+      </uib-tab>
+  </uib-tabset>
+  <div ui-view></div>
+</div>

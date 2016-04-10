@@ -1,0 +1,64 @@
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+     <tr>
+       <th class="col-sm-2"></th>
+       <th class="col-sm-10"></th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr ng-if="system.id">
+       <td>ID</td>
+       <td><strong>{{system.id}}</strong></td>
+     </tr>
+     <tr ng-if="system.name">
+       <td>Name</td>
+       <td>{{system.name}}</td>
+     </tr>
+     <tr ng-if="system.description">
+       <td>Description</td>
+       <td>{{system.description}}</td>
+     </tr>
+     <tr ng-if="system.type">
+       <td>Type</td>
+       <td>{{system.type}}</td>
+     </tr>
+     <tr ng-if="system.executionType">
+       <td>Execution Type</td>
+       <td>{{system.executionType}}</td>
+     </tr>
+     <tr ng-if="system.status">
+       <td>Status</td>
+       <td>{{system.status}}</td>
+     </tr>
+     <tr ng-if="system.public">
+       <td>Public</td>
+       <td>{{system.public}}</td>
+     </tr>
+     <tr ng-if="system.scheduler">
+       <td>Scheduler</td>
+       <td>{{system.scheduler}}</td>
+     </tr>
+     <tr ng-if="system.maxSystemJobs">
+       <td>Max Jobs</td>
+       <td>{{system.maxSystemJobs}}</td>
+     </tr>
+     <tr ng-if="system.maxSystemJobsPerUser">
+       <td>Max Jobs Per User</td>
+       <td>{{system.maxSystemJobsPerUser}}</td>
+     </tr>
+     <tr ng-if="system.scratchDir">
+       <td>Scratch Directory</td>
+       <td>{{system.site}}</td>
+     </tr>
+     <tr ng-if="system.site">
+       <td>Site</td>
+       <td>{{system.site}}</td>
+     </tr>
+     <tr ng-if="system.revision">
+       <td>Revision</td>
+       <td>{{system.revision}}</td>
+     </tr>
+    </tbody>
+  </table>
+</div>
