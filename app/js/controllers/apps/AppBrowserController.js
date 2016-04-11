@@ -110,7 +110,7 @@ angular.module('AgaveToGo').controller('AppBrowserController', function($rootSco
     });
     $('#js-loadMore-lightbox-gallery').hide();
 
-    AppsController.listApps($scope.limit, $scope.offset, { 'name.like': '*docker*' }).then(
+    AppsController.listApps($scope.limit, $scope.offset, '').then(
         function (data) {
             $scope.apps = data;
             $timeout(function () {

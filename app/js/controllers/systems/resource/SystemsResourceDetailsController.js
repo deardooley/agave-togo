@@ -9,7 +9,6 @@ angular.module('AgaveToGo').controller('SystemsResourceDetailsController', funct
       .then(
         function(response){
           $scope.system = response;
-          $scope.$parent.systemId = $stateParams.systemId;
         },
         function(response){
           $scope.$parent.error = true;

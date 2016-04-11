@@ -1,0 +1,64 @@
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+     <tr>
+       <th class="col-sm-2"></th>
+       <th class="col-sm-10"></th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr ng-if="app.id">
+       <td>ID</td>
+       <td><strong>{{app.id}}</strong></td>
+     </tr>
+     <tr ng-if="app.name">
+       <td>Name</td>
+       <td>{{app.name}}</td>
+     </tr>
+     <tr ng-if="app.longDescription">
+       <td>Description</td>
+       <td>{{app.longDescription}}</td>
+     </tr>
+     <tr ng-if="app.label">
+       <td>Label</td>
+       <td>{{app.label}}</td>
+     </tr>
+     <tr ng-if="app.isPublic">
+       <td>Public</td>
+       <td>{{app.isPublic}}</td>
+     </tr>
+     <tr ng-if="app.available">
+       <td>Available</td>
+       <td>{{app.available}}</td>
+     </tr>
+     <tr ng-if="app.deploymentSystem">
+       <td>Deployment System</td>
+       <td>{{app.deploymentSystem}}</td>
+     </tr>
+     <tr ng-if="app.deploymentPath">
+       <td>Deployment Path</td>
+       <td>{{app.deploymentPath}}</td>
+     </tr>
+     <tr ng-if="app.executionSystem">
+       <td>Execution System</td>
+       <td>{{app.executionSystem}}</td>
+     </tr>
+     <tr ng-if="app.executionType">
+       <td>Execution Type</td>
+       <td>{{app.executionType}}</td>
+     </tr>
+     <tr ng-if="app.parallelism">
+       <td>Parallelism</td>
+       <td>{{app.parallelism}}</td>
+     </tr>
+     <tr ng-if="app.revision">
+       <td>Revision</td>
+       <td>{{app.revision}}</td>
+     </tr>
+     <tr ng-if="app.lastModified">
+       <td>Last Modified</td>
+       <td>{{app.lastModified}}</td>
+     </tr>
+    </tbody>
+  </table>
+</div>
