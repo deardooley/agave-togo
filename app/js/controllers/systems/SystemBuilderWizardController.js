@@ -3498,7 +3498,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
     };
 
     $scope.nextStep = function() {
-        WizardHandler.validateTab($scope, $scope.currentTabIndex).then(function(value) {
+        WizardHandler.validateTab($scope, $scope.currentTabIndex).then(function() {
             WizardHandler.activateTab($scope, ++$scope.currentTabIndex);
         });
     };

@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, Commons, AppsController, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
+angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $uibModal, Commons, AppsController, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
 
     //var handleTitle = function(tab, navigation, index) {
     //    var total = navigation.find('li').length;
@@ -202,8 +202,9 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                 "type": "array",
                 "description": "An array of modules to load prior to the execution of the application. This is only relevant when you use the unix Modules or LMOD utilities to manage dependencies on the app execution system.",
                 "items": {
-                    "type": "string"
+                    "type": "string",
                 },
+                // "required": [],
                 "title": "Modules"
             },
             //"inputs": {
@@ -490,8 +491,34 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
             {
                 "title": "Basics",
                 "items": [
-                    "name",
-                    "version",
+                    {
+                      "key": "name",
+                      ngModelOptions: {
+                          updateOnDefault: true
+                      },
+                      validationMessage: {
+                        'required': 'Missing required'
+                      },
+                      $validators: {
+                        required: function(value) {
+                          return value ? true : false;
+                        }
+                      }
+                    },
+                    {
+                      "key": "version",
+                      ngModelOptions: {
+                          updateOnDefault: true
+                      },
+                      validationMessage: {
+                        'required': 'Missing required'
+                      },
+                      $validators: {
+                        required: function(value) {
+                          return value ? true : false;
+                        }
+                      }
+                    },
                     "label",
                     "shortDescription",
                     "longDescription",
@@ -520,18 +547,33 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                         "key": "deploymentSystem",
                         "placeholder": "storage.example.com",
                         "type": "select",
-                        titleMap: []
+                        titleMap: [],
+                        ngModelOptions: {
+                            updateOnDefault: true
+                        },
+                        validationMessage: {
+                          'required': 'Missing required'
+                        },
+                        $validators: {
+                          required: function(value) {
+                            return value ? true : false;
+                          }
+                        }
                     },
                     "templatePath",
                     "testPath",
                     {
                         key: 'modules',
+                        startEmpty: true,
                         placeholder: 'Module command(s)', //default will translate placeholder.select
                         notitle: true,
                         options: {
                             tagging: '',
                             taggingLabel: '(new)',
                             taggingTokens: ',|ENTER|,'
+                        },
+                        ngModelOptions: {
+                            updateOnDefault: true
                         }
                     }
                 ]
@@ -541,13 +583,34 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                 "items": [
                     {
                         key: "executionType",
-                        ngModelOptions: { updateOn: 'click' }
+                        ngModelOptions: {
+                            updateOnDefault: true
+                        },
+                        validationMessage: {
+                          'required': 'Missing required'
+                        },
+                        $validators: {
+                          required: function(value) {
+                            return value ? true : false;
+                          }
+                        }
                     },
                     {
                         "key": "executionSystem",
                         "placeholder": "compute.example.com",
                         "type": "select",
                         titleMap: [],
+                        ngModelOptions: {
+                            updateOnDefault: true
+                        },
+                        validationMessage: {
+                          'required': 'Missing required'
+                        },
+                        $validators: {
+                          required: function(value) {
+                            return value ? true : false;
+                          }
+                        },
                         onChange: function (modelValue, form) {
                             SystemsController.getSystemDetails(modelValue).then(
                                 function(response) {
@@ -571,7 +634,10 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                     {
                         "key": "defaultQueue",
                         "type": "select",
-                        ngModelOptions: { updateOn: 'click' },
+                        // ngModelOptions: { updateOn: 'click' },
+                        ngModelOptions: {
+                            updateOnDefault: true
+                        },
                         titleMap: [],
                         onChange: function (modelValue, form) {
 
@@ -584,12 +650,18 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                     {
                         key: "parallelism",
                         type: "select",
-                        ngModelOptions: { updateOn: 'click' }
+                        // ngModelOptions: { updateOn: 'click' }
+                        ngModelOptions: {
+                            updateOnDefault: true
+                        },
                     },
                     {
                         "key": "checkpointable",
                         type: "radiobuttons",
-                        ngModelOptions: { updateOn: 'click' },
+                        // ngModelOptions: { updateOn: 'click' },
+                        ngModelOptions: {
+                            updateOnDefault: true
+                        },
                         style: {
                             selected: "btn-success",
                             unselected: "btn-default"
@@ -617,7 +689,10 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                         "items": [
                             {
                                 key: "parameters[].id",
-                                ngModelOptions: { updateOn: 'blur' },
+                                // ngModelOptions: { updateOn: 'blur' },
+                                ngModelOptions: {
+                                    updateOnDefault: true
+                                },
                                 ngModel: function(ngModel) {
                                     ngModel.$validators.myMail = function(value) {
                                         var exp = /[a-zA-Z0-9_]+/.exec(value);
@@ -642,7 +717,10 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                     {
                                         "key": "parameters[].details.showArgument",
                                         type: "radiobuttons",
-                                        ngModelOptions: { updateOn: 'click' },
+                                        // ngModelOptions: { updateOn: 'click' },
+                                        ngModelOptions: {
+                                            updateOnDefault: true
+                                        },
                                         style: {
                                             selected: "btn-success",
                                             unselected: "btn-default"
@@ -660,7 +738,10 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                     {
                                         "key": "parameters[].details.repeatArgument",
                                         "type": "radiobuttons",
-                                        ngModelOptions: { updateOn: 'click' },
+                                        // ngModelOptions: { updateOn: 'click' },
+                                        ngModelOptions: {
+                                            updateOnDefault: true
+                                        },
 
                                         "condition": "model.parameters[arrayIndex].details.showArgument",
                                         "style": {
@@ -680,53 +761,74 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                 "title": "Semantics",
                                 "description": "Semantic information about the parameter field.",
                                 "items": [
-                                    "parameters[].semantics.ontology",
+                                    {
+                                      "key": "parameters[].semantics.ontology",
+                                      startEmpty: true,
+                                    },
                                     {
                                         key: "parameters[].semantics.minCardinality",
                                         type: "number",
+                                        ngModelOptions: {
+                                            updateOnDefault: true
+                                        },
                                         validationMessage: {
                                             'minLessThanMax': 'Minimum number of values allowed by this parameter must be a non-negative integer value less than or equal to the maximum number of values.',
                                             'gtzeroWhenRequired': 'Minimum number of values allowed by this parameter must be greater than zero when required.',
                                         },
                                         $validators: {
                                             minLessThanMax: function (value) {
-                                                if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
-                                                    value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
-                                                    return false;
+                                              if (typeof $scope.model.parameteres !== 'undefined'){
+                                                if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
+                                                  if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
+                                                      value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
+                                                      return false;
+                                                  }
                                                 }
-                                                return true
+                                              }
+                                              return true;
                                             },
                                             gtzeroWhenRequired: function (value) {
-                                                if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
-                                                    value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
-                                                    return false;
+                                              if (typeof $scope.model.parameteres !== 'undefined'){
+                                                if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
+                                                  if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
+                                                      value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
+                                                      return false;
+                                                  }
                                                 }
-                                                return true
+                                              }
+                                              return true;
                                             }
                                         },
                                     },
                                     {
                                         key: "parameters[].semantics.maxCardinality",
                                         type: "number",
+                                        ngModelOptions: {
+                                            updateOnDefault: true
+                                        },
                                         validationMessage: {
                                             'maxGreaterThanMax': 'Maximum number of values allowed by this parameter must be a non-negative integer value less than or equal to the maximum number of values.',
                                             'oneWhenBoolish': 'Maximum number of values is one when parameter is of type bool or flag.',
                                         },
                                         $validators: {
                                             minLessThanMax: function (value) {
-                                                if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
-                                                    value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
-                                                    return false;
+                                                if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
+                                                  if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
+                                                      value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
+                                                      return false;
+                                                  }
                                                 }
-                                                return true
+                                                return true;
                                             },
                                             oneWhenBoolish: function (value) {
+                                              if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
                                                 if (value && ($scope.model.parameters[arrayIndex].value.type == 'bool' ||
                                                     $scope.model.parameters[arrayIndex].value.type == 'flag') &&
                                                     $scope.model.parameters[arrayIndex].semantics.maxCardinality > 1) {
                                                     return false;
                                                 }
-                                                return true
+                                              }
+                                              return true;
                                             }
                                         }
                                     }
@@ -745,43 +847,56 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                     },
                                     {
                                         key: "parameters[].value.default",
-                                        validationMessage: {
-                                            'enumValueRequired': 'Default value must be one of the enumerated values for this parameter.',
-                                            'defaultRequiredWhenHidden': 'Default value is required when the parameter is hidden.',
-                                        },
-                                        $validators: {
-                                            enumValueRequired: function (value) {
-                                                if (value && $scope.model.parameters[arrayIndex].value.type == 'enum') {
-                                                    return ($scope.model.parameters[arrayIndex].value.enum_values.indexOf(value) != -1)
-                                                }
-                                                return true
-                                            },
-                                            //defaultRequiredWhenHidden: function(value) {
-                                            //    if (($scope.model.parameters[arrayIndex].value.type == 'bool' ||
-                                            //        $scope.model.parameters[arrayIndex].value.type == 'flag') || &&
-                                            //        $scope.model.parameters[arrayIndex].semantics.maxCardinality > 1)
-                                            //    {
-                                            //        return false;
-                                            //    }
-                                            //    return true
-                                            //}
-                                        }
+                                        // ngModelOptions: {
+                                        //     updateOnDefault: true
+                                        // },
+                                        // validationMessage: {
+                                        //     'enumValueRequired': 'Default value must be one of the enumerated values for this parameter.',
+                                        //     'defaultRequiredWhenHidden': 'Default value is required when the parameter is hidden.',
+                                        // },
+                                        // $validators: {
+                                        //     // enumValueRequired: function (value) {
+                                        //     //     if (value && $scope.model.parameters[arrayIndex].value.type == 'enum') {
+                                        //     //         return ($scope.model.parameters[arrayIndex].value.enum_values.indexOf(value) != -1)
+                                        //     //     }
+                                        //     //     return true
+                                        //     // },
+                                        //     enumValueRequired: function (value) {
+                                        //       return value ? true : false;
+                                        //     },
+                                        //     //defaultRequiredWhenHidden: function(value) {
+                                        //     //    if (($scope.model.parameters[arrayIndex].value.type == 'bool' ||
+                                        //     //        $scope.model.parameters[arrayIndex].value.type == 'flag') || &&
+                                        //     //        $scope.model.parameters[arrayIndex].semantics.maxCardinality > 1)
+                                        //     //    {
+                                        //     //        return false;
+                                        //     //    }
+                                        //     //    return true
+                                        //     //}
+                                        // }
                                     },
                                     {
                                         key: "parameters[].value.validator",
                                         condition: "[string,number].indexOf(model.parameters[arrayIndex].value.type) !== -1",
-                                        validationMessage: {
-                                            'validatorNotSupported': 'Validators are not needed for enumeration, boolean, or flag parameter types',
+                                        ngModelOptions: {
+                                            updateOnDefault: true
                                         },
-                                        $validators: {
-                                            enumValueRequired: function (value) {
-                                                return (value && [string, number].indexOf($scope.model.parameters[arrayIndex].value.type) !== -1);
-                                            },
-                                        }
+                                        // TO-DO: Fix. This is breaking myForm.$valid
+                                        // validationMessage: {
+                                        //     'validatorNotSupported': 'Validators are not needed for enumeration, boolean, or flag parameter types',
+                                        // },
+                                        // $validators: {
+                                        //     enumValueRequired: function (value) {
+                                        //         return (value && [string, number].indexOf($scope.model.parameters[arrayIndex].value.type) !== -1);
+                                        //     },
+                                        // }
                                     },
                                     {
                                         key: "parameters[].value.enum_values",
                                         condition: "model.parameters[arrayIndex].value.type === 'enum'",
+                                        ngModelOptions: {
+                                            updateOnDefault: true
+                                        },
                                         validationMessage: {
                                             'enumNotSupported': 'Enumerated values are only supported for parameters of type enum.',
                                         },
@@ -816,7 +931,10 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                     {
                                         "key": "parameters[].value.visible",
                                         "type": "radiobuttons",
-                                        ngModelOptions: { updateOn: 'click' },
+                                        // ngModelOptions: { updateOn: 'click' },
+                                        ngModelOptions: {
+                                            updateOnDefault: true
+                                        },
                                         "style": {
                                             selected: "btn-success",
                                             unselected: "btn-default"
@@ -858,6 +976,53 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
         ]
     }];
 
+    $scope.model = {
+       "tags": [
+           ""
+       ],
+       "ontology": [
+           "xs:string"
+       ],
+       "modules": [
+           "load tacc"
+       ],
+       "parameters": [
+           {
+               "id": "param1",
+               "details": {
+                   "label": "first param",
+                   "description": "something to do first"
+               }
+           },
+           {
+               "id": "param2",
+               "details": {
+                   "label": "param label 2",
+                   "description": "something to do second"
+               }
+           }
+       ],
+       "executionSystem": "compute.example.com",
+       "defaultQueue": "default",
+       "defaultNodeCount": 1,
+       "defaultMemoryPerNode": 4,
+       "defaultProcessorsPerNode": 1,
+       "defaultRequestedTime": "24:00:00",
+       "parallelism": "SERIAL",
+       "deploymentPath": "/scratch/apps/foo-1.0",
+       "deploymentSystem": "storage.example.com",
+       "templatePath": "wrapper.sh",
+       "testPath": "test/test/sh",
+       "name": "foo",
+       "version": "1.0",
+       "label": "foo app",
+       "helpURI": "http://help.com",
+       "shortDescription": "foo demo",
+       "longDescription": "foo demo app"
+   };
+
+    $scope.prettyModel = '{}';
+
     $scope.systems = {
         execution: [],
         storage: []
@@ -892,7 +1057,6 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                 }, 0);
             },
             function(response) {
-                console.log(response);
                 App.alert({
                     type: 'danger',
                     message: "Error fetching execution systems."
@@ -904,14 +1068,69 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
     $scope.currentTabIndex = 0;
     $scope.codeview = false;
 
-    $scope.fetchUserSystems();
+    $scope.init = function() {
+        if ($stateParams.appId) {
+            AppsController.getAppDetails($stateParams.appId).then(
+                function (data) {
+                    $scope.model = data;
+                },
+                function (data) {
+                    App.alert({
+                        type: 'danger',
+                        message: "There was an error contacting the apps service. " + data
+                    });
+                });
+        }
+        // check if WizardHandler service has current model
+        if (typeof WizardHandler.model !== 'undefined'){
+          if (WizardHandler.model.id){
+            delete WizardHandler.model.id;
+          }
+          $scope.model = WizardHandler.model;
+          delete WizardHandler.model;
+        }
+        $scope.fetchUserSystems();
+        WizardHandler.activateTab($scope, $scope.currentTabIndex);
+    }
 
 
+    $scope.init();
 
     $scope.submit = function () {
         $scope.$broadcast('schemaFormValidate');
-        if ($scope.form.$valid) {
-            console.log($scope.model);
+        if ($scope.myForm.$valid) {
+          AppsController.addApp(JSON.stringify($scope.model))
+            .then(
+              function(response){
+                $uibModal.open({
+                  templateUrl: "views/apps/submit-success.html",
+                  scope: $scope,
+                  size: 'lg',
+                  controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                    $scope.close = function()
+                    {
+                        $modalInstance.dismiss('cancel');
+                    };
+                    $scope.browse = function(){
+                        $location.path('/apps');
+                    }
+                  }]
+                });
+              },
+              function(response){
+                var message = (response.errorResponse !== '') ?  "There was an error creating your app:\n" + response.errorResponse.fault.message : message = "There was an error creating your system:\n" + response.errorMessage;
+
+                App.alert({
+                    type: 'danger',
+                    message: message
+                });
+              }
+            );
+        } else {
+          App.alert({
+              type: 'danger',
+              message: "There was an error creating your app: Form is not valid. Please verify all fields."
+          });
         }
     };
 
@@ -919,77 +1138,50 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
         WizardHandler.validateTab($scope, $scope.currentTabIndex).then(function () {
             WizardHandler.activateTab($scope, ++$scope.currentTabIndex);
         });
-
-
     };
 
     $scope.previousStep = function () {
         WizardHandler.activateTab($scope, --$scope.currentTabIndex);
     };
 
-    //$scope.valueChanged = function (key, modelValue) {
-    //    if (key[0] === 'category') {
-    //        $scope.loadForm(modelValue);
-    //    }
-    //};
-
-
-
-
-    $scope.model = {
-        "tags": [
-            ""
-        ],
-        "ontology": [
-            "xs:string"
-        ],
-        "modules": [
-            "load tacc"
-        ],
-        "parameters": [
-            {
-                "id": "param1",
-                "details": {
-                    "label": "first param",
-                    "description": "something to do first"
-                }
-            },
-            {
-                "id": "param2",
-                "details": {
-                    "label": "param label 2",
-                    "description": "something to do second"
-                }
-            }
-        ],
-        "executionSystem": "compute.example.com",
-        "defaultQueue": "default",
-        "defaultNodeCount": 1,
-        "defaultMemoryPerNode": 4,
-        "defaultProcessorsPerNode": 1,
-        "defaultRequestedTime": "24:00:00",
-        "parallelism": "SERIAL",
-        "deploymentPath": "/scratch/apps/foo-1.0",
-        "deploymentSystem": "storage.example.com",
-        "templatePath": "wrapper.sh",
-        "testPath": "test/test/sh",
-        "name": "foo",
-        "version": "1.0",
-        "label": "foo app",
-        "helpURI": "http://help.com",
-        "shortDescription": "foo demo",
-        "longDescription": "foo demo app"
-    };
-    $scope.prettyModel = '{}';
     $scope.wizview = 'split';
+
+    $scope.editorConfig = {
+        lineWrapping: true,
+        lineNumbers: true,
+        matchBrackets: true,
+        styleActiveLine: false,
+        theme: "neat",
+        mode: 'javascript'
+    };
+
+
+    $scope.updateWizardLayout = function() {
+        console.log($scope.wizview);
+    };
 
 
     $scope.codemirrorLoaded = function(_editor) {
         // Events
         _editor.on("change", function () {
-            if (_editor.hasFocus()) {
-                $scope.model = JSON.parse(_editor.getValue());
-            }
+            // if (_editor.hasFocus()) {
+            //     $scope.model = JSON.parse(_editor.getValue());
+            // }
+            $timeout(function() {
+                if (_editor.getValue() === ''){
+                  $scope.model = '';
+                } else {
+                  try {
+                    $scope.model = JSON.parse(_editor.getValue());
+                  } catch(error) {
+                    App.alert({
+                        type: 'danger',
+                        message: error
+                    });
+                  }
+
+                }
+            }, 0);
         });
         _editor.on("blur", function () {
             if (_editor.hasFocus()) {
@@ -1011,30 +1203,38 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
         onLoad: $scope.codemirrorLoaded
     };
 
-    if ($stateParams.appId) {
-        AppsController.getAppDetails($stateParams.appId).then(
-            function (data) {
-                $scope.model = data;
-            },
-            function (data) {
-                console.log(data);
-                App.alert({
-                    type: 'danger',
-                    message: "There was an error contacting the apps service. " + data
-                });
-            });
-    }
-
-    $scope.$watch('model', function(value){
-
-        //$scope.$broadcast('schemaFormRedraw');
-
-        if (value) {
-            $scope.prettyModel = JSON.stringify(value, undefined, 2);
+    $scope.$watch('model', function(currentModel){
+        if (currentModel === ''){
+          $scope.model = {};
+        }
+        if (currentModel){
+            $scope.prettyModel = JSON.stringify(currentModel, undefined, 2);
         }
     }, true);
 
-    $scope.updateWizardLayout = function() {
-        console.log($scope.wizview);
-    };
+    $scope.$watch('model.modules', function(newValue, oldValue){
+        if (typeof newValue === 'undefined' && $scope.model !== ''){
+          $scope.model.modules = [];
+        }
+    }, true);
+
+    $scope.$watch('model.ontology', function(newValue, oldValue){
+        if (typeof newValue === 'undefined' && typeof $scope.model !== 'undefined'){
+          $scope.model.ontology = [];
+        }
+    }, true);
+
+    $scope.$watch('model.parameters', function(newValue, oldValue){
+        if (typeof newValue === 'undefined'){
+          $scope.model.parameters = [];
+        }
+    }, true);
+
+    $scope.$watch('model.tags', function(newValue, oldValue){
+        if (typeof newValue === 'undefined'){
+          $scope.model.tags = [];
+        }
+    }, true);
+
+
 });
