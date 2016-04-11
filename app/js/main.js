@@ -266,6 +266,37 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
         })
 
 
+        .state('apps-new', {
+            url: "/apps/new",
+            templateUrl: "views/apps/wizard.html",
+            data: {pageTitle: 'App Builder Wizard'},
+            controller: "AppBuilderWizardController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'AgaveToGo',
+                        files: [
+                           //'../bower_components/bootstrap-wizard/jquery.bootstrap.wizard.min.js',
+                           // "../bower_components/angular-sanitize/angular-sanitize.min.js",
+                           // "../bower_components/tv4/tv4.js",
+                           // "../bower_components/objectpath/lib/ObjectPath.js",
+                           // "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+                           // "../bower_components/angular-schema-form/dist/schema-form.js",
+                           // "../app/js/services/WizardHandler.js",
+                            "../bower_components/codemirror/lib/codemirror.css",
+                            "../bower_components/codemirror/theme/neo.css",
+                            "../bower_components/codemirror/lib/codemirror.js",
+                            "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+                            'js/controllers/apps/AppBuilderWizardController.js'
+                        ]
+                    },
+                    "ui.codemirror"
+                    );
+                }]
+            }
+        })
+
+
         .state("apps", {
           abtract: true,
           url:"/apps/:appId",
@@ -340,36 +371,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                             'js/controllers/modals/ModalPermissionEditorController.js'
                         ]
                     });
-                }]
-            }
-        })
-
-        .state('apps-new', {
-            url: "/apps/new",
-            templateUrl: "views/apps/wizard.html",
-            data: {pageTitle: 'App Builder Wizard'},
-            controller: "AppBuilderWizardController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'AgaveToGo',
-                        files: [
-                           //'../bower_components/bootstrap-wizard/jquery.bootstrap.wizard.min.js',
-                           // "../bower_components/angular-sanitize/angular-sanitize.min.js",
-                           // "../bower_components/tv4/tv4.js",
-                           // "../bower_components/objectpath/lib/ObjectPath.js",
-                           // "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
-                           // "../bower_components/angular-schema-form/dist/schema-form.js",
-                           // "../app/js/services/WizardHandler.js",
-                            "../bower_components/codemirror/lib/codemirror.css",
-                            "../bower_components/codemirror/theme/neo.css",
-                            "../bower_components/codemirror/lib/codemirror.js",
-                            "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
-                            'js/controllers/apps/AppBuilderWizardController.js'
-                        ]
-                    },
-                    "ui.codemirror"
-                    );
                 }]
             }
         })
@@ -518,97 +519,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
         /**********************************************************************/
         /**********************************************************************/
 
-        .state("systems", {
-          abtract: true,
-          url:"/systems/:systemId",
-          templateUrl:"views/systems/resource/resource.html",
-          controller: "SystemsResourceController",
-          resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-              return $ocLazyLoad.load([
-                {
-                  name: 'AgaveToGo',
-                    files: [
-                      'js/controllers/systems/resource/SystemsResourceController.js'
-                    ]
-                }
-              ]);
-            }]
-          }
-        })
-
-        .state("systems.details", {
-          url: "",
-          templateUrl: "views/systems/resource/details.html",
-          controller: "SystemsResourceDetailsController",
-          resolve: {
-              deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load([
-                  {
-                    name: 'AgaveToGo',
-                    files: [
-                        'js/controllers/systems/resource/SystemsResourceDetailsController.js'
-                    ]
-                  }
-                ]);
-              }]
-          }
-        })
-
-        .state("systems.queues", {
-          url: "/queues",
-          controller: "SystemsResourceQueuesController",
-          templateUrl: "views/systems/resource/queues.html",
-          resolve: {
-              deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load([
-                  {
-                    name: 'AgaveToGo',
-                    files: [
-                        'js/controllers/systems/resource/SystemsResourceQueuesController.js'
-                    ]
-                  }
-                ]);
-              }]
-          }
-        })
-
-        .state("systems.apps", {
-          url: "/apps",
-          templateUrl: "views/systems/resource/apps.html",
-          controller: "SystemsResourceAppsController",
-          resolve: {
-              deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load([
-                  {
-                    name: 'AgaveToGo',
-                    files: [
-                        'js/controllers/systems/resource/SystemsResourceAppsController.js'
-                    ]
-                  }
-                ]);
-              }]
-          }
-        })
-
-        .state("systems.stats", {
-          url: "/stats",
-          controller: "SystemsResourceStatsController",
-          templateUrl: "views/systems/resource/stats.html",
-          resolve: {
-              deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load([
-                  {
-                    name: 'AgaveToGo',
-                    files: [
-                        'js/controllers/systems/resource/SystemsResourceStatsController.js'
-                    ]
-                  }
-                ]);
-              }]
-          }
-        })
-
         .state('systems-manage', {
             url: "/systems",
             templateUrl: "views/systems/manager.html",
@@ -733,6 +643,99 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                 }]
             }
         })
+
+        .state("systems", {
+          abtract: true,
+          url:"/systems/:systemId",
+          templateUrl:"views/systems/resource/resource.html",
+          controller: "SystemsResourceController",
+          resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  name: 'AgaveToGo',
+                    files: [
+                      'js/controllers/systems/resource/SystemsResourceController.js'
+                    ]
+                }
+              ]);
+            }]
+          }
+        })
+
+        .state("systems.details", {
+          url: "",
+          templateUrl: "views/systems/resource/details.html",
+          controller: "SystemsResourceDetailsController",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/controllers/systems/resource/SystemsResourceDetailsController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
+        .state("systems.queues", {
+          url: "/queues",
+          controller: "SystemsResourceQueuesController",
+          templateUrl: "views/systems/resource/queues.html",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/controllers/systems/resource/SystemsResourceQueuesController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
+        .state("systems.apps", {
+          url: "/apps",
+          templateUrl: "views/systems/resource/apps.html",
+          controller: "SystemsResourceAppsController",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/controllers/systems/resource/SystemsResourceAppsController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
+        .state("systems.stats", {
+          url: "/stats",
+          controller: "SystemsResourceStatsController",
+          templateUrl: "views/systems/resource/stats.html",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/controllers/systems/resource/SystemsResourceStatsController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
+
 
 
         /**********************************************************************/
