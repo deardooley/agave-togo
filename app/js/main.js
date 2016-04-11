@@ -326,6 +326,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                   {
                     name: 'AgaveToGo',
                     files: [
+                        'js/services/ActionsService.js',
                         'js/controllers/apps/resource/AppsResourceDetailsController.js'
                     ]
                   }

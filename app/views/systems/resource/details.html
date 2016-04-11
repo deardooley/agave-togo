@@ -1,64 +1,116 @@
-<div class="table-responsive">
-  <table class="table">
-    <thead>
-     <tr>
-       <th class="col-sm-2"></th>
-       <th class="col-sm-10"></th>
-     </tr>
-    </thead>
-    <tbody>
-     <tr ng-if="system.id">
-       <td>ID</td>
-       <td><strong>{{system.id}}</strong></td>
-     </tr>
-     <tr ng-if="system.name">
-       <td>Name</td>
-       <td>{{system.name}}</td>
-     </tr>
-     <tr ng-if="system.description">
-       <td>Description</td>
-       <td>{{system.description}}</td>
-     </tr>
-     <tr ng-if="system.type">
-       <td>Type</td>
-       <td>{{system.type}}</td>
-     </tr>
-     <tr ng-if="system.executionType">
-       <td>Execution Type</td>
-       <td>{{system.executionType}}</td>
-     </tr>
-     <tr ng-if="system.status">
-       <td>Status</td>
-       <td>{{system.status}}</td>
-     </tr>
-     <tr ng-if="system.public">
-       <td>Public</td>
-       <td>{{system.public}}</td>
-     </tr>
-     <tr ng-if="system.scheduler">
-       <td>Scheduler</td>
-       <td>{{system.scheduler}}</td>
-     </tr>
-     <tr ng-if="system.maxSystemJobs">
-       <td>Max Jobs</td>
-       <td>{{system.maxSystemJobs}}</td>
-     </tr>
-     <tr ng-if="system.maxSystemJobsPerUser">
-       <td>Max Jobs Per User</td>
-       <td>{{system.maxSystemJobsPerUser}}</td>
-     </tr>
-     <tr ng-if="system.scratchDir">
-       <td>Scratch Directory</td>
-       <td>{{system.site}}</td>
-     </tr>
-     <tr ng-if="system.site">
-       <td>Site</td>
-       <td>{{system.site}}</td>
-     </tr>
-     <tr ng-if="system.revision">
-       <td>Revision</td>
-       <td>{{system.revision}}</td>
-     </tr>
-    </tbody>
-  </table>
+<div class="row">
+  <div class="col-md-6">
+    <div ng-if="system" class="btn-group pull-right">
+        <a class="btn red btn-outline" href="#" data-toggle="dropdown">
+            Actions
+            <i class="fa fa-angle-down"></i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+            <li>
+                <a ui-sref="data-explorer({systemId: system.id, path: ''})" role="button"> <i class="fa fa-folder-open-o"></i> Browse </a>
+            </li>
+            <li>
+                <a ng-click="editMetadata(system.id)" data-target="#metadata-modal"> <i class="fa fa-sticky-note-o"></i> Metadata </a>
+            </li>
+            <li>
+                <a ng-click="editTags(res)"> <i class="fa fa-tags"></i> Tags </a>
+            </li>
+            <li class="divider"> </li>
+            <li>
+                <a ng-click="editRoles(res)" data-target="#share-modal" role="button" data-toggle="modal"> <i class="fa fa-share-alt"></i> Share </a>
+            </li>
+            <li>
+                <a ng-click="editNotifications(system.id)" data-target="#notifications-modal" role="button" data-toggle="modal"> <i class="icon-webhooks"></i> Notifications </a>
+            </li>
+            <li class="divider"> </li>
+            <li ng-if="!system.available">
+                <a href="#" class="system-confirmation-action" ng-click="confirmAction(res, systemActions.ENABLE)" > <i class="fa fa-check"></i> Enable </a>
+            </li>
+            <li ng-if="system.available">
+                <a href="#"  class="system-confirmation-action" ng-click="confirmAction(res, systemActions.DISABLE)" > <i class="fa fa-remove"></i> Disable </a>
+            </li>
+            <li>
+                <a href="#" class="system-confirmation-action" ng-click="confirmDelete(res)" > <i class="fa fa-trash-o"></i> Delete </a>
+            </li>
+            <li class="divider"> </li>
+            <li>
+                <a href="#" data-target="#clone-modal" > <i class="fa fa-code-fork"></i> Clone </a>
+            </li>
+            <li ng-if="!system.public">
+                <a href="#" class="system-confirmation-action" ng-click="confirmAction(system.id,system.name,systemActions.PUBLISH)"> <i class="fa fa-eye"></i> Publish </a>
+            </li>
+            <li ng-if="system.public">
+                <a href="#" class="system-confirmation-action" ng-click="confirmAction(system.id,system.name,systemActions.UNPUBLISH);" > <i class="fa fa-eye-slash"></i> Unpublish </a>
+            </li>
+        </ul>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+         <tr>
+           <th class="col-sm-2"></th>
+           <th class="col-sm-10"></th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr ng-if="system.id">
+           <td>ID</td>
+           <td><strong>{{system.id}}</strong></td>
+         </tr>
+         <tr ng-if="system.name">
+           <td>Name</td>
+           <td>{{system.name}}</td>
+         </tr>
+         <tr ng-if="system.description">
+           <td>Description</td>
+           <td>{{system.description}}</td>
+         </tr>
+         <tr ng-if="system.type">
+           <td>Type</td>
+           <td>{{system.type}}</td>
+         </tr>
+         <tr ng-if="system.executionType">
+           <td>Execution Type</td>
+           <td>{{system.executionType}}</td>
+         </tr>
+         <tr ng-if="system.status">
+           <td>Status</td>
+           <td>{{system.status}}</td>
+         </tr>
+         <tr ng-if="system.public">
+           <td>Public</td>
+           <td>{{system.public}}</td>
+         </tr>
+         <tr ng-if="system.scheduler">
+           <td>Scheduler</td>
+           <td>{{system.scheduler}}</td>
+         </tr>
+         <tr ng-if="system.maxSystemJobs">
+           <td>Max Jobs</td>
+           <td>{{system.maxSystemJobs}}</td>
+         </tr>
+         <tr ng-if="system.maxSystemJobsPerUser">
+           <td>Max Jobs Per User</td>
+           <td>{{system.maxSystemJobsPerUser}}</td>
+         </tr>
+         <tr ng-if="system.scratchDir">
+           <td>Scratch Directory</td>
+           <td>{{system.site}}</td>
+         </tr>
+         <tr ng-if="system.site">
+           <td>Site</td>
+           <td>{{system.site}}</td>
+         </tr>
+         <tr ng-if="system.revision">
+           <td>Revision</td>
+           <td>{{system.revision}}</td>
+         </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

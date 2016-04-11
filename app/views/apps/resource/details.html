@@ -1,64 +1,101 @@
-<div class="table-responsive">
-  <table class="table">
-    <thead>
-     <tr>
-       <th class="col-sm-2"></th>
-       <th class="col-sm-10"></th>
-     </tr>
-    </thead>
-    <tbody>
-     <tr ng-if="app.id">
-       <td>ID</td>
-       <td><strong>{{app.id}}</strong></td>
-     </tr>
-     <tr ng-if="app.name">
-       <td>Name</td>
-       <td>{{app.name}}</td>
-     </tr>
-     <tr ng-if="app.longDescription">
-       <td>Description</td>
-       <td>{{app.longDescription}}</td>
-     </tr>
-     <tr ng-if="app.label">
-       <td>Label</td>
-       <td>{{app.label}}</td>
-     </tr>
-     <tr ng-if="app.isPublic">
-       <td>Public</td>
-       <td>{{app.isPublic}}</td>
-     </tr>
-     <tr ng-if="app.available">
-       <td>Available</td>
-       <td>{{app.available}}</td>
-     </tr>
-     <tr ng-if="app.deploymentSystem">
-       <td>Deployment System</td>
-       <td>{{app.deploymentSystem}}</td>
-     </tr>
-     <tr ng-if="app.deploymentPath">
-       <td>Deployment Path</td>
-       <td>{{app.deploymentPath}}</td>
-     </tr>
-     <tr ng-if="app.executionSystem">
-       <td>Execution System</td>
-       <td>{{app.executionSystem}}</td>
-     </tr>
-     <tr ng-if="app.executionType">
-       <td>Execution Type</td>
-       <td>{{app.executionType}}</td>
-     </tr>
-     <tr ng-if="app.parallelism">
-       <td>Parallelism</td>
-       <td>{{app.parallelism}}</td>
-     </tr>
-     <tr ng-if="app.revision">
-       <td>Revision</td>
-       <td>{{app.revision}}</td>
-     </tr>
-     <tr ng-if="app.lastModified">
-       <td>Last Modified</td>
-       <td>{{app.lastModified}}</td>
-     </tr>
-    </tbody>
-  </table>
+<div>
+  <div class="row">
+    <div class="col-md-6">
+      <div ng-if="app" class="btn-group pull-right">
+          <a class="btn red btn-outline" href="#" data-toggle="dropdown">
+              Actions
+              <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu pull-right">
+              <li ng-if="!app.available">
+                  <a ng-click="confirmAction('app', app, 'enable', '', $index)" role="button"> <i class="fa fa-check"></i> Enable </a>
+              </li>
+              <li ng-if="app.available">
+                  <a ng-click="confirmAction('app', app, 'disable', '', $index)" role="button"> <i class="fa fa-remove"></i> Disable </a>
+              </li>
+              <li>
+                  <a ng-click="confirmAction('app', app, 'delete', '', $index)" role="button"> <i class="fa fa-trash-o"></i> Delete </a>
+              </li>
+              <li class="divider"> </li>
+              <li>
+                  <a ng-click="clone(app)" role="button"> <i class="fa fa-code-fork"></i> Clone </a>
+              </li>
+              <li>
+                  <a ng-click="publish(app)" role="button"> <i class="fa fa-eye"></i> Publish </a>
+              </li>
+              <li>
+                  <a ng-click="openPermissionEditor(app)" role="button"> <i class="fa fa-share-alt"></i> Share </a>
+              </li>
+          </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div ng-if="app" class="table-responsive">
+        <table class="table">
+          <thead>
+           <tr>
+             <th class="col-sm-2"></th>
+             <th class="col-sm-10"></th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr ng-if="app.id">
+             <td>ID</td>
+             <td><strong>{{app.id}}</strong></td>
+           </tr>
+           <tr ng-if="app.name">
+             <td>Name</td>
+             <td>{{app.name}}</td>
+           </tr>
+           <tr ng-if="app.longDescription">
+             <td>Description</td>
+             <td>{{app.longDescription}}</td>
+           </tr>
+           <tr ng-if="app.label">
+             <td>Label</td>
+             <td>{{app.label}}</td>
+           </tr>
+           <tr ng-if="app.isPublic">
+             <td>Public</td>
+             <td>{{app.isPublic}}</td>
+           </tr>
+           <tr>
+             <td>Available</td>
+             <td>{{app.available}}</td>
+           </tr>
+           <tr ng-if="app.deploymentSystem">
+             <td>Deployment System</td>
+             <td>{{app.deploymentSystem}}</td>
+           </tr>
+           <tr ng-if="app.deploymentPath">
+             <td>Deployment Path</td>
+             <td>{{app.deploymentPath}}</td>
+           </tr>
+           <tr ng-if="app.executionSystem">
+             <td>Execution System</td>
+             <td>{{app.executionSystem}}</td>
+           </tr>
+           <tr ng-if="app.executionType">
+             <td>Execution Type</td>
+             <td>{{app.executionType}}</td>
+           </tr>
+           <tr ng-if="app.parallelism">
+             <td>Parallelism</td>
+             <td>{{app.parallelism}}</td>
+           </tr>
+           <tr ng-if="app.revision">
+             <td>Revision</td>
+             <td>{{app.revision}}</td>
+           </tr>
+           <tr ng-if="app.lastModified">
+             <td>Last Modified</td>
+             <td>{{app.lastModified}}</td>
+           </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

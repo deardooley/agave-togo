@@ -4,20 +4,24 @@ angular.module('AgaveToGo').controller('SystemsResourceDetailsController', funct
 
   $scope.system = null;
 
-  if ($stateParams.systemId !== ''){
-    SystemsController.getSystemDetails($stateParams.systemId)
-      .then(
-        function(response){
-          $scope.system = response;
-        },
-        function(response){
-          $scope.$parent.error = true;
-          App.alert({type: 'danger',message: 'Error: Could not retrieve system'});
-        }
-      );
-  } else {
-    $scope.$parent.error = true;
-    App.alert({type: 'danger',message: 'Error: Could not retrieve system'});
+  $scope.getSystem = function(){
+    if ($stateParams.systemId !== ''){
+      SystemsController.getSystemDetails($stateParams.systemId)
+        .then(
+          function(response){
+            $scope.system = response;
+          },
+          function(response){
+            $scope.$parent.error = true;
+            App.alert({type: 'danger',message: 'Error: Could not retrieve system'});
+          }
+        );
+    } else {
+      $scope.$parent.error = true;
+      App.alert({type: 'danger',message: 'Error: Could not retrieve system'});
+    }
   }
+
+  $scope.getSystem();
 
 });
