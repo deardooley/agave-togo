@@ -1,4 +1,4 @@
-angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootScope', '$location', 'AppsController', function($uibModal, $rootScope, $location, AppsController){
+angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootScope', '$location', '$state', 'AppsController', function($uibModal, $rootScope, $location, $state, AppsController){
 
 
   this.confirmAction = function(resourceType, resource, resourceAction, resourceList, resourceIndex){
@@ -34,7 +34,7 @@ angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootSco
 
             $scope.ok = function(){
               switch(resourceType){
-                case 'app':
+                case 'apps':
                   switch(resourceAction){
                     case 'enable':
                     case 'disable':
@@ -84,4 +84,12 @@ angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootSco
       });
   };
 
+  this.edit = function(resourceType, resource){
+    switch(resourceType){
+      case 'apps': $state.go('apps-edit', {'appId': resource.id });
+        break;
+      case 'systems': $state.go('systems-edit', {'systemId': resource.id });
+        break;
+    }
+  }
 }]);

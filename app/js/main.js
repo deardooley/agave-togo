@@ -265,6 +265,36 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             }
         })
 
+        .state('apps-edit', {
+            url: "/apps/edit/:appId",
+            templateUrl: "views/apps/edit-wizard.html",
+            data: {pageTitle: 'App Edit Wizard'},
+            controller: "AppEditWizardController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'AgaveToGo',
+                        files: [
+                           //'../bower_components/bootstrap-wizard/jquery.bootstrap.wizard.min.js',
+                           // "../bower_components/angular-sanitize/angular-sanitize.min.js",
+                           // "../bower_components/tv4/tv4.js",
+                           // "../bower_components/objectpath/lib/ObjectPath.js",
+                           // "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+                           // "../bower_components/angular-schema-form/dist/schema-form.js",
+                           // "../app/js/services/WizardHandler.js",
+                            "../bower_components/codemirror/lib/codemirror.css",
+                            "../bower_components/codemirror/theme/neo.css",
+                            "../bower_components/codemirror/lib/codemirror.js",
+                            "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+                            'js/controllers/apps/AppEditWizardController.js'
+                        ]
+                    },
+                    "ui.codemirror"
+                    );
+                }]
+            }
+        })
+
 
         .state('apps-new', {
             url: "/apps/new",
@@ -674,6 +704,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                   {
                     name: 'AgaveToGo',
                     files: [
+                        'js/services/ActionsService.js',
                         'js/controllers/systems/resource/SystemsResourceDetailsController.js'
                     ]
                   }

@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('SystemsResourceDetailsController', function($scope, $stateParams, SystemsController) {
+angular.module('AgaveToGo').controller('SystemsResourceDetailsController', function($scope, $stateParams, SystemsController, ActionsService) {
 
   $scope.$parent.error = false;
 
@@ -21,6 +21,14 @@ angular.module('AgaveToGo').controller('SystemsResourceDetailsController', funct
       App.alert({type: 'danger',message: 'Error: Could not retrieve system'});
     }
   }
+
+  $scope.confirmAction = function(resourceType, resource, resourceAction, resourceIndex){
+    ActionsService.confirmAction(resourceType, resource, resourceAction, resourceIndex);
+  };
+
+  $scope.edit = function(resourceType, resource){
+    ActionsService.edit(resourceType, resource);
+  };
 
   $scope.getSystem();
 

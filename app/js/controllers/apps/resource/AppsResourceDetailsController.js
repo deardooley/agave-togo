@@ -24,7 +24,11 @@ angular.module('AgaveToGo').controller('AppsResourceDetailsController', function
 
   $scope.confirmAction = function(resourceType, resource, resourceAction, resourceIndex){
     ActionsService.confirmAction(resourceType, resource, resourceAction, resourceIndex);
-  }
+  };
+
+  $scope.edit = function(resourceType, resource){
+    ActionsService.edit(resourceType, resource);
+  };
 
   $scope.getApp();
 

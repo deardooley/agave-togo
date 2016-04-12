@@ -7,14 +7,17 @@
               <i class="fa fa-angle-down"></i>
           </a>
           <ul class="dropdown-menu pull-right">
+              <li>
+                  <a ng-click="edit('apps', app)" role="button"> <i class="fa fa-pencil"></i></i> Edit </a>
+              </li>
               <li ng-if="!app.available">
-                  <a ng-click="confirmAction('app', app, 'enable', '', $index)" role="button"> <i class="fa fa-check"></i> Enable </a>
+                  <a ng-click="confirmAction('apps', app, 'enable', '', $index)" role="button"> <i class="fa fa-check"></i> Enable </a>
               </li>
               <li ng-if="app.available">
-                  <a ng-click="confirmAction('app', app, 'disable', '', $index)" role="button"> <i class="fa fa-remove"></i> Disable </a>
+                  <a ng-click="confirmAction('apps', app, 'disable', '', $index)" role="button"> <i class="fa fa-remove"></i> Disable </a>
               </li>
               <li>
-                  <a ng-click="confirmAction('app', app, 'delete', '', $index)" role="button"> <i class="fa fa-trash-o"></i> Delete </a>
+                  <a ng-click="confirmAction('apps', app, 'delete', '', $index)" role="button"> <i class="fa fa-trash-o"></i> Delete </a>
               </li>
               <li class="divider"> </li>
               <li>

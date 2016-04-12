@@ -7,6 +7,9 @@
         </a>
         <ul class="dropdown-menu pull-right">
             <li>
+                <a ng-click="edit('systems', system)" role="button"> <i class="fa fa-pencil"></i></i> Edit </a>
+            </li>
+            <li>
                 <a ui-sref="data-explorer({systemId: system.id, path: ''})" role="button"> <i class="fa fa-folder-open-o"></i> Browse </a>
             </li>
             <li>
