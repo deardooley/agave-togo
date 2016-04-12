@@ -82,7 +82,7 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                 "title": "Long description"
             },
             "defaultQueue": {
-                "type": "string",
+                "type": [null,"string"],
                 "description": "Default queue to use when submitting this job if none is provided in the job request. Can be left blank and a queue will be determined at run time.",
                 "maxLength": 128,
                 "title": "Default queue"
@@ -526,7 +526,7 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                     "longDescription",
                     {
                         key: 'tags',
-                        type: 'input',
+                        // type: 'input',
                         placeholder: 'One or more tags', //default will translate placeholder.select
                         options: {
                             tagging: true,
@@ -1073,13 +1073,34 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
     $scope.init = function() {
         if ($stateParams.appId) {
             AppsController.getAppDetails($stateParams.appId).then(
-                function (data) {
-                    $scope.model = data;
+                function (response) {
+                    if (response.lastModified){
+                      delete response.lastModified;
+                    }
+                    if (response.revision){
+                      delete response.revision;
+                    }
+                    if (response.uuid){
+                      delete response.uuid;
+                    }
+                    if (response.getContext){
+                      delete response.getContext;
+                    }
+                    if (response._links){
+                      delete response._links;
+                    }
+                    if (response.available){
+                      delete response.available;
+                    }
+                    if (response.icon){
+                      delete response.icon;
+                    }
+                    $scope.model = response;
                 },
-                function (data) {
+                function (response) {
                     App.alert({
                         type: 'danger',
-                        message: "There was an error contacting the apps service. " + data
+                        message: "There was an error contacting the apps service. " + response
                     });
                 });
         }
@@ -1102,7 +1123,11 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
       // Save model in service and re-direct to builder wizard
       $scope.model.name = '';
       $scope.model.version = '';
+
+      // angular.copy($scope.model, WizardHandler.model);
+
       WizardHandler.model = $scope.model;
+
       $location.path('/apps/new');
     };
 
@@ -1155,16 +1180,6 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
     };
 
     $scope.wizview = 'split';
-
-    // $scope.editorConfig = {
-    //     lineWrapping: true,
-    //     lineNumbers: true,
-    //     matchBrackets: true,
-    //     styleActiveLine: false,
-    //     theme: "neat",
-    //     mode: 'javascript',
-    //     readOnly: true,
-    // };
 
 
     $scope.updateWizardLayout = function() {

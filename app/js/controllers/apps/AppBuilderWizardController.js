@@ -82,7 +82,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                 "title": "Long description"
             },
             "defaultQueue": {
-                "type": "string",
+                "type": [null,"string"],
                 "description": "Default queue to use when submitting this job if none is provided in the job request. Can be left blank and a queue will be determined at run time.",
                 "maxLength": 128,
                 "title": "Default queue"
@@ -524,7 +524,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                     "longDescription",
                     {
                         key: 'tags',
-                        type: 'input',
+                        // type: 'input',
                         placeholder: 'One or more tags', //default will translate placeholder.select
                         options: {
                             tagging: true,
@@ -536,6 +536,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                     {
                         key: 'ontology',
                         placeholder: 'Semantic terms', //default will translate placeholder.select
+                        startEmpty: true
                     }
                 ]
             },
