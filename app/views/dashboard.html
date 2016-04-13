@@ -172,7 +172,7 @@
                                     <th> COMMENTS </th>
                                     <th> JOBS </th>
                                     <th> DOCS </th>
-                                    <th> KARMA </th>
+                                    <th> PROGRESS </th>
                                 </tr>
                             </thead>
                             <tr ng-repeat="n in [] | range:4">
@@ -220,18 +220,18 @@
                         <div class="tab-pane active" id="tab_1_1">
                             <div class="scroller" style="height: 306px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
                                 <ul class="feeds">
-                                    <li ng-repeat="hist in jobHistory track by $index">
+				    <li ng-repeat="job in jobListing track by $index">
                                         <div class="col1">
                                             <div class="cont">
                                                 <div class="cont-col1">
                                                     <div class="label label-sm label-success">
-                                                        <i class="fa fa-{{ hist.status | jobStatusIcon }}"></i>
+                                                        <i class="fa fa-{{ job.status | jobStatusIcon }}"></i>
                                                     </div>
                                                 </div>
                                                 <div class="cont-col2">
-                                                    <div class="desc"> {{ hist.description | excerpt }}
-                                                        <span ng-if="hist.status === 'ARCHIVING_FINISHED'" class="label label-sm label-info">
-                                                            <a ui-sref="jobs-output({jobId: '3679479586933314021-e0bd34dffff8de6-0001-007'})">
+                                                    <div class="desc"> {{ job.name | excerpt }}
+                                                        <span ng-if="job.status === 'FINISHED'" class="label label-sm label-info">
+                                                            <a ui-sref="jobs-output({jobId: job.id})">
                                                                 View output
                                                                 <i class="fa fa-share"></i>
                                                             </a>
@@ -241,10 +241,9 @@
                                             </div>
                                         </div>
                                         <div class="col2">
-                                            <div class="date" am-time-ago="hist.created"></div>
+                                            <div class="date" am-time-ago="job.created"></div>
                                         </div>
-                                    </li>
-
+				    </li>
                                 </ul>
                             </div>
                         </div>
@@ -915,7 +914,7 @@
                     <div class="caption caption-md">
                         <i class="icon-bar-chart font-green"></i>
                         <span class="caption-subject font-green bold uppercase">Support Issues</span>
-                        <span class="caption-helper">45 pending</span>
+                        <span class="caption-helper">{{ jiraIssues.length }} pending</span>
                     </div>
                     <div class="inputs">
                         <div class="portlet-input input-inline input-small ">
@@ -928,95 +927,23 @@
                 <div class="portlet-body">
                     <div class="scroller" style="height: 329px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
                         <div class="general-item-list">
-                            <div class="item">
+                            <div ng-repeat="issue in jiraIssues" class="item">
                                 <div class="item-head">
                                     <div class="item-details">
-                                        <img class="item-pic rounded" src="../assets/pages/media/users/avatar4.jpg">
-                                        <a href="" class="item-name primary-link">Nick Larson</a>
-                                        <span class="item-label">3 hrs ago</span>
+                                        <img class="item-pic rounded" ng-src="{{ issue.fields.reporter.avatarUrls['32x32'] }}">
+                                        <a ui-sref="profile-details({email: issue.fields.reporter.eamilAddress})" class="item-name primary-link"></a>
+                                        <span class="item-label" am-time-ago="issue.fields.customfield_10029.ongoingCycle.startTime.iso8601"></span>
                                     </div>
                                     <span class="item-status">
-                                        <span class="badge badge-empty badge-success"></span> Open</span>
+                                        <span class="badge badge-empty badge-success"></span> {{issue.fields.status.name}}</span>
                                 </div>
-                                <div class="item-body"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-head">
-                                    <div class="item-details">
-                                        <img class="item-pic rounded" src="../assets/pages/media/users/avatar3.jpg">
-                                        <a href="" class="item-name primary-link">Mark</a>
-                                        <span class="item-label">5 hrs ago</span>
-                                    </div>
-                                    <span class="item-status">
-                                        <span class="badge badge-empty badge-warning"></span> Pending</span>
-                                </div>
-                                <div class="item-body"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat tincidunt ut laoreet. </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-head">
-                                    <div class="item-details">
-                                        <img class="item-pic rounded" src="../assets/pages/media/users/avatar6.jpg">
-                                        <a href="" class="item-name primary-link">Nick Larson</a>
-                                        <span class="item-label">8 hrs ago</span>
-                                    </div>
-                                    <span class="item-status">
-                                        <span class="badge badge-empty badge-primary"></span> Closed</span>
-                                </div>
-                                <div class="item-body"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh. </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-head">
-                                    <div class="item-details">
-                                        <img class="item-pic rounded" src="../assets/pages/media/users/avatar7.jpg">
-                                        <a href="" class="item-name primary-link">Nick Larson</a>
-                                        <span class="item-label">12 hrs ago</span>
-                                    </div>
-                                    <span class="item-status">
-                                        <span class="badge badge-empty badge-danger"></span> Pending</span>
-                                </div>
-                                <div class="item-body"> Consectetuer adipiscing elit Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-head">
-                                    <div class="item-details">
-                                        <img class="item-pic rounded" src="../assets/pages/media/users/avatar9.jpg">
-                                        <a href="" class="item-name primary-link">Richard Stone</a>
-                                        <span class="item-label">2 days ago</span>
-                                    </div>
-                                    <span class="item-status">
-                                        <span class="badge badge-empty badge-danger"></span> Open</span>
-                                </div>
-                                <div class="item-body"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, ut laoreet dolore magna aliquam erat volutpat. </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-head">
-                                    <div class="item-details">
-                                        <img class="item-pic rounded" src="../assets/pages/media/users/avatar8.jpg">
-                                        <a href="" class="item-name primary-link">Dan</a>
-                                        <span class="item-label">3 days ago</span>
-                                    </div>
-                                    <span class="item-status">
-                                        <span class="badge badge-empty badge-warning"></span> Pending</span>
-                                </div>
-                                <div class="item-body"> Lorem ipsum dolor sit amet, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-head">
-                                    <div class="item-details">
-                                        <img class="item-pic rounded" src="../assets/pages/media/users/avatar2.jpg">
-                                        <a href="" class="item-name primary-link">Larry</a>
-                                        <span class="item-label">4 hrs ago</span>
-                                    </div>
-                                    <span class="item-status">
-                                        <span class="badge badge-empty badge-success"></span> Open</span>
-                                </div>
-                                <div class="item-body"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </div>
+                                <div class="item-body"> {{ issue.fields.summary | limitTo:200}} </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- END PORTLET-->
+	    <!-- END PORTLET-->
         </div>
     </div>
 </div>

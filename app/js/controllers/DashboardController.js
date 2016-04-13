@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('DashboardController', function($rootScope, $scope, $http, $timeout, $filter, Commons, JobsController, SystemsController, StatusIoController, moment, amMoment) {
+angular.module('AgaveToGo').controller('DashboardController', function($rootScope, $scope, $http, $timeout, $filter, Commons, JobsController, SystemsController, StatusIoController, moment, amMoment, Jira) {
     $scope.$on('$viewContentLoaded', function() {   
         // initialize core components
         App.initAjax();
@@ -121,19 +121,35 @@ angular.module('AgaveToGo').controller('DashboardController', function($rootScop
         negBarColor: '#e02222'
     });
 
+      JobsController.listJobs(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'FINISHED', null, null).then(
+    function(data) {
+      $timeout(function() {
+        $scope.jobListing = data;
+      }, 50);
+    },
+    function(data) {
+      console.log("unable to fetch job history");
+      console.log(data);
+      $scope.jobListing = [];
+    });
 
-
-    JobsController.getJobHistory('3679479586933314021-e0bd34dffff8de6-0001-007', 15).then(
-        function(data) {
-            $timeout(function() {
-                $scope.jobHistory = data;
-            }, 50);
-        },
-        function(data) {
-            console.log("unable to fetch job history");
-            console.log(data);
-        });
-
+      Jira.search('open').then(
+    function(response) {
+      if (response.total > 0) {
+        $timeout(function() {
+          $scope.jiraIssues = response.issues;
+        }, 50);
+      } else {
+        $timeout(function() {
+          $scope.jiraIssues = [];
+        }, 50);
+      }
+    },
+    function(response) {
+      $timeout(function() {
+        $scope.jiraIssues = [];
+      }, 50);
+    });
 })
 .filter("jobStatusIcon", [function() {
     return function(status){

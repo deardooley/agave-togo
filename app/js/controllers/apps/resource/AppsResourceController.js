@@ -1,5 +1,7 @@
 angular.module('AgaveToGo').controller("AppsResourceController", function($scope, $state, $stateParams) {
 
+		$scope.appId = $stateParams.appId;
+
 		$scope.go = function(route){
 			$state.go(route);
 		};

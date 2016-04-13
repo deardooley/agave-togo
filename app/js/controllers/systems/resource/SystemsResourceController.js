@@ -1,4 +1,6 @@
-angular.module('AgaveToGo').controller("SystemsResourceController", function($scope, $state) {
+angular.module('AgaveToGo').controller("SystemsResourceController", function($scope, $state, $stateParams) {
+
+		$scope.systemId = $stateParams.systemId;
 
 		$scope.go = function(route){
 			$state.go(route);

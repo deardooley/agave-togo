@@ -1,6 +1,6 @@
 <div class="table-responsive">
   <table class="table" ng-repeat="app in apps">
-    <thead>
+    <thead class="hidden-sm hidden-xs">
      <tr>
        <th class="col-sm-2"></th>
        <th class="col-sm-10"></th>
@@ -9,11 +9,11 @@
     <tbody>
      <tr ng-if="app.id">
        <td>ID</td>
-       <td><strong>{{app.id}}</strong></td>
+       <td><strong><a href="#/apps/{{app.id}}">{{app.id}}</a></strong></td>
      </tr>
      <tr ng-if="app.name">
        <td>Name</td>
-       <td>{{app.name}}</td>
+       <td><a href="#/apps/{{app.id}}">{{app.name}}</a></td>
      </tr>
      <tr ng-if="app.label">
        <td>Label</td>
@@ -41,7 +41,7 @@
      </tr>
      <tr ng-if="app.lastModified">
        <td>Public</td>
-       <td>{{app.revision}}</td>
+       <td am-time-ago="app.lastModified"></td>
      </tr>
     </tbody>
   </table>

@@ -1,7 +1,9 @@
 web:
-  image: agaveapi/apache-dev:latest
+  image: agaveapi/httpd:2.4
   restart: always
+  environment:
+    - 'DOCUMENT_ROOT=/var/www/html'
   ports:
-    - '9000:80'
+    - '8018:80'
   volumes:
     - '.:/var/www/html:ro'

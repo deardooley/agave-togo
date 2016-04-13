@@ -16,6 +16,7 @@ var AgaveToGo = angular.module("AgaveToGo", [
     //"oauth",
     'CommonsService',
     'TagsService',
+    'JiraService',
     'AgavePlatformScienceAPILib',
     'pascalprecht.translate',
     'ngCookies',

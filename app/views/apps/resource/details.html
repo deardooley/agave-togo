@@ -1,7 +1,7 @@
 <div>
-  <div class="row">
-    <div class="col-md-6">
-      <div ng-if="app" class="btn-group pull-right">
+  <div class="row visible-sm visible-xs mbm">
+    <div class="col-xs-12">
+      <div ng-if="app" class="btn-group pull-right visible-sm visible-xs">
           <a class="btn red btn-outline" href="#" data-toggle="dropdown">
               Actions
               <i class="fa fa-angle-down"></i>
@@ -34,11 +34,11 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-sm-9">
       <div ng-if="app" class="table-responsive">
         <table class="table">
-          <thead>
-           <tr>
+          <thead class="hidden-sm hidden-xs">
+          <tr>
              <th class="col-sm-2"></th>
              <th class="col-sm-10"></th>
            </tr>
@@ -70,15 +70,15 @@
            </tr>
            <tr ng-if="app.deploymentSystem">
              <td>Deployment System</td>
-             <td>{{app.deploymentSystem}}</td>
+             <td><a href="#/systems/{{app.deploymentSystem}}">{{app.deploymentSystem}}</a></td>
            </tr>
            <tr ng-if="app.deploymentPath">
              <td>Deployment Path</td>
-             <td>{{app.deploymentPath}}</td>
+             <td><a href="#/data/explorer/{{app.deploymentSystem}}//{{app.deploymentPath}}">{{app.deploymentPath}}</a></td>
            </tr>
            <tr ng-if="app.executionSystem">
              <td>Execution System</td>
-             <td>{{app.executionSystem}}</td>
+             <td><a href="#/systems/{{app.executionSystem}}">{{app.executionSystem}}</a></td>
            </tr>
            <tr ng-if="app.executionType">
              <td>Execution Type</td>
@@ -94,10 +94,42 @@
            </tr>
            <tr ng-if="app.lastModified">
              <td>Last Modified</td>
-             <td>{{app.lastModified}}</td>
+             <td am-time-ago="app.lastModified"></td>
            </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div ng-if="app" class="btn-group pull-right">
+          <a class="btn red btn-outline" href="#" data-toggle="dropdown">
+              Actions
+              <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu pull-right">
+              <li>
+                  <a ng-click="edit('apps', app)" role="button"> <i class="fa fa-pencil"></i></i> Edit </a>
+              </li>
+              <li ng-if="!app.available">
+                  <a ng-click="confirmAction('apps', app, 'enable', '', $index)" role="button"> <i class="fa fa-check"></i> Enable </a>
+              </li>
+              <li ng-if="app.available">
+                  <a ng-click="confirmAction('apps', app, 'disable', '', $index)" role="button"> <i class="fa fa-remove"></i> Disable </a>
+              </li>
+              <li>
+                  <a ng-click="confirmAction('apps', app, 'delete', '', $index)" role="button"> <i class="fa fa-trash-o"></i> Delete </a>
+              </li>
+              <li class="divider"> </li>
+              <li>
+                  <a ng-click="clone(app)" role="button"> <i class="fa fa-code-fork"></i> Clone </a>
+              </li>
+              <li>
+                  <a ng-click="publish(app)" role="button"> <i class="fa fa-eye"></i> Publish </a>
+              </li>
+              <li>
+                  <a ng-click="openPermissionEditor(app)" role="button"> <i class="fa fa-share-alt"></i> Share </a>
+              </li>
+          </ul>
       </div>
     </div>
   </div>
