@@ -1,26 +1,28 @@
-<h3 class="page-title"> System Editor Wizard</h3>
+<h3 class="page-title"> App Edit Wizard</h3>
 
-<div class="row" ng-show="!wizview">
+<div class="row">
     <div class="col-md-12">
-      <a href="/app/#/systems" class="btn btn-default">Back to Systems</a>
-    </div>
-</div>
+        <div class="m-heading-1 border-green m-bordered">
+            <!-- <h3>App Builder Wizard</h3> -->
+            <p>
+                This twitter bootstrap plugin builds a wizard out of a formatter tabbable structure. It allows to build a wizard functionality
+                using buttons to go through the different wizard steps and using events allows to hook into each step individually.
+            </p>
+        </div>
 
-<div class="row" ng-show="wizview">
-    <div class="col-md-12">
         <div class="portlet light bordered" id="form_wizard_1">
-            <div class="portlet-title" ng-show="edit">
+            <div class="portlet-title">
                 <div class="caption">
                     <i class=" icon-layers font-red"></i>
                     <span class="caption-subject font-red bold uppercase">
-                        System Editor Wizard - <span class="step-title"> Step 1 of 2 </span>
+                        App Edit Wizard - <span class="step-title"> Step 1 of 4 </span>
                     </span>
                 </div>
                 <div class="actions">
                     <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <label class="btn btn-outline green btn-circle btn-sm" uib-btn-radio="'form'" ng-model="wizview" >Form</label>
-                        <label class="btn btn-outline green btn-circle btn-sm" uib-btn-radio="'code'" ng-model="wizview">Code</label>
-                        <label class="btn btn-outline green btn-circle btn-sm" uib-btn-radio="'split'" ng-model="wizview">Split</label>
+                        <label class="btn btn-outline green btn-circle btn-sm" uib-btn-radio="'form'" ng-model="wizview">Form</label>
+                        <label class="btn btn-outline green btn-circle btn-sm" uib-btn-radio="'code'" ng-model="wizview" >Code</label>
+                        <label class="btn btn-outline green btn-circle btn-sm" uib-btn-radio="'split'" ng-model="wizview" >Split</label>
                     </div>
                 </div>
             </div>
@@ -50,8 +52,8 @@
 <div class="row">
   <div class="col-md-12">
     <div class="pull-right">
-      <a href="/app/#/systems" type="button" class="btn btn-primary blue">Back to Systems</a>
-      <a href="/app/#/systems/new" type="button" class="btn btn-success" ng-click="useDefinition()">Use Definition</a>
+      <a href="/app/#/apps" type="button" class="btn btn-primary blue">Back to Apps</a>
+      <a type="button" class="btn btn-success" ng-click="useDefinition()">Use Definition</a>
     </div>
   </div>
 </div>

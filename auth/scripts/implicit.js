@@ -1,7 +1,7 @@
 // production
 var OAuthClients = {
     'agave.prod': {
-        'clientKey': 'xFy3FbPFiSK8WqOU66Ucxb9bxCIa',
+        'clientKey': 'zO5DcJrf4kbgrfhHCtfOcSHgB6Ua',
         'callbackUrl': 'http://togo.agaveapi.co/auth',
         'scope': 'PRODUCTION'
     },

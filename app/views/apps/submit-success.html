@@ -1,0 +1,97 @@
+<div modal="submitSuccess">
+    <div class="modal-header">
+      <h3 class="modal-title">App Builder Wizard</h3>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-success">
+        <strong>You have successfully created/updated your app</strong>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-if="model.name">
+              <td>
+                Name
+              </td>
+              <td>
+                {{model.name}}
+              </td>
+            </tr>
+            <tr ng-if="model.version">
+              <td>
+                Version
+              </td>
+              <td>
+                {{model.version}}
+              </td>
+            </tr>
+            <tr ng-if="model.label">
+              <td>
+                Label
+              </td>
+              <td>
+                {{model.label}}
+              </td>
+            </tr>
+            <tr ng-if="model.shortDescription">
+              <td>
+                Description
+              </td>
+              <td>
+                {{model.shortDescription}}
+              </td>
+            </tr>
+            <tr ng-if="model.executionType">
+              <td>
+                Execution Type
+              </td>
+              <td>
+                {{model.executionType}}
+              </td>
+            </tr>
+            <tr ng-if="model.executionSystem">
+              <td>
+                Execution System
+              </td>
+              <td>
+                {{model.executionSystem}}
+              </td>
+            </tr>
+            <tr ng-if="model.parallelism">
+              <td>
+                Parallelism
+              </td>
+              <td>
+                {{model.parallelism}}
+              </td>
+              <tr ng-if="model.deploymentSystem">
+                <td>
+                  Deployment System
+                </td>
+                <td>
+                  {{model.deploymentSystem}}
+                </td>
+              </tr>
+              <tr ng-if="model.deploymentPath">
+                <td>
+                  Deployment Path
+                </td>
+                <td>
+                  {{model.deploymentPath}}
+                </td>
+              </tr>
+            </tr>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-warning" type="button" ng-click="close()">Close</button>
+      <button ng-click="browse()" class="btn btn-primary">Browse Apps</button>
+    </div>
+</div>

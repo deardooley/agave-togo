@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $uibModal, Commons, AppsController, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
+angular.module('AgaveToGo').controller('AppEditWizardController', function ($injector, $timeout, $rootScope, $scope, $state, $location, $stateParams, $q, $uibModal, Commons, AppsController, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
 
     //var handleTitle = function(tab, navigation, index) {
     //    var total = navigation.find('li').length;
@@ -493,31 +493,33 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                 "items": [
                     {
                       "key": "name",
-                      ngModelOptions: {
-                          updateOnDefault: true
-                      },
-                      validationMessage: {
-                        'required': 'Missing required'
-                      },
-                      $validators: {
-                        required: function(value) {
-                          return value ? true : false;
-                        }
-                      }
+                      "readonly": true,
+                      // ngModelOptions: {
+                      //     updateOnDefault: true
+                      // },
+                      // validationMessage: {
+                      //   'required': 'Missing required'
+                      // },
+                      // $validators: {
+                      //   required: function(value) {
+                      //     return value ? true : false;
+                      //   }
+                      // }
                     },
                     {
                       "key": "version",
-                      ngModelOptions: {
-                          updateOnDefault: true
-                      },
-                      validationMessage: {
-                        'required': 'Missing required'
-                      },
-                      $validators: {
-                        required: function(value) {
-                          return value ? true : false;
-                        }
-                      }
+                      "readonly": true
+                      // ngModelOptions: {
+                      //     updateOnDefault: true
+                      // },
+                      // validationMessage: {
+                      //   'required': 'Missing required'
+                      // },
+                      // $validators: {
+                      //   required: function(value) {
+                      //     return value ? true : false;
+                      //   }
+                      // }
                     },
                     "label",
                     "shortDescription",
@@ -536,7 +538,6 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                     {
                         key: 'ontology',
                         placeholder: 'Semantic terms', //default will translate placeholder.select
-                        startEmpty: true
                     }
                 ]
             },
@@ -1072,13 +1073,34 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
     $scope.init = function() {
         if ($stateParams.appId) {
             AppsController.getAppDetails($stateParams.appId).then(
-                function (data) {
-                    $scope.model = data;
+                function (response) {
+                    if (response.lastModified){
+                      delete response.lastModified;
+                    }
+                    if (response.revision){
+                      delete response.revision;
+                    }
+                    if (response.uuid){
+                      delete response.uuid;
+                    }
+                    if (response.getContext){
+                      delete response.getContext;
+                    }
+                    if (response._links){
+                      delete response._links;
+                    }
+                    if (response.available){
+                      delete response.available;
+                    }
+                    if (response.icon){
+                      delete response.icon;
+                    }
+                    $scope.model = response;
                 },
-                function (data) {
+                function (response) {
                     App.alert({
                         type: 'danger',
-                        message: "There was an error contacting the apps service. " + data
+                        message: "There was an error contacting the apps service. " + response
                     });
                 });
         }
@@ -1096,6 +1118,18 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
 
 
     $scope.init();
+
+    $scope.useDefinition = function(){
+      // Save model in service and re-direct to builder wizard
+      $scope.model.name = '';
+      $scope.model.version = '';
+
+      // angular.copy($scope.model, WizardHandler.model);
+
+      WizardHandler.model = $scope.model;
+
+      $location.path('/apps/new');
+    };
 
     $scope.submit = function () {
         $scope.$broadcast('schemaFormValidate');
@@ -1147,15 +1181,6 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
 
     $scope.wizview = 'split';
 
-    $scope.editorConfig = {
-        lineWrapping: true,
-        lineNumbers: true,
-        matchBrackets: true,
-        styleActiveLine: false,
-        theme: "neat",
-        mode: 'javascript'
-    };
-
 
     $scope.updateWizardLayout = function() {
         console.log($scope.wizview);
@@ -1201,6 +1226,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
         mode: 'javascript',
         json: true,
         statementIndent: 2,
+        readOnly: true,
         onLoad: $scope.codemirrorLoaded
     };
 

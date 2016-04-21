@@ -210,7 +210,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
     $urlRouterProvider.otherwise("/dashboard");
 
     $stateProvider
-
         // Dashboard
         .state('dashboard', {
             url: "/dashboard",
@@ -267,27 +266,36 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             }
         })
 
-        .state('apps-manage', {
-            url: "/apps/manage",
-            templateUrl: "views/apps/manager.html",
-            data: {pageTitle: 'App Manager'},
-            controller: "AppDirectoryController",
+        .state('apps-edit', {
+            url: "/apps/edit/:appId",
+            templateUrl: "views/apps/edit-wizard.html",
+            data: {pageTitle: 'App Edit Wizard'},
+            controller: "AppEditWizardController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         name: 'AgaveToGo',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/scripts/datatable.js',
-                            '../bower_components/holderjs/holder.js',
-                            'js/controllers/apps/AppDirectoryController.js',
-                            'js/controllers/modals/ModalConfirmResourceActionController.js',
-                            'js/controllers/modals/ModalPermissionEditorController.js'
+                           //'../bower_components/bootstrap-wizard/jquery.bootstrap.wizard.min.js',
+                           // "../bower_components/angular-sanitize/angular-sanitize.min.js",
+                           // "../bower_components/tv4/tv4.js",
+                           // "../bower_components/objectpath/lib/ObjectPath.js",
+                           // "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+                           // "../bower_components/angular-schema-form/dist/schema-form.js",
+                           // "../app/js/services/WizardHandler.js",
+                            "../bower_components/codemirror/lib/codemirror.css",
+                            "../bower_components/codemirror/theme/neo.css",
+                            "../bower_components/codemirror/lib/codemirror.js",
+                            "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+                            'js/controllers/apps/AppEditWizardController.js'
                         ]
-                    });
+                    },
+                    "ui.codemirror"
+                    );
                 }]
             }
         })
+
 
         .state('apps-new', {
             url: "/apps/new",
@@ -319,9 +327,66 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
             }
         })
 
-        .state('apps-edit', {
-            url: "/apps/manage",
-            templateUrl: "views/apps/editor.html",
+
+        .state("apps", {
+          abtract: true,
+          url:"/apps/:appId",
+          templateUrl:"views/apps/resource/resource.html",
+          controller: "AppsResourceController",
+          resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  name: 'AgaveToGo',
+                    files: [
+                      'js/controllers/apps/resource/AppsResourceController.js'
+                    ]
+                }
+              ]);
+            }]
+          }
+        })
+
+        .state("apps.details", {
+          url: "",
+          templateUrl: "views/apps/resource/details.html",
+          controller: "AppsResourceDetailsController",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/services/ActionsService.js',
+                        'js/controllers/apps/resource/AppsResourceDetailsController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
+        .state("apps.stats", {
+          url: "/stats",
+          controller: "AppsResourceStatsController",
+          templateUrl: "views/apps/resource/stats.html",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/controllers/apps/resource/AppsResourceStatsController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
+        .state('apps-manage', {
+            url: "/apps",
+            templateUrl: "views/apps/manager.html",
             data: {pageTitle: 'App Manager'},
             controller: "AppDirectoryController",
             resolve: {
@@ -330,26 +395,18 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         name: 'AgaveToGo',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            //'../assets/global/plugins/datatables/datatables.min.css',
-                            //'../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                            //'../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            //
-                            //'../assets/global/plugins/datatables/datatables.all.min.js',
-                            //'../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            //'../assets/global/scripts/datatable.js',
-                            // '../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
-                            // '../bower_components/datatables/media/css/dataTables.css',
-                            // '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            //
-                            // '../bower_components/datatables/dataTables.bootstrap.min.js',
-                            // '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            // '../assets/global/scripts/datatable.js',
-                            'js/controllers/apps/AppDirectoryController.js'
+                            '../assets/global/scripts/datatable.js',
+                            '../bower_components/holderjs/holder.js',
+                            // 'js/controllers/apps/AppDirectoryController.js',
+                            'js/controllers/apps/AppDirectoryController.js',
+                            'js/controllers/modals/ModalConfirmResourceActionController.js',
+                            'js/controllers/modals/ModalPermissionEditorController.js'
                         ]
                     });
                 }]
             }
         })
+
 
         /**********************************************************************/
         /**********************************************************************/
@@ -618,6 +675,100 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                 }]
             }
         })
+
+        .state("systems", {
+          abtract: true,
+          url:"/systems/:systemId",
+          templateUrl:"views/systems/resource/resource.html",
+          controller: "SystemsResourceController",
+          resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  name: 'AgaveToGo',
+                    files: [
+                      'js/controllers/systems/resource/SystemsResourceController.js'
+                    ]
+                }
+              ]);
+            }]
+          }
+        })
+
+        .state("systems.details", {
+          url: "",
+          templateUrl: "views/systems/resource/details.html",
+          controller: "SystemsResourceDetailsController",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/services/ActionsService.js',
+                        'js/controllers/systems/resource/SystemsResourceDetailsController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
+        .state("systems.queues", {
+          url: "/queues",
+          controller: "SystemsResourceQueuesController",
+          templateUrl: "views/systems/resource/queues.html",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/controllers/systems/resource/SystemsResourceQueuesController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
+        .state("systems.apps", {
+          url: "/apps",
+          templateUrl: "views/systems/resource/apps.html",
+          controller: "SystemsResourceAppsController",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/controllers/systems/resource/SystemsResourceAppsController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
+        .state("systems.stats", {
+          url: "/stats",
+          controller: "SystemsResourceStatsController",
+          templateUrl: "views/systems/resource/stats.html",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/controllers/systems/resource/SystemsResourceStatsController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
+
 
 
         /**********************************************************************/

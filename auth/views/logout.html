@@ -10,11 +10,11 @@
                 <oauth
                         template="/auth/views/templates/oauth-ng-button.html"
                         site="tenant.baseUrl"
-                        client-id="settings.oauth.clients[tenant.code]"
-                        redirect-uri="http://localhost:9000/auth"
+                        client-id="settings.oauth.clients[tenant.code].clientKey"
+                        redirect-uri="http://togo.agaveapi.co/auth"
                         authorize-path="/authorize",
                         state="12345"
-                        scope="{{settings.oauth.scope}}"
+                        scope="PRODUCTION"
                         tenant="tenant">
                 </oauth>
             </div>

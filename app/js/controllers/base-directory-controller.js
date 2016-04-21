@@ -5,7 +5,6 @@
  * implementation controllers.
  */
 function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, $q, Commons, ApiStub) {
-
   $scope.offset = $scope.offset || 0;
   $scope.limit = $scope.limit || 25;
 
@@ -35,9 +34,6 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
   };
 
   $scope.handleSuccess = $scope.handleSuccess || function(response) {
-
-    console.log(response.data);
-
     $rootScope.$broadcast('event:content-loading-complete', "remote call success");
   };
 
@@ -48,10 +44,7 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
    * @param response object from the service
    */
   $scope.handleRefreshSuccess = $scope.handleRefreshSuccess || function(response) {
-
     $scope[$scope._COLLECTION_NAME] = response;
-
-    console.log($scope[$scope._COLLECTION_NAME]);
 
     $timeout(function(){
 
@@ -95,30 +88,30 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
         ],
 
         // setup responsive extension: http://datatables.net/extensions/responsive/
-        responsive: {
-          details: {
-            display: $.fn.dataTable.Responsive.display.modal({
-              header: function ( row ) {
-                var data = row.data();
-                return 'Details for '+ data[2];
-              }
-            }),
-            renderer: function ( api, rowIdx, columns ) {
-              var data = $.map( columns, function ( col, i ) {
-                if (i > 0) {
-                  return '<tr>' +
-                      '<td>' + col.title + ':' + '</td> ' +
-                      '<td>' + col.data + '</td>' +
-                      '</tr>';
-                } else {
-                  return '';
-                }
-              } ).join('');
-
-              return $('<div class="table-responsive"/>').append($('<table class="table"><thead><tr><th>Field</th><th>Value</th></tr></thead></table>').append('<tbody>' + data + '</tbody>'));
-            }
-          }
-        },
+        // responsive: {
+        //   details: {
+        //     display: $.fn.dataTable.Responsive.display.modal({
+        //       header: function ( row ) {
+        //         var data = row.data();
+        //         return 'Details for '+ data[2];
+        //       }
+        //     }),
+        //     renderer: function ( api, rowIdx, columns ) {
+        //       var data = $.map( columns, function ( col, i ) {
+        //         if (i > 0) {
+        //           return '<tr>' +
+        //               '<td>' + col.title + ':' + '</td> ' +
+        //               '<td>' + col.data + '</td>' +
+        //               '</tr>';
+        //         } else {
+        //           return '';
+        //         }
+        //       } ).join('');
+        //
+        //       return $('<div class="table-responsive"/>').append($('<table class="table"><thead><tr><th>Field</th><th>Value</th></tr></thead></table>').append('<tbody>' + data + '</tbody>'));
+        //     }
+        //   }
+        // },
 
         // setup responsive extension: http://datatables.net/extensions/responsive/
         //responsive: true,
@@ -169,12 +162,12 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
           $(this).prop("checked", checked);
         });
         $.uniform.update(set);
-        countSelectedRecords();
+        // countSelectedRecords();
       });
 
       // handle row's checkbox click
       table.on('change', 'tbody > tr > td:nth-child(1) input[type="checkbox"]', function() {
-        countSelectedRecords();
+        // countSelectedRecords();
       });
 
       // handle filter submit button click
@@ -193,7 +186,7 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
 
       ////END CHECKBOX TABLE
 
-      $rootScope.$broadcast('event:content-loading-complete', "loading success");
+      // $rootScope.$broadcast('event:content-loading-complete', "loading success");
 
     },50);
 
@@ -211,8 +204,6 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
     if (response.code == 404 && $scope[$scope._COLLECTION_NAME] === null) {
       $state.go('frontend-404');
     } else {
-      console.log("Error response from remote call: ");
-      console.log(response);
       var msg = $scope.getErrorMessage(response);
       App.unblockUI($scope.getTableId);
       App.alert({
@@ -278,6 +269,7 @@ function BaseCollectionCtrl($timeout, $rootScope, $scope, $state, $stateParams, 
       overlayColor: '#FFF',
       animate: true
     });
+
     ApiStub['list' + Commons.capitalize($scope._COLLECTION_NAME, false)]($scope.limit, $scope.offset, { public: false })
         .then($scope.handleRefreshSuccess, $scope.handleFailure);
   };
