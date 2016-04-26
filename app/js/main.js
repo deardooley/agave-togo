@@ -450,6 +450,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                             insertBefore: '#ng_load_plugins_before',
                             files: [
                                 /********* File Manager ******/
+                                "../bower_components/angular-filebrowser/src/js/app.js",
                                 "../bower_components/angular-cookies/angular-cookies.min.js",
                                 "../bower_components/angular-filebrowser/src/js/providers/config.js",
                                 "../bower_components/angular-filebrowser/src/js/directives/directives.js",
@@ -461,7 +462,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                                 "../bower_components/angular-filebrowser/src/js/services/filenavigator.js",
                                 "../bower_components/angular-filebrowser/src/js/services/fileuploader.js",
                                 "../bower_components/angular-filebrowser/src/js/providers/translations.js",
-                                "../bower_components/angular-filebrowser/src/js/app.js",
                                 "../bower_components/angular-filebrowser/src/js/controllers/main.js",
                                 "../bower_components/angular-filebrowser/src/js/controllers/selector-controller.js",
                                 "../bower_components/angular-filebrowser/src/css/angular-filemanager.css",
@@ -479,8 +479,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                                 "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
                                 "js/controllers/data/FileExplorerController.js"
                             ]
-                        },
-                        // "FileManagerApp"
+                        }
                     ]);
                 }]
             }
