@@ -16,6 +16,7 @@ angular.module('AgaveToGo').controller('FileExplorerController', function($rootS
     if ($stateParams.systemId) {
         SystemsController.getSystemDetails($stateParams.systemId)
           .then(function(system) {
+                $scope.system = system;
                 if ($stateParams.path === "" || $stateParams.path === "/") {
                     // check if username path is browsable
                     FilesController.listFileItems(system.id, $localStorage.activeProfile.username, 1, 0)
@@ -44,14 +45,13 @@ angular.module('AgaveToGo').controller('FileExplorerController', function($rootS
                             });
                       });
                 } else {
-                    $scope.path = $localStorage.activeProfile.username;
-                    $stateParams.path = $scope.path;
+                    $scope.path = $stateParams.path;
                     $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
                     App.unblockUI('#agave-filemanager');
                     $scope.error = false;
                     $scope.requesting = false;
                 }
-                $scope.system = system;
+
             })
           .catch(function(msg) {
               $scope.path = $stateParams.path ? $stateParams.path : '';
