@@ -1,8 +1,11 @@
-angular.module('AgaveToGo').controller('FileExplorerController', function($rootScope, $scope, $http, $timeout, $filter, $localStorage, $location, $state, $stateParams, $uibModal, SystemsController) {
+angular.module('AgaveToGo').controller('FileExplorerController', function($rootScope, $scope, $http, $timeout, $filter, $localStorage, $location, $state, $stateParams, $uibModal, SystemsController, FilesController) {
 
     $scope.system = undefined;
     $scope.systems = [];
     $scope.path = '';
+
+    $scope.error = true;
+    $scope.requesting = true;
 
     App.blockUI({
         target: '#agave-filemanager',
@@ -11,32 +14,86 @@ angular.module('AgaveToGo').controller('FileExplorerController', function($rootS
     });
 
     if ($stateParams.systemId) {
-
-        SystemsController.getSystemDetails($stateParams.systemId).then(
-            function(sys) {
-                if ($stateParams.path) {
-                    $scope.path = $stateParams.path;
+        SystemsController.getSystemDetails($stateParams.systemId)
+          .then(function(system) {
+                if ($stateParams.path === "" || $stateParams.path === "/") {
+                    // check if username path is browsable
+                    FilesController.listFileItems(system.id, $localStorage.activeProfile.username, 1, 0)
+                      .then(function(rootFiles){
+                        $scope.path = $localStorage.activeProfile.username;
+                        $stateParams.path = $scope.path;
+                        $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
+                        App.unblockUI('#agave-filemanager');
+                        $scope.error = false;
+                        $scope.requesting = false;
+                      })
+                      .catch(function(rootFiles){
+                        // check if / is browsable
+                        FilesController.listFileItems(system.id, '/', 1, 0)
+                            .then(function(usernameFiles){
+                              $scope.path = '/';
+                              $stateParams.path = $scope.path;
+                              $location.path("/data/explorer/" + $stateParams.systemId + "/");
+                              App.unblockUI('#agave-filemanager');
+                              $scope.error = false;
+                              $scope.requesting = false;
+                            })
+                            .catch(function(rootFiles){
+                              App.alert({type: 'danger', message: "There was an error listing files on the system. Could not find a path to browse"});
+                              $scope.requesting = false;
+                            });
+                      });
                 } else {
                     $scope.path = $localStorage.activeProfile.username;
                     $stateParams.path = $scope.path;
                     $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
+                    App.unblockUI('#agave-filemanager');
+                    $scope.error = false;
+                    $scope.requesting = false;
                 }
-                $scope.system = sys;
-                App.unblockUI('#agave-filemanager');
-            },
-            function(msg) {
-                $scope.path = $stateParams.path ? $stateParams.path : '';
-                $scope.system = '';
-                App.alert({type: 'danger', message: "Unable to fetch system details. " + msg});
-                App.unblockUI('#agave-filemanager');
-            }
-        );
-    } else {
-        SystemsController.listSystems(99999, 0, false, false, 'STORAGE').then(
-            function (response) {
+                $scope.system = system;
+            })
+          .catch(function(msg) {
+              $scope.path = $stateParams.path ? $stateParams.path : '';
+              $scope.system = '';
+              $scope.requesting = false;
+              App.alert({type: 'danger', message: "Unable to fetch system details. " + msg});
+              App.unblockUI('#agave-filemanager');
+          });
+    }
+    else {
+        SystemsController.listSystems(99999, 0, false, false, 'STORAGE')
+          .then(function (response) {
                 if (response && response.length) {
-                    $location.path("/data/explorer/" + response[0].id + "/" + ($stateParams.path ? $stateParams.path : $localStorage.activeProfile.username));
-                    $location.replace();
+                    $scope.system = response[0];
+                    // check if username path is browsable
+                    FilesController.listFileItems(response[0].id, $localStorage.activeProfile.username, 1, 0)
+                      .then(function(rootFiles){
+                        $scope.path = $localStorage.activeProfile.username;
+                        $stateParams.path = $scope.path;
+                        $stateParams.systemId = response[0].id;
+                        $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
+                        App.unblockUI('#agave-filemanager');
+                        $scope.error = false;
+                        $scope.requesting = false;
+                      })
+                      .catch(function(rootFiles){
+                        // check if / is browsable
+                        FilesController.listFileItems(response[0].id, '/', 1, 0)
+                            .then(function(usernameFiles){
+                              $scope.path = '/';
+                              $stateParams.path = $scope.path;
+                              $stateParams.systemId = response[0].id;
+                              $location.path("/data/explorer/" + $stateParams.systemId + "/");
+                              App.unblockUI('#agave-filemanager');
+                              $scope.error = false;
+                              $scope.requesting = false;
+                            })
+                            .catch(function(rootFiles){
+                              $scope.requesting = false;
+                              App.alert({type: 'danger', message: "There was an error listing files on the system. Could not find a path to browse"});
+                            });
+                      });
                 } else {
                     $uibModal.open({
                         templateUrl: "views/data/system-selector.html",
@@ -51,12 +108,11 @@ angular.module('AgaveToGo').controller('FileExplorerController', function($rootS
                                         } else {
                                           App.alert({type: 'danger', message: "There was an error setting your default system"});
                                           $scope.close();
-
                                           $('.modal-backdrop').remove();
                                         }
-
                                     })
                                     .catch(function(response){
+                                        $scope.requesting = false;
                                         App.alert({type: 'danger', message: "There was an error setting your default system"});
                                         $scope.close();
                                     });
@@ -72,6 +128,7 @@ angular.module('AgaveToGo').controller('FileExplorerController', function($rootS
                                   App.unblockUI('#agave-filemanager');
                                 })
                                 .catch(function(response){
+                                  $scope.requesting = false;
                                   App.alert({type: 'danger', message: "There was an error setting your default system"});
                                   $scope.close();
 
@@ -88,16 +145,12 @@ angular.module('AgaveToGo').controller('FileExplorerController', function($rootS
                             };
                         }]
                     });
-
-                    // $scope.path = $stateParams.path ? $stateParams.path : '';
-                    // $scope.system = '';
-                    // App.alert({type: 'danger', message: "No default storage system found for user. Please specify a system to which you would like to browse."})
-                    // App.unblockUI('#agave-filemanager');
                 }
-            },
-            function (data) {
+            })
+            .catch(function (data) {
                 $scope.path = $stateParams.path ? $stateParams.path : '';
                 $scope.system = '';
+                $scope.requesting = false;
                 App.alert({type: 'danger', message: "There was an error fetching your list of available systems"});
                 App.unblockUI('#agave-filemanager');
             });
