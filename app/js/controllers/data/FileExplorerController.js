@@ -1,5 +1,4 @@
 angular.module('AgaveToGo').controller('FileExplorerController', function($rootScope, $scope, $http, $timeout, $filter, $localStorage, $location, $state, $stateParams, $uibModal, SystemsController, FilesController) {
-
     $scope.system = undefined;
     $scope.systems = [];
     $scope.path = '';
@@ -17,7 +16,7 @@ angular.module('AgaveToGo').controller('FileExplorerController', function($rootS
         SystemsController.getSystemDetails($stateParams.systemId)
           .then(function(system) {
                 $scope.system = system;
-                if ($stateParams.path === "" || $stateParams.path === "/") {
+                if (typeof $stateParams.path === 'undefined' || $stateParams.path === "" || $stateParams.path === "/") {
                     // check if username path is browsable
                     FilesController.listFileItems(system.id, $localStorage.activeProfile.username, 1, 0)
                       .then(function(rootFiles){
