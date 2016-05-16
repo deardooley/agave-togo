@@ -21,7 +21,7 @@
     "bower": "^1.6.5"
   },
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "bower --allow-root install",
 
     "start": "http-server -a localhost -p 9000 -c-1",
 
