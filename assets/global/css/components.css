@@ -1469,7 +1469,6 @@ Fontawesome Icons
 [class*=" icon-"] {
   display: inline-block;
   *margin-right: .3em;
-  line-height: 14px;
   -webkit-font-smoothing: antialiased; }
 
 /* Make font awesome icons fixed width */
