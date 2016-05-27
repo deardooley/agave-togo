@@ -209,6 +209,11 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
     // Redirect any unmatched url
     $urlRouterProvider.otherwise("/dashboard");
 
+    $urlRouterProvider.rule(function ($injector, $location) {
+       var path = $location.path().replace(/\/\/+/g, '/');
+       $location.replace().path(path);
+   });
+
     // Make trailing slashed options
     $urlMatcherFactoryProvider.strictMode(false);
 
