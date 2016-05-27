@@ -1,6 +1,6 @@
 angular.module('AgaveToGo').controller('SystemBuilderWizardController', function($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $filter, $uibModal, $localStorage, $location, Commons, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
 
-      $scope.getSystemsTitleMap = function(){
+    $scope.getSystemsTitleMap = function(){
         $scope.systemsTitleMap = [];
 
         $scope.systemsTitleMap.push({"value": "Local Disk", "name": "Local Disk"});
@@ -279,11 +279,11 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             },
                             "publicKey": {
                                 "type": "string",
-                                "title": "SSH Public Key"
+                                "title": "Public Key"
                             },
                             "privateKey": {
                                 "type": "string",
-                                "title": "SSH Private Key"
+                                "title": "Private Key"
                             },
                             // custom field to select credentail or server options in auth
                             "credentialType": {
@@ -412,13 +412,12 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                 "title": "System Auth Credential"
                             },
                             "publicKey": {
-
                                 "type": "string",
-                                "title": "SSH Public Key"
+                                "title": "Public Key"
                             },
                             "privateKey": {
                                 "type": "string",
-                                "title": "SSH Private Key"
+                                "title": "Private Key"
                             },
                             // custom field to select credentail or server options in auth
                             "credentialType": {
@@ -1618,12 +1617,11 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                         //    ]
                         //  },
 
-                         // login.auth.publicKey
+                         // login.auth.publicKey for SSHKEYS
                          {
                            "type": "section",
                            "htmlClass": "col-xs-8",
                            "condition":
-                              "model.login.auth.type === 'APIKEYS' || " +
                               "model.login.auth.type === 'SSHKEYS'",
                            "items": [
                              {
@@ -1636,7 +1634,6 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                            "type": "section",
                            "htmlClass": "col-xs-2",
                            "condition":
-                              "model.login.auth.type === 'APIKEYS' || " +
                               "model.login.auth.type === 'SSHKEYS'",
                            "items": [
                              {
@@ -1740,7 +1737,6 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                           "type": "section",
                           "htmlClass": "col-xs-2",
                           "condition":
-                             "model.login.auth.type === 'APIKEYS' || " +
                              "model.login.auth.type === 'SSHKEYS'",
                           "items": [
                             {
@@ -1758,12 +1754,11 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                           ]
                         },
 
-                        // login.auth.privateKey
+                        // login.auth.privateKey for SSHKEYS
                         {
                           "type": "section",
                           "htmlClass": "col-xs-8",
                           "condition":
-                             "model.login.auth.type === 'APIKEYS' || " +
                              "model.login.auth.type === 'SSHKEYS'",
                           "items": [
                             {
@@ -1776,7 +1771,6 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                           "type": "section",
                           "htmlClass": "col-xs-2",
                           "condition":
-                             "model.login.auth.type === 'APIKEYS' || " +
                              "model.login.auth.type === 'SSHKEYS'",
                           "items": [
                             {
@@ -1880,7 +1874,6 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                          "type": "section",
                          "htmlClass": "col-xs-2",
                          "condition":
-                            "model.login.auth.type === 'APIKEYS' || " +
                             "model.login.auth.type === 'SSHKEYS'",
                          "items": [
                            {
@@ -1890,7 +1883,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                               '<div class="form-group ">'+
                                 '<label class="control-label">&nbsp;</label>'+
                                 '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
-                                  '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Copy and paste your publicKey or use the Upload File Manager"></i>'+
+                                  '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Copy and paste your privateKey or use the Upload File Manager"></i>'+
                                 '</div>'+
                                 '<div class="help-block"></div>'+
                               '</div>',
@@ -1898,7 +1891,279 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                          ]
                        },
 
+                       // login.auth.publicKey for APIKEYS
+                       {
+                         "type": "section",
+                         "htmlClass": "col-xs-8",
+                         "condition":
+                            "model.login.auth.type === 'APIKEYS'",
+                         "items": [
+                           {
+                               "key": "login.auth.publicKey",
+                               "type": "textarea",
+                           }
+                         ]
+                       },
+                      //  {
+                      //    "type": "section",
+                      //    "htmlClass": "col-xs-2",
+                      //    "condition":
+                      //       "model.login.auth.type === 'APIKEYS'",
+                      //    "items": [
+                      //      {
+                      //        "type": "select",
+                      //        "title": "Upload",
+                      //       //  "titleMap": $scope.getSystemsTitleMap(),
+                      //        "titleMap": $scope.systemsTitleMap,
+                      //        ngModelOptions: {
+                      //            updateOnDefault: true
+                      //        },
+                      //        onChange: function(systemId, formModel) {
+                      //          if (systemId === 'Local Disk'){
+                       //
+                      //            $uibModal.open({
+                      //              templateUrl: "views/systems/filemanager-local.html",
+                      //              // resolve: {
+                      //              // },
+                      //              scope: $scope,
+                      //              size: 'lg',
+                      //              controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                       //
+                      //                $scope.fileUpload = function(element) {
+                      //                  $scope.loading = true;
+                       //
+                      //                  $scope.$apply(function(scope) {
+                      //                     var file = element.files[0];
+                      //                     var reader = new FileReader();
+                      //                     reader.onerror = function(e) {
+                      //                        // TO-DO
+                      //                     };
+                       //
+                      //                     reader.onloadend = function(e) {
+                      //                       $scope.model.login.auth.publicKey = e.target.result;
+                      //                       $scope.loading = false;
+                      //                     };
+                      //                     reader.readAsText(file);
+                      //                  });
+                      //                };
+                       //
+                      //                $scope.cancel = function()
+                      //                {
+                      //                    $modalInstance.dismiss('cancel');
+                      //                };
+                       //
+                      //                $scope.upload = function(){
+                      //                    $modalInstance.close();
+                      //                }
+                       //
+                      //              }]
+                      //            });
+                       //
+                      //          } else {
+                      //            SystemsController.getSystemDetails(systemId).then(
+                      //                function(sys) {
+                      //                    if ($stateParams.path) {
+                      //                        $scope.path = $stateParams.path;
+                      //                    } else {
+                      //                        $scope.path = $localStorage.activeProfile.username;
+                      //                        $stateParams.path = $scope.path;
+                      //                        // $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
+                      //                    }
+                      //                    $scope.system = sys;
+                      //                    $rootScope.uploadFileContent = '';
+                      //                    $uibModal.open({
+                      //                      templateUrl: "views/systems/filemanager.html",
+                      //                      // resolve: {
+                      //                      // },
+                      //                      scope: $scope,
+                      //                      size: 'lg',
+                      //                      controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                      //                        $scope.cancel = function()
+                      //                        {
+                      //                            $modalInstance.dismiss('cancel');
+                      //                        };
+                       //
+                      //                        $scope.close = function(){
+                      //                            $modalInstance.close();
+                      //                        }
+                       //
+                      //                        $scope.$watch('uploadFileContent', function(uploadFileContent){
+                      //                            if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
+                      //                             //  $scope.model.login = {'auth' : {'publicKey': ''}};
+                      //                              $scope.model.login.auth.publicKey = uploadFileContent;
+                      //                              $scope.close();
+                      //                            }
+                      //                        });
+                      //                      }]
+                      //                    });
+                      //                },
+                      //                function(msg) {
+                      //                    $scope.path = $stateParams.path ? $stateParams.path : '';
+                      //                    $scope.system = '';
+                      //                }
+                      //            );
+                      //          }
+                      //        }
+                      //      }
+                      //    ]
+                      //  },
+                      {
+                        "type": "section",
+                        "htmlClass": "col-xs-2",
+                        "condition":
+                           "model.login.auth.type === 'APIKEYS'",
+                        "items": [
+                          {
+                             "type": "template",
+                             "template":
 
+                             '<div class="form-group ">'+
+                               '<label class="control-label">&nbsp;</label>'+
+                               '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                 '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Copy and paste your publicKey"></i>'+
+                               '</div>'+
+                               '<div class="help-block"></div>'+
+                             '</div>',
+                          }
+                        ]
+                      },
+
+                      // login.auth.privateKey for APIKEYS
+                      {
+                        "type": "section",
+                        "htmlClass": "col-xs-8",
+                        "condition":
+                           "model.login.auth.type === 'APIKEYS'",
+                        "items": [
+                          {
+                              "key": "login.auth.privateKey",
+                              "type": "textarea",
+                          }
+                        ]
+                      },
+                      // {
+                      //   "type": "section",
+                      //   "htmlClass": "col-xs-2",
+                      //   "condition":
+                      //      "model.login.auth.type === 'APIKEYS'",
+                      //   "items": [
+                      //     {
+                      //       "type": "select",
+                      //       "title": "Upload",
+                      //       // "titleMap": $scope.getSystemsTitleMap(),
+                      //       "titleMap": $scope.systemsTitleMap,
+                      //       ngModelOptions: {
+                      //           updateOnDefault: true
+                      //       },
+                      //       onChange: function(systemId, formModel) {
+                      //         if (systemId === 'Local Disk'){
+                      //
+                      //           $uibModal.open({
+                      //             templateUrl: "views/systems/filemanager-local.html",
+                      //             // resolve: {
+                      //             // },
+                      //             scope: $scope,
+                      //             size: 'lg',
+                      //             controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                      //
+                      //               $scope.fileUpload = function(element) {
+                      //                 $scope.loading = true;
+                      //
+                      //                 $scope.$apply(function(scope) {
+                      //                    var file = element.files[0];
+                      //                    var reader = new FileReader();
+                      //                    reader.onerror = function(e) {
+                      //                       // TO-DO
+                      //                    };
+                      //
+                      //                    reader.onloadend = function(e) {
+                      //                      $scope.model.login.auth.privateKey = e.target.result;
+                      //                      $scope.loading = false;
+                      //                    };
+                      //                    reader.readAsText(file);
+                      //                 });
+                      //               };
+                      //
+                      //               $scope.cancel = function()
+                      //               {
+                      //                   $modalInstance.dismiss('cancel');
+                      //               };
+                      //
+                      //               $scope.upload = function(){
+                      //                   $modalInstance.close();
+                      //               }
+                      //
+                      //             }]
+                      //           });
+                      //
+                      //         } else {
+                      //           SystemsController.getSystemDetails(systemId).then(
+                      //               function(sys) {
+                      //                   if ($stateParams.path) {
+                      //                       $scope.path = $stateParams.path;
+                      //                   } else {
+                      //                       $scope.path = $localStorage.activeProfile.username;
+                      //                       $stateParams.path = $scope.path;
+                      //                       // $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
+                      //                   }
+                      //                   $scope.system = sys;
+                      //                   $rootScope.uploadFileContent = '';
+                      //                   $uibModal.open({
+                      //                     templateUrl: "views/systems/filemanager.html",
+                      //                     // resolve: {
+                      //                     // },
+                      //                     scope: $scope,
+                      //                     size: 'lg',
+                      //                     controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                      //                       $scope.cancel = function()
+                      //                       {
+                      //                           $modalInstance.dismiss('cancel');
+                      //                       };
+                      //
+                      //                       $scope.close = function(){
+                      //                           $modalInstance.close();
+                      //                       }
+                      //
+                      //                       $scope.$watch('uploadFileContent', function(uploadFileContent){
+                      //                           if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
+                      //                             // $scope.model.storage = {'auth' : {'privateKey': ''}};
+                      //                             $scope.model.login.auth.privateKey = uploadFileContent;
+                      //                             $scope.close();
+                      //                           }
+                      //                       });
+                      //                     }]
+                      //                   });
+                      //               },
+                      //               function(msg) {
+                      //                   $scope.path = $stateParams.path ? $stateParams.path : '';
+                      //                   $scope.system = '';
+                      //               }
+                      //           );
+                      //         }
+                      //       }
+                      //     }
+                      //   ]
+                      // },
+                      {
+                       "type": "section",
+                       "htmlClass": "col-xs-2",
+                       "condition":
+                          "model.login.auth.type === 'APIKEYS'",
+                       "items": [
+                         {
+                            "type": "template",
+                            "template":
+
+                            '<div class="form-group ">'+
+                              '<label class="control-label">&nbsp;</label>'+
+                              '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Copy and paste your privateKey"></i>'+
+                              '</div>'+
+                              '<div class="help-block"></div>'+
+                            '</div>',
+                         }
+                       ]
+                     },
                     ]
                   },
                   // end EXECUTION.login.auth
@@ -2789,151 +3054,148 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                            ]
                          },
 
-                           // storage.auth.publicKey
-                           {
-                             "type": "section",
-                             "htmlClass": "col-xs-8",
-                             "condition":
-                                "model.storage.auth.type === 'APIKEYS' || " +
-                                "model.storage.auth.type === 'SSHKEYS'",
-                             "items": [
-                               {
-                                   "key": "storage.auth.publicKey",
-                                   "type": "textarea",
-                               }
-                             ]
-                           },
-                           {
-                             "type": "section",
-                             "htmlClass": "col-xs-2",
-                             "condition":
-                                "model.storage.auth.type === 'APIKEYS' || " +
-                                "model.storage.auth.type === 'SSHKEYS'",
-                             "items": [
-                               {
-                                 "type": "select",
-                                 "title": "Upload",
-                                "titleMap": $scope.systemsTitleMap,
-                                 ngModelOptions: {
-                                     updateOnDefault: true
-                                 },
-                                 onChange: function(systemId, formModel) {
-                                   if (systemId === 'Local Disk'){
+                         // storage.auth.publicKey for SSHKEYS
+                         {
+                           "type": "section",
+                           "htmlClass": "col-xs-8",
+                           "condition":
+                              "model.storage.auth.type === 'SSHKEYS'",
+                           "items": [
+                             {
+                                 "key": "storage.auth.publicKey",
+                                 "type": "textarea",
+                             }
+                           ]
+                         },
+                         {
+                           "type": "section",
+                           "htmlClass": "col-xs-2",
+                           "condition":
+                              "model.storage.auth.type === 'SSHKEYS'",
+                           "items": [
+                             {
+                               "type": "select",
+                               "title": "Upload",
+                              "titleMap": $scope.systemsTitleMap,
+                               ngModelOptions: {
+                                   updateOnDefault: true
+                               },
+                               onChange: function(systemId, formModel) {
+                                 if (systemId === 'Local Disk'){
 
-                                     $uibModal.open({
-                                       templateUrl: "views/systems/filemanager-local.html",
-                                       // resolve: {
-                                       // },
-                                       scope: $scope,
-                                       size: 'lg',
-                                       controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                                   $uibModal.open({
+                                     templateUrl: "views/systems/filemanager-local.html",
+                                     // resolve: {
+                                     // },
+                                     scope: $scope,
+                                     size: 'lg',
+                                     controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
 
-                                         $scope.fileUpload = function(element) {
-                                           $scope.loading = true;
+                                       $scope.fileUpload = function(element) {
+                                         $scope.loading = true;
 
-                                           $scope.$apply(function(scope) {
-                                              var file = element.files[0];
-                                              var reader = new FileReader();
-                                              reader.onerror = function(e) {
-                                                 // TO-DO
-                                              };
+                                         $scope.$apply(function(scope) {
+                                            var file = element.files[0];
+                                            var reader = new FileReader();
+                                            reader.onerror = function(e) {
+                                               // TO-DO
+                                            };
 
-                                              reader.onloadend = function(e) {
-                                                $scope.model.storage.auth.publicKey = e.target.result;
-                                                $scope.loading = false;
-                                              };
-                                              reader.readAsText(file);
+                                            reader.onloadend = function(e) {
+                                              $scope.model.storage.auth.publicKey = e.target.result;
+                                              $scope.loading = false;
+                                            };
+                                            reader.readAsText(file);
+                                         });
+                                       };
+
+                                       $scope.cancel = function()
+                                       {
+                                           $modalInstance.dismiss('cancel');
+                                       };
+
+                                       $scope.upload = function(){
+                                           $modalInstance.close();
+                                       }
+
+                                     }]
+                                   });
+
+                                 } else {
+                                   SystemsController.getSystemDetails(systemId).then(
+                                       function(sys) {
+                                           if ($stateParams.path) {
+                                               $scope.path = $stateParams.path;
+                                           } else {
+                                               $scope.path = $localStorage.activeProfile.username;
+                                               $stateParams.path = $scope.path;
+                                               // $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
+                                           }
+                                           $scope.system = sys;
+                                           $rootScope.uploadFileContent = '';
+                                           $uibModal.open({
+                                             templateUrl: "views/systems/filemanager.html",
+                                             // resolve: {
+                                             // },
+                                             scope: $scope,
+                                             size: 'lg',
+                                             controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+
+                                               $scope.cancel = function()
+                                               {
+                                                   $modalInstance.dismiss('cancel');
+                                               };
+
+                                               $scope.close = function(){
+                                                   $modalInstance.close();
+                                               }
+
+                                               $scope.$watch('uploadFileContent', function(uploadFileContent){
+                                                   if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
+                                                    //  $scope.model.storage = {'auth' : {'publicKey': ''}};
+                                                     $scope.model.storage.auth.publicKey = uploadFileContent;
+                                                     $scope.close();
+                                                   }
+                                               });
+                                             }]
                                            });
-                                         };
-
-                                         $scope.cancel = function()
-                                         {
-                                             $modalInstance.dismiss('cancel');
-                                         };
-
-                                         $scope.upload = function(){
-                                             $modalInstance.close();
-                                         }
-
-                                       }]
-                                     });
-
-                                   } else {
-                                     SystemsController.getSystemDetails(systemId).then(
-                                         function(sys) {
-                                             if ($stateParams.path) {
-                                                 $scope.path = $stateParams.path;
-                                             } else {
-                                                 $scope.path = $localStorage.activeProfile.username;
-                                                 $stateParams.path = $scope.path;
-                                                 // $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
-                                             }
-                                             $scope.system = sys;
-                                             $rootScope.uploadFileContent = '';
-                                             $uibModal.open({
-                                               templateUrl: "views/systems/filemanager.html",
-                                               // resolve: {
-                                               // },
-                                               scope: $scope,
-                                               size: 'lg',
-                                               controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
-                                                 $scope.cancel = function()
-                                                 {
-                                                     $modalInstance.dismiss('cancel');
-                                                 };
-
-                                                 $scope.close = function(){
-                                                     $modalInstance.close();
-                                                 }
-
-                                                 $scope.$watch('uploadFileContent', function(uploadFileContent){
-                                                     if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
-                                                      //  $scope.model.storage = {'auth' : {'publicKey': ''}};
-                                                       $scope.model.storage.auth.publicKey = uploadFileContent;
-                                                       $scope.close();
-                                                     }
-                                                 });
-                                               }]
-                                             });
-                                         },
-                                         function(msg) {
-                                             $scope.path = $stateParams.path ? $stateParams.path : '';
-                                             $scope.system = '';
-                                         }
-                                     );
-                                   }
+                                       },
+                                       function(msg) {
+                                           $scope.path = $stateParams.path ? $stateParams.path : '';
+                                           $scope.system = '';
+                                       }
+                                   );
                                  }
                                }
-                             ]
-                           },
-                           {
-                            "type": "section",
-                            "htmlClass": "col-xs-2",
-                            "condition":
-                               "model.storage.auth.type === 'APIKEYS' || " +
-                               "model.storage.auth.type === 'SSHKEYS'",
-                            "items": [
-                              {
-                                 "type": "template",
-                                 "template":
+                             }
+                           ]
+                         },
+                         {
+                          "type": "section",
+                          "htmlClass": "col-xs-2",
+                          "condition":
+                              "model.storage.auth.type === 'SSHKEYS'",
+                              "items": [
+                                {
+                                   "type": "template",
+                                   "template":
 
-                                 '<div class="form-group ">'+
-                                   '<label class="control-label">&nbsp;</label>'+
-                                   '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
-                                     '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Copy and paste your publicKey or use the Upload File Manager"></i>'+
-                                   '</div>'+
-                                   '<div class="help-block"></div>'+
-                                 '</div>',
-                              }
-                            ]
+                                   '<div class="form-group ">'+
+                                     '<label class="control-label">&nbsp;</label>'+
+                                     '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                       '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Copy and paste your publicKey or use the Upload File Manager"></i>'+
+                                     '</div>'+
+                                     '<div class="help-block"></div>'+
+                                   '</div>',
+                                }
+                              ]
                           },
 
-                          // storage.auth.privateKey
+                          // storage.auth.privateKey for SSHKEYS
                           {
                             "type": "section",
                             "htmlClass": "col-xs-8",
                             "condition":
-                               "model.storage.auth.type === 'APIKEYS' || " +
                                "model.storage.auth.type === 'SSHKEYS'",
                             "items": [
                               {
@@ -2946,7 +3208,6 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                             "type": "section",
                             "htmlClass": "col-xs-2",
                             "condition":
-                               "model.storage.auth.type === 'APIKEYS' || " +
                                "model.storage.auth.type === 'SSHKEYS'",
                             "items": [
                               {
@@ -3050,7 +3311,6 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                            "type": "section",
                            "htmlClass": "col-xs-2",
                            "condition":
-                              "model.storage.auth.type === 'APIKEYS' || " +
                               "model.storage.auth.type === 'SSHKEYS'",
                            "items": [
                              {
@@ -3060,13 +3320,286 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                 '<div class="form-group ">'+
                                   '<label class="control-label">&nbsp;</label>'+
                                   '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
-                                    '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Copy and paste your publicKey or use the Upload File Manager"></i>'+
+                                    '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Copy and paste your privateKey or use the Upload File Manager"></i>'+
                                   '</div>'+
                                   '<div class="help-block"></div>'+
                                 '</div>',
                              }
                            ]
                          },
+
+                         // storage.auth.publicKey for APIKEYS
+                         {
+                           "type": "section",
+                           "htmlClass": "col-xs-8",
+                           "condition":
+                              "model.storage.auth.type === 'APIKEYS'",
+                           "items": [
+                             {
+                                 "key": "storage.auth.publicKey",
+                                 "type": "textarea",
+                             }
+                           ]
+                         },
+                        //  {
+                        //    "type": "section",
+                        //    "htmlClass": "col-xs-2",
+                        //    "condition":
+                        //       "model.storage.auth.type === 'APIKEYS'",
+                        //    "items": [
+                        //      {
+                        //        "type": "select",
+                        //        "title": "Upload",
+                        //       "titleMap": $scope.systemsTitleMap,
+                        //        ngModelOptions: {
+                        //            updateOnDefault: true
+                        //        },
+                        //        onChange: function(systemId, formModel) {
+                        //          if (systemId === 'Local Disk'){
+                         //
+                        //            $uibModal.open({
+                        //              templateUrl: "views/systems/filemanager-local.html",
+                        //              // resolve: {
+                        //              // },
+                        //              scope: $scope,
+                        //              size: 'lg',
+                        //              controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                         //
+                        //                $scope.fileUpload = function(element) {
+                        //                  $scope.loading = true;
+                         //
+                        //                  $scope.$apply(function(scope) {
+                        //                     var file = element.files[0];
+                        //                     var reader = new FileReader();
+                        //                     reader.onerror = function(e) {
+                        //                        // TO-DO
+                        //                     };
+                         //
+                        //                     reader.onloadend = function(e) {
+                        //                       $scope.model.storage.auth.publicKey = e.target.result;
+                        //                       $scope.loading = false;
+                        //                     };
+                        //                     reader.readAsText(file);
+                        //                  });
+                        //                };
+                         //
+                        //                $scope.cancel = function()
+                        //                {
+                        //                    $modalInstance.dismiss('cancel');
+                        //                };
+                         //
+                        //                $scope.upload = function(){
+                        //                    $modalInstance.close();
+                        //                }
+                         //
+                        //              }]
+                        //            });
+                         //
+                        //          } else {
+                        //            SystemsController.getSystemDetails(systemId).then(
+                        //                function(sys) {
+                        //                    if ($stateParams.path) {
+                        //                        $scope.path = $stateParams.path;
+                        //                    } else {
+                        //                        $scope.path = $localStorage.activeProfile.username;
+                        //                        $stateParams.path = $scope.path;
+                        //                        // $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
+                        //                    }
+                        //                    $scope.system = sys;
+                        //                    $rootScope.uploadFileContent = '';
+                        //                    $uibModal.open({
+                        //                      templateUrl: "views/systems/filemanager.html",
+                        //                      // resolve: {
+                        //                      // },
+                        //                      scope: $scope,
+                        //                      size: 'lg',
+                        //                      controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                        //                        $scope.cancel = function()
+                        //                        {
+                        //                            $modalInstance.dismiss('cancel');
+                        //                        };
+                         //
+                        //                        $scope.close = function(){
+                        //                            $modalInstance.close();
+                        //                        }
+                         //
+                        //                        $scope.$watch('uploadFileContent', function(uploadFileContent){
+                        //                            if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
+                        //                             //  $scope.model.storage = {'auth' : {'publicKey': ''}};
+                        //                              $scope.model.storage.auth.publicKey = uploadFileContent;
+                        //                              $scope.close();
+                        //                            }
+                        //                        });
+                        //                      }]
+                        //                    });
+                        //                },
+                        //                function(msg) {
+                        //                    $scope.path = $stateParams.path ? $stateParams.path : '';
+                        //                    $scope.system = '';
+                        //                }
+                        //            );
+                        //          }
+                        //        }
+                        //      }
+                        //    ]
+                        //  },
+                         {
+                          "type": "section",
+                          "htmlClass": "col-xs-2",
+                          "condition":
+                              "model.storage.auth.type === 'APIKEYS'",
+                              "items": [
+                                {
+                                   "type": "template",
+                                   "template":
+
+                                   '<div class="form-group ">'+
+                                     '<label class="control-label">&nbsp;</label>'+
+                                     '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                       '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Copy and paste your publicKey"></i>'+
+                                     '</div>'+
+                                     '<div class="help-block"></div>'+
+                                   '</div>',
+                                }
+                              ]
+                          },
+
+                          // storage.auth.privateKey for APIKEYS
+                          {
+                            "type": "section",
+                            "htmlClass": "col-xs-8",
+                            "condition":
+                               "model.storage.auth.type === 'APIKEYS'",
+                            "items": [
+                              {
+                                  "key": "storage.auth.privateKey",
+                                  "type": "textarea",
+                              }
+                            ]
+                          },
+                          // {
+                          //   "type": "section",
+                          //   "htmlClass": "col-xs-2",
+                          //   "condition":
+                          //      "model.storage.auth.type === 'APIKEYS'",
+                          //   "items": [
+                          //     {
+                          //       "type": "select",
+                          //       "title": "Upload",
+                          //       // "titleMap": $scope.getSystemsTitleMap(),
+                          //       "titleMap": $scope.systemsTitleMap,
+                          //       ngModelOptions: {
+                          //           updateOnDefault: true
+                          //       },
+                          //       onChange: function(systemId, formModel) {
+                          //         if (systemId === 'Local Disk'){
+                          //
+                          //           $uibModal.open({
+                          //             templateUrl: "views/systems/filemanager-local.html",
+                          //             // resolve: {
+                          //             // },
+                          //             scope: $scope,
+                          //             size: 'lg',
+                          //             controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                          //
+                          //               $scope.fileUpload = function(element) {
+                          //                 $scope.loading = true;
+                          //
+                          //                 $scope.$apply(function(scope) {
+                          //                    var file = element.files[0];
+                          //                    var reader = new FileReader();
+                          //                    reader.onerror = function(e) {
+                          //                       // TO-DO
+                          //                    };
+                          //
+                          //                    reader.onloadend = function(e) {
+                          //                      $scope.model.storage.auth.privateKey = e.target.result;
+                          //                      $scope.loading = false;
+                          //                    };
+                          //                    reader.readAsText(file);
+                          //                 });
+                          //               };
+                          //
+                          //               $scope.cancel = function()
+                          //               {
+                          //                   $modalInstance.dismiss('cancel');
+                          //               };
+                          //
+                          //               $scope.upload = function(){
+                          //                   $modalInstance.close();
+                          //               }
+                          //
+                          //             }]
+                          //           });
+                          //
+                          //         } else {
+                          //           SystemsController.getSystemDetails(systemId).then(
+                          //               function(sys) {
+                          //                   if ($stateParams.path) {
+                          //                       $scope.path = $stateParams.path;
+                          //                   } else {
+                          //                       $scope.path = $localStorage.activeProfile.username;
+                          //                       $stateParams.path = $scope.path;
+                          //                       // $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
+                          //                   }
+                          //                   $scope.system = sys;
+                          //                   $rootScope.uploadFileContent = '';
+                          //                   $uibModal.open({
+                          //                     templateUrl: "views/systems/filemanager.html",
+                          //                     // resolve: {
+                          //                     // },
+                          //                     scope: $scope,
+                          //                     size: 'lg',
+                          //                     controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                          //                       $scope.cancel = function()
+                          //                       {
+                          //                           $modalInstance.dismiss('cancel');
+                          //                       };
+                          //
+                          //                       $scope.close = function(){
+                          //                           $modalInstance.close();
+                          //                       }
+                          //
+                          //                       $scope.$watch('uploadFileContent', function(uploadFileContent){
+                          //                           if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
+                          //                             // $scope.model.storage = {'auth' : {'privateKey': ''}};
+                          //                             $scope.model.storage.auth.privateKey = uploadFileContent;
+                          //                             $scope.close();
+                          //                           }
+                          //                       });
+                          //                     }]
+                          //                   });
+                          //               },
+                          //               function(msg) {
+                          //                   $scope.path = $stateParams.path ? $stateParams.path : '';
+                          //                   $scope.system = '';
+                          //               }
+                          //           );
+                          //         }
+                          //       }
+                          //     }
+                          //   ]
+                          // },
+                          {
+                           "type": "section",
+                           "htmlClass": "col-xs-2",
+                           "condition":
+                              "model.storage.auth.type === 'APIKEYS'",
+                           "items": [
+                             {
+                                "type": "template",
+                                "template":
+
+                                '<div class="form-group ">'+
+                                  '<label class="control-label">&nbsp;</label>'+
+                                  '<div class="form-control" style="border:transparent; padding-left:0px; padding-right:0px;">'+
+                                    '<i class="fa fa-question-circle fa-lg" popover-placement="right" popover-trigger="mouseenter" uib-popover="Copy and paste your privateKey"></i>'+
+                                  '</div>'+
+                                  '<div class="help-block"></div>'+
+                                '</div>',
+                             }
+                           ]
+                          },
 
 
                       ]
@@ -3569,7 +4102,7 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
 
 
     $scope.updateWizardLayout = function() {
-        console.log($scope.wizview);
+        // console.log($scope.wizview);
     };
 
     $scope.codemirrorLoaded = function(_editor) {
