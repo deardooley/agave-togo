@@ -125,7 +125,7 @@
                                             </li>
                                             <li class="divider"> </li>
                                             <li>
-                                                <a ng-click="editRoles(res)" data-target="#share-modal" role="button" data-toggle="modal"> <i class="fa fa-share"></i> Share </a>
+                                                <a ng-click="editRoles(res)"> <i class="fa fa-share"></i> Share </a>
                                             </li>
                                             <li>
                                                 <a ng-click="editNotifications(res.id)" data-target="#notifications-modal" role="button" data-toggle="modal"> <i class="icon-webhooks"></i> Notifications </a>
@@ -159,12 +159,11 @@
                 </div>
             </div>
             <tags-modal id="tagging-modal" ng-model="modalResource.id" ng-resource-name="modalResource.name" role="dialog" aria-hidden="true"></tags-modal>
-            <quickshare-role-modal id="quickshare-role-modal" ng-model="modalResource" role="dialog" aria-hidden="true"></quickshare-role-modal>
+            <!-- <quickshare-role-modal id="quickshare-role-modal" ng-model="modalResource" role="dialog" aria-hidden="true"></quickshare-role-modal> -->
             <!--<notification-modal id="notification-modal" class="modal fade" ng-system-id="modalTaggedResourceUuid" role="dialog" aria-hidden="true"></notification-modal>-->
             <!--<metadata-modal id="metadata-modal" class="modal fade" ng-system-id="modalTaggedResourceUuid" role="dialog" aria-hidden="true"></metadata-modal>-->
             <!--<system-publish-modal id="system-publish-modal" class="modal fade" ng-system-id="modalTaggedResourceUuid" role="dialog" aria-hidden="true"></system-publish-modal>-->
             <!--<system-clone-modal id="system-clone-modal" class="modal fade" ng-system-id="modalTaggedResourceUuid" role="dialog" aria-hidden="true"></system-clone-modal>-->
-
         </div>
         <!-- End: life time stats -->
     </div>

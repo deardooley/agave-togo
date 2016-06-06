@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller("SystemsResourceController", function($scope, $state, $stateParams) {
+angular.module('AgaveToGo').controller("SystemsResourceController", function($scope, $state, $stateParams, RolesService) {
 
 		$scope.systemId = $stateParams.systemId;
 
@@ -13,6 +13,10 @@ angular.module('AgaveToGo').controller("SystemsResourceController", function($sc
 			}
 			return $state.is(route);
 		};
+
+		$scope.editRoles = function(system){
+			RolesService.editRoles(system);
+		}
 
 		$scope.tabs = [
 			{ heading: "Details", route:"systems.details", active:false },

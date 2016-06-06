@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('SystemDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, Commons, SystemsController, SystemActionTypeEnum) {
+angular.module('AgaveToGo').controller('SystemDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, Commons, SystemsController, SystemActionTypeEnum, RolesService) {
 
     $scope.offset = $scope.offset || 0;
     $scope.limit = $scope.limit || 50;
@@ -20,10 +20,8 @@ angular.module('AgaveToGo').controller('SystemDirectoryController', function ($i
         return false;
     };
 
-    $scope.editRoles = $scope.editRoles || function(system) {
-        $scope.modalResource = system;
-        $('#quickshare-role-modal').modal('show');
-        return false;
+    $scope.editRoles = function(system) {
+        RolesService.editRoles(system);
     };
 
     $scope.confirmAction = $scope.confirmAction || function(system, action) {
@@ -52,7 +50,7 @@ angular.module('AgaveToGo').controller('SystemDirectoryController', function ($i
         });
 
         $('#system-confirmation-action-cancel').on('click', function () {
-            console.log('Cancelled system ' + action + ' action on ' + system.id);
+            // console.log('Cancelled system ' + action + ' action on ' + system.id);
         });
     };
 
@@ -84,7 +82,6 @@ angular.module('AgaveToGo').controller('SystemDirectoryController', function ($i
                     $scope.refresh();
                 },
                 function(response) {
-                    console.log(data);
                     App.alert({
                         type: 'danger',
                         message: "Error deleting system " + system.name
@@ -94,7 +91,7 @@ angular.module('AgaveToGo').controller('SystemDirectoryController', function ($i
         });
 
         $('#system-confirmation-action-cancel').on('click', function () {
-            console.log('Cancelled delete action on ' + system.id);
+            // console.log('Cancelled delete action on ' + system.id);
         });
     };
 

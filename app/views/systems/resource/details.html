@@ -16,15 +16,15 @@
               <li>
                   <a ng-click="editMetadata(system.id)" data-target="#metadata-modal"> <i class="fa fa-sticky-note-o"></i> Metadata </a>
               </li>
-              <li> 
+              <li>
                   <a ng-click="editTags(res)"> <i class="fa fa-tags"></i> Tags </a>
               </li>
               <li class="divider"> </li>
-              <li> 
+              <li>
                   <a ng-click="editRoles(res)" data-target="#share-modal" role="button" data-toggle="modal"> <i class="fa fa-share-alt"></i> Share </a>
-              </li> 
-              <li> 
-                  <a ng-click="editNotifications(system.id)" data-target="#notifications-modal" role="button" data-toggle="modal"> <i class="icon-webhooks"></i> Notifications </a>    
+              </li>
+              <li>
+                  <a ng-click="editNotifications(system.id)" data-target="#notifications-modal" role="button" data-toggle="modal"> <i class="icon-webhooks"></i> Notifications </a>
               </li>
               <li class="divider"> </li>
               <li ng-if="!system.available">
@@ -33,17 +33,17 @@
               <li ng-if="system.available">
                   <a href="#"  class="system-confirmation-action" ng-click="confirmAction(res, systemActions.DISABLE)" > <i class="fa fa-remove"></i> Disable </a>
               </li>
-              <li> 
+              <li>
                   <a href="#" class="system-confirmation-action" ng-click="confirmDelete(res)" > <i class="fa fa-trash-o"></i> Delete </a>
               </li>
               <li class="divider"> </li>
-              <li> 
+              <li>
                   <a href="#" data-target="#clone-modal" > <i class="fa fa-code-fork"></i> Clone </a>
               </li>
-              <li ng-if="!system.public"> 
-                  <a href="#" class="system-confirmation-action" ng-click="confirmAction(system.id,system.name,systemActions.PUBLISH)"> <i class="fa fa-eye"></i> Publish </a>         
+              <li ng-if="!system.public">
+                  <a href="#" class="system-confirmation-action" ng-click="confirmAction(system.id,system.name,systemActions.PUBLISH)"> <i class="fa fa-eye"></i> Publish </a>
               </li>
-              <li ng-if="system.public"> 
+              <li ng-if="system.public">
                   <a href="#" class="system-confirmation-action" ng-click="confirmAction(system.id,system.name,systemActions.UNPUBLISH);" > <i class="fa fa-eye-slash"></i> Unpublish </a>
               </li>
           </ul>
@@ -122,7 +122,7 @@
           <a class="btn red btn-outline" href="#" data-toggle="dropdown">
               Actions
               <i class="fa fa-angle-down"></i>
-          </a>    
+          </a>
           <ul class="dropdown-menu pull-right">
               <li>
                   <a ng-click="edit('systems', system)" role="button"> <i class="fa fa-pencil"></i></i> Edit </a>
@@ -134,14 +134,14 @@
                   <a ng-click="editMetadata(system.id)" data-target="#metadata-modal"> <i class="fa fa-sticky-note-o"></i> Metadata </a>
               </li>
               <li>
-                  <a ng-click="editTags(res)"> <i class="fa fa-tags"></i> Tags </a>
+                  <a ng-click="editTags(system)"> <i class="fa fa-tags"></i> Tags </a>
               </li>
               <li class="divider"> </li>
               <li>
-                  <a ng-click="editRoles(res)" data-target="#share-modal" role="button" data-toggle="modal"> <i class="fa fa-share-alt"></i> Share </a> 
+                  <a ng-click="editRoles(system)"> <i class="fa fa-share"></i> Share </a>
               </li>
               <li>
-                  <a ng-click="editNotifications(system.id)" data-target="#notifications-modal" role="button" data-toggle="modal"> <i class="icon-webhooks"></i> Notifications </a>    
+                  <a ng-click="editNotifications(system.id)" data-target="#notifications-modal" role="button" data-toggle="modal"> <i class="icon-webhooks"></i> Notifications </a>
               </li>
               <li class="divider"> </li>
               <li ng-if="!system.available">
@@ -155,7 +155,7 @@
               </li>
               <li class="divider"> </li>
               <li>
-                  <a href="#" data-target="#clone-modal" > <i class="fa fa-code-fork"></i> Clone </a> 
+                  <a href="#" data-target="#clone-modal" > <i class="fa fa-code-fork"></i> Clone </a>
               </li>
               <li ng-if="!system.public">
                   <a href="#" class="system-confirmation-action" ng-click="confirmAction(system.id,system.name,systemActions.PUBLISH)"> <i class="fa fa-eye"></i> Publish </a>
