@@ -8,26 +8,26 @@
           </a>
           <ul class="dropdown-menu pull-right">
               <li>
-                  <a ng-click="edit('apps', app)" role="button"> <i class="fa fa-pencil"></i></i> Edit </a>
+                  <a ng-click="edit('apps', app)"> <i class="fa fa-pencil"></i></i> Edit </a>
               </li>
               <li ng-if="!app.available">
-                  <a ng-click="confirmAction('apps', app, 'enable', '', $index)" role="button"> <i class="fa fa-check"></i> Enable </a>
+                  <a ng-click="confirmAction('apps', app, 'enable')"> <i class="fa fa-check"></i> Enable </a>
               </li>
               <li ng-if="app.available">
-                  <a ng-click="confirmAction('apps', app, 'disable', '', $index)" role="button"> <i class="fa fa-remove"></i> Disable </a>
+                  <a ng-click="confirmAction('apps', app, 'disable')"> <i class="fa fa-remove"></i> Disable </a>
               </li>
               <li>
-                  <a ng-click="confirmAction('apps', app, 'delete', '', $index)" role="button"> <i class="fa fa-trash-o"></i> Delete </a>
+                  <a ng-click="confirmAction('apps', app, 'delete')"> <i class="fa fa-trash-o"></i> Delete </a>
               </li>
               <li class="divider"> </li>
-              <li>
+              <!-- <li>
                   <a ng-click="clone(app)" role="button"> <i class="fa fa-code-fork"></i> Clone </a>
+              </li> -->
+              <li>
+                  <a ng-click="confirmAction('apps', app, 'publish')"> <i class="fa fa-eye"></i> Publish </a>
               </li>
               <li>
-                  <a ng-click="publish(app)" role="button"> <i class="fa fa-eye"></i> Publish </a>
-              </li>
-              <li>
-                  <a ng-click="openPermissionEditor(app)" role="button"> <i class="fa fa-share-alt"></i> Share </a>
+                  <a ng-click="editPermissions(app)"> <i class="fa fa-share-alt"></i> Share </a>
               </li>
           </ul>
       </div>
@@ -111,23 +111,23 @@
                   <a ng-click="edit('apps', app)" role="button"> <i class="fa fa-pencil"></i></i> Edit </a>
               </li>
               <li ng-if="!app.available">
-                  <a ng-click="confirmAction('apps', app, 'enable', '', $index)" role="button"> <i class="fa fa-check"></i> Enable </a>
+                  <a ng-click="confirmAction('apps', app, 'enable')"> <i class="fa fa-check"></i> Enable </a>
               </li>
               <li ng-if="app.available">
-                  <a ng-click="confirmAction('apps', app, 'disable', '', $index)" role="button"> <i class="fa fa-remove"></i> Disable </a>
+                  <a ng-click="confirmAction('apps', app, 'disable')"> <i class="fa fa-remove"></i> Disable </a>
               </li>
               <li>
-                  <a ng-click="confirmAction('apps', app, 'delete', '', $index)" role="button"> <i class="fa fa-trash-o"></i> Delete </a>
+                  <a ng-click="confirmAction('apps', app, 'delete')"> <i class="fa fa-trash-o"></i> Delete </a>
               </li>
               <li class="divider"> </li>
+              <!-- <li>
+                  <a g-click="confirmAction('apps', app, 'clone')" role="button"> <i class="fa fa-code-fork"></i> Clone </a>
+              </li> -->
               <li>
-                  <a ng-click="clone(app)" role="button"> <i class="fa fa-code-fork"></i> Clone </a>
+                  <a ng-click="confirmAction('apps', app, 'publish')" role="button"> <i class="fa fa-eye"></i> Publish </a>
               </li>
               <li>
-                  <a ng-click="publish(app)" role="button"> <i class="fa fa-eye"></i> Publish </a>
-              </li>
-              <li>
-                  <a ng-click="openPermissionEditor(app)" role="button"> <i class="fa fa-share-alt"></i> Share </a>
+                  <a ng-click="editPermissions(app)"> <i class="fa fa-share-alt"></i> Share </a>
               </li>
           </ul>
       </div>

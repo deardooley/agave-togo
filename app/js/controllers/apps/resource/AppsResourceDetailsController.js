@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppsResourceDetailsController', function($scope, $stateParams, AppsController, ActionsService) {
+angular.module('AgaveToGo').controller('AppsResourceDetailsController', function($scope, $stateParams, AppsController, ActionsService, PermissionsService) {
 
   $scope.$parent.error = false;
 
@@ -25,6 +25,10 @@ angular.module('AgaveToGo').controller('AppsResourceDetailsController', function
   $scope.confirmAction = function(resourceType, resource, resourceAction, resourceIndex){
     ActionsService.confirmAction(resourceType, resource, resourceAction, resourceIndex);
   };
+
+  $scope.editPermissions = function(resource) {
+    PermissionsService.editPermissions(resource);
+  }
 
   $scope.edit = function(resourceType, resource){
     ActionsService.edit(resourceType, resource);

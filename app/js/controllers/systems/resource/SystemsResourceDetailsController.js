@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('SystemsResourceDetailsController', function($scope, $stateParams, SystemsController, ActionsService) {
+angular.module('AgaveToGo').controller('SystemsResourceDetailsController', function($scope, $stateParams, SystemsController, ActionsService, RolesService) {
 
   $scope.$parent.error = false;
 
@@ -22,7 +22,11 @@ angular.module('AgaveToGo').controller('SystemsResourceDetailsController', funct
     }
   }
 
-  $scope.confirmAction = function(resourceType, resource, resourceAction, resourceIndex){
+  $scope.editRoles = function(system){
+    RolesService.editRoles(system);
+  }
+
+  $scope.confirmAction = function(resourceType, resource, resourceAction, resourceIndex){ 
     ActionsService.confirmAction(resourceType, resource, resourceAction, resourceIndex);
   };
 

@@ -25,13 +25,22 @@
         <div class="portlet light portlet-fit portlet-datatable bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-code"></i> Application Management </div>
+                    <i class="fa fa-code"></i> Application Management
+                </div>
+                <div class="btn-group">
+                  <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                    <input type="text" class="form-control" placeholder="Search" ng-model="search">
+                  </div>
+                </div>
+                <div class="top-buffer pull-right">
+                  <a ui-sref="apps-new()" class="btn btn-outline green" data-target="#add-edit-modal" role="button" data-toggle="modal">
+                      <i class="fa fa-plus"></i>
+                      <span class="hidden-480"> New App </span>
+                  </a>
+                </div>
                 <div class="actions">
-                    <a ui-sref="apps-new()" class="btn btn-outline green" data-target="#add-edit-modal" role="button" data-toggle="modal">
-                        <i class="fa fa-plus"></i>
-                        <span class="hidden-480"> New App </span>
-                    </a>
-                    <div class="btn-group">
+                    <!-- <div class="btn-group">
                         <a class="btn red btn-outline" href="#" data-toggle="dropdown">
                             <i class="fa fa-share"></i>
                             <span class="hidden-480"> Actions </span>
@@ -55,31 +64,96 @@
                                 <a href="#"> Publish </a>
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="portlet-body">
-                <div class="table-container">
-                    <!-- <table class="table table-striped table-bordered table-hover management" width="100%" id="datatable_collection"> -->
-                    <table class="table table-responsive table-striped table-bordered table-hover management" width="100%" id="datatable_collection">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover management" width="100%" id="datatable_collection">
                         <thead>
                             <tr role="row" class="heading">
-                                <th> ID</th>
-                                <th data-class-name="extended"> Name</th>
-                                <th data-class-name="extended"> Created</th>
-                                <th data-class-name="extended"> Version</th>
-                                <th data-class-name="extended"> Label</th>
-                                <th> Short Description</th>
-                                <th> Exe. System</th>
-                                <th> Public</th>
-                                <th data-class-name="extended"> Revision</th>
-                                <th> Available</th>
-                                <th> Last Modified</th>
-                                <th> Actions </th>
+                                <th>
+                                  <a href="#" ng-click="sortType = 'id'; sortReverse = !sortReverse">
+                                    ID
+                                    <span ng-show="sortType == 'id' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'id' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th data-class-name="extended">
+                                  <a href="#" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                                    Name
+                                    <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th data-class-name="extended">
+                                  <a href="#" ng-click="sortType = 'created'; sortReverse = !sortReverse">
+                                    Created
+                                    <span ng-show="sortType == 'created' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'created' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th data-class-name="extended">
+                                  <a href="#" ng-click="sortType = 'version'; sortReverse = !sortReverse">
+                                    Version
+                                    <span ng-show="sortType == 'version' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'version' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th data-class-name="extended">
+                                  <a href="#" ng-click="sortType = 'label'; sortReverse = !sortReverse">
+                                    Label
+                                    <span ng-show="sortType == 'label' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'label' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th>
+                                  <a href="#" ng-click="sortType = 'shortDescription'; sortReverse = !sortReverse">
+                                    Short Description
+                                    <span ng-show="sortType == 'shortDescription' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'shortDescription' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th>
+                                  <a href="#" ng-click="sortType = 'executionSystem'; sortReverse = !sortReverse">
+                                    Exec. System
+                                    <span ng-show="sortType == 'executionSystem' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'executionSystem' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th>
+                                  <a href="#" ng-click="sortType = 'public'; sortReverse = !sortReverse">
+                                    Public
+                                    <span ng-show="sortType == 'public' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'public' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th data-class-name="extended">
+                                  <a href="#" ng-click="sortType = 'revision'; sortReverse = !sortReverse">
+                                    Revision
+                                    <span ng-show="sortType == 'revision' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'revision' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th>
+                                  <a href="#" ng-click="sortType = 'available'; sortReverse = !sortReverse">
+                                    Available
+                                    <span ng-show="sortType == 'available' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'available' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th>
+                                  <a href="#" ng-click="sortType = 'lastModified'; sortReverse = !sortReverse">
+                                    Last Modified
+                                    <span ng-show="sortType == 'lastModified' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'lastModified' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th> Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="app in apps">
+                            <tr ng-repeat="app in apps | orderBy:sortType:sortReverse | filter:search">
                                 <td>
                                     <a ui-sref="apps({appId: app.id})"> {{app.id}} </a>
                                 </td>
@@ -99,7 +173,6 @@
                                     {{app.shortDescription}}
                                 </td>
                                 <td>
-                                    <!-- <a ui-sref="system({systemId: app.executionSystem})">{{ getSystemName(app.executionSystem) }}</a> -->
                                     <a href="#/systems/{{app.executionSystem}}">{{app.executionSystem}}</a>
                                 </td>
                                 <td>
@@ -121,24 +194,27 @@
                                             <i class="fa fa-angle-down"></i>
                                         </a>
                                         <ul class="dropdown-menu pull-right">
+                                            <li>
+                                                <a ng-click="edit('apps', app)" role="button"> <i class="fa fa-pencil"></i></i> Edit </a>
+                                            </li>
                                             <li ng-if="!app.available">
-                                                <a ng-click="confirmAction(app, 'enable', $index)" role="button"> <i class="fa fa-check"></i> Enable </a>
+                                                <a ng-click="confirmAction('apps', app, 'enable', apps, $index)"> <i class="fa fa-check"></i> Enable </a>
                                             </li>
                                             <li ng-if="app.available">
-                                                <a ng-click="confirmAction(app, 'disable', $index)" role="button"> <i class="fa fa-remove"></i> Disable </a>
+                                                <a ng-click="confirmAction('apps', app, 'disable', apps, $index)"> <i class="fa fa-remove"></i> Disable </a>
                                             </li>
                                             <li>
-                                                <a ng-click="confirmAction(app, 'delete', $index)" role="button"> <i class="fa fa-trash-o"></i> Delete </a>
+                                                <a ng-click="confirmAction('apps', app, 'delete', apps, $index)"> <i class="fa fa-trash-o"></i> Delete </a>
                                             </li>
                                             <li class="divider"> </li>
+                                            <!-- <li>
+                                                <a ng-click="confirmAction('apps', app, 'clone', apps, $index)" role="button"> <i class="fa fa-code-fork"></i> Clone </a>
+                                            </li> -->
                                             <li>
-                                                <a ng-click="clone(app)" role="button"> <i class="fa fa-code-fork"></i> Clone </a>
+                                                <a ng-click="confirmAction('apps', app, 'publish', apps, $index)"> <i class="fa fa-eye"></i> Publish </a>
                                             </li>
                                             <li>
-                                                <a ng-click="publish(app)" role="button"> <i class="fa fa-eye"></i> Publish </a>
-                                            </li>
-                                            <li>
-                                                <a ng-click="openPermissionEditor(app)" role="button"> <i class="fa fa-share"></i> Share </a>
+                                                <a ng-click="editPermissions(app)" role="button"> <i class="fa fa-share"></i> Share </a>
                                             </li>
                                         </ul>
                                     </div>

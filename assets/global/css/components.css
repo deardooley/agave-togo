@@ -11892,6 +11892,9 @@ Scrollable Tables
 /***
 Customized Bootstrap Tables
 ***/
+.table {
+  min-height: 300px;
+}
 .table td,
 .table th {
   font-size: 14px; }
@@ -14988,3 +14991,6 @@ Color library demo
     border-top: 1px solid #eee;
     padding: 10px 10px;
     text-align: center; }
+
+
+.top-buffer { margin-top:10px; }

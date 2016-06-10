@@ -35,6 +35,7 @@ angular.module('AgaveToGo').controller('DashboardController',
 
     var projectStatGen = function (count, numberOfDays) {
       var leaders = [];
+      var result = {};
       angular.forEach(usergen(count), function (leader, i) {
         leader.comments = Commons.randomInt(5, 200) * numberOfDays;
         leader.jobs = Commons.randomInt(5, 200) * numberOfDays;
@@ -71,11 +72,9 @@ angular.module('AgaveToGo').controller('DashboardController',
           karma: Commons.randomInt(60, 99)
         };
 
-        return {
-          totals: totals,
-          leaders: leaders
-        };
+        result = {totals: totals,leaders: leaders};
       })
+      return result;
     };
 
     $scope.projectStatsTimeframe = 'daily';
@@ -130,8 +129,6 @@ angular.module('AgaveToGo').controller('DashboardController',
           }, 50);
         },
         function (data) {
-          console.log("unable to fetch job history");
-          console.log(data);
           $scope.jobListing = [];
         });
 

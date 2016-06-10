@@ -25,89 +25,153 @@
         <div class="portlet light portlet-fit portlet-datatable bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-server"></i> System Management </div>
+                    <i class="fa fa-server"></i> System Management
+                </div>
+                <div class="btn-group">
+                  <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                    <input type="text" class="form-control" placeholder="Search" ng-model="search">
+                  </div>
+                </div>
+
+                <div class="top-buffer pull-right">
+                  <a href="#/systems/new" class="btn btn-outline green" data-target="#add-edit-modal" role="button" data-toggle="modal">
+                      <i class="fa fa-plus"></i>
+                      <span class="hidden-480"> New System </span>
+                  </a>
+                </div>
+
                 <div class="actions">
-                    <a href="#/systems/new" class="btn btn-outline green" data-target="#add-edit-modal" role="button" data-toggle="modal">
-                        <i class="fa fa-plus"></i>
-                        <span class="hidden-480"> New System </span>
-                    </a>
                     <div class="btn-group">
                         <!-- <a class="btn red btn-outline" href="#" data-toggle="dropdown">
                             <span class="hidden-480"> Bulk Actions</span>
                             <i class="fa fa-angle-down"></i>
                         </a> -->
                         <ul class="dropdown-menu pull-right">
-                            <li>
+                            <!-- <li>
                                 <a href="#"> Clone </a>
+                            </li> -->
+                            <li>
+                                <a "confirmAction('systems', system, 'enable', systems, $index)" > Enable </a>
                             </li>
                             <li>
-                                <a href="#"> Enable </a>
+                                <a "confirmAction('systems', system, 'disable', systems, $index)" > Disable </a>
                             </li>
                             <li>
-                                <a href="#"> Disable </a>
+                                <a "confirmAction('systems', system, 'delete', systems, $index)" > Delete </a>
                             </li>
-                            <li>
-                                <a href="#"> Delete </a>
+                            <li ng-if="!system.public">
+                                <a ng-click="confirmAction('systems', system, 'publish', systems, $index)"> <i class="fa fa-eye"></i> Publish </a>
                             </li>
-                            <li ng-if="!res.public">
-                                <a href="#" class="system-confirmation-action" ng-click="confirmAction(res, systemActions.PUBLISH)" > <i class="fa fa-eye"></i> Publish </a>
-                            </li>
-                            <li ng-if="res.public">
-                                <a href="#" class="system-confirmation-action" ng-click="confirmAction(res, systemActions.UNPUBLISH)" > <i class="fa fa-eye"></i> Publish </a>
+                            <li ng-if="system.public">
+                                <a ng-click="confirmAction('systems', system, 'unpublish', systems, $index)"> <i class="fa fa-eye"></i> Publish </a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="portlet-body">
-                <div class="table-container">
+                <!-- <div class="table-container"> -->
+                <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover management" width="100%" id="datatable_collection">
                         <thead>
                             <tr role="row" class="heading">
                                 <!-- <th width="2%">
                                     <input type="checkbox" class="group-checkable">
                                 </th> -->
-                                <th width="10%"> ID</th>
-                                <th width="13%"> Name</th>
-                                <th width="10%"> Type</th>
-                                <th width="5%"> Status</th>
-                                <th width="50%"> Description</th>
-                                <th width="5%"> Default</th>
-                                <th width="5%"> Public</th>
-                                <th class="all" width="10%"> Actions </th>
+                                <th width="10%">
+                                  <a href="#" ng-click="sortType = 'id'; sortReverse = !sortReverse">
+                                    ID
+                                    <span ng-show="sortType == 'id' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'id' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th width="13%">
+                                  <a href="#" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                                    Name
+                                    <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th width="10%">
+                                  <a href="#" ng-click="sortType = 'type'; sortReverse = !sortReverse">
+                                    Type
+                                    <span ng-show="sortType == 'type' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'type' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th width="5%">
+                                  <a href="#" ng-click="sortType = 'status'; sortReverse = !sortReverse">
+                                    Status
+                                    <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th width="30%">
+                                  <a href="#" ng-click="sortType = 'description'; sortReverse = !sortReverse">
+                                    Description
+                                    <span ng-show="sortType == 'description' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'description' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th width="5%">
+                                  <a href="#" ng-click="sortType = 'default'; sortReverse = !sortReverse">
+                                    Default
+                                    <span ng-show="sortType == 'default' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'default' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <th width="5%">
+                                  <a href="#" ng-click="sortType = 'public'; sortReverse = !sortReverse">
+                                    Public
+                                    <span ng-show="sortType == 'public' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'public' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th>
+                                <!-- <th width="5%">
+                                  <a href="#" ng-click="sortType = 'available'; sortReverse = !sortReverse">
+                                    Enabled
+                                    <span ng-show="sortType == 'available' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'available' && sortReverse" class="fa fa-caret-up"></span>
+                                  </a>
+                                </th> -->
+                                <th class="all text-center" width="10%"> Actions </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="res in systems">
+                            <tr ng-repeat="system in systems | orderBy:sortType:sortReverse | filter:search">
                                 <!-- <td>
                                     <div class="checker">
                                         <span>
-                                            <input type="checkbox" name="id[]" value="{{res.id}}">
+                                            <input type="checkbox" name="id[]" value="{{system.id}}">
                                         </span>
                                     </div>
                                 </td> -->
                                 <td data-class-name="extended">
-                                    <a ui-sref="systems({systemId: res.id})"> {{res.id}} </a>
+                                    <a ui-sref="systems({systemId: system.id})"> {{system.id}} </a>
                                 </td>
                                 <td>
-                                    <a ui-sref="systems({systemId: res.id})"> {{res.name}} </a>
+                                    <a ui-sref="systems({systemId: system.id})"> {{system.name}} </a>
                                 </td>
                                 <td>
-                                    {{res.type}}
+                                    {{system.type}}
                                 </td>
                                 <td>
-                                    {{res.status}}
+                                    {{system.status}}
                                 </td>
                                 <td>
-                                    {{res.description}}
+                                    {{system.description}}
                                 </td>
                                 <td>
-                                    {{res.default}}
+                                    {{system.default}}
                                 </td>
                                 <td>
-                                    {{res.public}}
+                                    {{system.public}}
                                 </td>
-                                <td>
+                                <!-- <td>
+                                    {{system.available}}
+                                </td> -->
+                                <td class="text-center">
                                     <div class="btn-group">
                                         <a class="btn red btn-outline" href="#" data-toggle="dropdown">
                                             Actions
@@ -115,40 +179,40 @@
                                         </a>
                                         <ul class="dropdown-menu pull-right">
                                             <li>
-                                                <a ui-sref="data-explorer({systemId: res.id, path: ''})" role="button"> <i class="fa fa-folder-open-o"></i> Browse </a>
+                                                <a ui-sref="data-explorer({systemId: system.id, path: ''})" role="button"> <i class="fa fa-folder-open-o"></i> Browse </a>
                                             </li>
-                                            <li>
-                                                <a ng-click="editMetadata(res.id)" data-target="#metadata-modal"> <i class="fa fa-sticky-note-o"></i> Metadata </a>
-                                            </li>
-                                            <li>
-                                                <a ng-click="editTags(res)"> <i class="fa fa-tags"></i> Tags </a>
-                                            </li>
+                                            <!-- <li>
+                                                <a ng-click="editMetadata(system.id)" data-target="#metadata-modal"> <i class="fa fa-sticky-note-o"></i> Metadata </a>
+                                            </li> -->
+                                            <!-- <li>
+                                                <a ng-click="editTags(system)"> <i class="fa fa-tags"></i> Tags </a>
+                                            </li> -->
                                             <li class="divider"> </li>
                                             <li>
-                                                <a ng-click="editRoles(res)"> <i class="fa fa-share"></i> Share </a>
+                                                <a ng-click="editRoles(system)"> <i class="fa fa-share"></i> Share </a>
+                                            </li>
+                                            <!-- <li>
+                                                <a ng-click="editNotifications(system.id)" data-target="#notifications-modal" role="button" data-toggle="modal"> <i class="icon-webhooks"></i> Notifications </a>
+                                            </li> -->
+                                            <li class="divider"> </li>
+                                            <li ng-if="!system.available">
+                                                <a ng-click="confirmAction('systems', system, 'enable', systems, $index)" > <i class="fa fa-check"></i> Enable </a>
+                                            </li>
+                                            <li ng-if="system.available">
+                                                <a ng-click="confirmAction('systems', system, 'disable', systems, $index)" > <i class="fa fa-remove"></i> Disable </a>
                                             </li>
                                             <li>
-                                                <a ng-click="editNotifications(res.id)" data-target="#notifications-modal" role="button" data-toggle="modal"> <i class="icon-webhooks"></i> Notifications </a>
+                                                <a ng-click="confirmAction('systems', system, 'delete', systems, $index)" > <i class="fa fa-trash-o"></i> Delete</a>
                                             </li>
                                             <li class="divider"> </li>
-                                            <li ng-if="!res.available">
-                                                <a href="#" class="system-confirmation-action" ng-click="confirmAction(res, systemActions.ENABLE)" > <i class="fa fa-check"></i> Enable </a>
-                                            </li>
-                                            <li ng-if="res.available">
-                                                <a href="#"  class="system-confirmation-action" ng-click="confirmAction(res, systemActions.DISABLE)" > <i class="fa fa-remove"></i> Disable </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="system-confirmation-action" ng-click="confirmDelete(res)" > <i class="fa fa-trash-o"></i> Delete </a>
-                                            </li>
-                                            <li class="divider"> </li>
-                                            <li>
+                                            <!-- <li>
                                                 <a href="#" data-target="#clone-modal" > <i class="fa fa-code-fork"></i> Clone </a>
+                                            </li> -->
+                                            <li ng-if="!system.public">
+                                                <a ng-click="confirmAction('systems', system, 'publish', systems, $index)"> <i class="fa fa-eye"></i> Publish </a>
                                             </li>
-                                            <li ng-if="!res.public">
-                                                <a href="#" class="system-confirmation-action" ng-click="confirmAction(res.id,res.name,systemActions.PUBLISH)"> <i class="fa fa-eye"></i> Publish </a>
-                                            </li>
-                                            <li ng-if="res.public">
-                                                <a href="#" class="system-confirmation-action" ng-click="confirmAction(res.id,res.name,systemActions.UNPUBLISH);" > <i class="fa fa-eye-slash"></i> Unpublish </a>
+                                            <li ng-if="system.public">
+                                                <a ng-click="confirmAction('systems', system, 'unpublish', systems, $index)" > <i class="fa fa-eye-slash"></i> Unpublish </a>
                                             </li>
                                         </ul>
                                     </div>
@@ -158,7 +222,7 @@
                     </table>
                 </div>
             </div>
-            <tags-modal id="tagging-modal" ng-model="modalResource.id" ng-resource-name="modalResource.name" role="dialog" aria-hidden="true"></tags-modal>
+            <!-- <tags-modal id="tagging-modal" ng-model="modalResource.id" ng-resource-name="modalResource.name" role="dialog" aria-hidden="true"></tags-modal> -->
             <!-- <quickshare-role-modal id="quickshare-role-modal" ng-model="modalResource" role="dialog" aria-hidden="true"></quickshare-role-modal> -->
             <!--<notification-modal id="notification-modal" class="modal fade" ng-system-id="modalTaggedResourceUuid" role="dialog" aria-hidden="true"></notification-modal>-->
             <!--<metadata-modal id="metadata-modal" class="modal fade" ng-system-id="modalTaggedResourceUuid" role="dialog" aria-hidden="true"></metadata-modal>-->

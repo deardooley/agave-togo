@@ -20,6 +20,7 @@ var AgaveToGo = angular.module("AgaveToGo", [
     'AgavePlatformScienceAPILib',
     'pascalprecht.translate',
     'ngCookies',
+    'ngTable',
     'schemaForm',
     'schemaFormWizard'
 ]);
@@ -366,6 +367,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                     name: 'AgaveToGo',
                     files: [
                         'js/services/ActionsService.js',
+                        'js/services/PermissionsService.js',
                         'js/controllers/apps/resource/AppsResourceDetailsController.js'
                     ]
                   }
@@ -405,6 +407,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         files: [
                             '../assets/global/scripts/datatable.js',
                             '../bower_components/holderjs/holder.js',
+                            'js/services/ActionsService.js',
+                            'js/services/PermissionsService.js',
                             'js/controllers/apps/AppDirectoryController.js',
                             'js/controllers/modals/ModalConfirmResourceActionController.js',
                             'js/controllers/modals/ModalPermissionEditorController.js'
@@ -624,6 +628,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             //'../bower_components/datatables/media/js/jquery.dataTables.js',
                             '../assets/global/scripts/datatable.js',
                             '../bower_components/holderjs/holder.js',
+                            'js/services/ActionsService.js',
                             'js/services/RolesService.js',
                             'js/controllers/systems/SystemDirectoryController.js'
                         ]
@@ -743,7 +748,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                 {
                   name: 'AgaveToGo',
                     files: [
-                      'js/services/RolesService.js',
+                      // 'js/services/RolesService.js',
                       'js/controllers/systems/resource/SystemsResourceController.js'
                     ]
                 }
@@ -763,6 +768,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                     name: 'AgaveToGo',
                     files: [
                         'js/services/ActionsService.js',
+                        'js/services/RolesService.js',
                         'js/controllers/systems/resource/SystemsResourceDetailsController.js'
                     ]
                   }

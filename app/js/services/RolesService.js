@@ -1,4 +1,4 @@
-angular.module('AgaveToGo', []).service('RolesService',['$uibModal', '$rootScope', '$location', '$state', '$timeout', '$q', 'SystemsController', 'ProfilesController', function($uibModal, $rootScope, $location, $state, $timeout, $q, SystemsController, ProfilesController){
+angular.module('AgaveToGo').service('RolesService',['$uibModal', '$rootScope', '$location', '$state', '$timeout', '$q', 'SystemsController', 'ProfilesController', function($uibModal, $rootScope, $location, $state, $timeout, $q, SystemsController, ProfilesController){
   this.editRoles = function(system){
       var modalInstance = $uibModal.open({
         templateUrl: 'tpl/modals/ModalRolesManager.html',
