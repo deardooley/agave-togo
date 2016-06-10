@@ -20,7 +20,6 @@ var AgaveToGo = angular.module("AgaveToGo", [
     'AgavePlatformScienceAPILib',
     'pascalprecht.translate',
     'ngCookies',
-    'ngTable',
     'schemaForm',
     'schemaFormWizard'
 ]);
