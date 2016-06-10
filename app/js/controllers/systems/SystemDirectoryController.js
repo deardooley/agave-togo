@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('SystemDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, Commons, SystemsController, SystemActionTypeEnum, RolesService, ActionsService, NgTableParams) {
+angular.module('AgaveToGo').controller('SystemDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, Commons, SystemsController, SystemActionTypeEnum, RolesService, ActionsService) {
 
     $scope.offset = $scope.offset || 0;
     $scope.limit = $scope.limit || 50;
