@@ -4,24 +4,24 @@ Agave ToGo AngularJS App Main Script
 
 /* Metronic App */
 var AgaveToGo = angular.module("AgaveToGo", [
-    "ui.router",
-    "ui.bootstrap",
-    "oc.lazyLoad",
-    "ngSanitize",
-    'ngMd5',
-    'ngStorage',
-    'ui.select',
-    'angularMoment',
-    'angular-cache',
-    //"oauth",
-    'CommonsService',
-    'TagsService',
-    'JiraService',
-    'AgavePlatformScienceAPILib',
-    'pascalprecht.translate',
-    'ngCookies',
-    'schemaForm',
-    'schemaFormWizard'
+  'AgavePlatformScienceAPILib',
+  'angular-cache',
+  'angularMoment',
+  'angularUtils.directives.dirPagination',
+  'CommonsService',
+  'JiraService',
+  'ngCookies',
+  "ngSanitize",
+  'ngStorage',
+  'ngMd5',
+  "oc.lazyLoad",
+  'pascalprecht.translate',
+  'schemaForm',
+  'schemaFormWizard',
+  'TagsService',
+  "ui.bootstrap",
+  "ui.router",
+  'ui.select'
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -241,6 +241,160 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                     });
                 }]
             }
+        })
+
+        /**********************************************************************/
+        /**********************************************************************/
+        /***                                                                ***/
+        /***                       Applications Routes                      ***/
+        /***                                                                ***/
+        /**********************************************************************/
+        /**********************************************************************/
+        .state('meta-manage', {
+            url: "/meta",
+            templateUrl: "views/meta/manager.html",
+            data: {pageTitle: 'Meta Manager'},
+            controller: "MetaDirectoryController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'AgaveToGo',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            //'../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
+                            //'../bower_components/datatables/media/css/jquery.dataTables.min.css',
+                            //
+                            //'../bower_components/datatables/media/js/dataTables.bootstrap.js',
+                            //'../bower_components/datatables/media/js/jquery.dataTables.js',
+                            '../assets/global/scripts/datatable.js',
+                            '../bower_components/holderjs/holder.js',
+                            'js/services/ActionsService.js',
+                            'js/services/PermissionsService.js',
+                            'js/services/RolesService.js',
+                            'js/controllers/meta/MetaDirectoryController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
+        // .state('meta-edit', {
+        //     url: "/meta/edit/:uuid",
+        //     templateUrl: "views/meta/edit-wizard.html",
+        //     data: {pageTitle: 'Meta Edit Wizard'},
+        //     controller: "MetaEditWizardController",
+        //     resolve: {
+        //         deps: ['$ocLazyLoad', function($ocLazyLoad) {
+        //             return $ocLazyLoad.load({
+        //                 name: 'AgaveToGo',
+        //                 files: [
+        //                    //'../bower_components/bootstrap-wizard/jquery.bootstrap.wizard.min.js',
+        //                    // "../bower_components/angular-sanitize/angular-sanitize.min.js",
+        //                    // "../bower_components/tv4/tv4.js",
+        //                    // "../bower_components/objectpath/lib/ObjectPath.js",
+        //                    // "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+        //                    // "../bower_components/angular-schema-form/dist/schema-form.js",
+        //                    // "../app/js/services/WizardHandler.js",
+        //                     "../bower_components/codemirror/lib/codemirror.css",
+        //                     "../bower_components/codemirror/theme/neo.css",
+        //                     "../bower_components/codemirror/lib/codemirror.js",
+        //                     "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+        //                     'js/controllers/apps/MetaEditWizardController.js'
+        //                 ]
+        //             },
+        //             "ui.codemirror"
+        //             );
+        //         }]
+        //     }
+        // })
+        //
+        //
+        // .state('meta-new', {
+        //     url: "/apps/new",
+        //     templateUrl: "views/meta/wizard.html",
+        //     data: {pageTitle: 'App Builder Wizard'},
+        //     controller: "MetaBuilderWizardController",
+        //     resolve: {
+        //         deps: ['$ocLazyLoad', function($ocLazyLoad) {
+        //             return $ocLazyLoad.load({
+        //                 name: 'AgaveToGo',
+        //                 files: [
+        //                    //'../bower_components/bootstrap-wizard/jquery.bootstrap.wizard.min.js',
+        //                    // "../bower_components/angular-sanitize/angular-sanitize.min.js",
+        //                    // "../bower_components/tv4/tv4.js",
+        //                    // "../bower_components/objectpath/lib/ObjectPath.js",
+        //                    // "../bower_components/angular-schema-form/dist/bootstrap-decorator.min.js",
+        //                    // "../bower_components/angular-schema-form/dist/schema-form.js",
+        //                    // "../app/js/services/WizardHandler.js",
+        //                     "../bower_components/codemirror/lib/codemirror.css",
+        //                     "../bower_components/codemirror/theme/neo.css",
+        //                     "../bower_components/codemirror/lib/codemirror.js",
+        //                     "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+        //                     'js/controllers/meta/AppBuilderWizardController.js'
+        //                 ]
+        //             },
+        //             "ui.codemirror"
+        //             );
+        //         }]
+        //     }
+        // })
+
+
+        .state("meta", {
+          abtract: true,
+          url:"/meta/:uuid",
+          templateUrl:"views/meta/resource/resource.html",
+          controller: "MetaResourceController",
+          resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  name: 'AgaveToGo',
+                    files: [
+                      'js/controllers/meta/resource/MetaResourceController.js'
+                    ]
+                }
+              ]);
+            }]
+          }
+        })
+
+        .state("meta.details", {
+          url: "",
+          templateUrl: "views/meta/resource/details.html",
+          controller: "MetaResourceDetailsController",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/services/ActionsService.js',
+                        'js/services/PermissionsService.js',
+                        'js/controllers/meta/resource/MetaResourceDetailsController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
+        .state("meta.stats", {
+          url: "/stats",
+          controller: "MetaResourceStatsController",
+          templateUrl: "views/meta/resource/stats.html",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/controllers/meta/resource/MetaResourceStatsController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
         })
 
         /**********************************************************************/

@@ -1,0 +1,204 @@
+<!-- BEGIN PAGE HEADER-->
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="#/dashboard.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a href="#/meta">Meta</a>
+        </li>
+        <li>
+            <a href="#/meta/manager">Manager</a>
+        </li>
+    </ul>
+    <div landing-start-menu></div>
+</div>
+<h3 class="page-title"> Metadata Managmenet
+    <small>Manage your private collection of metadata</small>
+</h3>
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- Begin: life time stats -->
+        <div class="portlet light portlet-fit portlet-datatable bordered">
+            <div class="portlet-title">
+                <div class="row">
+                  <div class="caption">
+                      <i class="fa fa-code"></i> Metadata Management
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="btn-group">
+                      <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <input class="form-control" type="text" placeholder="{name:name, value:value}" ng-model="query">
+                        <a class="input-group-addon" ng-click="search()">Send</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="row">
+                  <div class="col-md-12">
+                    <textarea class="form-control" placeholder="" ng-model="value"></textarea>
+                  </div>
+                </div> -->
+
+                <div class="row">
+                  <div class="actions">
+                      <!-- <div class="btn-group">
+                          <a class="btn red btn-outline" href="#" data-toggle="dropdown">
+                              <i class="fa fa-share"></i>
+                              <span class="hidden-480"> Actions </span>
+                              <i class="fa fa-angle-down"></i>
+                          </a>
+                          <ul class="dropdown-menu pull-right">
+                              <li>
+                                  <a href="#"> Clone </a>
+                              </li>
+                              <li>
+                                  <a href="#"> Enable </a>
+                              </li>
+                              <li>
+                                  <a href="#"> Disable </a>
+                              </li>
+                              <li>
+                                  <a href="#"> Delete </a>
+                              </li>
+                              <li class="divider"> </li>
+                              <li>
+                                  <a href="#"> Publish </a>
+                              </li>
+                          </ul>
+                      </div> -->
+                  </div>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+              <div class="row text-center" ng-show="requesting">
+                  <div class="col-md-12">
+                    <div class="loading-message"><div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-12">
+                    <div ng-show="!requesting">
+                      <div class="table-responsive">
+                          <table class="table table-striped table-bordered table-hover management" width="100%" id="datatable_collection">
+                              <thead>
+                                  <tr role="row" class="heading">
+                                      <th>
+                                        <a href="#" ng-click="sortType = 'uuid'; sortReverse = !sortReverse">
+                                          uuid
+                                          <span ng-show="sortType == 'uuid' && !sortReverse" class="fa fa-caret-down"></span>
+                                          <span ng-show="sortType == 'uuid' && sortReverse" class="fa fa-caret-up"></span>
+                                        </a>
+                                      </th>
+                                      <th data-class-name="extended">
+                                        <a href="#" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                                          Name
+                                          <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                                          <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                                        </a>
+                                      </th>
+                                      <th data-class-name="extended">
+                                        <a href="#" ng-click="sortType = 'owner'; sortReverse = !sortReverse">
+                                          Owner
+                                          <span ng-show="sortType == 'owner' && !sortReverse" class="fa fa-caret-down"></span>
+                                          <span ng-show="sortType == 'owner' && sortReverse" class="fa fa-caret-up"></span>
+                                        </a>
+                                      </th>
+                                      <th data-class-name="extended">
+                                        <a href="#" ng-click="sortType = 'created'; sortReverse = !sortReverse">
+                                          Created
+                                          <span ng-show="sortType == 'created' && !sortReverse" class="fa fa-caret-down"></span>
+                                          <span ng-show="sortType == 'created' && sortReverse" class="fa fa-caret-up"></span>
+                                        </a>
+                                      </th>
+                                      <th data-class-name="lastUpdated">
+                                        <a href="#" ng-click="sortType = 'lastUpdated'; sortReverse = !sortReverse">
+                                          Last Updated
+                                          <span ng-show="sortType == 'lastUpdated' && !sortReverse" class="fa fa-caret-down"></span>
+                                          <span ng-show="sortType == 'lastUpdated' && sortReverse" class="fa fa-caret-up"></span>
+                                        </a>
+                                      </th>
+                                      <th> Actions</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <!-- <tr ng-repeat="meta in metas | orderBy:sortType:sortReverse | filter:search"> -->
+                                  <tr dir-paginate="meta in metas | itemsPerPage: 5" total-items="totalItems">
+                                      <td>
+                                          <a ui-sref="meta({uuid: meta.uuid})"> {{meta.uuid}} </a>
+                                      </td>
+                                      <td>
+                                          <a ui-sref="meta({uuid: meta.id})"> {{meta.name}} </a>
+                                      </td>
+                                      <td data-class-name="extended">
+                                          {{meta.owner}}
+                                      </td>
+                                      <td>
+                                          {{meta.created}}
+                                      </td>
+                                      <td>
+                                          {{meta.lastUpdated}}
+                                      </td>
+                                      <td>
+                                          <div class="btn-group">
+                                              <a class="btn red btn-outline" href="#" data-toggle="dropdown">
+                                                  Actions
+                                                  <i class="fa fa-angle-down"></i>
+                                              </a>
+                                              <ul class="dropdown-menu pull-right">
+                                                  <li>
+                                                      <a ng-click="edit('meta', meta)" role="button"> <i class="fa fa-pencil"></i></i> Edit </a>
+                                                  </li>
+                                                  <li ng-if="!meta.available">
+                                                      <a ng-click="confirmAction('meta', meta, 'enable', metas, $index)"> <i class="fa fa-check"></i> Enable </a>
+                                                  </li>
+                                                  <li ng-if="meta.available">
+                                                      <a ng-click="confirmAction('meta', meta, 'disable', metas, $index)"> <i class="fa fa-remove"></i> Disable </a>
+                                                  </li>
+                                                  <li>
+                                                      <a ng-click="confirmAction('meta', meta, 'delete', metas, $index)"> <i class="fa fa-trash-o"></i> Delete </a>
+                                                  </li>
+                                                  <li class="divider"> </li>
+                                                  <!-- <li>
+                                                      <a ng-click="confirmAction('meta', meta, 'clone', meta, $index)" role="button"> <i class="fa fa-code-fork"></i> Clone </a>
+                                                  </li> -->
+                                                  <li>
+                                                      <a ng-click="confirmAction('meta', meta, 'publish', metas, $index)"> <i class="fa fa-eye"></i> Publish </a>
+                                                  </li>
+                                                  <li>
+                                                      <a ng-click="editPermissions(meta)" role="button"> <i class="fa fa-share"></i> Share </a>
+                                                  </li>
+                                              </ul>
+                                          </div>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                      <div class="text-center">
+                        <dir-pagination-controls
+                          on-page-change="getPage(newPageNumber, oldPageNumber, 'metas')"
+                        >
+                        </dir-pagination-controls>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+                <pre>
+                  {{metas | json}}
+                </pre>
+              </div>
+        </div>
+        <!-- End: life time stats -->
+    </div>
+</div>
+<!-- END MAIN CONTENT -->

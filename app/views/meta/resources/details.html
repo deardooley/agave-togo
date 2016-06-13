@@ -1,0 +1,136 @@
+<div>
+  <div class="row visible-sm visible-xs mbm">
+    <div class="col-xs-12">
+      <div ng-if="meta" class="btn-group pull-right visible-sm visible-xs">
+          <a class="btn red btn-outline" href="#" data-toggle="dropdown">
+              Actions
+              <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu pull-right">
+              <li>
+                  <a ng-click="edit('meta', meta)"> <i class="fa fa-pencil"></i></i> Edit </a>
+              </li>
+              <li ng-if="!meta.available">
+                  <a ng-click="confirmAction('meta', meta, 'enable')"> <i class="fa fa-check"></i> Enable </a>
+              </li>
+              <li ng-if="meta.available">
+                  <a ng-click="confirmAction('meta', meta, 'disable')"> <i class="fa fa-remove"></i> Disable </a>
+              </li>
+              <li>
+                  <a ng-click="confirmAction('meta', meta, 'delete')"> <i class="fa fa-trash-o"></i> Delete </a>
+              </li>
+              <li class="divider"> </li>
+              <!-- <li>
+                  <a ng-click="clone(meta)" role="button"> <i class="fa fa-code-fork"></i> Clone </a>
+              </li> -->
+              <li>
+                  <a ng-click="confirmAction('meta', meta, 'publish')"> <i class="fa fa-eye"></i> Publish </a>
+              </li>
+              <li>
+                  <a ng-click="editPermissions(meta)"> <i class="fa fa-share-alt"></i> Share </a>
+              </li>
+          </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-9">
+      <div ng-if="meta" class="table-responsive">
+        <table class="table">
+          <thead class="hidden-sm hidden-xs">
+          <tr>
+             <th class="col-sm-2"></th>
+             <th class="col-sm-10"></th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr ng-if="meta.id">
+             <td>ID</td>
+             <td><strong>{{meta.id}}</strong></td>
+           </tr>
+           <tr ng-if="meta.name">
+             <td>Name</td>
+             <td>{{meta.name}}</td>
+           </tr>
+           <tr ng-if="meta.longDescription">
+             <td>Description</td>
+             <td>{{meta.longDescription}}</td>
+           </tr>
+           <tr ng-if="meta.label">
+             <td>Label</td>
+             <td>{{meta.label}}</td>
+           </tr>
+           <tr ng-if="meta.isPublic">
+             <td>Public</td>
+             <td>{{meta.isPublic}}</td>
+           </tr>
+           <tr>
+             <td>Available</td>
+             <td>{{meta.available}}</td>
+           </tr>
+           <tr ng-if="meta.deploymentSystem">
+             <td>Deployment System</td>
+             <td><a href="#/systems/{{meta.deploymentSystem}}">{{meta.deploymentSystem}}</a></td>
+           </tr>
+           <tr ng-if="meta.deploymentPath">
+             <td>Deployment Path</td>
+             <td><a href="#/data/explorer/{{meta.deploymentSystem}}//{{meta.deploymentPath}}">{{meta.deploymentPath}}</a></td>
+           </tr>
+           <tr ng-if="meta.executionSystem">
+             <td>Execution System</td>
+             <td><a href="#/systems/{{meta.executionSystem}}">{{meta.executionSystem}}</a></td>
+           </tr>
+           <tr ng-if="meta.executionType">
+             <td>Execution Type</td>
+             <td>{{meta.executionType}}</td>
+           </tr>
+           <tr ng-if="meta.parallelism">
+             <td>Parallelism</td>
+             <td>{{meta.parallelism}}</td>
+           </tr>
+           <tr ng-if="meta.revision">
+             <td>Revision</td>
+             <td>{{meta.revision}}</td>
+           </tr>
+           <tr ng-if="meta.lastModified">
+             <td>Last Modified</td>
+             <td am-time-ago="meta.lastModified"></td>
+           </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div ng-if="meta" class="btn-group pull-right">
+          <a class="btn red btn-outline" href="#" data-toggle="dropdown">
+              Actions
+              <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu pull-right">
+              <li>
+                  <a ng-click="edit('meta', meta)" role="button"> <i class="fa fa-pencil"></i></i> Edit </a>
+              </li>
+              <li ng-if="!meta.available">
+                  <a ng-click="confirmAction('meta', meta, 'enable')"> <i class="fa fa-check"></i> Enable </a>
+              </li>
+              <li ng-if="meta.available">
+                  <a ng-click="confirmAction('meta', meta, 'disable')"> <i class="fa fa-remove"></i> Disable </a>
+              </li>
+              <li>
+                  <a ng-click="confirmAction('meta', meta, 'delete')"> <i class="fa fa-trash-o"></i> Delete </a>
+              </li>
+              <li class="divider"> </li>
+              <!-- <li>
+                  <a g-click="confirmAction('meta', meta, 'clone')" role="button"> <i class="fa fa-code-fork"></i> Clone </a>
+              </li> -->
+              <li>
+                  <a ng-click="confirmAction('meta', meta, 'publish')" role="button"> <i class="fa fa-eye"></i> Publish </a>
+              </li>
+              <li>
+                  <a ng-click="editPermissions(meta)"> <i class="fa fa-share-alt"></i> Share </a>
+              </li>
+          </ul>
+      </div>
+    </div>
+  </div>
+</div>
