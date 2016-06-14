@@ -4,24 +4,24 @@ Agave ToGo AngularJS App Main Script
 
 /* Metronic App */
 var AgaveToGo = angular.module("AgaveToGo", [
-    "ui.router",
-    "ui.bootstrap",
-    "oc.lazyLoad",
-    "ngSanitize",
-    'ngMd5',
-    'ngStorage',
-    'ui.select',
-    'angularMoment',
-    'angular-cache',
-    //"oauth",
-    'CommonsService',
-    'TagsService',
-    'JiraService',
-    'AgavePlatformScienceAPILib',
-    'pascalprecht.translate',
-    'ngCookies',
-    'schemaForm',
-    'schemaFormWizard'
+  'AgavePlatformScienceAPILib',
+  'angular-cache',
+  'angularMoment',
+  'angularUtils.directives.dirPagination',
+  'CommonsService',
+  'JiraService',
+  'ngCookies',
+  "ngSanitize",
+  'ngStorage',
+  'ngMd5',
+  "oc.lazyLoad",
+  'pascalprecht.translate',
+  'schemaForm',
+  'schemaFormWizard',
+  'TagsService',
+  "ui.bootstrap",
+  "ui.router",
+  'ui.select'
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -241,6 +241,98 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                     });
                 }]
             }
+        })
+
+        /**********************************************************************/
+        /**********************************************************************/
+        /***                                                                ***/
+        /***                       Jobs Routes                              ***/
+        /***                                                                ***/
+        /**********************************************************************/
+        /**********************************************************************/
+        .state('jobs-manage', {
+            url: "/jobs",
+            templateUrl: "views/jobs/manager.html",
+            data: {pageTitle: 'Jobs Manager'},
+            controller: "JobsDirectoryController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'AgaveToGo',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            //'../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
+                            //'../bower_components/datatables/media/css/jquery.dataTables.min.css',
+                            //
+                            //'../bower_components/datatables/media/js/dataTables.bootstrap.js',
+                            //'../bower_components/datatables/media/js/jquery.dataTables.js',
+                            '../assets/global/scripts/datatable.js',
+                            '../bower_components/holderjs/holder.js',
+                            'js/services/ActionsService.js',
+                            'js/services/PermissionsService.js',
+                            'js/services/RolesService.js',
+                            'js/controllers/jobs/JobsDirectoryController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
+        .state("jobs", {
+          abtract: true,
+          url:"/jobs/:id",
+          templateUrl:"views/jobs/resource/resource.html",
+          controller: "JobsResourceController",
+          resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  name: 'AgaveToGo',
+                    files: [
+                      'js/controllers/jobs/resource/JobsResourceController.js'
+                    ]
+                }
+              ]);
+            }]
+          }
+        })
+
+        .state("jobs.details", {
+          url: "",
+          templateUrl: "views/jobs/resource/details.html",
+          controller: "JobsResourceDetailsController",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/services/ActionsService.js',
+                        'js/services/PermissionsService.js',
+                        'js/controllers/jobs/resource/JobsResourceDetailsController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
+        .state("jobs.stats", {
+          url: "/jobs",
+          controller: "JobsResourceStatsController",
+          templateUrl: "views/jobs/resource/stats.html",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/controllers/jobs/resource/JobsResourceStatsController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
         })
 
         /**********************************************************************/

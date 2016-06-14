@@ -1,7 +1,5 @@
 angular.module('AgaveToGo').controller('AppsResourceDetailsController', function($scope, $stateParams, AppsController, ActionsService, PermissionsService) {
 
-  $scope.$parent.error = false;
-
   $scope.app = null;
 
   $scope.getApp = function(){
@@ -12,13 +10,23 @@ angular.module('AgaveToGo').controller('AppsResourceDetailsController', function
             $scope.app = response;
           },
           function(response){
-            $scope.$parent.error = true;
-            App.alert({type: 'danger', message: 'Error: Could not retrieve app'});
+            var message = response.errorMessage ? 'Error: Could not retrieve app - ' + response.errorMessage : 'Error: Could not retrieve app';
+            App.alert(
+              {
+                type: 'danger',
+                message: message
+              }
+            );
           }
         );
     } else {
-      $scope.$parent.error = true;
-      App.alert({type: 'danger', message: 'Error: Could not retrieve app'});
+      var message = response.errorMessage ? 'Error: Could not retrieve app - ' + response.errorMessage : 'Error: Could not retrieve app';
+      App.alert(
+        {
+          type: 'danger',
+          message: message
+        }
+      );
     }
   };
 

@@ -1,169 +1,176 @@
-angular.module('AgaveToGo').controller('JobDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $uibModal, Commons, AppsController, SystemsController, JobsController) {
+angular.module('AgaveToGo').controller('JobsDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $uibModal, $http, Commons, AppsController, JobsController, ActionsService) {
 
-    $scope.offset = $scope.offset || 0;
-    $scope.limit = $scope.limit || 10;
-    $scope.systems = [];
 
-    // Name of collection, used in route name generation
     $scope._COLLECTION_NAME = $scope._COLLECTION_NAME || 'jobs';
 
-    // Name of resource, used in table name generation and variable reference
-    // within the view template
     $scope._RESOURCE_NAME = $scope._RESOURCE_NAME || 'job';
 
-    $scope.refresh = $scope.refresh || function() {
+    $scope.limit = 10;
 
-        App.blockUI({
-            target: '.portlet-datatable .portlet-body',
-            overlayColor: '#FFF',
-            animate: true
-        });
+    $scope.sortType = 'id';
 
-        SystemsController.listSystems(99999).then(
-            function (data) {
-                $scope.systems = data;
+    $scope.sortReverse  = false;
 
-                JobsController.listJobs()
-                    .then($scope.handleRefreshSuccess, $scope.handleFailure);
-            },
-            function (data) {
-                App.alert({
-                    type: 'danger',
-                    message: "Error retrieving system list.<br>" + data.message,
-                });
-            });
+    $scope.refresh = function() {
+      $scope.requesting = true;
+
+      $scope.appId = $scope.appId === '' ? null : $scope.appId;
+      $scope.archive = $scope.archive === '' ? null : $scope.archive;
+      $scope.archivePath = $scope.archivePath === '' ? null : $scope.archivePath;
+      $scope.archiveSystem = $scope.archiveSystem === '' ? null : $scope.archiveSystem;
+      $scope.batchQueue = $scope.batchQueue === '' ? null : $scope.batchQueue;
+      $scope.executionSystem = $scope.executionSystem === '' ? null : $scope.executionSystem;
+      $scope.id = $scope.id === '' ? null : $scope.id;
+      $scope.inputs = $scope.inputs === '' ? null : $scope.inputs;
+      // $scope.limit = $scope.limi === '' ? null : $scope.limit;
+      $scope.localId = $scope.localId === '' ? null : $scope.localId,
+      $scope.maxRuntime = $scope.maxRuntime === '' ? null : $scope.maxRuntime;
+      $scope.memoryPerNode = $scope.memoryPerNode === '' ? null : $scope.memoryPerNode;
+      $scope.name = $scope.name === '' ? null : $scope.name;
+      $scope.nodeCount = $scope.nodeCount === '' ? null : $scope.nodeCount;
+      // $scope.offset = $scope.offset === '' ? null : $scope.offset;
+      $scope.outputPath = $scope.outputPath === '' ? null : $scope.outputPath;
+      $scope.owner = $scope.owner === '' ? null : $scope.owner;
+      $scope.processorsPerNode = $scope.processorsPerNode === '' ? null : $scope.processorsPerNode;
+      $scope.retries = $scope.retried === '' ? null : $scope.retries;
+      $scope.startTime = $scope.startTime === '' ? null : $scope.startTime;
+      $scope.status = $scope.status === '' ? null : $scope.status;
+      $scope.submitTime = $scope.submitTime === '' ? null : $scope.submitTime;
+      $scope.visible = $scope.visible === '' ? null : $scope.visible;
+
+      JobsController.listJobs(
+        $scope.appId,
+        $scope.archive,
+        $scope.archivePath,
+        $scope.archiveSystem,
+        $scope.batchQueue,
+        $scope.executionSystem,
+        $scope.id,
+        $scope.inputs,
+        null, // limit
+        $scope.localId,
+        $scope.maxRuntime,
+        $scope.memoryPerNode,
+        $scope.name,
+        $scope.nodeCount,
+        $scope.offset,
+        $scope.outputPath,
+        $scope.parameters,
+        $scope.processorsPerNode,
+        $scope.retries,
+        $scope.startTime,
+        $scope.status,
+        $scope.submitTime,
+        $scope.visible
+      )
+        .then(
+          function (response) {
+            $scope.totalItems = response.length;
+            $scope.pagesTotal = Math.ceil(response.length / $scope.limit);
+            $scope[$scope._COLLECTION_NAME] = response;
+            $scope.requesting = false;
+          },
+          function(response){
+            var message = response.errorMessage ? 'Error: Could not retrieve jobs - ' + response.errorMessage : 'Error: Could not retrieve jobs';
+            App.alert(
+              {
+                type: 'danger',
+                message: message
+              }
+            );
+            $scope.requesting = false;
+          }
+      );
+
     };
 
-    $scope.confirmAction = function(selectedJobs, selectedAction)
-    {
-        var modalInstance = $uibModal.open(
-            {
-                templateUrl: 'tpl/modals/ModalConfirmResourceAction.html',
-                controller: 'ModalConfirmResourceActionController',
-                //size: 'sm',
-                resolve:
-                {
-                    resourceNames: function() {
-                        var resourceNames = [];
-                        angular.forEach(selectedJobs, function (job, key) {
-                            resourceNames.push(job.name + "(" + job.id + ')');
-                        });
-                        return resourceNames;
-                    },
-                    resourceAction: function() {
-                        return selectedAction;
-                    }
-                }
-            });
-
-        modalInstance.result.then(function(response)
-            {
-                $log.info('Modal closed at: ' + new Date());
-            },
-            function()
-            {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
-    };
-
-    $scope.openPermissionEditor = function(resource) {
-        var modalInstance = $uibModal.open(
-            {
-                templateUrl: 'tpl/modals/ModalPermissionManager.html',
-                controller: 'ModalPermissionEditorController',
-                //size: 'sm',
-                resolve:
-                {
-                    ApiPermissionListFunction: function() {
-                        return AppsController.listAppPermissions;
-                    },
-                    ApiPermissionUpdateFunction: function() {
-                        return AppsController.updateAppPermission;
-                    },
-                    resource: function() {
-                        return resource;
-                    }
-                }
-            });
-
-        modalInstance.result.then(function(response)
-            {
-                console.log('Modal dismissed at: ' + new Date());
-            },
-            function()
-            {
-                console.log('Modal dismissed at: ' + new Date());
-            });
+    $scope.search = function(){
+      $scope.refresh();
     }
 
-    $scope.doInvokeAction = function (selectedJobs, selectedAction) {
-        var isSuccess = true;
-        var that = this;
+    $scope.browse = function(id){
+      JobsController.getJobDetails(id)
+        .then(
+          function(data){
+            $state.go('data-explorer', {'systemId': data.archiveSystem, path: data.archivePath});
+          },
+          function(data){
+            var message = response.errorMessage ? 'Error: Could not retrieve job - ' + response.errorMessage : 'Error: Could not retrieve job';
+            App.alert(
+              {
+                type: 'danger',
+                message: message
+              }
+            );
+            $scope.requesting = false;
+          }
+        );
+    }
 
-        var promises = [];
-        var totalDeleted = 0;
-        //angular.forEach(selectedJobs, function (app, key) {
-        //
-        //    promises.push(JobsController.updateInvokeAppAction(app.id, selectedAction).then(
-        //        function(response) {
-        //            totalDeleted++;
-        //            $(that).parent().parent().parent().remove();
-        //            App.alert({message: "Successfully performed " + selectedAction + " action on " +  app.label + "."});
-        //        },
-        //        function(message, response) {
-        //            isSuccess = false;
-        //            App.alert({
-        //                type: 'danger',
-        //                message: "Error performing " + selectedAction + " action on " + app.label + "<br>" + message,
-        //            });
-        //        }));
-        //});
+    $scope.search = function(){
+      $scope.refresh();
+    }
 
-        var deferred = $q.all(promises).then(
-            function(result) {
-                App.alert({message: "Successfully completed " + selectedAction + " action."});
-                $scope.refresh();
-            },
-            function(message, result) {
-                App.alert({
-                    type: 'danger',
-                    message: 'Failed to perform ' + selectedAction + ' on one or more ' + $scope._COLLECTION_NAME + '.'
-                });
-                $scope.refresh();
+
+    $scope.refresh();
+
+    $scope.getPage = function(newPageNumber, oldPageNumber, resourceType){
+      $scope.requesting = true;
+      $scope.offset = (newPageNumber - 1) * $scope.limit;
+
+      JobsController.listJobs(
+        $scope.appId,
+        $scope.archive,
+        $scope.archivePath,
+        $scope.archiveSystem,
+        $scope.batchQueue,
+        $scope.executionSystem,
+        $scope.id,
+        $scope.inputs,
+        $scope.limit,
+        $scope.localId,
+        $scope.maxRuntime,
+        $scope.memoryPerNode,
+        $scope.name,
+        $scope.nodeCount,
+        $scope.offset,
+        $scope.outputPath,
+        $scope.parameters,
+        $scope.processorsPerNode,
+        $scope.retries,
+        $scope.startTime,
+        $scope.status,
+        $scope.submitTime,
+        $scope.visible
+      )
+        .then(
+          function (response) {
+            $scope.pagesTotal = Math.ceil(response.length / $scope.limit);
+            $scope[$scope._COLLECTION_NAME] = response;
+            $scope.requesting = false;
+          },
+          function(response){
+            var message = response.errorMessage ? 'Error: Could not retrieve job - ' + response.errorMessage : 'Error: Could not retrieve job';
+            App.alert({
+               type: 'danger',
+               message: message
             });
+            $scope.requesting = false;
+          }
+      );
+    }
 
-        return deferred.promise;
-    };
+    // $scope.confirmAction = function(resourceType, resource, resourceAction, resourceList, resourceIndex){
+    //   ActionsService.confirmAction(resourceType, resource, resourceAction, resourceList, resourceIndex);
+    // }
+    //
+    // $scope.edit = function(resourceType, resource){
+    //   ActionsService.edit(resourceType, resource);
+    // };
+    //
+    // $scope.editPermissions = function(resource) {
+    //     PermissionsService.editPermissions(resource);
+    // }
 
-    /**
-     * Resolves a system name from its id.
-     * @param string id of the system whose name we want to resolve
-     */
-    $scope.getSystemName = function(id) {
-        if (id) {
-            for(var i=0; i<$scope.systems.length; i++) {
-                if ($scope.systems[i].id === id) {
-                    return $scope.systems[i].name;
-                }
-            }
-        }
-        return id;
-    };
 
-    /**
-     * Forces this controller to inherit from the parent. Remember that order is
-     * imporant. If you override this controller, any scope variables you override
-     * there will be applied first, so make sure you check yoru variables here
-     * before initializing them.
-     */
-    $injector.invoke(BaseCollectionCtrl, this, {
-        $timeout: $timeout,
-        $rootScope: $rootScope,
-        $scope: $scope,
-        $state: $state,
-        $stateParams: $stateParams,
-        $q: $q,
-        Commons: Commons,
-        ApiStub: AppsController
-    });
 });
