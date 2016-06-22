@@ -17,6 +17,7 @@ angular.module('AgaveToGo').controller("AppsResourceController", function($scope
 
 		$scope.tabs = [
 			{ heading: "Details", route:"apps.details", active:false },
+			{ heading: "Run", route:"apps.run", active:false },
 			{ heading: "Stats", route:"apps.stats", active:false },
 		];
 
@@ -25,4 +26,6 @@ angular.module('AgaveToGo').controller("AppsResourceController", function($scope
 				tab.active = $scope.active(tab.route);
 			});
 		});
+
+
 	});

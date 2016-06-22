@@ -485,6 +485,24 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
+        .state("apps.run", {
+          url: "/run",
+          controller: "AppsResourceRunController",
+          templateUrl: "views/apps/resource/form.html",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/controllers/apps/resource/AppsResourceRunController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
         .state('apps-manage', {
             url: "/apps",
             templateUrl: "views/apps/manager.html",
