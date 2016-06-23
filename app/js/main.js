@@ -488,7 +488,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         .state("apps.run", {
           url: "/run",
           controller: "AppsResourceRunController",
-          templateUrl: "views/apps/resource/form.html",
+          templateUrl: "views/apps/resource/job-form.html",
           resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([

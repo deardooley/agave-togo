@@ -45,7 +45,7 @@
            </tr>
            <tr ng-if="job.archivePath">
              <td>Archive Path</td>
-             <td><a href="#/data/explorer/{{job.archiveSystem}}/{{job.archivePath}}">{{job.archivePath}}</td>
+             <td><a href="#/data/explorer/{{job.archiveSystem}}/{{job.archivePath}}">{{job.archivePath}}</a></td>
            </tr>
            <tr ng-if="job.outputPath">
              <td>Output Path</td>
@@ -57,7 +57,7 @@
            </tr>
            <tr ng-if="job.appId">
              <td>Application ID</td>
-             <td><strong>{{job.appId}}</strong></td>
+             <td><a href="#/apps/{{job.appId}}">{{job.appId}}</a></td>
            </tr>
            <tr ng-if="job.inputs">
              <td>Inputs</td>

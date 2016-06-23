@@ -35,20 +35,13 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
         $scope.appsList = [];
         $scope.appsDetailsList = [];
 
-        // App.blockUI({
-        //     target: '.portlet-datatable .portlet-body',
-        //     overlayColor: '#FFF',
-        //     animate: true
-        // });
-
         SystemsController.listSystems(99999).then(
             function (response) {
               $scope.systems = response;
 
-              AppsController.listApps($scope.limit, $scope.offset, { 'privateonly': 'true' })
+              AppsController.listApps($scope.limit, $scope.offset)
                 .then(
                   function(response){
-                    console.log('listing private apps');
                     $scope.appsList = response;
                     $scope.getAppsDetails(function () {
                       $scope[$scope._COLLECTION_NAME] = $scope.appsDetailsList;

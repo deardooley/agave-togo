@@ -7,9 +7,9 @@ angular.module('AgaveToGo').controller('JobsDirectoryController', function ($inj
 
     $scope.limit = 10;
 
-    $scope.sortType = 'id';
+    $scope.sortType = 'startTime';
 
-    $scope.sortReverse  = false;
+    $scope.sortReverse  = true;
 
     $scope.refresh = function() {
       $scope.requesting = true;

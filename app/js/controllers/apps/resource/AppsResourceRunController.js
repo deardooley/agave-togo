@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppsResourceRunController', function($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, AppsController, SystemsController) {
+angular.module('AgaveToGo').controller('AppsResourceRunController', function($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, AppsController, SystemsController, JobsController) {
 
     $scope.formSchema = function(app) {
       var schema = {
@@ -145,7 +145,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                     {
                       "input": key,
                       "type": "template",
-                      "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <div class="input-group"> <a class="input-group-addon" ng-click="form.selectFile(form.input)">Select</a> <input type="text" class="form-control" id="input" ng-model="model[form.input]"></div> <span class="help-block">{{form.description}}</span> </div>',
+                      "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <div class="input-group"> <a class="input-group-addon" ng-click="form.selectFile(form.input)">Select</a> <input type="text" class="form-control" id="input" ng-model="form.model.parameters[form.input]"></div> <span class="help-block">{{form.description}}</span> </div>',
                       "title": input.title,
                       "description": input.description,
                       "model": $scope.form.model,
@@ -177,7 +177,10 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
 
                                       $scope.$watch('uploadFileContent', function(uploadFileContent){
                                           if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
-                                            $scope.form.model[key] = uploadFileContent;
+                                            if (typeof $scope.form.model.parameters === 'undefined'){
+                                              $scope.form.model.inputs = {};
+                                            }
+                                            $scope.form.model.inputs[key] = uploadFileContent;
                                             $scope.close();
                                           }
                                       });
@@ -210,10 +213,12 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                 angular.forEach($scope.form.schema.properties.parameters.properties, function(input, key){
                   items[0].items.push(
                     {
+                      "input": key,
                       "type": "template",
-                      "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <div class="input-group"> <a class="input-group-addon" ng-click="form.selectFile(form.input)">Select</a> <input type="text" class="form-control" id="input" ng-model="model[form.input]"></div> <span class="help-block">{{form.description}}</span> </div>',
+                      "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <div class="input-group"> <a class="input-group-addon" ng-click="form.selectFile(form.input)">Select</a> <input type="text" class="form-control" id="input" ng-model="form.model.parameters[form.input]"></div> <span class="help-block">{{form.description}}</span> </div>',
                       "title": input.title,
                       "description": input.description,
+                      "model": $scope.form.model,
                       selectFile: function(key){
                         SystemsController.getSystemDetails($scope.app.deploymentSystem).then(
                             function(sys) {
@@ -241,13 +246,16 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
 
                                       $scope.$watch('uploadFileContent', function(uploadFileContent){
                                           if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
-                                            $scope.form.model[key] = uploadFileContent;
+                                            if (typeof $scope.form.model.parameters === 'undefined'){
+                                              $scope.form.model.parameters = {};
+                                            }
+                                            $scope.form.model.parameters[key] = uploadFileContent;
                                             $scope.close();
                                           }
                                       });
                                     }]
                                   });
-                                }    
+                                }
                             },
                             function(response) {
                               var message = response.errorMessage ? 'Error: Could not retrieve app - ' + response.errorMessage : 'Error: Could not retrieve app';
@@ -310,6 +318,78 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
           }
         );
       }
+    };
+
+    $scope.onSubmit = function(form) {
+
+      $scope.$broadcast('schemaFormValidate');
+
+      if (form.$valid) {
+        var jobData = {
+            appId: $scope.app.id,
+            archive: true,
+            inputs: {},
+            parameters: {}
+        };
+
+        /* copy form model to disconnect from $scope */
+        _.extend(jobData, angular.copy($scope.form.model));
+
+        /* remove falsy input/parameter */
+        _.each(jobData.inputs, function(v,k) {
+          if (_.isArray(v)) {
+            v = _.compact(v);
+            if (v.length === 0) {
+              delete jobData.inputs[k];
+            }
+          }
+        });
+        _.each(jobData.parameters, function(v,k) {
+          if (_.isArray(v)) {
+            v = _.compact(v);
+            if (v.length === 0) {
+              delete jobData.parameters[k];
+            }
+          }
+        });
+
+        $scope.requesting = true;
+
+        JobsController.createSubmitJob(jobData)
+          .then(
+            function(response) {
+              $scope.job = response;
+
+              $uibModal.open({
+                templateUrl: "views/apps/resource/job-success.html",
+                scope: $scope,
+                size: 'lg',
+                controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                  $scope.cancel = function()
+                  {
+                      $modalInstance.dismiss('cancel');
+                  };
+
+                  $scope.close = function(){
+                      $modalInstance.close();
+                  }
+                }]
+              });
+              $scope.resetForm();
+              $scope.requesting = false;
+            },
+            function(response) {
+              var message = response.errorMessage ? 'Error: your job submission failed with the following message: - ' + response.errorMessage : 'Error: Error: your job submission failed';
+              App.alert(
+                {
+                  type: 'danger',
+                  message: message
+                }
+              );
+              $scope.requesting = false;
+          });
+      }
+
     };
 
     $scope.resetForm();
