@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppsResourceRunController', function($scope, $stateParams, AppsController) {
+angular.module('AgaveToGo').controller('AppsResourceRunController', function($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, AppsController, SystemsController) {
 
     $scope.formSchema = function(app) {
       var schema = {
@@ -60,6 +60,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
         });
       }
 
+
       if (inputs.length > 0) {
         schema.properties.inputs = {
           type: 'object',
@@ -74,18 +75,18 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
           }
           var field = {
             title: input.details.label,
-            description: input.details.description
+            description: input.details.description,
           };
           if (input.semantics.maxCardinality === 1) {
             field.type = 'string';
-            field.format = 'agaveFile';
             field.required = input.value.required;
           } else {
             field.type = 'array';
             field.items = {
               type: 'string',
-              format: 'agaveFile',
-              'x-schema-form': {notitle: true}
+              'x-schema-form': {
+                notitle: true
+              },
             }
             if (input.semantics.maxCardinality > 1) {
               field.maxItems = input.semantics.maxCardinality;
@@ -135,15 +136,140 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
               /* inputs */
               var items = [];
               if ($scope.form.schema.properties.inputs) {
-                items.push('inputs');
+                items.push({
+                  'key':'inputs',
+                  'items': []
+                });
+                angular.forEach($scope.form.schema.properties.inputs.properties, function(input, key){
+                  items[0].items.push(
+                    {
+                      "input": key,
+                      "type": "template",
+                      "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <div class="input-group"> <a class="input-group-addon" ng-click="form.selectFile(form.input)">Select</a> <input type="text" class="form-control" id="input" ng-model="model[form.input]"></div> <span class="help-block">{{form.description}}</span> </div>',
+                      "title": input.title,
+                      "description": input.description,
+                      "model": $scope.form.model,
+                      selectFile: function(key){
+                        SystemsController.getSystemDetails($scope.app.deploymentSystem).then(
+                            function(sys) {
+                                // check if modal already opened
+                                if (!$modalStack.getTop()){
+                                  $scope.path = $localStorage.activeProfile.username;
+                                  $stateParams.path = $scope.path;
+
+                                  $scope.system = sys;
+                                  $rootScope.uploadFileContent = '';
+                                  $uibModal.open({
+                                    templateUrl: "views/apps/filemanager.html",
+                                    // resolve: {
+                                    // },
+                                    scope: $scope,
+                                    size: 'lg',
+                                    controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                                      $scope.cancel = function()
+                                      {
+                                          $modalInstance.dismiss('cancel');
+                                      };
+
+                                      $scope.close = function(){
+                                          $modalInstance.close();
+                                      }
+
+                                      $scope.$watch('uploadFileContent', function(uploadFileContent){
+                                          if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
+                                            $scope.form.model[key] = uploadFileContent;
+                                            $scope.close();
+                                          }
+                                      });
+                                    }]
+                                  });
+                                }
+                            },
+                            function(response) {
+                              var message = response.errorMessage ? 'Error: Could not retrieve app - ' + response.errorMessage : 'Error: Could not retrieve app';
+                              App.alert(
+                                {
+                                  type: 'danger',
+                                  message: message
+                                }
+                              );
+                            }
+                        );
+                      }
+                    }
+                  );
+                });
               }
+
               if ($scope.form.schema.properties.parameters) {
-                items.push('parameters');
+                // items.push('parameters');
+                items.push({
+                  'key': 'parameters',
+                  'items': []
+                });
+                angular.forEach($scope.form.schema.properties.parameters.properties, function(input, key){
+                  items[0].items.push(
+                    {
+                      "type": "template",
+                      "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <div class="input-group"> <a class="input-group-addon" ng-click="form.selectFile(form.input)">Select</a> <input type="text" class="form-control" id="input" ng-model="model[form.input]"></div> <span class="help-block">{{form.description}}</span> </div>',
+                      "title": input.title,
+                      "description": input.description,
+                      selectFile: function(key){
+                        SystemsController.getSystemDetails($scope.app.deploymentSystem).then(
+                            function(sys) {
+                                if (!$modalStack.getTop()){
+                                  $scope.path = $localStorage.activeProfile.username;
+                                  $stateParams.path = $scope.path;
+
+                                  $scope.system = sys;
+                                  $rootScope.uploadFileContent = '';
+                                  $uibModal.open({
+                                    templateUrl: "views/apps/filemanager.html",
+                                    // resolve: {
+                                    // },
+                                    scope: $scope,
+                                    size: 'lg',
+                                    controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                                      $scope.cancel = function()
+                                      {
+                                          $modalInstance.dismiss('cancel');
+                                      };
+
+                                      $scope.close = function(){
+                                          $modalInstance.close();
+                                      }
+
+                                      $scope.$watch('uploadFileContent', function(uploadFileContent){
+                                          if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
+                                            $scope.form.model[key] = uploadFileContent;
+                                            $scope.close();
+                                          }
+                                      });
+                                    }]
+                                  });
+                                }    
+                            },
+                            function(response) {
+                              var message = response.errorMessage ? 'Error: Could not retrieve app - ' + response.errorMessage : 'Error: Could not retrieve app';
+                              App.alert(
+                                {
+                                  type: 'danger',
+                                  message: message
+                                }
+                              );
+                            }
+                        );
+                      }
+                    }
+                  );
+                });
               }
+
               $scope.form.form.push({
                 type: 'fieldset',
                 title: 'Inputs',
-                items: items
+                items: items,
+
               });
 
               /* job details */
