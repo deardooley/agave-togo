@@ -125,7 +125,7 @@ angular.module('AgaveToGo').controller('DashboardController',
     JobsController.listJobs(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'FINISHED', null, null).then(
         function (data) {
           $timeout(function () {
-            $scope.jobListing = data;
+            $scope.jobListing = data.result;
           }, 50);
         },
         function (data) {

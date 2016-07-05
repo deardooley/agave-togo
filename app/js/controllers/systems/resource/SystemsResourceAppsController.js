@@ -12,22 +12,40 @@ angular.module('AgaveToGo').controller('SystemsResourceAppsController', function
           AppsController.listApps($scope.limit, $scope.offset, { 'executionSystem.like': $stateParams.systemId })
             .then(
               function(response){
-                $scope.apps = response;
+                $scope.apps = response.result;
               },
               function(response){
-                $scope.$parent.error = true;
-                App.alert({type: 'danger',message: 'Error: Could not retrieve system apps'});
+                var message = response.errorResponse.message ? 'Error: Could not retrieve app - ' + response.errorResponse.message : 'Error: Could not retrieve app';
+                App.alert(
+                  {
+                    type: 'danger',
+                    message: message
+                  }
+                );
+                $scope.requesting = false;
               }
             );
         },
         function(response){
-            $scope.$parent.error = true;
-            App.alert({type: 'danger',message: 'Error: Could not retrieve system'});
+          var message = response.errorResponse.message ? 'Error: Could not retrieve system - ' + response.errorResponse.message : 'Error: Could not retrieve system';
+          App.alert(
+            {
+              type: 'danger',
+              message: message
+            }
+          );
+          $scope.requesting = false;
         }
       );
   } else {
-      $scope.$parent.error = true;
-      App.alert({type: 'danger',message: 'Error: Could not retrieve system'});
+      var message = response.errorResponse.message ? 'Error: Could not retrieve system - ' + response.errorResponse.message : 'Error: Could not retrieve system';
+      App.alert(
+        {
+          type: 'danger',
+          message: message
+        }
+      );
+      $scope.requesting = false;
   }
 
 

@@ -7,7 +7,7 @@ angular.module('AgaveToGo').controller('AppsResourceDetailsController', function
       AppsController.getAppDetails($stateParams.appId)
         .then(
           function(response){
-            $scope.app = response;
+            $scope.app = response.result;
           },
           function(response){
             var message = response.errorMessage ? 'Error: Could not retrieve app - ' + response.errorMessage : 'Error: Could not retrieve app';

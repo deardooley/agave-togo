@@ -1,4 +1,4 @@
-angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootScope', '$location', '$state', 'AppsController', 'SystemsController', function($uibModal, $rootScope, $location, $state, AppsController, SystemsController){
+angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootScope', '$location', '$state', 'AppsController', 'SystemsController', 'JobsController', function($uibModal, $rootScope, $location, $state, AppsController, SystemsController, JobsController){
 
   this.confirmAction = function(resourceType, resource, resourceAction, resourceList, resourceIndex){
       var modalInstance = $uibModal.open({
@@ -123,6 +123,53 @@ angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootSco
                           });
                           break;
                   }
+                  break;
+                  case 'jobs':
+                    switch(resourceAction){
+                      case 'delete':
+                        JobsController.deleteJob(resource.id)
+                          .then(
+                            function(response){
+                              if (typeof resourceList === 'undefined' || resourceList === ''){
+                                $location.path('/jobs');
+                              } else {
+                                var removeIndex = _.findIndex($scope.resourceList, function(res){
+                                  return res.id === resource.id;
+                                });
+                                $scope.resourceList.splice(removeIndex, 1);
+                              }
+                              $modalInstance.dismiss();
+                            },
+                            function(response){
+                            var message = response.errorMessage ?  "Error trying to " + resourceAction + " " + resource.id + " - " + response.errorMessage : "Error trying to " + resourceAction + " " + resource.id;
+                              App.alert({
+                                 type: 'danger',
+                                 message: message
+                              });
+                              $modalInstance.dismiss();
+                            }
+                          );
+                        break;
+                        case 'stop':
+                          var body = {action: resourceAction};
+                          JobsController.createStopJob(body, resource.id)
+                            .then(
+                              function(response){
+                                resource.status = 'STOPPED';
+                                $modalInstance.dismiss();
+                              },
+                              function(response){
+                              var message = response.errorMessage ?  "Error trying to " + resourceAction + " " + resource.id + " - " + response.errorMessage : "Error trying to " + resourceAction + " " + resource.id;
+                                App.alert({
+                                   type: 'danger',
+                                   message: message
+                                });
+                                $modalInstance.dismiss();
+                              }
+                            );
+                          break;
+                    }
+                  break;
               }
           };
 

@@ -317,6 +317,25 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
+        .state("jobs.history", {
+          url: "/history",
+          controller: "JobsResourceHistoryController",
+          templateUrl: "views/jobs/resource/history.html",
+          resolve: {
+              deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                  {
+                    name: 'AgaveToGo',
+                    files: [
+                        'js/services/ActionsService.js',
+                        'js/controllers/jobs/resource/JobsResourceHistoryController.js'
+                    ]
+                  }
+                ]);
+              }]
+          }
+        })
+
         .state("jobs.stats", {
           url: "/jobs",
           controller: "JobsResourceStatsController",

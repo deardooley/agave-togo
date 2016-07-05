@@ -5,10 +5,10 @@ angular.module('AgaveToGo').controller('JobsDirectoryController', function ($inj
 
     $scope._RESOURCE_NAME = $scope._RESOURCE_NAME || 'job';
 
-    $scope.limit = 10;
+    $scope.offset = 0;
+    $scope.limit = 2;
 
     $scope.sortType = 'startTime';
-
     $scope.sortReverse  = true;
 
     $scope.refresh = function() {
@@ -65,13 +65,20 @@ angular.module('AgaveToGo').controller('JobsDirectoryController', function ($inj
       )
         .then(
           function (response) {
-            $scope.totalItems = response.length;
-            $scope.pagesTotal = Math.ceil(response.length / $scope.limit);
-            $scope[$scope._COLLECTION_NAME] = response;
+            $scope.totalItems = response.result.length;
+            $scope.pagesTotal = Math.ceil(response.result.length / $scope.limit);
+            $scope[$scope._COLLECTION_NAME] = response.result;
             $scope.requesting = false;
           },
           function(response){
-            var message = response.errorMessage ? 'Error: Could not retrieve jobs - ' + response.errorMessage : 'Error: Could not retrieve jobs';
+            var message = '';
+            if (response.errorResponse.message) {
+              message = 'Error: Could not retrieve jobs - ' + response.errorResponse.message
+            } else if (response.errorResponse.fault){
+              message = 'Error: Could not retrieve jobs - ' + response.errorResponse.fault.message;
+            } else {
+              message = 'Error: Could not retrieve jobs';
+            }
             App.alert(
               {
                 type: 'danger',
@@ -85,6 +92,7 @@ angular.module('AgaveToGo').controller('JobsDirectoryController', function ($inj
     };
 
     $scope.search = function(){
+      $scope.offset = 0;
       $scope.refresh();
     }
 
@@ -95,7 +103,14 @@ angular.module('AgaveToGo').controller('JobsDirectoryController', function ($inj
             $state.go('data-explorer', {'systemId': data.archiveSystem, path: data.archivePath});
           },
           function(data){
-            var message = response.errorMessage ? 'Error: Could not retrieve job - ' + response.errorMessage : 'Error: Could not retrieve job';
+            var message = '';
+            if (response.errorResponse.message) {
+              message = 'Error: Could not retrieve jobs - ' + response.errorResponse.message
+            } else if (response.errorResponse.fault){
+              message = 'Error: Could not retrieve jobs - ' + response.errorResponse.fault.message;
+            } else {
+              message = 'Error: Could not retrieve jobs';
+            }
             App.alert(
               {
                 type: 'danger',
@@ -106,11 +121,6 @@ angular.module('AgaveToGo').controller('JobsDirectoryController', function ($inj
           }
         );
     }
-
-    $scope.search = function(){
-      $scope.refresh();
-    }
-
 
     $scope.refresh();
 
@@ -150,19 +160,28 @@ angular.module('AgaveToGo').controller('JobsDirectoryController', function ($inj
             $scope.requesting = false;
           },
           function(response){
-            var message = response.errorMessage ? 'Error: Could not retrieve job - ' + response.errorMessage : 'Error: Could not retrieve job';
-            App.alert({
-               type: 'danger',
-               message: message
-            });
+            var message = '';
+            if (response.errorResponse.message) {
+              message = 'Error: Could not retrieve jobs - ' + response.errorResponse.message
+            } else if (response.errorResponse.fault){
+              message = 'Error: Could not retrieve jobs - ' + response.errorResponse.fault.message;
+            } else {
+              message = 'Error: Could not retrieve jobs';
+            }
+            App.alert(
+              {
+                type: 'danger',
+                message: message
+              }
+            );
             $scope.requesting = false;
           }
       );
     }
 
-    // $scope.confirmAction = function(resourceType, resource, resourceAction, resourceList, resourceIndex){
-    //   ActionsService.confirmAction(resourceType, resource, resourceAction, resourceList, resourceIndex);
-    // }
+    $scope.confirmAction = function(resourceType, resource, resourceAction, resourceList, resourceIndex){
+      ActionsService.confirmAction(resourceType, resource, resourceAction, resourceList, resourceIndex);
+    }
     //
     // $scope.edit = function(resourceType, resource){
     //   ActionsService.edit(resourceType, resource);

@@ -16,7 +16,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light portlet-fit portlet-datatable bordered">
-            <div class="portlet-title" ng-keyup="$event.keyCode == 13 ? search() : null">
+            <div class="portlet-title" ng-show="!requesting" ng-keyup="$event.keyCode == 13 ? search() : null">
                 <div class="caption">
                     <i class="fa fa-code"></i> Jobs Management
                 </div>
@@ -25,7 +25,7 @@
                   <div class="col-md-12">
                     <div class="btn-group">
                       <button class="btn btn-default hidden-md hidden-lg" ng-click="showSearch = !showSearch">
-                        <i class="fa fa-search" aria-hidden="true"></i> {{showSearch ? 'Hide Search' : 'Search'}}
+                        <i class="fa fa-filter" aria-hidden="true"></i> {{showSearch ? 'Hide Search' : 'Search'}}
                       </button>
                     </div>
                   </div>
@@ -35,7 +35,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="appId" ng-model="appId">
                       </div>
                     </div>
@@ -43,7 +43,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="archive" ng-model="archive">
                       </div>
                     </div>
@@ -51,7 +51,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="archivePath" ng-model="archivePath">
                       </div>
                     </div>
@@ -59,7 +59,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="archiveSystem" ng-model="archiveSystem">
                       </div>
                     </div>
@@ -70,7 +70,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="batchQueue" ng-model="batchQueue">
                       </div>
                     </div>
@@ -78,7 +78,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="created" ng-model="created">
                       </div>
                     </div>
@@ -86,7 +86,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="executionSystem" ng-model="executionSystem">
                       </div>
                     </div>
@@ -94,7 +94,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="id" ng-model="id">
                       </div>
                     </div>
@@ -105,7 +105,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="inputs" ng-model="inputs">
                       </div>
                     </div>
@@ -113,7 +113,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="maxRunTime" ng-model="maxRunTime">
                       </div>
                     </div>
@@ -121,7 +121,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="maxMemoryPerNode" ng-model="maxMemoryPerNode">
                       </div>
                     </div>
@@ -129,7 +129,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="name" ng-model="name">
                       </div>
                     </div>
@@ -140,7 +140,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="nodeCount" ng-model="nodeCount">
                       </div>
                     </div>
@@ -148,7 +148,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="outputPath" ng-model="outputPath">
                       </div>
                     </div>
@@ -156,7 +156,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="owner" ng-model="owner">
                       </div>
                     </div>
@@ -164,7 +164,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="processorsPerNode" ng-model="processorsPerNode">
                       </div>
                     </div>
@@ -175,7 +175,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="retries" ng-model="retries">
                       </div>
                     </div>
@@ -183,7 +183,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="startTime" ng-model="startTime">
                       </div>
                     </div>
@@ -191,7 +191,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="status" ng-model="status">
                       </div>
                     </div>
@@ -199,7 +199,7 @@
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                         <input class="form-control" type="text" placeholder="submitTime" ng-model="submitTime">
                       </div>
                     </div>
@@ -322,7 +322,13 @@
                                               </a>
                                               <ul class="dropdown-menu pull-right">
                                                 <li>
+                                                  <a ng-click="confirmAction('jobs', job, 'stop', jobs, $index)" role="button"> <i class="fa fa-stop"></i> Stop</a>
+                                                </li>
+                                                <li>
                                                   <a ng-click="browse(job.id)" role="button"> <i class="fa fa-folder-open-o"></i> Browse</a>
+                                                </li>
+                                                <li>
+                                                  <a ng-click="confirmAction('jobs', job, 'delete', jobs, $index)" role="button"> <i class="fa fa-trash-o"></i> Delete</a>
                                                 </li>
                                               </ul>
                                           </div>

@@ -23,10 +23,20 @@ angular.module('AgaveToGo').controller('SystemDirectoryController', function ($i
               $scope[$scope._COLLECTION_NAME] = response;
             },
             function(response){
-              App.alert({
-                 type: 'danger',
-                 message: "Error retrieving system list.<br>" + response.message,
-              });
+              var message = '';
+              if (response.errorResponse.message) {
+                message = 'Error: Could not retrieve systems - ' + response.errorResponse.message
+              } else if (response.errorResponse.fault){
+                message = 'Error: Could not retrieve systems - ' + response.errorResponse.fault.message;
+              } else {
+                message = 'Error: Could not retrieve systems';
+              }
+              App.alert(
+                {
+                  type: 'danger',
+                  message: message
+                }
+              );
             }
         );
     };

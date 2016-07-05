@@ -145,7 +145,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                     {
                       "input": key,
                       "type": "template",
-                      "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <div class="input-group"> <a class="input-group-addon" ng-click="form.selectFile(form.input)">Select</a> <input type="text" class="form-control" id="input" ng-model="form.model.parameters[form.input]"></div> <span class="help-block">{{form.description}}</span> </div>',
+                      "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <div class="input-group"> <a class="input-group-addon" ng-click="form.selectFile(form.input)">Select</a> <input type="text" class="form-control" id="input" ng-model="form.model.inputs[form.input]"></div> <span class="help-block">{{form.description}}</span> </div>',
                       "title": input.title,
                       "description": input.description,
                       "model": $scope.form.model,
@@ -177,7 +177,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
 
                                       $scope.$watch('uploadFileContent', function(uploadFileContent){
                                           if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
-                                            if (typeof $scope.form.model.parameters === 'undefined'){
+                                            if (typeof $scope.form.model.inputs === 'undefined'){
                                               $scope.form.model.inputs = {};
                                             }
                                             $scope.form.model.inputs[key] = uploadFileContent;
@@ -205,7 +205,6 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
               }
 
               if ($scope.form.schema.properties.parameters) {
-                // items.push('parameters');
                 items.push({
                   'key': 'parameters',
                   'items': []

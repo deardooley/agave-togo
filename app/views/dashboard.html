@@ -231,7 +231,7 @@
                                                 <div class="cont-col2">
                                                     <div class="desc"> {{ job.name | excerpt }}
                                                         <span ng-if="job.status === 'FINISHED'" class="label label-sm label-info">
-                                                            <a ui-sref="jobs-output({jobId: job.id})">
+                                                            <a ui-sref="jobs({id: job.id})">
                                                                 View output
                                                                 <i class="fa fa-share"></i>
                                                             </a>
@@ -243,7 +243,7 @@
                                         <div class="col2">
                                             <div class="date" am-time-ago="job.created"></div>
                                         </div>
-				    </li>
+				                            </li>
                                 </ul>
                             </div>
                         </div>
