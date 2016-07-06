@@ -31,10 +31,14 @@
                         <i class="fa fa-filter" aria-hidden="true"></i> {{showSearch ? 'Hide Search' : 'Search'}}
                       </button>
                     </div>
+                    <a href="#/apps/new" class="btn btn-outline green pull-right" data-target="#add-edit-modal" role="button" data-toggle="modal">
+                      <i class="fa fa-plus"></i>
+                      <span class="hidden-480"> New App</span>
+                    </a>
                   </div>
                 </div>
 
-                <div class="row visible-on">
+                <div class="row visible-on top-buffer">
                   <div class="col-md-3">
                     <div class="btn-group" ng-class="showSearch ? '' : 'hidden-sm hidden-xs'">
                       <div class="input-group">

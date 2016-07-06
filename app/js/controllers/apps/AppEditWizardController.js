@@ -1,36 +1,5 @@
 angular.module('AgaveToGo').controller('AppEditWizardController', function ($injector, $timeout, $rootScope, $scope, $state, $location, $stateParams, $q, $uibModal, Commons, AppsController, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
 
-    //var handleTitle = function(tab, navigation, index) {
-    //    var total = navigation.find('li').length;
-    //    var current = index + 1;
-    //    // set wizard title
-    //    $('.step-title', $('#form_wizard_1')).text('Step ' + (index + 1) + ' of ' + total);
-    //    // set done steps
-    //    jQuery('li', $('#form_wizard_1')).removeClass("done");
-    //    var li_list = navigation.find('li');
-    //    for (var i = 0; i < index; i++) {
-    //        jQuery(li_list[i]).addClass("done");
-    //    }
-    //
-    //    if (current == 1) {
-    //        $('#form_wizard_1').find('.button-previous').hide();
-    //    } else {
-    //        $('#form_wizard_1').find('.button-previous').show();
-    //    }
-    //
-    //    if (current >= total) {
-    //        $('#form_wizard_1').find('.button-next').hide();
-    //        $('#form_wizard_1').find('.button-submit').show();
-    //        displayConfirm();
-    //    } else {
-    //        $('#form_wizard_1').find('.button-next').show();
-    //        $('#form_wizard_1').find('.button-submit').hide();
-    //    }
-    //    App.scrollTo($('.page-title'));
-    //}
-    //
-
-
     $scope.schema = {
         "type": "object",
         "title": "Interactive app registration form for the Agave platform.",
@@ -1074,28 +1043,28 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
         if ($stateParams.appId) {
             AppsController.getAppDetails($stateParams.appId).then(
                 function (response) {
-                    if (response.lastModified){
-                      delete response.lastModified;
+                    if (response.result.lastModified){
+                      delete response.result.lastModified;
                     }
-                    if (response.revision){
-                      delete response.revision;
+                    if (response.result.revision){
+                      delete response.result.revision;
                     }
-                    if (response.uuid){
-                      delete response.uuid;
+                    if (response.result.uuid){
+                      delete response.result.uuid;
                     }
-                    if (response.getContext){
-                      delete response.getContext;
+                    if (response.result.getContext){
+                      delete response.result.getContext;
                     }
-                    if (response._links){
-                      delete response._links;
+                    if (response.result._links){
+                      delete response.result._links;
                     }
-                    if (response.available){
-                      delete response.available;
+                    if (response.result.available){
+                      delete response.result.available;
                     }
-                    if (response.icon){
-                      delete response.icon;
+                    if (response.result.icon){
+                      delete response.result.icon;
                     }
-                    $scope.model = response;
+                    $scope.model = response.result;
                 },
                 function (response) {
                     App.alert({
@@ -1153,12 +1122,20 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                 });
               },
               function(response){
-                var message = (response.errorResponse !== '') ?  "There was an error creating your app:\n" + response.errorResponse.fault.message : message = "There was an error creating your system:\n" + response.errorMessage;
-
-                App.alert({
+                var message = '';
+                if (response.errorResponse.message) {
+                  message = 'Error: Could not create app - ' + response.errorResponse.message
+                } else if (response.errorResponse.fault){
+                  message = 'Error: Could not create app - ' + response.errorResponse.fault.message;
+                } else {
+                  message = 'Error: Could not create app';
+                }
+                App.alert(
+                  {
                     type: 'danger',
                     message: message
-                });
+                  }
+                );
               }
             );
         } else {

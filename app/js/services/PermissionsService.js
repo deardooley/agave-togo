@@ -240,7 +240,7 @@ angular.module('AgaveToGo').service('PermissionsService',['$uibModal', '$rootSco
                     $modalInstance.close();
                 },
                 function(response) {
-                    var message = response.errorMessage ?  "Error: " + response.errorMessage : "Error contacting the service"
+                    var message = 'Error: Could not update permissions'
                     App.alert({
                         type: 'danger',
                         message: message

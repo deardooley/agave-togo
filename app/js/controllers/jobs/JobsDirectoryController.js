@@ -3,7 +3,7 @@ angular.module('AgaveToGo').controller('JobsDirectoryController', function ($inj
     $scope._RESOURCE_NAME = 'job';
 
     $scope.offset = 0;
-    $scope.limit = 5;
+    $scope.limit = 10;
 
     $scope.sortType = 'startTime';
     $scope.sortReverse  = true;

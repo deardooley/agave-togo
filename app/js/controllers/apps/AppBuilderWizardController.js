@@ -1058,10 +1058,20 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                 }, 0);
             },
             function(response) {
-                App.alert({
-                    type: 'danger',
-                    message: "Error fetching execution systems."
-                });
+              var message = '';
+              if (response.errorResponse.message) {
+                message = 'Error: Could not retrieve systems - ' + response.errorResponse.message
+              } else if (response.errorResponse.fault){
+                message = 'Error: Could not retrieve systems - ' + response.errorResponse.fault.message;
+              } else {
+                message = 'Error: Could not retrieve systems';
+              }
+              App.alert(
+                {
+                  type: 'danger',
+                  message: message
+                }
+              );
             }
         );
     };
@@ -1072,14 +1082,24 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
     $scope.init = function() {
         if ($stateParams.appId) {
             AppsController.getAppDetails($stateParams.appId).then(
-                function (data) {
-                    $scope.model = data;
+                function (response) {
+                    $scope.model = response.result;
                 },
-                function (data) {
-                    App.alert({
-                        type: 'danger',
-                        message: "There was an error contacting the apps service. " + data
-                    });
+                function (response) {
+                  var message = '';
+                  if (response.errorResponse.message) {
+                    message = 'Error: Could not retrieve app - ' + response.errorResponse.message
+                  } else if (response.errorResponse.fault){
+                    message = 'Error: Could not retrieve app - ' + response.errorResponse.fault.message;
+                  } else {
+                    message = 'Error: Could not retrieve app';
+                  }
+                  App.alert(
+                    {
+                      type: 'danger',
+                      message: message
+                    }
+                  );
                 });
         }
         // check if WizardHandler service has current model
@@ -1119,19 +1139,37 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                 });
               },
               function(response){
-                var message = (response.errorResponse !== '') ?  "There was an error creating your app:\n" + response.errorResponse.fault.message : message = "There was an error creating your system:\n" + response.errorMessage;
-
-                App.alert({
+                var message = '';
+                if (response.errorResponse.message) {
+                  message = 'Error: Could not submit app - ' + response.errorResponse.message
+                } else if (response.errorResponse.fault){
+                  message = 'Error: Could not submit app - ' + response.errorResponse.fault.message;
+                } else {
+                  message = 'Error: Could not submit app';
+                }
+                App.alert(
+                  {
                     type: 'danger',
                     message: message
-                });
+                  }
+                );
               }
             );
         } else {
-          App.alert({
+          var message = '';
+          if (response.errorResponse.message) {
+            message = 'Error: Could not submit app - ' + response.errorResponse.message
+          } else if (response.errorResponse.fault){
+            message = 'Error: Could not submit app - ' + response.errorResponse.fault.message;
+          } else {
+            message = 'Error: Could not submit app';
+          }
+          App.alert(
+            {
               type: 'danger',
-              message: "There was an error creating your app: Form is not valid. Please verify all fields."
-          });
+              message: message
+            }
+          );
         }
     };
 
