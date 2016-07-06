@@ -7,20 +7,47 @@ angular.module('AgaveToGo').controller('SystemDirectoryController', function ($i
 
     $scope.systemActions = SystemActionTypeEnum;
 
-    $scope._COLLECTION_NAME = $scope._COLLECTION_NAME || 'systems';
-
-    $scope._RESOURCE_NAME = $scope._RESOURCE_NAME || 'system';
+    $scope._COLLECTION_NAME = 'systems';
+    $scope._RESOURCE_NAME = 'system';
 
     $scope.sortType = 'id';
     $scope.sortReverse  = false;
     $scope.search   = '';
 
-    $scope.refresh = $scope.refresh || function() {
-        $scope.appsList = [];
+    $scope.getSystemDetails = function(id, callback) {
+      return SystemsController.getSystemDetails(id).then(
+        function(response){
+          return callback(response);
+        }
+      );
+    };
 
+    $scope.refresh = function() {
         SystemsController.listSystems(99999).then(
             function (response) {
-              $scope[$scope._COLLECTION_NAME] = response;
+              // $scope[$scope._COLLECTION_NAME] = response;
+              $scope[$scope._COLLECTION_NAME] = [];
+              var prom = [];
+              response.forEach(function (system, i) {
+                  prom.push($scope.getSystemDetails(system.id, function(value){
+                    $scope[$scope._COLLECTION_NAME].push(value);
+                  }));
+              });
+              $q.all(prom).then(
+                function () {
+                  $scope.requesting = false;
+                },
+                function(){
+                  var message = 'Error: Could not retrieve systems';
+                  App.alert(
+                    {
+                      type: 'danger',
+                      message: message
+                    }
+                  );
+                }
+              );
+
             },
             function(response){
               var message = '';

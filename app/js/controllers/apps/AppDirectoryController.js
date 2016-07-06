@@ -19,6 +19,14 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
     $scope.appsList = [];
     $scope.appsDetailsList = [];
 
+    $scope.getAppDetails = function(id, callback) {
+      return AppsController.getAppDetails(id).then(
+        function(response){
+          return callback(response.result);
+        }
+      );
+    };
+
     $scope.refresh = function() {
         $scope.appsList = [];
         $scope.appsDetailsList = [];
@@ -118,11 +126,28 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
                     $scope.totalItems = response.result.length;
                     $scope.pagesTotal = Math.ceil(response.result.length / $scope.limit);
                     $scope[$scope._COLLECTION_NAME] = [];
-                    angular.forEach(response.result, function(app){
-                      $scope[$scope._COLLECTION_NAME].push(app);
+                    var prom = [];
+                    response.result.forEach(function (app, i) {
+                        prom.push($scope.getAppDetails(app.id, function(value){
+                          $scope[$scope._COLLECTION_NAME].push(value);
+                        }));
                     });
+                    $q.all(prom).then(
+                      function () {
+                        $scope.requesting = false;
+                      },
+                      function(){
+                        var message = 'Error: Could not retrieve apps';
+                        App.alert(
+                          {
+                            type: 'danger',
+                            message: message
+                          }
+                        );
+                      }
+                    );
 
-                    $scope.requesting = false;
+                    // $scope.requesting = false;
                   }, function(response){
                     var message = '';
                     if (response.errorResponse.message) {
@@ -225,12 +250,26 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
           function(response){
             $scope.pagesTotal = Math.ceil(response.result.length / $scope.limit);
             $scope[$scope._COLLECTION_NAME] = [];
-
-            angular.forEach(response.result, function(app){
-              $scope[$scope._COLLECTION_NAME].push(app);
+            var prom = [];
+            response.result.forEach(function (app, i) {
+                prom.push($scope.getAppDetails(app.id, function(value){
+                  $scope[$scope._COLLECTION_NAME].push(value);
+                }));
             });
-
-            $scope.requesting = false;
+            $q.all(prom).then(
+              function () {
+                $scope.requesting = false;
+              },
+              function(){
+                var message = 'Error: Could not retrieve apps';
+                App.alert(
+                  {
+                    type: 'danger',
+                    message: message
+                  }
+                );
+              }
+            );
           },
           function(response){
             var message = '';

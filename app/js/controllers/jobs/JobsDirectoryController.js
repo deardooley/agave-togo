@@ -1,12 +1,9 @@
 angular.module('AgaveToGo').controller('JobsDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $uibModal, $http, Commons, AppsController, JobsController, ActionsService) {
-
-
-    $scope._COLLECTION_NAME = $scope._COLLECTION_NAME || 'jobs';
-
-    $scope._RESOURCE_NAME = $scope._RESOURCE_NAME || 'job';
+    $scope._COLLECTION_NAME = 'jobs';
+    $scope._RESOURCE_NAME = 'job';
 
     $scope.offset = 0;
-    $scope.limit = 2;
+    $scope.limit = 5;
 
     $scope.sortType = 'startTime';
     $scope.sortReverse  = true;
@@ -22,7 +19,7 @@ angular.module('AgaveToGo').controller('JobsDirectoryController', function ($inj
       $scope.executionSystem = $scope.executionSystem === '' ? null : $scope.executionSystem;
       $scope.id = $scope.id === '' ? null : $scope.id;
       $scope.inputs = $scope.inputs === '' ? null : $scope.inputs;
-      // $scope.limit = $scope.limi === '' ? null : $scope.limit;
+      // $scope.limit = $scope.limit === '' ? null : $scope.limit;
       $scope.localId = $scope.localId === '' ? null : $scope.localId,
       $scope.maxRuntime = $scope.maxRuntime === '' ? null : $scope.maxRuntime;
       $scope.memoryPerNode = $scope.memoryPerNode === '' ? null : $scope.memoryPerNode;
@@ -99,10 +96,10 @@ angular.module('AgaveToGo').controller('JobsDirectoryController', function ($inj
     $scope.browse = function(id){
       JobsController.getJobDetails(id)
         .then(
-          function(data){
-            $state.go('data-explorer', {'systemId': data.archiveSystem, path: data.archivePath});
+          function(response){
+            $state.go('data-explorer', {'systemId': response.result.archiveSystem, path: response.result.archivePath});
           },
-          function(data){
+          function(response){
             var message = '';
             if (response.errorResponse.message) {
               message = 'Error: Could not retrieve jobs - ' + response.errorResponse.message
@@ -155,8 +152,8 @@ angular.module('AgaveToGo').controller('JobsDirectoryController', function ($inj
       )
         .then(
           function (response) {
-            $scope.pagesTotal = Math.ceil(response.length / $scope.limit);
-            $scope[$scope._COLLECTION_NAME] = response;
+            $scope.pagesTotal = Math.ceil(response.result.length / $scope.limit);
+            $scope[$scope._COLLECTION_NAME] = response.result;
             $scope.requesting = false;
           },
           function(response){

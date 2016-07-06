@@ -41,16 +41,25 @@ angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootSco
                       AppsController.updateInvokeAppAction(resource.id, body)
                         .then(
                           function(response){
-                            angular.copy(response, resource);
+                            angular.copy(response.result, resource);
                             // $scope.$apply();
                             $modalInstance.dismiss();
                           },
                           function(response){
-                          var message = response.errorMessage ?  "Error trying to " + resourceAction + " " + resource.id + " - " + response.errorMessage : "Error trying to " + resourceAction + " " + resource.id;
-                            App.alert({
-                               type: 'danger',
-                               message: message
-                            });
+                            var message = '';
+                            if (response.errorResponse.message) {
+                              message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.message
+                            } else if (response.errorResponse.fault){
+                              message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.fault.message;
+                            } else {
+                              message = 'Error trying to ' + resourceAction + ' ' + resource.id;
+                            }
+                            App.alert(
+                              {
+                                type: 'danger',
+                                message: message
+                              }
+                            );
                             $modalInstance.dismiss();
                           });
                       break;
@@ -61,16 +70,25 @@ angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootSco
                           if (typeof resourceList === 'undefined' || resourceList === ''){
                             $location.path('/apps');
                           } else {
-                            $scope.appsDetailsList.splice($scope.appsDetailsList.indexOf($scope.resourceIndex), 1);
+                            $scope.resourceList.splice($scope.resourceList.indexOf($scope.resource), 1);
                           }
                           $modalInstance.dismiss();
                         },
                         function(response){
-                          var message = response.errorMessage ?  "Error trying to " + resourceAction + " " + resource.id + " - " + response.errorMessage : "Error trying to " + resourceAction + " " + resource.id;
-                          App.alert({
-                             type: 'danger',
-                             message: message
-                          });
+                          var message = '';
+                          if (response.errorResponse.message) {
+                            message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.message
+                          } else if (response.errorResponse.fault){
+                            message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.fault.message;
+                          } else {
+                            message = 'Error trying to ' + resourceAction + ' ' + resource.id;
+                          }
+                          App.alert(
+                            {
+                              type: 'danger',
+                              message: message
+                            }
+                          );
                           $modalInstance.dismiss();
                         });
                       break;
@@ -91,11 +109,20 @@ angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootSco
                             $modalInstance.dismiss();
                           },
                           function(response){
-                          var message = response.errorMessage ?  "Error trying to " + resourceAction + " " + resource.id + " - " + response.errorMessage : "Error trying to " + resourceAction + " " + resource.id;
-                            App.alert({
-                               type: 'danger',
-                               message: message
-                            });
+                            var message = '';
+                            if (response.errorResponse.message) {
+                              message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.message
+                            } else if (response.errorResponse.fault){
+                              message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.fault.message;
+                            } else {
+                              message = 'Error trying to ' + resourceAction + ' ' + resource.id;
+                            }
+                            App.alert(
+                              {
+                                type: 'danger',
+                                message: message
+                              }
+                            );
                             $modalInstance.dismiss();
                           });
                       break;
@@ -106,19 +133,29 @@ angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootSco
                             if (typeof resourceList === 'undefined' || resourceList === ''){
                               $location.path('/systems');
                             } else {
-                              var removeIndex = _.findIndex($scope.resourceList, function(res){
-                                return res.id === resource.id;
-                              });
-                              $scope.resourceList.splice(removeIndex, 1);
+                              // var removeIndex = _.findIndex($scope.resourceList, function(res){
+                              //   return res.id === resource.id;
+                              // });
+                              // $scope.resourceList.splice(removeIndex, 1);
+                              $scope.resourceList.splice($scope.resourceList.indexOf($scope.resource), 1);
                             }
                             $modalInstance.dismiss();
                           },
                           function(response){
-                          var message = response.errorMessage ?  "Error trying to " + resourceAction + " " + resource.id + " - " + response.errorMessage : "Error trying to " + resourceAction + " " + resource.id;
-                            App.alert({
-                               type: 'danger',
-                               message: message
-                            });
+                            var message = '';
+                            if (response.errorResponse.message) {
+                              message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.message
+                            } else if (response.errorResponse.fault){
+                              message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.fault.message;
+                            } else {
+                              message = 'Error trying to ' + resourceAction + ' ' + resource.id;
+                            }
+                            App.alert(
+                              {
+                                type: 'danger',
+                                message: message
+                              }
+                            );
                             $modalInstance.dismiss();
                           });
                           break;
@@ -141,11 +178,20 @@ angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootSco
                               $modalInstance.dismiss();
                             },
                             function(response){
-                            var message = response.errorMessage ?  "Error trying to " + resourceAction + " " + resource.id + " - " + response.errorMessage : "Error trying to " + resourceAction + " " + resource.id;
-                              App.alert({
-                                 type: 'danger',
-                                 message: message
-                              });
+                              var message = '';
+                              if (response.errorResponse.message) {
+                                message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.message
+                              } else if (response.errorResponse.fault){
+                                message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.fault.message;
+                              } else {
+                                message = 'Error trying to ' + resourceAction + ' ' + resource.id;
+                              }
+                              App.alert(
+                                {
+                                  type: 'danger',
+                                  message: message
+                                }
+                              );
                               $modalInstance.dismiss();
                             }
                           );
@@ -159,11 +205,20 @@ angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootSco
                                 $modalInstance.dismiss();
                               },
                               function(response){
-                              var message = response.errorMessage ?  "Error trying to " + resourceAction + " " + resource.id + " - " + response.errorMessage : "Error trying to " + resourceAction + " " + resource.id;
-                                App.alert({
-                                   type: 'danger',
-                                   message: message
-                                });
+                                var message = '';
+                                if (response.errorResponse.message) {
+                                  message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.message
+                                } else if (response.errorResponse.fault){
+                                  message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.fault.message;
+                                } else {
+                                  message = 'Error trying to ' + resourceAction + ' ' + resource.id;
+                                }
+                                App.alert(
+                                  {
+                                    type: 'danger',
+                                    message: message
+                                  }
+                                );
                                 $modalInstance.dismiss();
                               }
                             );
