@@ -122,6 +122,17 @@ angular.module('AgaveToGo').controller('DashboardController',
       negBarColor: '#e02222'
     });
 
+      StatusIoController.listStatuses().then(function(data) {
+          $timeout(function () {
+              $scope.platformStatuses = data.result;
+          }, 50);
+      },
+      function(error) {
+          $timeout(function () {
+            $scope.platfomStatues = [];
+          }, 0);
+      });
+
     JobsController.listJobs(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'FINISHED', null, null).then(
         function (data) {
           $timeout(function () {
