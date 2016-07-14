@@ -10,6 +10,7 @@ var AgaveToGo = angular.module("AgaveToGo", [
   'angularUtils.directives.dirPagination',
   'CommonsService',
   'JiraService',
+  'ChangelogParserService',
   'ngCookies',
   "ngSanitize",
   'ngStorage',
@@ -161,9 +162,39 @@ initialization can be disabled and Layout.init() should be called on page load c
 ***/
 
 /* Setup Layout Part - Header */
-AgaveToGo.controller('HeaderController', ['$scope', '$localStorage', function($scope, $localStorage) {
+AgaveToGo.controller('HeaderController', ['$scope', '$localStorage', 'StatusIoController', function($scope, $localStorage, StatusIoController) {
 
     $scope.authenticatedUser = $localStorage.activeProfile;
+    $scope.platformStatus = { status:'Up', statusCode: 100, incidents: [], issues:[]};
+
+    StatusIoController.listStatuses().then(
+
+        function(data) {
+            var issues = [];
+            for (var i=0; i<data.result.status.length; i++) {
+                if (data.result.status[i].status_code !== 100) {
+                    issues.push({
+                        "component": data.result.status[i].name,
+                        "container": data.result.status[i].containers[0].name,
+                        "status": data.result.status[i].status,
+                        "statusCode" : data.result.status[i].status_code,
+                        "updated": data.result.status[i].updated
+                    });
+                }
+            }
+            setTimeout(function() {
+                $scope.platformStatus.incidents = data.result.incidents;
+                $scope.platformStatus.status = data.result.status_overall.status;
+                $scope.platformStatus.statusCode = data.result.status_overall.status_code;
+                $scope.platformStatus.issues = issues;
+
+            }, 0);
+
+        },
+        function(data) {
+
+        }
+    );
 
     $scope.$on('$includeContentLoaded', function() {
         Layout.initHeader(); // init header
@@ -178,11 +209,28 @@ AgaveToGo.controller('SidebarController', ['$scope', function($scope) {
 }]);
 
 /* Setup Layout Part - Quick Sidebar */
-AgaveToGo.controller('QuickSidebarController', ['$scope', function($scope) {
+AgaveToGo.controller('QuickSidebarController', ['$scope', '$localStorage', 'ChangelogParser', function($scope, $localStorage, ChangelogParser) {
     $scope.$on('$includeContentLoaded', function() {
-       setTimeout(function(){
+        $scope.changelog = {};
+
+        $scope.tenant = $localStorage.tenant;
+
+        ChangelogParser.latest().then(function(data) {
+            if (data) {
+
+                for(var version in data) break;
+                $scope.changelog = data[version];
+                $scope.changelog.version = version;
+
+            }
+        });
+
+        setTimeout(function(){
             QuickSidebar.init(); // init quick sidebar
+
         }, 2000)
+
+        
     });
 }]);
 

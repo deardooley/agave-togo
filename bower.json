@@ -1,6 +1,6 @@
 {
   "name": "agave-togo",
-  "version": "1.4.4",
+  "version": "2.0.0",
   "homepage": "https://bitbucket.org/agaveapi/agave-togo",
   "authors": [
     "Rion Dooley <dooley@tacc.utexas.edu>"
@@ -13,7 +13,7 @@
     "apis",
     "agave"
   ],
-  "license": "BSD-2Clause",
+  "license": "BSD-2-Clause",
   "ignore": [
     "**/.*",
     "node_modules",
