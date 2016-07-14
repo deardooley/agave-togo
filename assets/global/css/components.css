@@ -14993,4 +14993,14 @@ Color library demo
     text-align: center; }
 
 
+/***
+Row top buffer
+***/
 .top-buffer { margin-top:10px; }
+
+/***
+toastr
+***/
+.toast-agave {
+  background-color: #3fc9d5;
+}

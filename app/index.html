@@ -27,6 +27,9 @@
         <link href="../bower_components/angular-ui-select/dist/select.min.css" rel="stylesheet" type="text/css" />
         <link href="../bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
         <link href="../bower_components/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="../bower_components/angular-toastr/dist/angular-toastr.css" rel="stylesheet" type="text/css"/>
+        <link href="../bower_components/json-formatter/dist/json-formatter.css" rel="stylesheet" type="text/css"/>
+        <!-- <link href="../bower_components/ng-prettyjson/dist/ng-prettyjson.min.css" rel="stylesheet" type="text/css"/> -->
 
 
         <!-- END GLOBAL MANDATORY STYLES -->
@@ -41,7 +44,12 @@
         <link href="../assets/layouts/layout/css/themes/darkblue.css" rel="stylesheet" type="text/css" id="style_color" />
         <link href="../assets/layouts/layout/css/custom.css" rel="stylesheet" type="text/css" />
         <!-- END THEME STYLES -->
-        <link rel="shortcut icon" href="favicon.ico" /> </head>
+        <link rel="shortcut icon" href="favicon.ico" />
+
+        <script type="text/javascript" src="http://9d1e23fc.fanoutcdn.com/fpp/static/json2.js"></script>
+        <script type="text/javascript" src="http://9d1e23fc.fanoutcdn.com/fpp/static/fppclient-1.0.1.min.js"></script>
+        <!-- <script src="https://code.jquery.com/jquery-1.12.2.min.js"></script> -->
+    </head>
     <!-- END HEAD -->
     <!-- BEGIN BODY -->
     <!-- DOC: Apply "page-header-fixed-mobile" and "page-footer-fixed-mobile" class to body element to force fixed header or footer in mobile devices -->
@@ -57,9 +65,9 @@
     <body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo page-on-load" ng-class="{'page-content-white': settings.layout.pageContentWhite,'page-container-bg-solid': settings.layout.pageBodySolid, 'page-sidebar-closed': settings.layout.pageSidebarClosed}">
         <!-- BEGIN PAGE SPINNER -->
         <div ng-spinner-bar class="page-spinner-bar">
-            <div class="bounce1"></div>
+            <!-- <div class="bounce1"></div>
             <div class="bounce2"></div>
-            <div class="bounce3"></div>
+            <div class="bounce3"></div> -->
         </div>
         <!-- END PAGE SPINNER -->
         <!-- BEGIN HEADER -->
@@ -129,6 +137,7 @@
         <!-- END CORE JQUERY PLUGINS -->
         <!-- BEGIN CORE ANGULARJS PLUGINS -->
         <script src="../bower_components/angular/angular.js" type="text/javascript"></script>
+        <script src="../bower_components/angular-animate/angular-animate.js" type="text/javascript"></script>
         <script src="../bower_components/ng-table/dist/ng-table.js" type="text/javascript"></script>
         <script src="../assets/global/plugins/angularjs/angular-sanitize.min.js" type="text/javascript"></script>
         <script src="../assets/global/plugins/angularjs/angular-touch.min.js" type="text/javascript"></script>
@@ -147,6 +156,9 @@
         <script src="../bower_components/angular-moment/angular-moment.min.js" type="text/javascript"></script>
         <script src="../bower_components/angular-cache/dist/angular-cache.min.js" type="text/javascript"></script>
         <script src="../bower_components/angular-utils-pagination/dirPagination.js" type="text/javascript"></script>
+        <script src="../bower_components/angular-toastr/dist/angular-toastr.tpls.js" type="text/javascript"></script>
+        <script src="../bower_components/json-formatter/dist/json-formatter.js"></script>
+        <!-- <script src="../bower_components/ng-prettyjson/dist/ng-prettyjson.min.js" type="text/javascript"></script> -->
 
         <script type="text/javascript" src="../bower_components/angular-sanitize/angular-sanitize.min.js"></script>
         <script type="text/javascript" src="../bower_components/tv4/tv4.js"></script>
@@ -185,7 +197,7 @@
         <script src="../bower_components/agave-angularjs-sdk/Agave/Controllers/JobsController.js" type="text/javascript"></script>
         <script src="../bower_components/agave-angularjs-sdk/Agave/Controllers/MetaController.js" type="text/javascript"></script>
         <!--<script src="../bower_components/agave-angularjs-sdk/Agave/Controllers/MonitorsController.js" type="text/javascript"></script>-->
-        <!--<script src="../bower_components/agave-angularjs-sdk/Agave/Controllers/NotificationsController.js" type="text/javascript"></script>-->
+        <script src="../bower_components/agave-angularjs-sdk/Agave/Controllers/NotificationsController.js" type="text/javascript"></script>
         <script src="../bower_components/agave-angularjs-sdk/Agave/Controllers/PostitsController.js" type="text/javascript"></script>
         <script src="../bower_components/agave-angularjs-sdk/Agave/Controllers/ProfilesController.js" type="text/javascript"></script>
         <script src="../bower_components/agave-angularjs-sdk/Agave/Controllers/SystemsController.js" type="text/javascript"></script>

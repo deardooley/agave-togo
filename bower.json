@@ -1,3 +1,4 @@
+
 {
   "name": "agave-togo",
   "version": "1.4.4",
@@ -25,10 +26,12 @@
     "angular": "~1.3.20",
     "angular-translate": "~2.4.0",
     "angular-cookies": "^1.4.0",
+    "angular-toastr": "1.7.0",
     "angular-utils-pagination": "0.11.1",
     "query-string": "^1.0.0",
     "bootstrap": "~3.3.5",
     "jquery": "~2.1.3",
+    "json-formatter": "0.6.0",
     "bootswatch": "3.3.5",
     "ng-file-upload": "^12.0.1",
     "agave-angularjs-sdk": "git+https://bitbucket.org/agaveapi/angularjs-sdk.git#master",

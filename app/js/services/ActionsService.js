@@ -1,4 +1,4 @@
-angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootScope', '$location', '$state', 'AppsController', 'SystemsController', 'JobsController', function($uibModal, $rootScope, $location, $state, AppsController, SystemsController, JobsController){
+angular.module('AgaveToGo',[]).service('ActionsService',['$uibModal', '$rootScope', '$location', '$state', 'AppsController', 'SystemsController', 'JobsController', 'NotificationsController', 'MetaController', function($uibModal, $rootScope, $location, $state, AppsController, SystemsController, JobsController, NotificationsController, MetaController){
 
   this.confirmAction = function(resourceType, resource, resourceAction, resourceList, resourceIndex){
       var modalInstance = $uibModal.open({
@@ -133,10 +133,6 @@ angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootSco
                             if (typeof resourceList === 'undefined' || resourceList === ''){
                               $location.path('/systems');
                             } else {
-                              // var removeIndex = _.findIndex($scope.resourceList, function(res){
-                              //   return res.id === resource.id;
-                              // });
-                              // $scope.resourceList.splice(removeIndex, 1);
                               $scope.resourceList.splice($scope.resourceList.indexOf($scope.resource), 1);
                             }
                             $modalInstance.dismiss();
@@ -170,10 +166,11 @@ angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootSco
                               if (typeof resourceList === 'undefined' || resourceList === ''){
                                 $location.path('/jobs');
                               } else {
-                                var removeIndex = _.findIndex($scope.resourceList, function(res){
-                                  return res.id === resource.id;
-                                });
-                                $scope.resourceList.splice(removeIndex, 1);
+                                // var removeIndex = _.findIndex($scope.resourceList, function(res){
+                                //   return res.id === resource.id;
+                                // });
+                                // $scope.resourceList.splice(removeIndex, 1);
+                                $scope.resourceList.splice($scope.resourceList.indexOf($scope.resource), 1);
                               }
                               $modalInstance.dismiss();
                             },
@@ -225,6 +222,73 @@ angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootSco
                           break;
                     }
                   break;
+                  case 'notifications':
+                    switch(resourceAction){
+                      case 'delete':
+                      NotificationsController.deleteNotification(resource.id)
+                        .then(
+                          function(response){
+                            if (typeof resourceList === 'undefined' || resourceList === ''){
+                              $location.path('/notifications');
+                            } else {
+                              $scope.resourceList.splice($scope.resourceList.indexOf($scope.resource), 1);
+                            }
+                            $modalInstance.dismiss();
+                          },
+                          function(response){
+                            var message = '';
+                            if (response.errorResponse.message) {
+                              message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.message
+                            } else if (response.errorResponse.fault){
+                              message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.fault.message;
+                            } else {
+                              message = 'Error trying to ' + resourceAction + ' ' + resource.id;
+                            }
+                            App.alert(
+                              {
+                                type: 'danger',
+                                message: message
+                              }
+                            );
+                            $modalInstance.dismiss();
+                          }
+                        );
+                        break;
+                    }
+                    break;
+                    case 'meta':
+                      switch(resourceAction){
+                        case 'delete':
+                          MetaController.deleteMetadata(resource.id)
+                            .then(
+                              function(response){
+                                if (typeof resourceList === 'undefined' || resourceList === ''){
+                                  $location.path('/notifications/history');
+                                } else {
+                                  $scope.resourceList.splice($scope.resourceList.indexOf($scope.resource), 1);
+                                }
+                                $modalInstance.dismiss();
+                              },
+                              function(response){
+                                var message = '';
+                                if (response.errorResponse.message) {
+                                  message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.message
+                                } else if (response.errorResponse.fault){
+                                  message = 'Error trying to ' + resourceAction + ' ' + resource.id + ' - ' + response.errorResponse.fault.message;
+                                } else {
+                                  message = 'Error trying to ' + resourceAction + ' ' + resource.id;
+                                }
+                                App.alert(
+                                  {
+                                    type: 'danger',
+                                    message: message
+                                  }
+                                );
+                              }
+                            );
+                          break;
+                      }
+                    break;
               }
           };
 
@@ -242,6 +306,9 @@ angular.module('AgaveToGo', []).service('ActionsService',['$uibModal', '$rootSco
       case 'apps': $state.go('apps-edit', {'appId': resource.id });
         break;
       case 'systems': $state.go('systems-edit', {'systemId': resource.id });
+        break;
+      case 'notifications':
+        $state.go('notifications-edit', {'notificationId': resource.id });
         break;
     }
   }

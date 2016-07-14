@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('JobsDirectoryController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $uibModal, $http, Commons, AppsController, JobsController, ActionsService) {
+angular.module('AgaveToGo').controller('JobsDirectoryController', function ($scope, JobsController, ActionsService) {
     $scope._COLLECTION_NAME = 'jobs';
     $scope._RESOURCE_NAME = 'job';
 
@@ -121,7 +121,7 @@ angular.module('AgaveToGo').controller('JobsDirectoryController', function ($inj
 
     $scope.refresh();
 
-    $scope.getPage = function(newPageNumber, oldPageNumber, resourceType){
+    $scope.getPage = function(newPageNumber, oldPageNumber){
       $scope.requesting = true;
       $scope.offset = (newPageNumber - 1) * $scope.limit;
 

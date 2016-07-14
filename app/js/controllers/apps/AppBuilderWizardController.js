@@ -627,8 +627,8 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                         });
                                     });
                                 },
-                                function(result) {
-                                    console.log("Failed to fetch " + modelValue + " system queues");
+                                function(response) {
+                                    // console.log("Failed to fetch " + modelValue + " system queues");
                                 });
                         }
                     },
@@ -1156,18 +1156,10 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
               }
             );
         } else {
-          var message = '';
-          if (response.errorResponse.message) {
-            message = 'Error: Could not submit app - ' + response.errorResponse.message
-          } else if (response.errorResponse.fault){
-            message = 'Error: Could not submit app - ' + response.errorResponse.fault.message;
-          } else {
-            message = 'Error: Could not submit app';
-          }
           App.alert(
             {
               type: 'danger',
-              message: message
+              message: 'Error: Invalid form. Please check all fields'
             }
           );
         }

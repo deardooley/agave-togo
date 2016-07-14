@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('JobsResourceDetailsController', function($scope, $stateParams, $state, JobsController, ActionsService, PermissionsService) {
+angular.module('AgaveToGo').controller('JobsResourceDetailsController', function($scope, $stateParams, $state, JobsController, ActionsService) {
 
   $scope.job = null;
 

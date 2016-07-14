@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppsResourceRunController', function($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, AppsController, SystemsController, JobsController) {
+angular.module('AgaveToGo').controller('AppsResourceRunController', function($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, AppsController, SystemsController, JobsController, NotificationsController) {
 
     $scope.formSchema = function(app) {
       var schema = {
@@ -355,6 +355,23 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
         JobsController.createSubmitJob(jobData)
           .then(
             function(response) {
+              // var notification = {};
+              // notification.associatedUuid = response.result.id;
+              // notification.event = '*';
+              // notification.persistent = true;
+              // notification.url = 'http://9d1e23fc.fanoutcdn.com/fpp';
+              //
+              // NotificationsController.addNotification(notification)
+              //   .then(
+              //     function(response){
+              //       console.log('succesfully added notification');
+              //       console.log(response.result);
+              //     },
+              //     function(response){
+              //         console.log('failed adding notification');
+              //         console.log(response);
+              //     }
+              //   );
               $scope.job = response.result;
 
               $uibModal.open({
