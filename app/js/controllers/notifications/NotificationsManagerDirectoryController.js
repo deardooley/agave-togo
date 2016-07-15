@@ -1,11 +1,9 @@
 angular.module('AgaveToGo').controller('NotificationsManagerDirectoryController', function ($scope, $stateParams, NotificationsController, ActionsService) {
-
     $scope._COLLECTION_NAME = 'notifications';
     $scope._RESOURCE_NAME = 'notification';
 
     $scope[$scope._COLLECTION_NAME] = [];
 
-    // $scope.query = "{'name':'notifications'}";
     $scope.associatedUuid = null;
     $scope.queryLimit = 99999;
 
@@ -14,12 +12,14 @@ angular.module('AgaveToGo').controller('NotificationsManagerDirectoryController'
 
     $scope.sortType = 'startTime';
     $scope.sortReverse  = true;
-    //
+    $scope.status = 'active';
+    $scope.available = true;
     $scope.associatedUuid = $stateParams.associatedUuid ? $stateParams.associatedUuid : null;
+    $scope.resourceType = $stateParams.resourceType ? $stateParams.resourceType : null;
 
     $scope.refresh = function() {
-
       $scope.requesting = true;
+      $scope[$scope._COLLECTION_NAME] = [];
 
       $scope.associatedUuid = $scope.associatedUuid === '' ? null : $scope.associatedUuid;
       $scope.available = $scope.available === '' ? null : $scope.available;
@@ -34,6 +34,7 @@ angular.module('AgaveToGo').controller('NotificationsManagerDirectoryController'
       $scope.owner = $scope.owner === '' ? null : $scope.owner;
       $scope.persistent =   $scope.persistent === '' ? null : $scope.persistent;
       $scope.status = $scope.status === '' ? null : $scope.status;
+
       $scope.success = $scope.success === '' ? null : $scope.success;
       $scope.url = $scope.url === '' ? null : $scope.url;
 
@@ -80,6 +81,11 @@ angular.module('AgaveToGo').controller('NotificationsManagerDirectoryController'
       );
 
     };
+
+    $scope.search = function(){
+      $scope.offset = 0;
+      $scope.refresh();
+    }
 
     $scope.refresh();
 

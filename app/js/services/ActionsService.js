@@ -1,5 +1,9 @@
 angular.module('AgaveToGo',[]).service('ActionsService',['$uibModal', '$rootScope', '$location', '$state', 'AppsController', 'SystemsController', 'JobsController', 'NotificationsController', 'MetaController', function($uibModal, $rootScope, $location, $state, AppsController, SystemsController, JobsController, NotificationsController, MetaController){
 
+  this.getNotifications = function(resourceType, resource){
+    $state.go('notifications-manager', {'associatedUuid': resource.uuid, 'resourceType': resourceType});
+  };
+
   this.confirmAction = function(resourceType, resource, resourceAction, resourceList, resourceIndex){
       var modalInstance = $uibModal.open({
         templateUrl: 'tpl/modals/ModalConfirmResourceAction.html',
@@ -263,7 +267,7 @@ angular.module('AgaveToGo',[]).service('ActionsService',['$uibModal', '$rootScop
                             .then(
                               function(response){
                                 if (typeof resourceList === 'undefined' || resourceList === ''){
-                                  $location.path('/notifications/history');
+                                  $location.path('/notifications/alerts');
                                 } else {
                                   $scope.resourceList.splice($scope.resourceList.indexOf($scope.resource), 1);
                                 }

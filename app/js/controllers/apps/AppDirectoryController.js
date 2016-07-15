@@ -305,6 +305,10 @@ angular.module('AgaveToGo').controller('AppDirectoryController', function ($inje
         PermissionsService.editPermissions(resource);
     }
 
+    $scope.getNotifications = function(resourceType, resource){
+      ActionsService.getNotifications(resourceType, resource);
+    };
+
     $scope.getSystemName = function(id) {
       if (id) {
           for(var i=0; i<$scope.systems.length; i++) {

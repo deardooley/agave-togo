@@ -26,15 +26,14 @@ var AgaveToGo = angular.module("AgaveToGo", [
   "ui.router",
   'ui.select'
 ]).service('NotificationsService',['$rootScope', '$localStorage', 'MetaController', 'toastr', function($rootScope, $localStorage, MetaController, toastr){
-
     if (typeof $localStorage.tenant !== 'undefined' && typeof $localStorage.activeProfile !== 'undefined') {
       this.client = new Fpp.Client('http://48e3f6fe.fanoutcdn.com/fpp');
       this.channel = this.client.Channel($localStorage.tenant.code + '/' + $localStorage.activeProfile.username);
       this.channel.on('data', function (data) {
+          // saving all notifications to metadata for now
           var metadata = {};
           metadata.name = 'notifications';
           metadata.value = data;
-
           MetaController.addMetadata(metadata)
             .then(
               function(response){
@@ -371,8 +370,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         .state("jobs.history", {
           url: "/history",
-          controller: "JobsResourceHistoryController",
-          templateUrl: "views/jobs/resource/history.html",
+          controller: "JobsResourceAlertsController",
+          templateUrl: "views/jobs/resource/alerts.html",
           resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -380,7 +379,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                     name: 'AgaveToGo',
                     files: [
                         'js/services/ActionsService.js',
-                        'js/controllers/jobs/resource/JobsResourceHistoryController.js'
+                        'js/controllers/jobs/resource/JobsResourceAlertsController.js'
                     ]
                   }
                 ]);
@@ -414,6 +413,25 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         /**********************************************************************/
         /**********************************************************************/
 
+        .state('notifications-noslash', {
+            url: "/notifications",
+            templateUrl: "views/notifications/manager.html",
+            data: {pageTitle: 'Notifications Manager'},
+            controller: "NotificationsManagerDirectoryController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'AgaveToGo',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'js/services/ActionsService.js',
+                            'js/controllers/notifications/NotificationsManagerDirectoryController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
         .state('notifications-manager-noslash', {
             url: "/notifications/manager",
             templateUrl: "views/notifications/manager.html",
@@ -435,6 +453,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         .state('notifications-manager', {
             url: "/notifications/manager/:associatedUuid",
+            params: {
+              associatedUuid: '',
+              resourceType: ''
+            },
             templateUrl: "views/notifications/manager.html",
             data: {pageTitle: 'Notifications Manager'},
             controller: "NotificationsManagerDirectoryController",
@@ -471,11 +493,57 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
             }
         })
 
+        .state('notifications-add-noslash', {
+            url: "/notifications/add",
+            params: {
+              associatedUuid: '',
+              resourceType: ''
+            },
+            templateUrl: "views/notifications/resource/add.html",
+            controller: "NotificationsResourceAddController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                  return $ocLazyLoad.load([
+                    {
+                      name: 'AgaveToGo',
+                      files: [
+                          'js/services/ActionsService.js',
+                          'js/controllers/notifications/resource/NotificationsResourceAddController.js'
+                      ]
+                    }
+                  ]);
+                }]
+            }
+        })
+
+        .state('notifications-add', {
+            url: "/notifications/add/:associatedUuid",
+            params: {
+              associatedUuid: '',
+              resourceType: ''
+            },
+            templateUrl: "views/notifications/resource/add.html",
+            controller: "NotificationsResourceAddController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                  return $ocLazyLoad.load([
+                    {
+                      name: 'AgaveToGo',
+                      files: [
+                          'js/services/ActionsService.js',
+                          'js/controllers/notifications/resource/NotificationsResourceAddController.js'
+                      ]
+                    }
+                  ]);
+                }]
+            }
+        })
+
         .state('notifications-history', {
-            url: "/notifications/history",
-            templateUrl: "views/notifications/history.html",
+            url: "/notifications/alerts",
+            templateUrl: "views/notifications/alerts.html",
             data: {pageTitle: 'Notifications History'},
-            controller: "NotificationsHistoryDirectoryController",
+            controller: "NotificationsAlertsDirectoryController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -483,7 +551,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
                             'js/services/ActionsService.js',
-                            'js/controllers/notifications/NotificationsHistoryDirectoryController.js'
+                            'js/controllers/notifications/NotificationsAlertsDirectoryController.js'
                         ]
                     });
                 }]
@@ -1434,7 +1502,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
 /* Init global settings and run the app */
 //AgaveToGo.run(["$rootScope", "settings", "$state", 'ProfilesController', function($rootScope, settings, $state) { //}, ProfilesController) {
-AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', 'CacheFactory', function($rootScope, settings, $state, $http, CacheFactory) {
+AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', 'CacheFactory', 'NotificationsService', function($rootScope, settings, $state, $http, CacheFactory, NotificationService) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
 

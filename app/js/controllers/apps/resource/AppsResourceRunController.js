@@ -355,23 +355,34 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
         JobsController.createSubmitJob(jobData)
           .then(
             function(response) {
-              // var notification = {};
-              // notification.associatedUuid = response.result.id;
-              // notification.event = '*';
-              // notification.persistent = true;
-              // notification.url = 'http://9d1e23fc.fanoutcdn.com/fpp';
-              //
-              // NotificationsController.addNotification(notification)
-              //   .then(
-              //     function(response){
-              //       console.log('succesfully added notification');
-              //       console.log(response.result);
-              //     },
-              //     function(response){
-              //         console.log('failed adding notification');
-              //         console.log(response);
-              //     }
-              //   );
+              // hard-wired for now
+              var notification = {};
+              notification.associatedUuid = response.result.id;
+              notification.event = '*';
+              notification.persistent = true;
+              notification.url = 'http://9d1e23fc.fanoutcdn.com/fpp';
+
+              NotificationsController.addNotification(notification)
+                .then(
+                  function(response){
+                  },
+                  function(response){
+                    var message = '';
+                    if (response.errorResponse.message) {
+                      message = 'Error: Could not register notifications - ' + response.errorResponse.message
+                    } else if (response.errorResponse.fault){
+                      message = 'Error: Could not register notifications - ' + response.errorResponse.fault.message;
+                    } else {
+                      message = 'Error: Could not register notifications';
+                    }
+                    App.alert(
+                      {
+                        type: 'danger',
+                        message: message
+                      }
+                    );
+                  }
+                );
               $scope.job = response.result;
 
               $uibModal.open({

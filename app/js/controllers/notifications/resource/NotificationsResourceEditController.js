@@ -11,7 +11,9 @@ angular.module('AgaveToGo').controller("NotificationsResourceEditController", fu
 						$scope.requesting = false;
 						// determine type
 						var resource = '';
-						if (response.result._links.hasOwnProperty('file')){
+						if (response.result._links.hasOwnProperty('app')){
+							resource = 'app';
+						} else if (response.result._links.hasOwnProperty('file')){
 							resource = 'file';
 						} else if (response.result._links.hasOwnProperty('job')){
 							resource = 'job';
@@ -47,7 +49,7 @@ angular.module('AgaveToGo').controller("NotificationsResourceEditController", fu
 										"type": "string",
 										"description": "The notification resource type",
 										"enum": [
-												"file", "job", "system"
+												"app", "file", "job", "system"
 										],
 										"title": "Resource type",
 										"readonly": true

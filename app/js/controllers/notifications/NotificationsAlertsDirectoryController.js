@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('NotificationsHistoryDirectoryController', function ($scope, MetaController, ActionsService) {
+angular.module('AgaveToGo').controller('NotificationsAlertsDirectoryController', function ($scope, MetaController, ActionsService) {
 
     $scope._COLLECTION_NAME = 'notifications';
     $scope._RESOURCE_NAME = 'notification';
@@ -13,28 +13,6 @@ angular.module('AgaveToGo').controller('NotificationsHistoryDirectoryController'
 
     $scope.sortType = 'event';
     $scope.sortReverse  = true;
-
-    // delete all metadata
-    // MetaController.listMetadata($scope.query, null, $scope.offset)
-    //   .then(
-    //     function(response){
-    //       angular.forEach(response.result, function(meta){
-    //         MetaController.deleteMetadata(meta.uuid)
-    //           .then(
-    //             function(response){
-    //               console.log('success deleting');
-    //               console.log(response);
-    //             },
-    //             function(response){
-    //               console.log(respomse);
-    //             }
-    //           )
-    //       });
-    //     },
-    //     function(response){
-    //       console.log('fail listing');
-    //     }
-    //   )
 
     $scope.refresh = function() {
       $scope.requesting = true;

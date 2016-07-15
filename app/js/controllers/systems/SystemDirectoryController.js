@@ -77,6 +77,10 @@ angular.module('AgaveToGo').controller('SystemDirectoryController', function ($i
         ActionsService.confirmAction(resourceType, resource, resourceAction, resourceList, resourceIndex);
     }
 
+    $scope.getNotifications = function(resourceType, resource){
+      ActionsService.getNotifications(resourceType, resource);
+    };
+
     $scope.refresh();
 
 });

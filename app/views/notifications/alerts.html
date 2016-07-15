@@ -18,7 +18,7 @@
             <!-- <div class="portlet-title" ng-show="!requesting" ng-keyup="$event.keyCode == 13 ? search() : null"> -->
             <div class="portlet-title" ng-show="!requesting">
                 <div class="caption">
-                    <i class="fa fa-bell"></i> Notifications History
+                    <i class="fa fa-bell"></i> Notification Alerts
                 </div>
                 <!-- <div class="btn-group">
                   <div class="input-group">
@@ -77,7 +77,7 @@
                               {{notification.value.owner}}
                             </td>
                             <td>
-                              <a ng-click="notifications(notification.value.source)">{{notification.value.source}}</a>
+                              {{notification.value.source}}
                             </td>
                             <td>
                               <json-formatter json="notification.value.message" open="0"></json-formatter>
@@ -93,7 +93,7 @@
                                     </a>
                                     <ul class="dropdown-menu pull-right">
                                       <li>
-                                        <a ui-sref="notifications-manager({associatedUuid: notification.value.source})" role="button"> <i class="fa fa-pencil"></i> Edit</a>
+                                        <a ui-sref="notifications-manager({associatedUuid: notification.value.source})" role="button"> <i class="fa fa-pencil"></i> Subscriptions</a>
                                       </li>
                                       <li>
                                         <a ng-click="confirmAction('meta', notification, 'delete', notifications, $index)" role="button"> <i class="fa fa-trash-o"></i> Delete</a>
