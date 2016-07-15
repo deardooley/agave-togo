@@ -6,12 +6,6 @@ angular.module('AgaveToGo').controller('FileExplorerController', function($rootS
     $scope.error = true;
     $scope.requesting = true;
 
-    App.blockUI({
-        target: '#agave-filemanager',
-        overlayColor: '#FFF',
-        animate: true
-    });
-
     if ($stateParams.systemId) {
         SystemsController.getSystemDetails($stateParams.systemId)
           .then(function(system) {

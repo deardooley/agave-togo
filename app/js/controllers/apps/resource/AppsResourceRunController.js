@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppsResourceRunController', function($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, AppsController, SystemsController, JobsController) {
+angular.module('AgaveToGo').controller('AppsResourceRunController', function($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, AppsController, SystemsController, JobsController, NotificationsController) {
 
     $scope.formSchema = function(app) {
       var schema = {
@@ -355,6 +355,34 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
         JobsController.createSubmitJob(jobData)
           .then(
             function(response) {
+              // hard-wired for now
+              var notification = {};
+              notification.associatedUuid = response.result.id;
+              notification.event = '*';
+              notification.persistent = true;
+              notification.url = 'http://9d1e23fc.fanoutcdn.com/fpp';
+
+              NotificationsController.addNotification(notification)
+                .then(
+                  function(response){
+                  },
+                  function(response){
+                    var message = '';
+                    if (response.errorResponse.message) {
+                      message = 'Error: Could not register notifications - ' + response.errorResponse.message
+                    } else if (response.errorResponse.fault){
+                      message = 'Error: Could not register notifications - ' + response.errorResponse.fault.message;
+                    } else {
+                      message = 'Error: Could not register notifications';
+                    }
+                    App.alert(
+                      {
+                        type: 'danger',
+                        message: message
+                      }
+                    );
+                  }
+                );
               $scope.job = response.result;
 
               $uibModal.open({
