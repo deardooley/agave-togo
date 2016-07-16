@@ -46,11 +46,24 @@ angular.module('AgaveToGo').controller('FileExplorerController', function($rootS
                 }
 
             })
-          .catch(function(msg) {
+          .catch(function(response) {
               $scope.path = $stateParams.path ? $stateParams.path : '';
               $scope.system = '';
               $scope.requesting = false;
-              App.alert({type: 'danger', message: "Unable to fetch system details. " + msg});
+              var message = '';
+              if (response.errorResponse.message) {
+                message = 'Error: Could not retrieve system - ' + response.errorResponse.message
+              } else if (response.errorResponse.fault){
+                message = 'Error: Could not retrieve system - ' + response.errorResponse.fault.message;
+              } else {
+                message = 'Error: Could not retrieve system';
+              }
+              App.alert(
+                {
+                  type: 'danger',
+                  message: message
+                }
+              );
               App.unblockUI('#agave-filemanager');
           });
     }

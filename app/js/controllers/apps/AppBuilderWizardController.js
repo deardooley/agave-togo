@@ -121,7 +121,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                     "placeholder": 1
                 }
             },
-            "defaultRequestedTime": {
+            "defaultMaxRunTime": {
                 "type": "string",
                 "description": "Default max run time to be used when running this app if no requested run time is given in the job request",
                 "maxLength": 10,
@@ -421,14 +421,14 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                             "title": "Value",
                             "properties": {
                                 "default": {
-                                    "type": "string",
-                                    "description": "Description of this parameter.",
+                                    "type": ["number","string"],
+                                    "description": "Default value",
                                     "title": "Default value"
                                 },
                                 "type": {
                                     "type": "string",
                                     "description": "The content type of the parameter.",
-                                    "enum": ["string", "number", "boolean", "enumeration", "flag"],
+                                    "enum": ["string", "number", "bool", "enumeration", "flag"],
                                     "title": "Parameter type",
                                 },
                                 "validator": {
@@ -647,7 +647,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                     "defaultNodeCount",
                     "defaultMemoryPerNode",
                     "defaultProcessorsPerNode",
-                    "defaultRequestedTime",
+                    "defaultMaxRunTime",
                     {
                         key: "parallelism",
                         type: "select",
@@ -714,7 +714,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                 "description": "Descriptive details about this app parameter used in form generation.",
                                 "items": [
                                     "parameters[].details.label",
-                                    "parameters[].details.description",
+                                    // "parameters[].details.description",
                                     {
                                         "key": "parameters[].details.showArgument",
                                         type: "radiobuttons",
@@ -988,7 +988,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
        "helpURI": "http://agaveapi.co/documentation/",
        "label": "Execute a command at a shell",
        "defaultNodeCount": 1,
-       "defaultRequestedTime": "01:00:00",
+       "defaultMaxRunTime": "01:00:00",
        "shortDescription": "This will execute whatever command you give in the command parameter",
        "longDescription": "This will execute whatever command you give in the command parameter",
        "executionSystem": "",

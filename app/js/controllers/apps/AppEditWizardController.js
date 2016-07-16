@@ -90,7 +90,7 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                     "placeholder": 1
                 }
             },
-            "defaultRequestedTime": {
+            "defaultMaxRunTime": {
                 "type": "string",
                 "description": "Default max run time to be used when running this app if no requested run time is given in the job request",
                 "maxLength": 10,
@@ -390,14 +390,14 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                             "title": "Value",
                             "properties": {
                                 "default": {
-                                    "type": "string",
+                                    "type": ["number","string"],
                                     "description": "Description of this parameter.",
                                     "title": "Default value"
                                 },
                                 "type": {
                                     "type": "string",
                                     "description": "The content type of the parameter.",
-                                    "enum": ["string", "number", "boolean", "enumeration", "flag"],
+                                    "enum": ["string", "number", "bool", "enumeration", "flag"],
                                     "title": "Parameter type",
                                 },
                                 "validator": {
@@ -617,7 +617,7 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                     "defaultNodeCount",
                     "defaultMemoryPerNode",
                     "defaultProcessorsPerNode",
-                    "defaultRequestedTime",
+                    "defaultMaxRunTime",
                     {
                         key: "parallelism",
                         type: "select",
@@ -684,7 +684,7 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                                 "description": "Descriptive details about this app parameter used in form generation.",
                                 "items": [
                                     "parameters[].details.label",
-                                    "parameters[].details.description",
+                                    // "parameters[].details.description",
                                     {
                                         "key": "parameters[].details.showArgument",
                                         type: "radiobuttons",
@@ -983,7 +983,7 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
        "defaultNodeCount": 1,
        "defaultMemoryPerNode": 4,
        "defaultProcessorsPerNode": 1,
-       "defaultRequestedTime": "24:00:00",
+       "defaultMaxRunTime": "24:00:00",
        "parallelism": "SERIAL",
        "deploymentPath": "/scratch/apps/foo-1.0",
        "deploymentSystem": "storage.example.com",

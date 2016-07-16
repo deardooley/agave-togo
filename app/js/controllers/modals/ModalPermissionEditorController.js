@@ -101,7 +101,6 @@ angular.module('AgaveToGo').controller('ModalPermissionEditorController', functi
         var that = resource;
         ApiPermissionListFunction(resource.id).then(
             function (response) {
-                console.log("Successfully fetched permission for " + that.id);
                 angular.forEach(response, function (grant, key) {
                     if (grant.permission.read) {
                         if (grant.permission.write) {
@@ -133,7 +132,6 @@ angular.module('AgaveToGo').controller('ModalPermissionEditorController', functi
                 App.unblockUI('#modal-permission-form');
             },
             function (response) {
-                console.log("Failed to fetch permissions for " + that.id);
                 App.unblockUI('#modal-permission-form');
             });
     };
