@@ -30,7 +30,8 @@ var AgaveToGo = angular.module("AgaveToGo", [
       this.client = new Fpp.Client('http://48e3f6fe.fanoutcdn.com/fpp');
       this.channel = this.client.Channel($localStorage.tenant.code + '/' + $localStorage.activeProfile.username);
       this.channel.on('data', function (data) {
-
+        console.log('got me some data');
+        console.log(data);
         var toastData = {};
         if (data.event === 'FORCED_EVENT'){
           toastData = 'FORCED_ EVENT - ' + data.source;
@@ -44,7 +45,7 @@ var AgaveToGo = angular.module("AgaveToGo", [
           } else if ('system' in data.message){
             toastData = 'SYSTEM - ' + data.event;
           } else {
-            toasData = data;
+            toasData = data.event;
           }
         }
 
@@ -765,6 +766,54 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
             }
         })
 
+        .state('apps-manage', {
+            url: "/apps",
+            templateUrl: "views/apps/manager.html",
+            data: {pageTitle: 'App Manager'},
+            controller: "AppDirectoryController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'AgaveToGo',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../assets/global/scripts/datatable.js',
+                            '../bower_components/holderjs/holder.js',
+                            'js/services/ActionsService.js',
+                            'js/services/PermissionsService.js',
+                            'js/controllers/apps/AppDirectoryController.js',
+                            'js/controllers/modals/ModalConfirmResourceActionController.js',
+                            'js/controllers/modals/ModalPermissionEditorController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
+        .state('apps-manage-slash', {
+            url: "/apps/",
+            templateUrl: "views/apps/manager.html",
+            data: {pageTitle: 'App Manager'},
+            controller: "AppDirectoryController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'AgaveToGo',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../assets/global/scripts/datatable.js',
+                            '../bower_components/holderjs/holder.js',
+                            'js/services/ActionsService.js',
+                            'js/services/PermissionsService.js',
+                            'js/controllers/apps/AppDirectoryController.js',
+                            'js/controllers/modals/ModalConfirmResourceActionController.js',
+                            'js/controllers/modals/ModalPermissionEditorController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
 
         .state("apps", {
           abtract: true,
@@ -859,29 +908,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
-        .state('apps-manage', {
-            url: "/apps",
-            templateUrl: "views/apps/manager.html",
-            data: {pageTitle: 'App Manager'},
-            controller: "AppDirectoryController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'AgaveToGo',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/global/scripts/datatable.js',
-                            '../bower_components/holderjs/holder.js',
-                            'js/services/ActionsService.js',
-                            'js/services/PermissionsService.js',
-                            'js/controllers/apps/AppDirectoryController.js',
-                            'js/controllers/modals/ModalConfirmResourceActionController.js',
-                            'js/controllers/modals/ModalPermissionEditorController.js'
-                        ]
-                    });
-                }]
-            }
-        })
+
+
 
 
         /**********************************************************************/

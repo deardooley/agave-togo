@@ -235,7 +235,7 @@ angular.module('AgaveToGo').service('PermissionsService',['$uibModal', '$rootSco
 
               $q.all(promises).then(
                 function(response) {
-                    App.alert({message: "Successfully updated user permissions for " + system.id});
+                    App.alert({message: "Successfully updated user permissions for " + resource.id});
                     $scope.requesting = false;
                     $modalInstance.close();
                 },

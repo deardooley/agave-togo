@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $uibModal, Commons, AppsController, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
+angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $uibModal, $localStorage, Commons, AppsController, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
 
     //var handleTitle = function(tab, navigation, index) {
     //    var total = navigation.find('li').length;
@@ -634,15 +634,15 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                     },
                     {
                         "key": "defaultQueue",
+                        "title": "Default queue",
+                        "description": "Default queue to use when submitting this job if none is provided in the job request. Can be left blank and a queue will be determined at run time",
                         "type": "select",
+                        "condition": "model.executionSystem !== ''",
                         // ngModelOptions: { updateOn: 'click' },
                         ngModelOptions: {
                             updateOnDefault: true
                         },
-                        titleMap: [],
-                        onChange: function (modelValue, form) {
-
-                        }
+                        titleMap: []
                     },
                     "defaultNodeCount",
                     "defaultMemoryPerNode",
@@ -778,27 +778,27 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                         },
                                         $validators: {
                                             minLessThanMax: function (value) {
-                                              if (typeof $scope.model.parameteres !== 'undefined'){
-                                                if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
-                                                  if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
-                                                      value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
-                                                      return false;
+                                                if (typeof $scope.model.parameteres !== 'undefined'){
+                                                  if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
+                                                    if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
+                                                        value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
+                                                        return false;
+                                                    }
                                                   }
                                                 }
-                                              }
-                                              return true;
-                                            },
-                                            gtzeroWhenRequired: function (value) {
-                                              if (typeof $scope.model.parameteres !== 'undefined'){
-                                                if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
-                                                  if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
-                                                      value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
-                                                      return false;
+                                                return true;
+                                              },
+                                              gtzeroWhenRequired: function (value) {
+                                                if (typeof $scope.model.parameteres !== 'undefined'){
+                                                  if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
+                                                    if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
+                                                        value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
+                                                        return false;
+                                                    }
                                                   }
                                                 }
+                                                return true;
                                               }
-                                              return true;
-                                            }
                                         },
                                     },
                                     {
@@ -813,20 +813,24 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                         },
                                         $validators: {
                                             minLessThanMax: function (value) {
-                                                if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
-                                                  if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
-                                                      value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
-                                                      return false;
+                                                if (typeof $scope.model.parameters !== 'undefined'){
+                                                  if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
+                                                    if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
+                                                        value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
+                                                        return false;
+                                                    }
                                                   }
                                                 }
                                                 return true;
                                             },
                                             oneWhenBoolish: function (value) {
-                                              if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
-                                                if (value && ($scope.model.parameters[arrayIndex].value.type == 'bool' ||
-                                                    $scope.model.parameters[arrayIndex].value.type == 'flag') &&
-                                                    $scope.model.parameters[arrayIndex].semantics.maxCardinality > 1) {
-                                                    return false;
+                                              if (typeof $scope.model.parameters !== 'undefined'){
+                                                if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
+                                                  if (value && ($scope.model.parameters[arrayIndex].value.type == 'bool' ||
+                                                      $scope.model.parameters[arrayIndex].value.type == 'flag') &&
+                                                      $scope.model.parameters[arrayIndex].semantics.maxCardinality > 1) {
+                                                      return false;
+                                                  }
                                                 }
                                               }
                                               return true;
@@ -920,13 +924,15 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                             {value: false, name: "No"}
                                         ],
                                         onChange: function (modelValue, form) {
-                                            if (modelValue && $scope.model.parameters[arrayIndex].semantics.minCardinality == 0) {
-                                                console.log("Updating $scope.model.parameters[" + arrayIndex + "].semantics.minCardinality to 1 to satisfy the requirement attribute.");
-                                                $scope.model.parameters[arrayIndex].semantics.minCardinality = 1;
-                                            } else if (!modelValue && $scope.model.parameters[arrayIndex].semantics.minCardinality > 0) {
-                                                console.log("Updating $scope.model.parameters[" + arrayIndex + "].semantics.minCardinality to 0 to satisfy the non-requirement attribute.");
-                                                $scope.model.parameters[arrayIndex].semantics.minCardinality = 0;
+                                          if (typeof $scope.model.parameters !== 'undefined'){
+                                            if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
+                                              if (modelValue && $scope.model.parameters[arrayIndex].semantics.minCardinality == 0) {
+                                                  $scope.model.parameters[arrayIndex].semantics.minCardinality = 1;
+                                              } else if (!modelValue && $scope.model.parameters[arrayIndex].semantics.minCardinality > 0) {
+                                                  $scope.model.parameters[arrayIndex].semantics.minCardinality = 0;
+                                              }
                                             }
+                                          }
                                         }
                                     },
                                     {
@@ -946,7 +952,6 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                                         ],
                                         onChange: function (modelValue, form) {
                                             if (!modelValue) {
-                                                console.log("Updating model.parameters[" + arrayIndex + "].semantics.minCardinality to 1 to satisfy the hidden attribute.");
                                                 $scope.model.parameters[arrayIndex].value.required = true
                                             }
                                         }
@@ -978,49 +983,47 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
     }];
 
     $scope.model = {
-       "tags": [
-           ""
-       ],
-       "ontology": [
-           "xs:string"
-       ],
-       "modules": [
-           "load tacc"
-       ],
-       "parameters": [
-           {
-               "id": "param1",
-               "details": {
-                   "label": "first param",
-                   "description": "something to do first"
-               }
-           },
-           {
-               "id": "param2",
-               "details": {
-                   "label": "param label 2",
-                   "description": "something to do second"
-               }
-           }
-       ],
-       "executionSystem": "compute.example.com",
-       "defaultQueue": "default",
+       "name": "shell-runner",
+       "version": "0.1.0",
+       "helpURI": "http://agaveapi.co/documentation/",
+       "label": "Execute a command at a shell",
        "defaultNodeCount": 1,
-       "defaultMemoryPerNode": 4,
-       "defaultProcessorsPerNode": 1,
-       "defaultRequestedTime": "24:00:00",
+       "defaultRequestedTime": "01:00:00",
+       "shortDescription": "This will execute whatever command you give in the command parameter",
+       "longDescription": "This will execute whatever command you give in the command parameter",
+       "executionSystem": "",
+       "executionType": "CLI",
        "parallelism": "SERIAL",
-       "deploymentPath": "/scratch/apps/foo-1.0",
+       "deploymentPath": $localStorage.activeProfile.username + "/apps/shell-runner-0.1.0",
        "deploymentSystem": "storage.example.com",
        "templatePath": "wrapper.sh",
-       "testPath": "test/test/sh",
-       "name": "foo",
-       "version": "1.0",
-       "label": "foo app",
-       "helpURI": "http://help.com",
-       "shortDescription": "foo demo",
-       "longDescription": "foo demo app"
-   };
+       "testPath": "test/test.sh",
+       "tags": [
+         "excute", "awesome", "demo"
+       ],
+       "modules": [],
+       "inputs": [],
+       "parameters": [{
+           "id": "command",
+           "details": {
+             "label": "Command to run",
+             "description": "This is the actual shell command you want to run",
+             "argument": "sh -c ",
+             "showArgument": true
+           },
+           "value": {
+             "default": "/bin/date",
+             "type": "string",
+             "required": true,
+             "visible": true
+           },
+           "semantics": {
+             "ontology": []
+           }
+         }
+       ],
+       "checkpointable": false
+     };
 
     $scope.prettyModel = '{}';
 
@@ -1118,6 +1121,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
     $scope.init();
 
     $scope.submit = function () {
+
         $scope.$broadcast('schemaFormValidate');
         if ($scope.myForm.$valid) {
           AppsController.addApp(JSON.stringify($scope.model))
@@ -1233,9 +1237,9 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
     };
 
     $scope.$watch('model', function(currentModel){
-        if (currentModel === ''){
-          $scope.model = {};
-        }
+        // if (currentModel === ''){
+        //   $scope.model = {};
+        // }
         if (currentModel){
             $scope.prettyModel = JSON.stringify(currentModel, undefined, 2);
         }
@@ -1245,23 +1249,35 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
         if (typeof newValue === 'undefined' && $scope.model !== ''){
           $scope.model.modules = [];
         }
+        if (Object.prototype.toString.call( newValue ) === '[object Array]'){
+          $scope.model.ontology = [];
+        }
     }, true);
-
+    //
     $scope.$watch('model.ontology', function(newValue, oldValue){
         if (typeof newValue === 'undefined' && typeof $scope.model !== 'undefined'){
           $scope.model.ontology = [];
         }
+        if (Object.prototype.toString.call( newValue ) === '[object Array]'){
+          $scope.model.ontology = [];
+        }
     }, true);
-
+    //
     $scope.$watch('model.parameters', function(newValue, oldValue){
         if (typeof newValue === 'undefined'){
           $scope.model.parameters = [];
+        }
+        if (Object.prototype.toString.call( newValue ) === '[object Array]'){
+          $scope.model.ontology = [];
         }
     }, true);
 
     $scope.$watch('model.tags', function(newValue, oldValue){
         if (typeof newValue === 'undefined'){
           $scope.model.tags = [];
+        }
+        if (Object.prototype.toString.call( newValue ) === '[object Array]'){
+          $scope.model.ontology = [];
         }
     }, true);
 

@@ -3621,7 +3621,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
 
 
     $scope.updateWizardLayout = function() {
-        console.log($scope.wizview);
+        // console.log($scope.wizview);
     };
 
     $scope.codemirrorLoaded = function(_editor) {
@@ -3672,11 +3672,10 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
         lineNumbers: true,
         matchBrackets: true,
         styleActiveLine: false,
-        theme:"neat",
+        theme:'neat',
         mode: 'javascript',
         json: true,
         statementIndent: 2,
-        readOnly: true,
         onLoad: $scope.codemirrorLoaded
     };
 });

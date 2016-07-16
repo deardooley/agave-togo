@@ -296,7 +296,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
             }
           )
           .catch(
-            function(repsonse){
+            function(response){
               var message = response.errorMessage ? 'Error: Could not retrieve app - ' + response.errorMessage : 'Error: Could not retrieve app';
               App.alert(
                 {

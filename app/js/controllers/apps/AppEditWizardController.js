@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppEditWizardController', function ($injector, $timeout, $rootScope, $scope, $state, $location, $stateParams, $q, $uibModal, Commons, AppsController, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
+angular.module('AgaveToGo').controller('AppEditWizardController', function ($injector, $timeout, $rootScope, $scope, $state, $location, $stateParams, $q, $uibModal, $localStorage, Commons, AppsController, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
 
     $scope.schema = {
         "type": "object",
@@ -598,7 +598,7 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                                     });
                                 },
                                 function(result) {
-                                    console.log("Failed to fetch " + modelValue + " system queues");
+                                    // console.log("Failed to fetch " + modelValue + " system queues");
                                 });
                         }
                     },
@@ -783,20 +783,24 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                                         },
                                         $validators: {
                                             minLessThanMax: function (value) {
+                                               if (typeof $scope.model.parameters !== 'undefined'){
                                                 if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
                                                   if (value && $scope.model.parameters[arrayIndex].semantics.maxCardinality > 0 &&
                                                       value > $scope.model.parameters[arrayIndex].semantics.maxCardinality) {
                                                       return false;
                                                   }
                                                 }
+                                              }
                                                 return true;
                                             },
                                             oneWhenBoolish: function (value) {
-                                              if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
-                                                if (value && ($scope.model.parameters[arrayIndex].value.type == 'bool' ||
+                                              if (typeof $scope.model.parameters !== 'undefined'){
+                                                if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
+                                                  if (value && ($scope.model.parameters[arrayIndex].value.type == 'bool' ||
                                                     $scope.model.parameters[arrayIndex].value.type == 'flag') &&
                                                     $scope.model.parameters[arrayIndex].semantics.maxCardinality > 1) {
                                                     return false;
+                                                  }
                                                 }
                                               }
                                               return true;
@@ -890,13 +894,13 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                                             {value: false, name: "No"}
                                         ],
                                         onChange: function (modelValue, form) {
+                                          if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
                                             if (modelValue && $scope.model.parameters[arrayIndex].semantics.minCardinality == 0) {
-                                                console.log("Updating $scope.model.parameters[" + arrayIndex + "].semantics.minCardinality to 1 to satisfy the requirement attribute.");
                                                 $scope.model.parameters[arrayIndex].semantics.minCardinality = 1;
                                             } else if (!modelValue && $scope.model.parameters[arrayIndex].semantics.minCardinality > 0) {
-                                                console.log("Updating $scope.model.parameters[" + arrayIndex + "].semantics.minCardinality to 0 to satisfy the non-requirement attribute.");
                                                 $scope.model.parameters[arrayIndex].semantics.minCardinality = 0;
                                             }
+                                          }
                                         }
                                     },
                                     {
@@ -915,10 +919,11 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                                             {value: false, name: "No"}
                                         ],
                                         onChange: function (modelValue, form) {
+                                           if ($scope.model.parameters.length > 0 && typeof arrayIndex !== 'undefined'){
                                             if (!modelValue) {
-                                                console.log("Updating model.parameters[" + arrayIndex + "].semantics.minCardinality to 1 to satisfy the hidden attribute.");
                                                 $scope.model.parameters[arrayIndex].value.required = true
                                             }
+                                          }
                                         }
                                     },
                                     "order"
@@ -1065,12 +1070,58 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                       delete response.result.icon;
                     }
                     $scope.model = response.result;
+                    // check if user can edit
+                    AppsController.getAppPermission($stateParams.appId, $localStorage.activeProfile.username)
+                      .then(
+                        function(permissions){
+                          if (!permissions.result.permission.write){
+                            $scope.edit = false;
+                            $scope.wizview = 'code';
+                            App.alert(
+                              {
+                                type: 'danger',
+                                message: 'Error: User does not have permission to edit app'
+                              }
+                            );
+                          }
+                        },
+                        function(permissions){
+                          $scope.edit = false;
+                          $scope.wizview = 'code';
+                          var message = '';
+                          if (permissions.errorResponse.message) {
+                            message = 'Error: Cannot edit app - ' + permissions.errorResponse.message
+                          } else if (permissions.errorResponse.fault){
+                            message = 'Error: Cannot edit app - ' + permissions.errorResponse.fault.message;
+                          } else {
+                            message = 'Error: Cannot edit app - ';
+                          }
+                          App.alert(
+                            {
+                              type: 'danger',
+                              message: message
+                            }
+                          );
+                        }
+                      );
                 },
                 function (response) {
-                    App.alert({
-                        type: 'danger',
-                        message: "There was an error contacting the apps service. " + response
-                    });
+                  $scope.edit = false;
+                  $scope.wizview = 'code';
+                  var message = '';
+                  if (response.errorResponse.message) {
+                    message = 'Error: Could not retrieve app - ' + response.errorResponse.message
+                  } else if (response.errorResponse.fault){
+                    message = 'Error: Could not retrieve app - ' + response.errorResponse.fault.message;
+                  } else {
+                    message = 'Error: Could not retrieve app';
+                  }
+                  App.alert(
+                    {
+                      type: 'danger',
+                      message: message
+                    }
+                  );
                 });
         }
         // check if WizardHandler service has current model
@@ -1160,7 +1211,7 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
 
 
     $scope.updateWizardLayout = function() {
-        console.log($scope.wizview);
+        // console.log($scope.wizview);
     };
 
 
@@ -1199,11 +1250,10 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
         lineNumbers: true,
         matchBrackets: true,
         styleActiveLine: false,
-        theme:"neat",
+        theme:'neat',
         mode: 'javascript',
         json: true,
         statementIndent: 2,
-        readOnly: true,
         onLoad: $scope.codemirrorLoaded
     };
 
@@ -1220,23 +1270,35 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
         if (typeof newValue === 'undefined' && $scope.model !== ''){
           $scope.model.modules = [];
         }
+        if (Object.prototype.toString.call( newValue ) === '[object Array]'){
+          $scope.model.ontology = [];
+        }
     }, true);
-
+    //
     $scope.$watch('model.ontology', function(newValue, oldValue){
         if (typeof newValue === 'undefined' && typeof $scope.model !== 'undefined'){
           $scope.model.ontology = [];
         }
+        if (Object.prototype.toString.call( newValue ) === '[object Array]'){
+          $scope.model.ontology = [];
+        }
     }, true);
-
+    //
     $scope.$watch('model.parameters', function(newValue, oldValue){
         if (typeof newValue === 'undefined'){
           $scope.model.parameters = [];
+        }
+        if (Object.prototype.toString.call( newValue ) === '[object Array]'){
+          $scope.model.ontology = [];
         }
     }, true);
 
     $scope.$watch('model.tags', function(newValue, oldValue){
         if (typeof newValue === 'undefined'){
           $scope.model.tags = [];
+        }
+        if (Object.prototype.toString.call( newValue ) === '[object Array]'){
+          $scope.model.ontology = [];
         }
     }, true);
 
