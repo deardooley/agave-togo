@@ -30,8 +30,6 @@ var AgaveToGo = angular.module("AgaveToGo", [
       this.client = new Fpp.Client('http://48e3f6fe.fanoutcdn.com/fpp');
       this.channel = this.client.Channel($localStorage.tenant.code + '/' + $localStorage.activeProfile.username);
       this.channel.on('data', function (data) {
-        console.log('got me some data');
-        console.log(data);
         var toastData = {};
         if (data.event === 'FORCED_EVENT'){
           toastData = 'FORCED_ EVENT - ' + data.source;
@@ -45,7 +43,7 @@ var AgaveToGo = angular.module("AgaveToGo", [
           } else if ('system' in data.message){
             toastData = 'SYSTEM - ' + data.event;
           } else {
-            toasData = data.event;
+            toastData = data.event;
           }
         }
 
