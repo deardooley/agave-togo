@@ -1064,7 +1064,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
 
                             '../assets/pages/scripts/profile.min.js',
-
+                            '../bower_components/faker/build/build/faker.min.js',
                             'js/controllers/profiles/UserProfileController.js'
                         ]
                     });

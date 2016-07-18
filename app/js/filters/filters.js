@@ -48,18 +48,18 @@ AgaveToGo.filter('propsFilter', function () {
 }])
 .filter("systemStatusIcon", [ function() {
     return function(system) {
-        if (system.type == 'storage') {
-            if (system.storage.protocol === 'S3') {
-                return 'fa-amazon';
-            } else if (system.storage.protocol === 'DROPBOX') {
-                return 'fa-dropbox';
-            } else if (system.storage.protocol === 'BOX') {
-                return 'fa-box';
-            } else if (system.storage.protocol === 'IRODS') {
-                return 'agave-irods';
-            } else  {
-                return 'fa-cloud';
-            }
+        if (system.type == 'STORAGE') {
+            // if (system.storage.protocol === 'S3') {
+            //     return 'fa-amazon';
+            // } else if (system.storage.protocol === 'DROPBOX') {
+            //     return 'fa-dropbox';
+            // } else if (system.storage.protocol === 'BOX') {
+            //     return 'fa-box';
+            // } else if (system.storage.protocol === 'IRODS') {
+            //     return 'agave-irods';
+            // } else  {
+                return 'fa-database';
+            // }
         } else {
             return 'fa-server'
         }

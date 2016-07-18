@@ -46,7 +46,7 @@
                                 <label class="control-label">Website Url</label>
                                 <input type="text" ng-model="profile.website" placeholder="http://www.mywebsite.com" class="form-control" /> </div>
                             <div class="margiv-top-10">
-                                <a href="#" class="btn green-haze"> Save Changes </a>
+                                <a ng-if="username === 'me'" href="#" class="btn green-haze save-button"> Save Changes </a>
                                 <a href="#" class="btn default"> Cancel </a>
                             </div>
                         </form>
@@ -87,7 +87,7 @@
                                     <option ng-repeat="country in Commons.getCountries() track by $index" value="{{country.code}}">{{country.name}}</option>
                                 </select></div>
                             <div class="margiv-top-10">
-                                <a href="#" class="btn green-haze"> Save Changes </a>
+                                <a ng-if="username === 'me'" href="#" class="btn green-haze save-button"> Save Changes </a>
                                 <a href="#" class="btn default"> Cancel </a>
                             </div>
                         </form>
@@ -153,7 +153,7 @@
                             </table>
                             <!--end profile-settings-->
                             <div class="margin-top-10">
-                                <a href="#" class="btn green-haze"> Save Changes </a>
+                                <a ng-if="username === 'me'" href="#" class="btn green-haze save-button"> Save Changes </a>
                                 <a href="#" class="btn default"> Cancel </a>
                             </div>
                         </form>

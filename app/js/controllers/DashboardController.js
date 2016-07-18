@@ -1,5 +1,5 @@
 angular.module('AgaveToGo').controller('DashboardController',
-  function($rootScope, $scope, $http, $timeout, $filter, Commons, AppsController, JobsController, SystemsController, StatusIoController, moment, amMoment, Jira) {
+  function($rootScope, $scope, $http, $timeout, $filter, Commons, MonitorsController, AppsController, JobsController, SystemsController, StatusIoController, moment, amMoment, Jira) {
     $scope.$on('$viewContentLoaded', function () {
       // initialize core components
       App.initAjax();
@@ -133,14 +133,34 @@ angular.module('AgaveToGo').controller('DashboardController',
           }, 0);
       });
 
+        MonitorsController.listMonitoringTasks().then(
+            function(data) {
+                $timeout(function () {
+                    $scope.monitors = data;
+                }, 50);
+            },
+            function(response) {
+                $timeout(function () {
+                    $scope.monitors = [];
+                }, 50);
+            });
 
-
+      $scope.systems = [];
       SystemsController.listSystems(9999999).then(
           function(data) {
               var systemCount = data.length;
               $timeout(function () {
-                  $scope.systems = data;
-                  $scope.systemCount = data.length;
+                  if (systemCount) {
+                      var systems = $filter('orderBy')(data, 'lastUpdated', true);
+                      for (var i =0; i<Math.min(systemCount, 10); i++) {
+                          $scope.systems.push(systems[i]);
+                      }
+                  }
+                  else {
+                      $scope.systems = [];
+                  }
+
+                  $scope.systemCount = systemCount;
               }, 50);
           },
           function(response) {
