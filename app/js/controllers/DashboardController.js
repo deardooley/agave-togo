@@ -1,5 +1,5 @@
 angular.module('AgaveToGo').controller('DashboardController',
-  function($rootScope, $scope, $http, $timeout, $filter, Commons, JobsController, SystemsController, StatusIoController, moment, amMoment, Jira) {
+  function($rootScope, $scope, $http, $timeout, $filter, Commons, AppsController, JobsController, SystemsController, StatusIoController, moment, amMoment, Jira) {
     $scope.$on('$viewContentLoaded', function () {
       // initialize core components
       App.initAjax();
@@ -133,14 +133,56 @@ angular.module('AgaveToGo').controller('DashboardController',
           }, 0);
       });
 
+
+
+      SystemsController.listSystems(9999999).then(
+          function(data) {
+              var systemCount = data.length;
+              $timeout(function () {
+                  $scope.systems = data;
+                  $scope.systemCount = data.length;
+              }, 50);
+          },
+          function(response) {
+              $timeout(function () {
+                  $scope.systems = [];
+                  $scope.systemCount = 0;
+              }, 50);
+          });
+
+      AppsController.listApps(9999999, 0, { filter: 'id' }).then(
+          function(data) {
+              var appCount = data.result.length;
+              $timeout(function () {
+                  $scope.apps = data.result;
+                  $scope.appCount = appCount;
+              }, 50);
+          },
+          function(response) {
+              $timeout(function () {
+                  $scope.apps = [];
+                  $scope.appCount = 0;
+              }, 50);
+          });
+
+      JobsController.listJobs(null, null, null, null, null, null, null, null, 999999).then(
+          function(data) {
+              var jobCount = data.result.length;
+              $scope.jobCount = jobCount;
+          },
+          function (data) {
+              $scope.jobCount = 0;
+          });
+
     JobsController.listJobs(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'FINISHED', null, null).then(
         function (data) {
           $timeout(function () {
-            $scope.jobListing = data.result;
+              $scope.jobListing = data.result;
+
           }, 50);
         },
         function (data) {
-          $scope.jobListing = [];
+            $scope.jobListing = [];
         });
 
     Jira.search('open').then(

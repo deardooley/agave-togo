@@ -9,38 +9,7 @@
             <a href="#">Dashboard</a>
         </li>
     </ul>
-    <div class="page-toolbar">
-        <div class="btn-group pull-right">
-            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" dropdown-menu-hover data-delay="1000" data-close-others="true"> Actions
-                <i class="fa fa-angle-down"></i>
-            </button>
-            <ul class="dropdown-menu pull-right" role="menu">
-                <li>
-                    <a href="#/jobs/submit">
-                        <i class="fa fa-rocket"></i> New Job
-                        <span class="badge badge-success">2</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#/transfers/schedule">
-                        <i class="fa fa-exchange"></i> New Transfer
-                        <span class="badge badge-success">16</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#/tasks/schedule">
-                        <i class="fa fa-flash"></i> New Task </a>
-                </li>
-                <li class="divider"> </li>
-                <li>
-                    <a href="#/jobs">
-                        <i class="icon-flag"></i> Pending Jobs
-                        <span class="badge badge-danger">3</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <div landing-start-menu></div>
 </div>
 <h3 class="page-title"> Dashboard </h3>
 <!-- END PAGE HEADER-->
@@ -65,7 +34,7 @@
                     <i class="fa fa-rocket"></i>
                 </div>
                 <div class="details">
-                    <div class="number"> 1349 </div>
+                    <div class="number"> {{jobCount}} </div>
                     <div class="desc"> Jobs </div>
                 </div>
                 <a class="more" href="#/jobs"> View more
@@ -93,8 +62,8 @@
                     <i class="fa fa-code"></i>
                 </div>
                 <div class="details">
-                    <div class="number"> 549 </div>
-                    <div class="desc"> App Users </div>
+                    <div class="number"> {{appCount}} </div>
+                    <div class="desc"> Apps </div>
                 </div>
                 <a class="more" href="#/apps"> View more
                     <i class="m-icon-swapright m-icon-white"></i>
@@ -168,11 +137,11 @@
                         <table class="table table-hover table-light">
                             <thead>
                                 <tr class="uppercase">
-                                    <th colspan="2"> USER </th>
+                                    <th colspan="2"> TOP USERS </th>
                                     <th> COMMENTS </th>
                                     <th> JOBS </th>
                                     <th> DOCS </th>
-                                    <th> PROGRESS </th>
+                                    <th> QUOTA </th>
                                 </tr>
                             </thead>
                             <tr ng-repeat="n in [] | range:4">
@@ -250,6 +219,24 @@
                         <div class="tab-pane" id="tab_1_2">
                             <div class="scroller" style="height: 306px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
                                 <ul class="feeds">
+                                    <li ng-repeat="systemChange in systemChanges track by $index">
+                                        <div class="col1">
+                                            <div class="cont">
+                                                <div class="cont-col1">
+                                                    <div class="label label-sm label-success">
+                                                        <i class="fa fa-{{ system.status | systemStatusIcon }}"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="cont-col2">
+                                                    <div class="desc"> {{ system.name | excerpt }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col2">
+                                            <div class="date" am-time-ago="job.created"></div>
+                                        </div>
+                                    </li>
+
                                     <li>
                                         <div class="col1">
                                             <div class="cont">

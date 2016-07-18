@@ -292,7 +292,7 @@ AgaveToGo.controller('QuickSidebarController', ['$scope', '$localStorage', 'Chan
         $scope.changelog = {};
 
         $scope.tenant = $localStorage.tenant;
-
+        $scope.alerts = [];
         ChangelogParser.latest().then(function(data) {
             if (data) {
 
@@ -1047,7 +1047,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         // User Profile
         .state("profile", {
-            url: "/profile",
+            url: "/profile/:username",
             templateUrl: "views/profile/main.html",
             data: {pageTitle: 'User Profile'},
             controller: "UserProfileController",
