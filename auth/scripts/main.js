@@ -7,6 +7,7 @@ var AgaveAuth = angular
         'oc.lazyLoad',
         'angularMoment',
         'ngStorage',
+        'ngSanitize',
         'oauth',
         'ngMd5',
         'AgavePlatformScienceAPILib',
@@ -257,24 +258,20 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
 
     TenantsController.listTenants().then(
         function (response) {
-            console.log(response);
             angular.forEach(response, function (tenant, key) {
                 if (settings.oauth.clients[tenant.code] &&
                         settings.oauth.clients[tenant.code].clientKey)
                 {
-                    console.log("Adding " + tenant.name + " to list of tenant.");
                     settings.tenants.push(tenant);
                 }
             });
         },
         function (message) {
-            console.log("error: " + message);
             Alerts.danger({message: "Failed to retrieve tenant information."});
         }
     );
 
     $rootScope.$on('oauth:login', function(event, token) {
-        console.log('Authorized third party app with token', token.access_token);
         $localStorage.token = token;
 
         ProfilesController.getProfile('me').then(
@@ -284,6 +281,7 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
                 $location.replace();
             },
             function(message) {
+                Alerts.danger({message: "Failed to retrieve tenant information."});
                 //$localStorage.activeProfile = null;
                 //$location.path("/error");
                 //$location.replace();
@@ -291,29 +289,24 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
         );
     });
 
-    $rootScope.$on('oauth:logout', function(event) {
-        console.log('The user has signed out');
-    });
-
-    $rootScope.$on('oauth:loggedOut', function(event) {
-        console.log('The user is not signed in');
-    });
-
-    $rootScope.$on('oauth:denied', function(event) {
-        console.log('The user did not authorize the third party app');
-        //$location.href("/login");
-    });
-
-    $rootScope.$on('oauth:expired', function(event) {
-        console.log('The access token is expired. Please refresh.');
-        //$location.href("/login");
-    });
+    // $rootScope.$on('oauth:logout', function(event) {
+    // });
+    //
+    // $rootScope.$on('oauth:loggedOut', function(event) {
+    // });
+    //
+    // $rootScope.$on('oauth:denied', function(event) {
+    //     //$location.href("/login");
+    // });
+    //
+    // $rootScope.$on('oauth:expired', function(event) {
+    //     //$location.href("/login");
+    // });
 
     $rootScope.$on('oauth:profile', function(event, profile) {
         $timeout(function() {
             $localStorage.activeProfile = profile;
         }, 0);
-        console.log('User profile data retrieved: ', profile);
     });
 
 }]);
