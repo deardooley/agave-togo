@@ -252,8 +252,7 @@ AgaveAuth.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
 /**
  * Run block
  */
-AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage", "TenantsController", "ProfilesController", "settings", "Commons", function($rootScope, $location, $state, $timeout, $localStorage, TenantsController, ProfilesController, settings, Commons) {
-
+AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage", "Alerts", "TenantsController", "ProfilesController", "settings", "Commons", function($rootScope, $location, $state, $timeout, $localStorage, Alerts, TenantsController, ProfilesController, settings, Commons) {
     $rootScope.$state = $state;
 
     TenantsController.listTenants().then(
@@ -273,20 +272,22 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
 
     $rootScope.$on('oauth:login', function(event, token) {
         $localStorage.token = token;
-
-        ProfilesController.getProfile('me').then(
-            function(profile) {
-                $rootScope.$broadcast('oauth:profile', profile);
-                $location.path("/success");
-                $location.replace();
-            },
-            function(message) {
-                Alerts.danger({message: "Failed to retrieve tenant information."});
-                //$localStorage.activeProfile = null;
-                //$location.path("/error");
-                //$location.replace();
-            }
-        );
+        //
+        // ProfilesController.getProfile('me').then(
+        //     function(profile) {
+        //         console.log('success getting profile');
+        //         $rootScope.$broadcast('oauth:profile', profile);
+        //         $location.path("/success");
+        //         $location.replace();
+        //     },
+        //     function(message) {
+        //         console.log('could not get profile');
+        //         Alerts.danger({message: "Failed to retrieve tenant information."});
+        //         //$localStorage.activeProfile = null;
+        //         //$location.path("/error");
+        //         //$location.replace();
+        //     }
+        // );
     });
 
     // $rootScope.$on('oauth:logout', function(event) {
