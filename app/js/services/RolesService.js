@@ -20,112 +20,101 @@ angular.module('AgaveToGo').service('RolesService',['$uibModal', '$rootScope', '
                     $scope.requesting = true;
                     SystemsController.listSystemRoles(system.id, 99999, 0).then(
                       function(data) {
-                      ProfilesController.listProfiles()
-                        .then(function(profiles){
-                          $scope.profiles = profiles;
-                          $scope.model = {};
-                          $scope.tempModel = {};
+                        $scope.model = {};
+                        $scope.tempModel = {};
 
-                          $scope.schema =
-                          {
-                            "type": "object",
-                            "title": "Complex Key Support",
-                            "properties": {
-                              "name": {
-                                "type": "string",
-                                "title": "Name"
-                              },
-                              "roles": {
-                                "title": "Roles by username",
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "username": {
-                                      "title": " ",
-                                      "type": "string"
-                                    },
-                                    "role": {
-                                      "title": " ",
-                                      "type": "string",
-                                      "enum": [
-                                        "NONE",
-                                        "GUEST",
-                                        "USER",
-                                        "PUBLISHER",
-                                        "ADMIN",
-                                        "OWNER"
-                                      ]
-                                    }
+                        $scope.schema =
+                        {
+                          "type": "object",
+                          "title": "Complex Key Support",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "title": "Name"
+                            },
+                            "roles": {
+                              "title": "Roles by username",
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "username": {
+                                    "title": " ",
+                                    "type": "string"
                                   },
-                                }
-                              },
-                            }
-                          };
+                                  "role": {
+                                    "title": " ",
+                                    "type": "string",
+                                    "enum": [
+                                      "NONE",
+                                      "GUEST",
+                                      "USER",
+                                      "PUBLISHER",
+                                      "ADMIN",
+                                      "OWNER"
+                                    ]
+                                  }
+                                },
+                              }
+                            },
+                          }
+                        };
 
-                          $scope.form = [
-                            {
-                              "key": "roles",
-                              "items": [
-                                {
-                                  "type": "fieldset",
-                                  "items": [
-                                      {
-                                        "type": "section",
-                                        "htmlClass": "col-xs-6",
-                                        "items": [
-                                            {
-                                              "key": "roles[].username",
-                                              onChange: function(value, tempModel){
-                                                if ($scope.profiles.length > 0) {
-                                                  tempModel.description = '<span class="text-success">'+ value + ' is a tenant user</span>';
-                                                }
-                                              },
-                                              validationMessage: {
-                                                'notavailable': '{{viewValue}} is not a tenant user'
-                                              },
-                                              $validators: {
-                                                notavailable: function(value){
-                                                  var username =_.find($scope.profiles, function(profile){
-                                                    if (profile.username === value){
-                                                      return true;
-                                                    }
-                                                  });
-                                                  return username ? true : false;
-                                                }
-                                              }
-                                            }
-                                        ],
+                        $scope.form = [
+                          {
+                            "key": "roles",
+                            "items": [
+                              {
+                                "type": "fieldset",
+                                "items": [
+                                    {
+                                      "type": "section",
+                                      "htmlClass": "col-xs-6",
+                                      "items": [
+                                          {
+                                            "key": "roles[].username",
+                                            // onChange: function(value, tempModel){
+                                            //   if ($scope.profiles.length > 0) {
+                                            //     tempModel.description = '<span class="text-success">'+ value + ' is a tenant user</span>';
+                                            //   }
+                                            // },
+                                            // validationMessage: {
+                                            //   'notavailable': '{{viewValue}} is not a tenant user'
+                                            // },
+                                            // $validators: {
+                                            //   notavailable: function(value){
+                                            //     var username =_.find($scope.profiles, function(profile){
+                                            //       if (profile.username === value){
+                                            //         return true;
+                                            //       }
+                                            //     });
+                                            //     return username ? true : false;
+                                            //   }
+                                            // }
+                                          }
+                                      ],
 
-                                      },
-                                      {
-                                        "type": "section",
-                                        "htmlClass": "col-xs-6",
-                                        "items": ["roles[].role"]
-                                      }
-                                  ]
-                                }
-                              ]
-                            }
-                          ];
+                                    },
+                                    {
+                                      "type": "section",
+                                      "htmlClass": "col-xs-6",
+                                      "items": ["roles[].role"]
+                                    }
+                                ]
+                              }
+                            ]
+                          }
+                        ];
 
-                          $scope.tempModel.roles = [];
+                        $scope.tempModel.roles = [];
 
-                          angular.forEach(data, function(role){
-                            $scope.tempModel.roles.push({username: role.username, role: role.role });
+                        angular.forEach(data, function(role){
+                          $scope.tempModel.roles.push({username: role.username, role: role.role });
 
-                          });
+                        });
 
-                          $scope.model.roles = _.clone($scope.tempModel.roles);
-                          $scope.requesting = false;
-                        })
-                        .catch(function(profiles){
-                          App.alert({
-                              type: 'danger',
-                              message: "There was an error contacting the systems service. if this " +
-                              "persists, please contact your system administrator.",
-                          });
-                        })
+                        $scope.model.roles = _.clone($scope.tempModel.roles);
+                        $scope.requesting = false;
                       },
                       function(data) {
                           App.alert({
