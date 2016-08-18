@@ -13,17 +13,17 @@ var AgaveToGo = angular.module("AgaveToGo", [
   'JiraService',
   'ChangelogParserService',
   'ngCookies',
-  "ngSanitize",
+  'ngSanitize',
   'ngStorage',
   'ngMd5',
-  "oc.lazyLoad",
+  'oc.lazyLoad',
   'pascalprecht.translate',
   'schemaForm',
   'schemaFormWizard',
   'TagsService',
   'toastr',
-  "ui.bootstrap",
-  "ui.router",
+  'ui.bootstrap',
+  'ui.router',
   'ui.select'
 ]).service('NotificationsService',['$rootScope', '$localStorage', 'MetaController', 'toastr', function($rootScope, $localStorage, MetaController, toastr){
     if (typeof $localStorage.tenant !== 'undefined' && typeof $localStorage.activeProfile !== 'undefined') {
@@ -775,6 +775,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         files: [
                             'js/services/ActionsService.js',
                             'js/services/PermissionsService.js',
+                            'js/controllers/QueryBuilderController.js',
                             'js/controllers/apps/AppDirectoryController.js',
                             'js/controllers/modals/ModalConfirmResourceActionController.js',
                             'js/controllers/modals/ModalPermissionEditorController.js'
@@ -800,6 +801,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             '../bower_components/holderjs/holder.js',
                             'js/services/ActionsService.js',
                             'js/services/PermissionsService.js',
+                            'js/controllers/QueryController.js',
                             'js/controllers/apps/AppDirectoryController.js',
                             'js/controllers/modals/ModalConfirmResourceActionController.js',
                             'js/controllers/modals/ModalPermissionEditorController.js'
