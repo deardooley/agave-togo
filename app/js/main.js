@@ -1105,6 +1105,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             '../bower_components/holderjs/holder.js',
                             'js/services/ActionsService.js',
                             'js/services/RolesService.js',
+                            'js/controllers/QueryBuilderController.js',
                             'js/controllers/systems/SystemDirectoryController.js'
                         ]
                     });
