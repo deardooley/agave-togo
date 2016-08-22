@@ -398,6 +398,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             'js/services/ActionsService.js',
                             'js/services/PermissionsService.js',
                             'js/services/RolesService.js',
+                            'js/controllers/QueryBuilderController.js',
                             'js/controllers/jobs/JobsDirectoryController.js'
                         ]
                     });
@@ -522,6 +523,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/controllers/QueryBuilderController.js',
                             'js/controllers/notifications/NotificationsManagerDirectoryController.js'
                         ]
                     });
@@ -546,6 +548,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/controllers/QueryBuilderController.js',
                             'js/controllers/notifications/NotificationsManagerDirectoryController.js'
                         ]
                     });
