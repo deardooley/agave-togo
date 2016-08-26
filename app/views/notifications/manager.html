@@ -124,7 +124,7 @@
                                         <a ui-sref="notifications({id: notification.id})"> {{notification.id}} </a>
                                     </td>
                                     <td class="hidden-xs">
-                                        <a ui-sref="notifications({id: job.associatedUuid})"> {{notification.associatedUuid}} </a>
+                                        <span> {{notification.associatedUuid}} </a>
                                     </td>
                                     <td class="hidden-xs">
                                         <span>{{notification.event}}</span>
@@ -151,14 +151,6 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-
-                    <div class="text-center">
-                      <dir-pagination-controls
-                        on-page-change="getPage(newPageNumber, oldPageNumber)"
-                      >
-                      here
-                      </dir-pagination-controls>
                     </div>
                   </div>
                 </div>

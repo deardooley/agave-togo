@@ -14,13 +14,17 @@ angular.module('AgaveToGo').controller('NotificationsManagerDirectoryController'
     $scope.sortReverse  = true;
     $scope.status = 'active';
     $scope.available = true;
-    $scope.associatedUuid = $stateParams.associatedUuid ? $stateParams.associatedUuid : null;
     $scope.resourceType = $stateParams.resourceType ? $stateParams.resourceType : null;
     $scope.query = '';
 
     $scope.refresh = function() {
       $scope.requesting = true;
       $scope[$scope._COLLECTION_NAME] = [];
+
+      // clean refresh defaults
+      if ($stateParams.associatedUuid !== null && typeof $stateParams.associatedUuid !== 'undefined'){
+        $scope.query += '&associatedUuid.eq=' + $stateParams.associatedUuid;
+      }
 
       NotificationsController.searchNotifications(
         $scope.query
