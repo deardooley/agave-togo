@@ -134,9 +134,9 @@ angular.module('AgaveToGo').controller('DashboardController',
       });
 
         MonitorsController.listMonitoringTasks().then(
-            function(data) {
+            function(response) {
                 $timeout(function () {
-                    $scope.monitors = data;
+                    $scope.monitors = response.result;
                 }, 50);
             },
             function(response) {
