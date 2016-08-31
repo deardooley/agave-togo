@@ -133,17 +133,19 @@ angular.module('AgaveToGo').controller('DashboardController',
           }, 0);
       });
 
-        MonitorsController.listMonitoringTasks().then(
-            function(response) {
-                $timeout(function () {
-                    $scope.monitors = response.result;
-                }, 50);
-            },
-            function(response) {
-                $timeout(function () {
-                    $scope.monitors = [];
-                }, 50);
-            });
+      MonitorsController.listMonitoringTasks()
+      .then(
+        function(response) {
+            $timeout(function () {
+                $scope.monitors = response;
+            }, 50);
+        },
+        function(response) {
+            $timeout(function () {
+                $scope.monitors = [];
+            }, 50);
+        }
+      );
 
       $scope.systems = [];
       SystemsController.listSystems(9999999).then(
