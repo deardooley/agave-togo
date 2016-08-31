@@ -19,7 +19,7 @@ angular.module('AgaveToGo').controller("NotificationsResourceAddController", fun
 						"type": "string",
 						"description": "The notification resource type",
 						"enum": [
-								"apps", "files", "jobs", "metadata", "monitors", "schema", "systems", "postits", "profiles"
+								"app", "file", "job", "metadata", "monitor", "schema", "system", "postit", "profile"
 						],
 						"title": "Resource type"
 					},
@@ -46,7 +46,7 @@ angular.module('AgaveToGo').controller("NotificationsResourceAddController", fun
 			"resource",
 			{
 				"key": "event",
-				"condition": "model.resource === 'apps'",
+				"condition": "model.resource === 'app'",
 				"type": "select",
 				"description": "The events to which you want to be notified",
 				"titleMap": [
@@ -71,7 +71,7 @@ angular.module('AgaveToGo').controller("NotificationsResourceAddController", fun
 			},
 			{
 				"key": "event",
-				"condition": "model.resource === 'files'",
+				"condition": "model.resource === 'file'",
 				"type": "select",
 				"description": "The events to which you want to be notified",
 				"titleMap": [
@@ -102,7 +102,7 @@ angular.module('AgaveToGo').controller("NotificationsResourceAddController", fun
 			},
 			{
 				"key": "event",
-				"condition": "model.resource === 'jobs'",
+				"condition": "model.resource === 'job'",
 				"type": "select",
 				"description": "The events to which you want to be notified",
 				"titleMap": [
@@ -156,7 +156,7 @@ angular.module('AgaveToGo').controller("NotificationsResourceAddController", fun
 			},
 			{
 				"key": "event",
-				"condition": "model.resource === 'monitors'",
+				"condition": "model.resource === 'monitor'",
 				"type": "select",
 				"description": "The events to which you want to be notified",
 				"titleMap": [
@@ -196,7 +196,7 @@ angular.module('AgaveToGo').controller("NotificationsResourceAddController", fun
 			},
 			{
 				"key": "event",
-				"condition": "model.resource === 'systems'",
+				"condition": "model.resource === 'system'",
 				"type": "select",
 				"description": "The events to which you want to be notified",
 				"titleMap": [
@@ -215,7 +215,7 @@ angular.module('AgaveToGo').controller("NotificationsResourceAddController", fun
 			},
 			{
 				"key": "event",
-				"condition": "model.resource === 'postits'",
+				"condition": "model.resource === 'postit'",
 				"type": "select",
 				"description": "The events to which you want to be notified",
 				"titleMap": [
@@ -233,7 +233,7 @@ angular.module('AgaveToGo').controller("NotificationsResourceAddController", fun
 			},
 			{
 					"key": "event",
-					"condition": "model.resource === 'profiles'",
+					"condition": "model.resource === 'profile'",
 					"type": "select",
 					"description": "The events to which you want to be notified",
 					"titleMap": [
