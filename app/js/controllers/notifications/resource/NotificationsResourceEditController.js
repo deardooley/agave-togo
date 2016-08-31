@@ -76,7 +76,32 @@ angular.module('AgaveToGo').controller("NotificationsResourceEditController", fu
 							"resource",
 							{
 								"key": "event",
-								"condition": "model.resource === 'file'",
+								"condition": "model.resource === 'apps'",
+								"type": "select",
+								"description": "The events to which you want to be notified",
+								"titleMap": [
+										{"value": "*", "name": "*"},
+										{"value": "UPDATED", "name": "UPDATED"},
+										{"value": "DELETED", "name": "DELETED"},
+										{"value": "PUBLISHED", "name": "PUBLISHED"},
+										{"value": "CLONED", "name": "CLONED"},
+										{"value": "PERMISSION_GRANT", "name": "PERMISSION_GRANT"},
+										{"value": "PERMISSION_REVOKE", "name": "PERMISSION_REVOKE"},
+										{"value": "RESTORED", "name": "RESTORED"},
+										{"value": "UNPUBLISHED", "name": "UNPUBLISHED"},
+										{"value": "PUBLISHING_FAILED", "name": "PUBLISHING_FAILED"},
+										{"value": "DISABLED", "name": "DISABLED"},
+										{"value": "CLONING_FAILED", "name": "CLONING_FAILED"},
+										{"value": "REGISTERED", "name": "REGISTERED"}
+								],
+								"title": "Events",
+								ngModelOptions: {
+									updateOnDefault: true
+								}
+							},
+							{
+								"key": "event",
+								"condition": "model.resource === 'files'",
 								"type": "select",
 								"description": "The events to which you want to be notified",
 								"titleMap": [
@@ -107,7 +132,7 @@ angular.module('AgaveToGo').controller("NotificationsResourceEditController", fu
 							},
 							{
 								"key": "event",
-								"condition": "model.resource === 'job'",
+								"condition": "model.resource === 'jobs'",
 								"type": "select",
 								"description": "The events to which you want to be notified",
 								"titleMap": [
@@ -143,7 +168,65 @@ angular.module('AgaveToGo').controller("NotificationsResourceEditController", fu
 							},
 							{
 								"key": "event",
-								"condition": "model.resource === 'system'",
+								"condition": "model.resource === 'metadata'",
+								"type": "select",
+								"description": "The events to which you want to be notified",
+								"titleMap": [
+										{"value": "*", "name": "*"},
+										{"value": "CREATED", "name": "CREATED"},
+										{"value": "UPDATED", "name": "UPDATED"},
+										{"value": "DELETED", "name": "DELETED"},
+										{"value": "PERMISSION_GRANT", "name": "PERMISSION_GRANT"},
+										{"value": "PERMISSION_REVOKE", "name": "PERMISSION_REVOKE"},
+								],
+								"title": "Events",
+								ngModelOptions: {
+									updateOnDefault: true
+								}
+							},
+							{
+								"key": "event",
+								"condition": "model.resource === 'monitors'",
+								"type": "select",
+								"description": "The events to which you want to be notified",
+								"titleMap": [
+										{"value": "*", "name": "*"},
+										{"value": "CREATED", "name": "CREATED"},
+										{"value": "CANCELLED", "name": "CANCELLED"},
+										{"value": "ACTIVATED", "name": "ACTIVATED"},
+										{"value": "DEACTIVATED", "name": "DEACTIVATED"},
+										{"value": "RESULT_CHANGE", "name": "RESULT_CHANGE"},
+										{"value": "STATUS_CHANGE", "name": "STATUS_CHANGE"},
+										{"value": "PASSED", "name": "PASSED"},
+										{"value": "FAILED", "name": "FAILED"},
+										{"value": "UNKNOWN", "name": "UNKNOWN"}
+								],
+								"title": "Events",
+								ngModelOptions: {
+									updateOnDefault: true
+								}
+							},
+							{
+								"key": "event",
+								"condition": "model.resource === 'schema'",
+								"type": "select",
+								"description": "The events to which you want to be notified",
+								"titleMap": [
+										{"value": "*", "name": "*"},
+										{"value": "CREATED", "name": "CREATED"},
+										{"value": "UPDATED", "name": "UPDATED"},
+										{"value": "DELETED", "name": "DELETED"},
+										{"value": "PERMISSION_GRANT", "name": "PERMISSION_GRANT"},
+										{"value": "PERMISSION_REVOKE", "name": "PERMISSION_REVOKE"}
+								],
+								"title": "Events",
+								ngModelOptions: {
+									updateOnDefault: true
+								}
+							},
+							{
+								"key": "event",
+								"condition": "model.resource === 'systems'",
 								"type": "select",
 								"description": "The events to which you want to be notified",
 								"titleMap": [
@@ -160,10 +243,48 @@ angular.module('AgaveToGo').controller("NotificationsResourceEditController", fu
 									updateOnDefault: true
 								}
 							},
+							{
+								"key": "event",
+								"condition": "model.resource === 'postits'",
+								"type": "select",
+								"description": "The events to which you want to be notified",
+								"titleMap": [
+										{"value": "*", "name": "*"},
+										{"value": "CREATED", "name": "CREATED"},
+										{"value": "UPDATED", "name": "UPDATED"},
+										{"value": "REFRESHED", "name": "REFRESHED"},
+										{"value": "DELETED", "name": "DELETED"},
+										{"value": "REDEEMED", "name": "REDEEMED"}
+								],
+								"title": "Events",
+								ngModelOptions: {
+									updateOnDefault: true
+								},
+							}
+							{
+								"key": "event",
+								"condition": "model.resource === 'profiles'",
+								"type": "select",
+								"description": "The events to which you want to be notified",
+								"titleMap": [
+									{"value": "*", "name": "*"},
+									{"value": "CREATED", "name": "CREATED"},
+									{"value": "DELETED", "name": "DELETED"},
+									{"value": "UPDATED", "name": "UPDATED"},
+									{"value": "ACCOUNT_ACTIVATED", "name": "ACCOUNT_ACTIVATED"},
+									{"value": "ACCOUNT_DEACTIVATED", "name": "ACCOUNT_DEACTIVATED"},
+									{"value": "ROLE_GRANTED", "name": "ROLE_GRANTED"},
+									{"value": "ROLE_REVOKED", "name": "ROLE_REVOKED"},
+									{"value": "QUOTA_EXCEEDED", "name": "QUOTA_EXCEEDED"}
+								],
+								"title": "Events",
+								ngModelOptions: {
+									updateOnDefault: true
+								}
+							},
 							"persistent",
 							"url"
 						];
-
 
 					},
 					function(response){

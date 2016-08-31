@@ -55,6 +55,10 @@ angular.module('AgaveToGo').controller('MonitorsManagerDirectoryController', fun
       ActionsService.confirmAction(resourceType, resource, resourceAction, resourceList, resourceIndex);
     }
 
+    $scope.getNotifications = function(resourceType, resource){
+      ActionsService.getNotifications(resourceType, resource);
+    };
+
     $scope.edit = function(resourceType, resource){
       ActionsService.edit(resourceType, resource);
     };
