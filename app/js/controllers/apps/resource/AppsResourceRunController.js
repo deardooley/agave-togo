@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppsResourceRunController', function($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, AppsController, SystemsController, JobsController, NotificationsController) {
+angular.module('AgaveToGo').controller('AppsResourceRunController', function($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, $translate, AppsController, SystemsController, JobsController, NotificationsController, ErrorService) {
 
     $scope.formSchema = function(app) {
       var schema = {
@@ -190,13 +190,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                                 }
                             },
                             function(response) {
-                              var message = response.errorMessage ? 'Error: Could not retrieve app - ' + response.errorMessage : 'Error: Could not retrieve app';
-                              App.alert(
-                                {
-                                  type: 'danger',
-                                  message: message
-                                }
-                              );
+                              ErrorService.handle(response, $translate.instant('error_apps_details'));
                             }
                         );
                       }
@@ -258,13 +252,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                                 }
                             },
                             function(response) {
-                              var message = response.errorMessage ? 'Error: Could not retrieve app - ' + response.errorMessage : 'Error: Could not retrieve app';
-                              App.alert(
-                                {
-                                  type: 'danger',
-                                  message: message
-                                }
-                              );
+                              ErrorService.handle(response, $translate.instant('error_apps_details'));
                             }
                         );
                       }
@@ -309,23 +297,11 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
           )
           .catch(
             function(response){
-              var message = response.errorMessage ? 'Error: Could not retrieve app - ' + response.errorMessage : 'Error: Could not retrieve app';
-              App.alert(
-                {
-                  type: 'danger',
-                  message: message
-                }
-              );
+              ErrorService.handle(response, $translate.instant('error_apps_details'));
             }
           );
       } else {
-        var message = response.errorMessage ? 'Error: Could not retrieve app - ' + response.errorMessage : 'Error: Could not retrieve app';
-        App.alert(
-          {
-            type: 'danger',
-            message: message
-          }
-        );
+        ErrorService.handle(response, $translate.instant('error_apps_details'));
       }
     };
 
@@ -379,20 +355,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                   function(response){
                   },
                   function(response){
-                    var message = '';
-                    if (response.errorResponse.message) {
-                      message = 'Error: Could not register notifications - ' + response.errorResponse.message
-                    } else if (response.errorResponse.fault){
-                      message = 'Error: Could not register notifications - ' + response.errorResponse.fault.message;
-                    } else {
-                      message = 'Error: Could not register notifications';
-                    }
-                    App.alert(
-                      {
-                        type: 'danger',
-                        message: message
-                      }
-                    );
+                    ErrorService.handle(response, $translate.instant('error_notifications_add'));
                   }
                 );
               $scope.job = response.result;
@@ -416,21 +379,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
               $scope.requesting = false;
             },
             function(response) {
-              var message = '';
-              if (response.errorResponse.message) {
-                message = 'Error: Job submission failed - ' + response.errorResponse.message
-              } else if (response.errorResponse.fault){
-                message = 'Error: Job submission failed - ' + response.errorResponse.fault.message;
-              } else {
-                message = 'Error: Job submission failed';
-              }
-              App.alert(
-                {
-                  type: 'danger',
-                  message: message
-                }
-              );
-              $scope.requesting = false;
+              ErrorService.handle(response, $translate.instant('error_jobs_create'));
           });
       }
 
