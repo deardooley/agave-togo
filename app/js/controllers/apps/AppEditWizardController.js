@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppEditWizardController', function ($injector, $timeout, $rootScope, $scope, $state, $location, $stateParams, $q, $uibModal, $localStorage, $location, $translate, Commons, AppsController, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController, ErrorService) {
+angular.module('AgaveToGo').controller('AppEditWizardController', function ($injector, $timeout, $rootScope, $scope, $state, $location, $stateParams, $q, $uibModal, $localStorage, $location, $translate, Commons, AppsController, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController, MessageService) {
 
     $scope.schema = {
         "type": "object",
@@ -1188,7 +1188,7 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                 }, 0);
             },
             function(response) {
-              ErrorService.handle(response, $translate.instant('error_systems_list'));
+              MessageService.handle(response, $translate.instant('error_systems_list'));
             }
         );
     };
@@ -1240,14 +1240,14 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                         function(permissions){
                           $scope.edit = false;
                           $scope.wizview = 'code';
-                          ErrorService.handle(response, $translate.instant('error_apps_edit_permission'));
+                          MessageService.handle(response, $translate.instant('error_apps_edit_permission'));
                         }
                       );
                 },
                 function (response) {
                   $scope.edit = false;
                   $scope.wizview = 'code';
-                  ErrorService.handle(response, $translate.instant('error_apps_details'));
+                  MessageService.handle(response, $translate.instant('error_apps_details'));
                 });
         }
         // check if WizardHandler service has current model
@@ -1299,7 +1299,7 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                 });
               },
               function(response){
-                ErrorService.handle(response, $translate.instant('error_apps_edit'));
+                MessageService.handle(response, $translate.instant('error_apps_edit'));
               }
             );
         } else {

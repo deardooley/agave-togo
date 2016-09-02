@@ -159,10 +159,23 @@ AgaveToGo.config(function($translateProvider) {
     error_apps_edit_permission: 'Error: User does not have permission to edit app',
     error_apps_form: 'Error: Invalid form. Please check all fields',
     error_apps_search: 'Error: Could not retrieve apps',
+    error_files_list: 'Error: Could not list files for the given system and path',
+    error_monitors_add: 'Error: Could not add monitor',
+    error_monitors_update: 'Error: Could not update monitor',
+
+    error_monitors_list: 'Error: Could not retrieve monitor',
     error_monitors_search: 'Error: Could not retrieve monitors',
+    error_monitors_test: 'Error: Could not test monitor',
+
     error_notifications_add: 'Error: Could not add notification',
     error_jobs_create: 'Error: Could not submit job',
-    error_systems_list: 'Error: Could not retrieve systems'
+    error_jobs_details: 'Error: Could not retrieve job',
+    error_jobs_list: 'Error: Could not retrieve jobs',
+    error_systems_list: 'Error: Could not retrieve systems',
+    error_systems_default: 'Error: Could not set default system',
+
+    success_monitors_update: 'Success: updated ',
+    success_monitors_test_succes: 'Success: fired monitor ',
   });
 
   $translateProvider.preferredLanguage('en');
@@ -370,6 +383,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             '../assets/global/scripts/datatable.js',
                             '../bower_components/holderjs/holder.js',
                             'js/services/ActionsService.js',
+                            'js/services/MessageService.js',
                             'js/services/PermissionsService.js',
                             'js/services/RolesService.js',
                             'js/controllers/QueryBuilderController.js',
@@ -410,6 +424,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                     name: 'AgaveToGo',
                     files: [
                         'js/services/ActionsService.js',
+                        'js/services/MessageService.js',
                         'js/services/PermissionsService.js',
                         'js/controllers/jobs/resource/JobsResourceDetailsController.js'
                     ]
@@ -680,7 +695,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
-                            'js/services/ErrorService.js',
+                            'js/services/MessageService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/monitors/MonitorsManagerDirectoryController.js'
                         ]
@@ -702,7 +717,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
-                            'js/services/ErrorService.js',
+                            'js/services/MessageService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/monitors/MonitorsManagerDirectoryController.js'
                         ]
@@ -747,6 +762,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                       name: 'AgaveToGo',
                       files: [
                           'js/services/ActionsService.js',
+                          'js/services/MessageService.js',
                           'js/controllers/monitors/resource/MonitorsResourceEditController.js'
                       ]
                     }
@@ -875,6 +891,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                       name: 'AgaveToGo',
                       files: [
                           'js/services/ActionsService.js',
+                          'js/services/MessageService.js',
                           'js/services/PermissionsService.js',
                           'js/controllers/monitors/resource/MonitorsResourceDetailsController.js'
                       ]
@@ -907,7 +924,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             "../bower_components/codemirror/theme/neo.css",
                             "../bower_components/codemirror/lib/codemirror.js",
                             "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
-                            'js/services/ErrorService.js',
+                            'js/services/MessageService.js',
                             'js/controllers/apps/AppEditWizardController.js'
                         ]
                     },
@@ -955,7 +972,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
                             'js/services/ActionsService.js',
-                            'js/services/ErrorService.js',
+                            'js/services/MessageService.js',
                             'js/services/PermissionsService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/apps/AppDirectoryController.js',
@@ -1025,7 +1042,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                     name: 'AgaveToGo',
                     files: [
                         'js/services/ActionsService.js',
-                        'js/services/ErrorService.js',
+                        'js/services/MessageService.js',
                         'js/services/PermissionsService.js',
                         'js/controllers/apps/resource/AppsResourceDetailsController.js'
                     ]
@@ -1081,7 +1098,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         "../bower_components/angular-filebrowser/src/js/controllers/selector-controller.js",
                         "../bower_components/angular-filebrowser/src/css/angular-filemanager.css",
                         /********* File Manager ******/
-                        'js/services/ErrorService.js',
+                        'js/services/MessageService.js',
                         'js/controllers/apps/resource/AppsResourceRunController.js'
                     ]
                   }
@@ -1144,6 +1161,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                                 "../bower_components/codemirror/mode/shell/shell.js",
                                 "../bower_components/codemirror/mode/python/python.js",
                                 "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+
+                                "js/services/MessageService.js",
                                 "js/controllers/data/FileExplorerController.js"
                             ]
                         }
@@ -1194,6 +1213,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                                 "../bower_components/codemirror/mode/shell/shell.js",
                                 "../bower_components/codemirror/mode/python/python.js",
                                 "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+
+                                "js/services/MessageService.js",
                                 "js/controllers/data/FileExplorerController.js"
                             ]
                         }

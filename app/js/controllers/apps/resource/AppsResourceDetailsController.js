@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppsResourceDetailsController', function($scope, $stateParams, $translate, AppsController, ActionsService, ErrorService, PermissionsService) {
+angular.module('AgaveToGo').controller('AppsResourceDetailsController', function($scope, $stateParams, $translate, AppsController, ActionsService, MessageService, PermissionsService) {
 
   $scope.app = null;
 
@@ -10,11 +10,11 @@ angular.module('AgaveToGo').controller('AppsResourceDetailsController', function
             $scope.app = response.result;
           },
           function(response){
-            ErrorService.handle(response, $translate.instant('error_apps_details'));
+            MessageService.handle(response, $translate.instant('error_apps_details'));
           }
         );
     } else {
-      ErrorService.handle(response, $translate.instant('error_apps_details'));
+      MessageService.handle(response, $translate.instant('error_apps_details'));
     }
   };
 
