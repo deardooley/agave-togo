@@ -3994,12 +3994,22 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                     });
                 },
                 function (response) {
-                    var message = (response.errorResponse !== '') ?  "There was an error creating your system:\n" + response.errorResponse.fault.message : message = "There was an error creating your system:\n" + response.errorMessage;
-
-                    App.alert({
-                        type: 'danger',
-                        message: message
-                    });
+                  var message = '';
+                  if (response.errorResponse){
+                    if (typeof response.errorResponse.message) {
+                      message = 'Error: Could not create system - ' + response.errorResponse.message
+                    } else if (response.errorResponse.fault){
+                      message = 'Error: Could not create system - ' + response.errorResponse.fault.message;
+                    }
+                  } else {
+                    message = 'Error: Could not create system';
+                  }
+                  App.alert(
+                    {
+                      type: 'danger',
+                      message: message
+                    }
+                  );
               });
           }
           if ($scope.model.type === "EXECUTION"){
@@ -4022,12 +4032,22 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                   });
                 },
                 function (response) {
-                  var message = (response.errorResponse !== '') ?  "There was an error creating your system:\n" + response.errorResponse.fault.message : message = "There was an error creating your system:\n" + response.errorMessage;
-
-                  App.alert({
+                  var message = '';
+                  if (response.errorResponse){
+                    if (typeof response.errorResponse.message) {
+                      message = 'Error: Could not create system - ' + response.errorResponse.message
+                    } else if (response.errorResponse.fault){
+                      message = 'Error: Could not create system - ' + response.errorResponse.fault.message;
+                    }
+                  } else {
+                    message = 'Error: Could not create system';
+                  }
+                  App.alert(
+                    {
                       type: 'danger',
                       message: message
-                  });
+                    }
+                  );
               });
           }
         } else {
