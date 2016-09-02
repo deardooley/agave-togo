@@ -121,21 +121,22 @@ angular.module('AgaveToGo').controller("MonitorsResourceEditController", functio
 
 							},
 							function(response){
-								$scope.requesting = false;
 								var message = '';
-								if (response.errorResponse.message) {
-									message = 'Error: Could not retrieve monitor - ' + response.errorResponse.message
-								} else if (response.errorResponse.fault){
-									message = 'Error: Could not retrieve monitor - ' + response.errorResponse.fault.message;
-								} else {
-									message = 'Error: Could not retrieve monitor';
-								}
-								App.alert(
-									{
-										type: 'danger',
-										message: message
-									}
-								);
+                if (response.errorResponse){
+                  if (typeof response.errorResponse.message) {
+                    message = 'Error: Could not retrieve monitor - ' + response.errorResponse.message
+                  } else if (response.errorResponse.fault){
+                    message = 'Error: Could not retrieve monitor - ' + response.errorResponse.fault.message;
+                  }
+                } else {
+                  message = 'Error: Could not retrieve monitor';
+                }
+                App.alert(
+                  {
+                    type: 'danger',
+                    message: message
+                  }
+                );
 							}
 						);
 
@@ -144,11 +145,12 @@ angular.module('AgaveToGo').controller("MonitorsResourceEditController", functio
 				})
 				.catch(function(response){
 					$scope.requesting = false;
-					var message = '';
-					if (response.errorResponse.message) {
-						message = 'Error: Could not retrieve monitor - ' + response.errorResponse.message
-					} else if (response.errorResponse.fault){
-						message = 'Error: Could not retrieve monitor - ' + response.errorResponse.fault.message;
+					if (response.errorResponse){
+						if (typeof response.errorResponse.message) {
+							message = 'Error: Could not retrieve monitor - ' + response.errorResponse.message
+						} else if (response.errorResponse.fault){
+							message = 'Error: Could not retrieve monitor - ' + response.errorResponse.fault.message;
+						}
 					} else {
 						message = 'Error: Could not retrieve monitor';
 					}
@@ -183,13 +185,14 @@ angular.module('AgaveToGo').controller("MonitorsResourceEditController", functio
 					},
 					function(response){
 						$scope.requesting = false;
-						var message = '';
-						if (response.errorResponse.message) {
-							message = 'Error: Could not retrieve monitor - ' + response.errorResponse.message
-						} else if (response.errorResponse.fault){
-							message = 'Error: Could not retrieve monitor - ' + response.errorResponse.fault.message;
+						if (response.errorResponse){
+							if (typeof response.errorResponse.message) {
+								message = 'Error: Could not update monitor - ' + response.errorResponse.message
+							} else if (response.errorResponse.fault){
+								message = 'Error: Could not update monitor - ' + response.errorResponse.fault.message;
+							}
 						} else {
-							message = 'Error: Could not retrieve monitor';
+							message = 'Error: Could not update monitor';
 						}
 						App.alert(
 							{
@@ -213,10 +216,19 @@ angular.module('AgaveToGo').controller("MonitorsResourceEditController", functio
 					},
 					function(response){
 						$scope.requesting = false;
+						if (response.errorResponse){
+							if (typeof response.errorResponse.message) {
+								message = 'Error: Could not test monitor - ' + response.errorResponse.message
+							} else if (response.errorResponse.fault){
+								message = 'Error: Could not test monitor - ' + response.errorResponse.fault.message;
+							}
+						} else {
+							message = 'Error: Could not test monitor';
+						}
 						App.alert(
 							{
 								type: 'danger',
-								message: 'Error: Testing monitor failed'
+								message: message
 							}
 						);
 					}

@@ -102,10 +102,12 @@ angular.module('AgaveToGo').controller("MonitorsResourceAddController", function
 					},
 					function(response){
 						var message = '';
-						if (response.errorResponse.message) {
-							message = 'Error: Could not add monitor - ' + response.errorResponse.message
-						} else if (response.errorResponse.fault){
-							message = 'Error: Could not add monitor - ' + response.errorResponse.fault.message;
+						if (response.errorResponse){
+							if (typeof response.errorResponse.message) {
+								message = 'Error: Could not add monitor - ' + response.errorResponse.message
+							} else if (response.errorResponse.fault){
+								message = 'Error: Could not add monitor - ' + response.errorResponse.fault.message;
+							}
 						} else {
 							message = 'Error: Could not add monitor';
 						}
@@ -139,10 +141,12 @@ angular.module('AgaveToGo').controller("MonitorsResourceAddController", function
 					function(response){
 						$scope.requesting = false;
 						var message = '';
-						if (response.errorResponse.message) {
-							message = 'Error: Could not add monitor - ' + response.errorResponse.message
-						} else if (response.errorResponse.fault){
-							message = 'Error: Could not add monitor - ' + response.errorResponse.fault.message;
+						if (response.errorResponse){
+							if (typeof response.errorResponse.message) {
+								message = 'Error: Could not add monitor - ' + response.errorResponse.message
+							} else if (response.errorResponse.fault){
+								message = 'Error: Could not add monitor - ' + response.errorResponse.fault.message;
+							}
 						} else {
 							message = 'Error: Could not add monitor';
 						}
@@ -168,10 +172,20 @@ angular.module('AgaveToGo').controller("MonitorsResourceAddController", function
 					},
 					function(response){
 						$scope.requesting = false;
+						var message = '';
+						if (response.errorResponse){
+							if (typeof response.errorResponse.message) {
+								message = 'Error: Could not test monitor - ' + response.errorResponse.message
+							} else if (response.errorResponse.fault){
+								message = 'Error: Could not test monitor - ' + response.errorResponse.fault.message;
+							}
+						} else {
+							message = 'Error: Could not test monitor';
+						}
 						App.alert(
 							{
 								type: 'danger',
-								message: 'Error: Testing monitor failed'
+								message: message
 							}
 						);
 					}
