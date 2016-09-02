@@ -153,7 +153,16 @@ AgaveToGo.config(function($locationProvider) {
 
 AgaveToGo.config(function($translateProvider) {
   $translateProvider.translations('en', {
-    error_search_monitors: 'Error: Could not retrieve monitors'
+    error_apps_details: 'Error: Could not retrieve app',
+    error_apps_add: 'Error: Could not submit app',
+    error_apps_edit: 'Error: Could not edit app',
+    error_apps_edit_permission: 'Error: User does not have permission to edit app',
+    error_apps_form: 'Error: Invalid form. Please check all fields',
+    error_apps_search: 'Error: Could not retrieve apps',
+    error_monitors_search: 'Error: Could not retrieve monitors',
+    error_notifications_add: 'Error: Could not add notification',
+    error_jobs_create: 'Error: Could not submit job',
+    error_systems_list: 'Error: Could not retrieve systems'
   });
 
   $translateProvider.preferredLanguage('en');
@@ -163,55 +172,12 @@ AgaveToGo.constant('angularMomentConfig', {
     timezone: 'America/Chicago' // optional
 });
 
-
-/********************************************
- BEGIN: BREAKING CHANGE in AngularJS v1.3.x:
-*********************************************/
-/**
-`$controller` will no longer look for controllers on `window`.
-The old behavior of looking on `window` for controllers was originally intended
-for use in examples, demos, and toy apps. We found that allowing global controller
-functions encouraged poor practices, so we resolved to disable this behavior by
-default.
-
-To migrate, register your controllers with modules rather than exposing them
-as globals:
-
-Before:
-
-```javascript
-function MyController() {
-  // ...
-}
-```
-
-After:
-
-```javascript
-angular.module('myApp', []).controller('MyController', [function() {
-  // ...
-}]);
-
-Although it's not recommended, you can re-enable the old behavior like this:
-
-```javascript
-angular.module('myModule').config(['$controllerProvider', function($controllerProvider) {
-  // this option might be handy for migrating old apps, but please don't use it
-  // in new ones!
-  $controllerProvider.allowGlobals();
-}]);
-**/
-
-//AngularJS v1.3.x workaround for old style controller declarition in HTML
 AgaveToGo.config(['$controllerProvider', function($controllerProvider) {
   // this option might be handy for migrating old apps, but please don't use it
   // in new ones!
   $controllerProvider.allowGlobals();
 }]);
 
-/********************************************
- END: BREAKING CHANGE in AngularJS v1.3.x:
-*********************************************/
 
 /* Setup global settings */
 AgaveToGo.factory('settings', ['$rootScope', function($rootScope) {
@@ -926,29 +892,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         /**********************************************************************/
         /**********************************************************************/
 
-        .state('apps-catalog', {
-            url: "/apps/catalog",
-            templateUrl: "views/apps/browser.html",
-            data: {pageTitle: 'App Catalog'},
-            controller: "AppBrowserController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'cubeportfolio',
-                        files: [
-                            '../bower_components/cubeportfolio/js/jquery.cubeportfolio.js',
-                            '../bower_components/cubeportfolio/css/cubeportfolio.css'
-                        ]
-                    }, {
-                        name: 'AgaveToGo',
-                        files: [
-                            'js/controllers/apps/AppBrowserController.js'
-                        ]
-                    }]);
-                }]
-            }
-        })
-
         .state('apps-edit', {
             url: "/apps/edit/:appId",
             templateUrl: "views/apps/edit-wizard.html",
@@ -964,6 +907,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             "../bower_components/codemirror/theme/neo.css",
                             "../bower_components/codemirror/lib/codemirror.js",
                             "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+                            'js/services/ErrorService.js',
                             'js/controllers/apps/AppEditWizardController.js'
                         ]
                     },
@@ -1011,6 +955,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
                             'js/services/ActionsService.js',
+                            'js/services/ErrorService.js',
                             'js/services/PermissionsService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/apps/AppDirectoryController.js',
@@ -1080,6 +1025,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                     name: 'AgaveToGo',
                     files: [
                         'js/services/ActionsService.js',
+                        'js/services/ErrorService.js',
                         'js/services/PermissionsService.js',
                         'js/controllers/apps/resource/AppsResourceDetailsController.js'
                     ]
@@ -1135,7 +1081,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         "../bower_components/angular-filebrowser/src/js/controllers/selector-controller.js",
                         "../bower_components/angular-filebrowser/src/css/angular-filemanager.css",
                         /********* File Manager ******/
-
+                        'js/services/ErrorService.js',
                         'js/controllers/apps/resource/AppsResourceRunController.js'
                     ]
                   }
