@@ -1,6 +1,6 @@
 angular.module('AgaveToGo').controller('MonitorsManagerDirectoryController',
-  ['$scope', '$state', '$stateParams', '$translate', 'MonitorsController', 'ActionsService', 'ErrorService',
-  function ($scope, $state, $stateParams, $translate, MonitorsController, ActionsService, ErrorService) {
+  ['$scope', '$state', '$stateParams', '$translate', 'MonitorsController', 'ActionsService', 'MessageService',
+  function ($scope, $state, $stateParams, $translate, MonitorsController, ActionsService, MessageService) {
     $scope._COLLECTION_NAME = 'monitors';
     $scope._RESOURCE_NAME = 'monitor';
 
@@ -30,7 +30,7 @@ angular.module('AgaveToGo').controller('MonitorsManagerDirectoryController',
             $scope.requesting = false;
           },
           function(response){
-            ErrorService.handle(response, $translate.instant('error_search_monitors'));
+            MessageService.handle(response, $translate.instant('error_monitors_search'));
             $scope.requesting = false;
           }
       );

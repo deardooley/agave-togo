@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('AppsResourceRunController', function($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, $translate, AppsController, SystemsController, JobsController, NotificationsController, ErrorService) {
+angular.module('AgaveToGo').controller('AppsResourceRunController', function($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, $translate, AppsController, SystemsController, JobsController, NotificationsController, MessageService) {
 
     $scope.formSchema = function(app) {
       var schema = {
@@ -190,7 +190,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                                 }
                             },
                             function(response) {
-                              ErrorService.handle(response, $translate.instant('error_apps_details'));
+                              MessageService.handle(response, $translate.instant('error_apps_details'));
                             }
                         );
                       }
@@ -252,7 +252,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                                 }
                             },
                             function(response) {
-                              ErrorService.handle(response, $translate.instant('error_apps_details'));
+                              MessageService.handle(response, $translate.instant('error_apps_details'));
                             }
                         );
                       }
@@ -297,11 +297,11 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
           )
           .catch(
             function(response){
-              ErrorService.handle(response, $translate.instant('error_apps_details'));
+              MessageService.handle(response, $translate.instant('error_apps_details'));
             }
           );
       } else {
-        ErrorService.handle(response, $translate.instant('error_apps_details'));
+        MessageService.handle(response, $translate.instant('error_apps_details'));
       }
     };
 
@@ -355,7 +355,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                   function(response){
                   },
                   function(response){
-                    ErrorService.handle(response, $translate.instant('error_notifications_add'));
+                    MessageService.handle(response, $translate.instant('error_notifications_add'));
                   }
                 );
               $scope.job = response.result;
@@ -379,7 +379,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
               $scope.requesting = false;
             },
             function(response) {
-              ErrorService.handle(response, $translate.instant('error_jobs_create'));
+              MessageService.handle(response, $translate.instant('error_jobs_create'));
           });
       }
 

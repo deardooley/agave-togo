@@ -1204,7 +1204,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                 }, 0);
             },
             function(response) {
-                ErrorService.handle(response, $translate.instant('error_systems_list'));
+                MessageService.handle(response, $translate.instant('error_systems_list'));
             }
         );
     };
@@ -1219,7 +1219,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                     $scope.model = response.result;
                 },
                 function (response) {
-                  ErrorService.handle(response, $translate.instant('error_apps_details'));
+                  MessageService.handle(response, $translate.instant('error_apps_details'));
                 });
         }
         // check if WizardHandler service has current model
@@ -1260,7 +1260,7 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                 });
               },
               function(response){
-                ErrorService.handle(response, $translate.instant('error_apps_add'));
+                MessageService.handle(response, $translate.instant('error_apps_add'));
               }
             );
         } else {
