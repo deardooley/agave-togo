@@ -151,6 +151,14 @@ AgaveToGo.config(function($locationProvider) {
     });
 });
 
+AgaveToGo.config(function($translateProvider) {
+  $translateProvider.translations('en', {
+    error_search_monitors: 'Error: Could not retrieve monitors'
+  });
+
+  $translateProvider.preferredLanguage('en');
+});
+
 AgaveToGo.constant('angularMomentConfig', {
     timezone: 'America/Chicago' // optional
 });
@@ -706,6 +714,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/services/ErrorService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/monitors/MonitorsManagerDirectoryController.js'
                         ]
@@ -727,6 +736,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/services/ErrorService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/monitors/MonitorsManagerDirectoryController.js'
                         ]

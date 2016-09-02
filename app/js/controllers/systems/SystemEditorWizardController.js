@@ -3952,13 +3952,43 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
         SystemsController.getSystemRole($stateParams.systemId, $localStorage.activeProfile.username)
           .then(function(response){
             if (response.result.role !== "OWNER"){
-              App.alert({type: 'danger',message: 'Missing credentials to edit system'});
+              var message = '';
+              if (response.errorResponse){
+                if (typeof response.errorResponse.message) {
+                  message = 'Error: Could not edit system - ' + response.errorResponse.message
+                } else if (response.errorResponse.fault){
+                  message = 'Error: Could not edit system - ' + response.errorResponse.fault.message;
+                }
+              } else {
+                message = 'Error: Could not edit system';
+              }
+              App.alert(
+                {
+                  type: 'danger',
+                  message: message
+                }
+              );
               $scope.wizview = 'code';
               $scope.edit= false;
             }
           })
           .catch(function(response) {
-            App.alert({type: 'danger',message: 'Missing credentials to edit system'});
+            var message = '';
+            if (response.errorResponse){
+              if (typeof response.errorResponse.message) {
+                message = 'Error: Could not edit system - ' + response.errorResponse.message
+              } else if (response.errorResponse.fault){
+                message = 'Error: Could not edit system - ' + response.errorResponse.fault.message;
+              }
+            } else {
+              message = 'Error: Could not edit system';
+            }
+            App.alert(
+              {
+                type: 'danger',
+                message: message
+              }
+            );
             $scope.wizview = 'code';
             $scope.edit= false;
           });
@@ -3990,8 +4020,22 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
             $scope.model = response;
           })
           .catch(function(response) {
-            var message = (response.errorResponse !== '') ?  "There was an error editing your system:\n" + response.errorResponse.fault.message : message = "There was an error editing your system:\n" + response.errorMessage;
-            App.alert({type: 'danger',message: message});
+            var message = '';
+            if (response.errorResponse){
+              if (typeof response.errorResponse.message) {
+                message = 'Error: Could not edit system - ' + response.errorResponse.message
+              } else if (response.errorResponse.fault){
+                message = 'Error: Could not edit system - ' + response.errorResponse.fault.message;
+              }
+            } else {
+              message = 'Error: Could not edit system';
+            }
+            App.alert(
+              {
+                type: 'danger',
+                message: message
+              }
+            );
             $scope.edit = false;
           });
       } else {
