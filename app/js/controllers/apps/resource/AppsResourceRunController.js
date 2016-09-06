@@ -134,15 +134,17 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
               $scope.form.form = [];
 
               /* inputs */
-              var items = [];
-              if ($scope.form.schema.properties.inputs) {
+              var inputs = [];
+              var parameters = [];
 
-                items.push({
+              if ($scope.form.schema.properties.inputs && Object.keys($scope.form.schema.properties.inputs.properties).length > 0) {
+
+                inputs.push({
                   'key':'inputs',
                   'items': []
                 });
                 angular.forEach($scope.form.schema.properties.inputs.properties, function(input, key){
-                  items[0].items.push(
+                  inputs[0].items.push(
                     {
                       "input": key,
                       "type": "template",
@@ -203,17 +205,17 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                 });
               }
 
-              if ($scope.form.schema.properties.parameters) {
-                items.push({
+              if ($scope.form.schema.properties.parameters && Object.keys($scope.form.schema.properties.parameters.properties).length > 0) {
+                parameters.push({
                   'key': 'parameters',
                   'items': []
                 });
                 angular.forEach($scope.form.schema.properties.parameters.properties, function(input, key){
-                  items[0].items.push(
+                  parameters[0].items.push(
                     {
                       "input": key,
                       "type": "template",
-                      "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <div class="input-group"> <a class="input-group-addon" ng-click="form.selectFile(form.input)">Select</a> <input type="text" class="form-control" id="input" ng-model="form.model.parameters[form.input]"></div> <span class="help-block">{{form.description}}</span> </div>',
+                      "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <input type="text" class="form-control" id="input" ng-model="form.model.parameters[form.input]"> <span class="help-block">{{form.description}}</span> </div>',
                       "title": input.title,
                       "description": input.description,
                       "model": $scope.form.model,
@@ -271,12 +273,22 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                 });
               }
 
-              $scope.form.form.push({
-                type: 'fieldset',
-                title: 'Inputs',
-                items: items,
+              if (inputs.length > 0){
+                $scope.form.form.push({
+                  type: 'fieldset',
+                  title: 'Inputs',
+                  items: inputs,
+                });
+              }
 
-              });
+              if (parameters.length > 0){
+                $scope.form.form.push({
+                  type: 'fieldset',
+                  title: 'Parameters',
+                  items: parameters,
+
+                });
+              }
 
               /* job details */
               $scope.form.form.push({
