@@ -15,6 +15,10 @@ angular.module('AgaveToGo').controller('MonitorsManagerDirectoryController', fun
       $scope.requesting = true;
       $scope[$scope._COLLECTION_NAME] = [];
 
+      if ($stateParams.systemId){
+        $scope.query += 'target=' + $stateParams.systemId;
+      }
+
       MonitorsController.searchMonitors(
         $scope.query
       )

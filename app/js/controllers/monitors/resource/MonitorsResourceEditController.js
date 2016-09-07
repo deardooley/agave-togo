@@ -22,7 +22,7 @@ angular.module('AgaveToGo').controller("MonitorsResourceEditController", functio
 									"id": response.result.id,
 									"target": response.result.target,
 									"active": response.result.active,
-									"interval": response.result.interval,
+									"frequency": response.result.frequency,
 									"updateSystemStatus": response.result.updateSystemStatus
 								};
 
@@ -51,9 +51,7 @@ angular.module('AgaveToGo').controller("MonitorsResourceEditController", functio
 											"frequency": {
 													"type": "integer",
 													"description": "How often the monitor should run in minutes. Minimum 5, default 720 (12 hours)",
-													"title": "Frequency",
-													"default": 720,
-													"minimum": 5
+													"title": "Frequency"
 											},
 											"updateSystemStatus": {
 												"type": "boolean",
