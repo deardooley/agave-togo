@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').service('PermissionsService',['$uibModal', '$rootScope', '$location', '$state', '$timeout', '$q', 'AppsController', 'ProfilesController', function($uibModal, $rootScope, $location, $state, $timeout, $q, AppsController, ProfilesController){
+angular.module('AgaveToGo').service('PermissionsService',['$uibModal', '$rootScope', '$location', '$state', '$timeout', '$q', '$translate', 'AppsController', 'ProfilesController', 'MessageService', function($uibModal, $rootScope, $location, $state, $timeout, $q, $translate, AppsController, ProfilesController, MessageService){
   this.editPermissions = function(resource){
       var modalInstance = $uibModal.open({
         templateUrl: 'tpl/modals/ModalPermissionManager.html',
@@ -179,11 +179,9 @@ angular.module('AgaveToGo').service('PermissionsService',['$uibModal', '$rootSco
                     $scope.requesting = false;
                   },
                   function(response) {
-                      var message = response.errorMessage ?  "Error: " + response.errorMessage : "Error contacting the service"
-                      App.alert({
-                          type: 'danger',
-                          message: message
-                      });
+                      $scope.requesting = false;
+                      $modalInstance.dismiss('cancel');
+                      MessageService.handle(response, $translate.instant('error_apps_permissions'));
                   });
             };
 
@@ -213,16 +211,12 @@ angular.module('AgaveToGo').service('PermissionsService',['$uibModal', '$rootSco
 
               $q.all(promises).then(
                 function(response) {
-                    App.alert({message: "Successfully updated user permissions for " + resource.id});
+                    App.alert({message: $translate.instant('success_apps_permissions_update') + resource.id});
                     $scope.requesting = false;
                     $modalInstance.close();
                 },
                 function(response) {
-                    var message = 'Error: Could not update permissions'
-                    App.alert({
-                        type: 'danger',
-                        message: message
-                    });
+                    App.alert({message: $translate.instant('error_apps_permissions_update')});
                     $scope.requesting = false;
                     $modalInstance.close();
                 });

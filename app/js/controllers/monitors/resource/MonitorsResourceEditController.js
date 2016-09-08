@@ -160,7 +160,7 @@ angular.module('AgaveToGo').controller("MonitorsResourceEditController", functio
 					function(response){
 						$scope.requesting = false;
 						$scope.monitorCheck = response.result;
-						App.alert({message: $translate.instant('success_monitors_test_succes') + $scope.monitorId});
+						App.alert({message: $translate.instant('success_monitors_test') + $scope.monitorId});
 					},
 					function(response){
 						$scope.requesting = false;

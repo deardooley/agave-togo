@@ -153,29 +153,56 @@ AgaveToGo.config(function($locationProvider) {
 
 AgaveToGo.config(function($translateProvider) {
   $translateProvider.translations('en', {
-    error_apps_details: 'Error: Could not retrieve app',
     error_apps_add: 'Error: Could not submit app',
+    error_apps_details: 'Error: Could not retrieve app',
     error_apps_edit: 'Error: Could not edit app',
     error_apps_edit_permission: 'Error: User does not have permission to edit app',
     error_apps_form: 'Error: Invalid form. Please check all fields',
+    error_apps_permissions: 'Error: Could not retreive app permissions',
+    error_apps_permissions_update: 'Error: Could not update app permissions',
     error_apps_search: 'Error: Could not retrieve apps',
+
     error_files_list: 'Error: Could not list files for the given system and path',
-    error_monitors_add: 'Error: Could not add monitor',
-    error_monitors_update: 'Error: Could not update monitor',
 
-    error_monitors_list: 'Error: Could not retrieve monitor',
-    error_monitors_search: 'Error: Could not retrieve monitors',
-    error_monitors_test: 'Error: Could not test monitor',
-
-    error_notifications_add: 'Error: Could not add notification',
     error_jobs_create: 'Error: Could not submit job',
     error_jobs_details: 'Error: Could not retrieve job',
     error_jobs_list: 'Error: Could not retrieve jobs',
-    error_systems_list: 'Error: Could not retrieve systems',
-    error_systems_default: 'Error: Could not set default system',
 
+    error_monitors_add: 'Error: Could not add monitor',
+    error_monitors_list: 'Error: Could not retrieve monitor',
+    error_monitors_search: 'Error: Could not retrieve monitors',
+    error_monitors_test: 'Error: Could not test monitor',
+    error_monitors_update: 'Error: Could not update monitor',
+
+    error_notifications_add: 'Error: Could not add notification',
+    error_notifications_alerts: 'Error: Could not retrieve notification alerts',
+    error_notifications_list: 'Error: Could not retrieve notification',
+    error_notifications_search: 'Error: Could not retrieve notifications',
+    error_notifications_test: 'Error: Could not test notification',
+    error_notifications_update: 'Error: Could not update notification',
+
+    error_profiles_list: 'Error: Could not retrieve profile',
+
+    error_systems_add: 'Error: Could not create system',
+    error_systems_default: 'Error: Could not set default system',
+    error_systems_edit: 'Error: Could not edit system',
+    error_systems_edit_permission: 'Error: User does not have permission to edit system',
+    error_systems_form: 'Error: Invalid form. Please check all fields',
+    error_systems_list: 'Error: Could not retrieve system',
+    error_systems_roles: 'Error: Could not retrieve roles',
+    error_systems_roles_update: 'Error: Could not update roles',
+    error_systems_search: 'Error: Could not retrieve systems',
+
+    success_apps_permissions_update: 'Success: updated permissions for ',
+
+    success_monitors_test: 'Success: fired monitor ',
     success_monitors_update: 'Success: updated ',
-    success_monitors_test_succes: 'Success: fired monitor ',
+
+    success_notifications_add: 'Success: added ',
+    success_notifications_test: 'Success: fired notification ',
+    success_notifications_update: 'Success: updated ',
+
+    success_systems_roles: 'Success: updated roles for '
   });
 
   $translateProvider.preferredLanguage('en');
@@ -581,6 +608,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                       name: 'AgaveToGo',
                       files: [
                           'js/services/ActionsService.js',
+                          'js/services/MessageService.js',
                           'js/controllers/notifications/resource/NotificationsResourceAddController.js'
                       ]
                     }
@@ -605,6 +633,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                       name: 'AgaveToGo',
                       files: [
                           'js/services/ActionsService.js',
+                          'js/services/MessageService.js',
                           'js/controllers/notifications/resource/NotificationsResourceAddController.js'
                       ]
                     }
@@ -1252,6 +1281,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
                             '../assets/pages/scripts/profile.min.js',
                             '../bower_components/faker/build/build/faker.min.js',
+
+                            'js/services/MessageService.js',
                             'js/controllers/profiles/UserProfileController.js'
                         ]
                     });
@@ -1308,6 +1339,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             '../assets/global/scripts/datatable.js',
                             '../bower_components/holderjs/holder.js',
                             'js/services/ActionsService.js',
+                            'js/services/MessageService.js',
                             'js/services/RolesService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/systems/SystemDirectoryController.js'
@@ -1350,6 +1382,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                                 "../bower_components/codemirror/theme/neo.css",
                                 "../bower_components/codemirror/lib/codemirror.js",
                                 "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+
+                                "js/services/MessageService.js",
                                 "js/controllers/systems/SystemBuilderWizardController.js"
                             ]
                         },
@@ -1393,6 +1427,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                                 "../bower_components/codemirror/theme/neo.css",
                                 "../bower_components/codemirror/lib/codemirror.js",
                                 "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+
+                                "js/services/MessageService.js",
                                 "js/controllers/systems/SystemEditorWizardController.js"
                             ]
                         },
@@ -1434,6 +1470,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                     name: 'AgaveToGo',
                     files: [
                         'js/services/ActionsService.js',
+                        'js/services/MessageService.js',
                         'js/services/RolesService.js',
                         'js/controllers/systems/resource/SystemsResourceDetailsController.js'
                     ]
@@ -1453,6 +1490,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                   {
                     name: 'AgaveToGo',
                     files: [
+                        'js/services/MessageService.js',
                         'js/controllers/systems/resource/SystemsResourceQueuesController.js'
                     ]
                   }
@@ -1471,6 +1509,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                   {
                     name: 'AgaveToGo',
                     files: [
+                        'js/services/MessageService.js',
                         'js/controllers/systems/resource/SystemsResourceAppsController.js'
                     ]
                   }
@@ -1489,6 +1528,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                   {
                     name: 'AgaveToGo',
                     files: [
+                        'js/services/MessageService.js',
                         'js/controllers/systems/resource/SystemsResourceStatsController.js'
                     ]
                   }

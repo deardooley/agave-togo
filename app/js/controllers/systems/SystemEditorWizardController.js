@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('SystemEditorWizardController', function($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $filter, $uibModal, $localStorage, $location, Commons, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController) {
+angular.module('AgaveToGo').controller('SystemEditorWizardController', function($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $filter, $uibModal, $localStorage, $location, $translate, Commons, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController, MessageService) {
 
       $scope.getSystemsTitleMap = function(){
         $scope.systemsTitleMap = [];
@@ -3952,20 +3952,10 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
         SystemsController.getSystemRole($stateParams.systemId, $localStorage.activeProfile.username)
           .then(function(response){
             if (response.result.role !== "OWNER"){
-              var message = '';
-              if (response.errorResponse){
-                if (typeof response.errorResponse.message) {
-                  message = 'Error: Could not edit system - ' + response.errorResponse.message
-                } else if (response.errorResponse.fault){
-                  message = 'Error: Could not edit system - ' + response.errorResponse.fault.message;
-                }
-              } else {
-                message = 'Error: Could not edit system';
-              }
               App.alert(
                 {
                   type: 'danger',
-                  message: message
+                  message: $translate.instant('error_systems_edit_permission')
                 }
               );
               $scope.wizview = 'code';
@@ -3973,20 +3963,10 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
             }
           })
           .catch(function(response) {
-            var message = '';
-            if (response.errorResponse){
-              if (typeof response.errorResponse.message) {
-                message = 'Error: Could not edit system - ' + response.errorResponse.message
-              } else if (response.errorResponse.fault){
-                message = 'Error: Could not edit system - ' + response.errorResponse.fault.message;
-              }
-            } else {
-              message = 'Error: Could not edit system';
-            }
             App.alert(
               {
                 type: 'danger',
-                message: message
+                message: $translate.instant('error_systems_edit_permission')
               }
             );
             $scope.wizview = 'code';
@@ -4020,26 +4000,11 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
             $scope.model = response;
           })
           .catch(function(response) {
-            var message = '';
-            if (response.errorResponse){
-              if (typeof response.errorResponse.message) {
-                message = 'Error: Could not edit system - ' + response.errorResponse.message
-              } else if (response.errorResponse.fault){
-                message = 'Error: Could not edit system - ' + response.errorResponse.fault.message;
-              }
-            } else {
-              message = 'Error: Could not edit system';
-            }
-            App.alert(
-              {
-                type: 'danger',
-                message: message
-              }
-            );
+            MessageService.handle(response, $translate.instant('error_systems_edit'));
             $scope.edit = false;
           });
       } else {
-        App.alert({type: 'danger',message: 'There was an error editing your system: Missing credentials'});
+        App.alert({type: 'danger',message: $translate.instant('error_systems_edit_permissions')});
         $scope.wizview = null;
         $scope.edit = false;
       }
@@ -4094,23 +4059,9 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
                     });
                 },
                 function (response) {
-                    var message = '';
-                    if (response.errorResponse){
-                      if (typeof response.errorResponse.message) {
-                        message = 'Error: Could not edit system - ' + response.errorResponse.message
-                      } else if (response.errorResponse.fault){
-                        message = 'Error: Could not edit system - ' + response.errorResponse.fault.message;
-                      }
-                    } else {
-                      message = 'Error: Could not edit system';
-                    }
-                    App.alert(
-                      {
-                        type: 'danger',
-                        message: message
-                      }
-                    );
-              });
+                  MessageService.handle(response, $translate.instant('error_systems_edit'));
+                }
+              );
           }
           if ($scope.model.type === "EXECUTION"){
             SystemsController.updateSystem(JSON.stringify($scope.model), $stateParams.systemId)
@@ -4132,28 +4083,14 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
                   });
                 },
                 function (response) {
-                  var message = '';
-                  if (response.errorResponse){
-                    if (typeof response.errorResponse.message) {
-                      message = 'Error: Could not edit system - ' + response.errorResponse.message
-                    } else if (response.errorResponse.fault){
-                      message = 'Error: Could not edit system - ' + response.errorResponse.fault.message;
-                    }
-                  } else {
-                    message = 'Error: Could not edit system';
-                  }
-                  App.alert(
-                    {
-                      type: 'danger',
-                      message: message
-                    }
-                  );
-              });
+                  MessageService.handle(response, $translate.instant('error_systems_edit'));
+                }
+              );
           }
         } else {
           App.alert({
               type: 'danger',
-              message: "There was an error editing your system: Form is not valid. Please verify all fields."
+              message: $translate.instant('error_systems_form')
           });
         }
 
