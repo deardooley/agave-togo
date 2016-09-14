@@ -771,6 +771,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/services/MessageService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/monitors/MonitorsManagerDirectoryController.js'
                         ]
