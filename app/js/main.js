@@ -954,6 +954,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             "../bower_components/codemirror/theme/neo.css",
                             "../bower_components/codemirror/lib/codemirror.js",
                             "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+
                             'js/services/MessageService.js',
                             'js/controllers/apps/AppEditWizardController.js'
                         ]
@@ -980,6 +981,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             "../bower_components/codemirror/theme/neo.css",
                             "../bower_components/codemirror/lib/codemirror.js",
                             "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+
+                            'js/services/MessageService.js',
                             'js/controllers/apps/AppBuilderWizardController.js'
                         ]
                     },
