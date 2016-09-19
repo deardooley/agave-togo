@@ -27,7 +27,7 @@ var AgaveToGo = angular.module("AgaveToGo", [
   'ui.select'
 ]).service('NotificationsService',['$rootScope', '$localStorage', 'MetaController', 'toastr', function($rootScope, $localStorage, MetaController, toastr){
     if (typeof $localStorage.tenant !== 'undefined' && typeof $localStorage.activeProfile !== 'undefined') {
-      this.client = new Fpp.Client('http://48e3f6fe.fanoutcdn.com/fpp');
+      this.client = new Fpp.Client('https://48e3f6fe.fanoutcdn.com/fpp');
       this.channel = this.client.Channel($localStorage.tenant.code + '/' + $localStorage.activeProfile.username);
       this.channel.on('data', function (data) {
         var toastData = {};
