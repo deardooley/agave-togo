@@ -174,6 +174,9 @@ AgaveToGo.config(function($translateProvider) {
     error_monitors_test: 'Error: Could not test monitor',
     error_monitors_update: 'Error: Could not update monitor',
 
+    error_monitors_checks_id: 'Error: Please provide a monitor id',
+    error_monitors_checks_search: 'Error: could not retrieve monitor checks',
+
     error_notifications_add: 'Error: Could not add notification',
     error_notifications_alerts: 'Error: Could not retrieve notification alerts',
     error_notifications_list: 'Error: Could not retrieve notification',
@@ -817,6 +820,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                       name: 'AgaveToGo',
                       files: [
                           'js/services/ActionsService.js',
+                          'js/services/MessageService.js',
                           'js/controllers/monitors/resource/MonitorsResourceAddController.js'
                       ]
                     }
@@ -840,6 +844,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                       name: 'AgaveToGo',
                       files: [
                           'js/services/ActionsService.js',
+                          'js/services/MessageService.js',
                           'js/controllers/monitors/resource/MonitorsResourceAddController.js'
                       ]
                     }
@@ -861,6 +866,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/services/MessageService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/monitors/MonitorsChecksDirectoryController.js'
                         ]
@@ -882,6 +888,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/services/MessageService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/monitors/MonitorsChecksDirectoryController.js'
                         ]
