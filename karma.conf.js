@@ -152,7 +152,10 @@ module.exports = function(config){
       {pattern: 'app/js/controllers/monitors/resource/MonitorsResourceAddController.js', watched: true, included: true, served: true},
       {pattern: 'app/js/controllers/monitors/resource/MonitorsResourceEditController.js', watched: true, included: true, served: true},
 
-      {pattern: 'app/js/controllers/TestController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/systems/SystemDirectoryController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/systems/resource/SystemsResourceAppsController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/systems/resource/SystemsResourceDetailsController.js', watched: true, included: true, served: true},
+
 
       {pattern: 'app/js/tests/Configuration.js', watched: true, included: true, served: true},
       {pattern: 'app/js/tests/ngMockHttp.js', watched: true, included: true, served: true},
@@ -163,7 +166,12 @@ module.exports = function(config){
       {pattern: 'app/js/tests/controllers/monitors/MonitorsManagerDirectoryController.js', watched: true, included: true, served: true},
       {pattern: 'app/js/tests/controllers/monitors/resource/MonitorsResourceDetailsController.js', watched: true, included: true, served: true},
       {pattern: 'app/js/tests/controllers/monitors/resource/MonitorsResourceAddController.js', watched: true, included: true, served: true},
-      {pattern: 'app/js/tests/controllers/monitors/resource/MonitorsResourceEditController.js', watched: true, included: true, served: true}
+      {pattern: 'app/js/tests/controllers/monitors/resource/MonitorsResourceEditController.js', watched: true, included: true, served: true},
+
+
+      {pattern: 'app/js/tests/controllers/systems/SystemsDirectoryController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/tests/controllers/systems/resource/SystemsResourceAppsController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/tests/controllers/systems/resource/SystemsResourceDetailsController.js', watched: true, included: true, served: true}
     ],
 
     proxies: {

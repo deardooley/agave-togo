@@ -1,7 +1,4 @@
 angular.module('AgaveToGo').controller('SystemsResourceDetailsController', function($scope, $stateParams, $translate, SystemsController, ActionsService, RolesService, MessageService) {
-
-  $scope.$parent.error = false;
-
   $scope.system = null;
 
   $scope.getSystem = function(){
@@ -16,7 +13,6 @@ angular.module('AgaveToGo').controller('SystemsResourceDetailsController', funct
           }
         );
     } else {
-      $scope.$parent.error = true;
       App.alert({type: 'danger',message: $translate.instant('error_systems_list')});
     }
   }
