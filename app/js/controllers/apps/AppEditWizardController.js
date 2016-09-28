@@ -547,7 +547,7 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
                         onChange: function (modelValue, form) {
                             SystemsController.getSystemDetails(modelValue).then(
                                 function(response) {
-                                    $scope.systems.execution[modelValue].queues = response.queues;
+                                    $scope.systems.execution[modelValue].queues = response.result.queues;
                                     $scope.form[0].tabs[2].items[2].titleMap = [
                                         { value: '', name: 'Select queue'}
                                     ];

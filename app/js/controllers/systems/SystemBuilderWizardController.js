@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('SystemBuilderWizardController', function($injector, $timeout, $rootScope, $scope, $state, $stateParams, $q, $filter, $uibModal, $localStorage, $location, $translate, Commons, WizardHandler, SystemsController, SystemTypeEnum, Tags, FilesController, MessageService) {
+angular.module('AgaveToGo').controller('SystemBuilderWizardController', function($timeout, $rootScope, $scope, $state, $stateParams, $uibModal, $localStorage, $location, $translate, WizardHandler, SystemsController, FilesController, MessageService) {
 
     $scope.getSystemsTitleMap = function(){
         $scope.systemsTitleMap = [];

@@ -2,14 +2,17 @@ angular.module('AgaveToGo').controller('SystemsResourceDetailsController', funct
   $scope.system = null;
 
   $scope.getSystem = function(){
+    $scope.requesting = true;
     if ($stateParams.systemId !== ''){
       SystemsController.getSystemDetails($stateParams.systemId)
         .then(
           function(response){
-            $scope.system = response;
+            $scope.system = response.result;
+            $scope.requesting = false;
           },
           function(response){
             MessageService.handle(response, $translate.instant('error_systems_list'));
+            $scope.requesting = false;
           }
         );
     } else {

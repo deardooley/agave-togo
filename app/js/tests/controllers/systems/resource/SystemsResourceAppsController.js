@@ -62,9 +62,9 @@ describe('SystemsResourceAppsController', function() {
     });
 
     it('$scope.refresh - AppsController.listApp mock', inject(function($rootScope, $controller,  $injector, $state, $stateParams, $q, $translate, SystemsController, RolesService, ActionsService, MessageService) {
-      systemId = 'docker.tacc.utexas.edu'
-      limit = 99999
-      offset = 0
+      systemId = 'docker.tacc.utexas.edu';
+      limit = 99999;
+      offset = 0;
       var listApps = function(limit, $offset, { 'executionapps[0].like': systemId }) {
        return {
          then: function(callback) {

@@ -1520,7 +1520,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
 
                                 } else {
                                   SystemsController.getSystemDetails(systemId).then(
-                                      function(sys) {
+                                      function(response) {
                                           if ($stateParams.path) {
                                               $scope.path = $stateParams.path;
                                           } else {
@@ -1528,7 +1528,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
                                               $stateParams.path = $scope.path;
                                               // $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
                                           }
-                                          $scope.system = sys;
+                                          $scope.system = response.result;
                                           $rootScope.uploadFileContent = '';
                                           $uibModal.open({
                                             templateUrl: "views/systems/filemanager.html",
@@ -1693,7 +1693,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
 
                                  } else {
                                    SystemsController.getSystemDetails(systemId).then(
-                                       function(sys) {
+                                       function(response) {
                                            if ($stateParams.path) {
                                                $scope.path = $stateParams.path;
                                            } else {
@@ -1701,7 +1701,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
                                                $stateParams.path = $scope.path;
                                                // $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
                                            }
-                                           $scope.system = sys;
+                                           $scope.system = response.result;
                                            $rootScope.uploadFileContent = '';
                                            $uibModal.open({
                                              templateUrl: "views/systems/filemanager.html",
@@ -1830,7 +1830,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
 
                                 } else {
                                   SystemsController.getSystemDetails(systemId).then(
-                                      function(sys) {
+                                      function(response) {
                                           if ($stateParams.path) {
                                               $scope.path = $stateParams.path;
                                           } else {
@@ -1838,7 +1838,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
                                               $stateParams.path = $scope.path;
                                               // $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
                                           }
-                                          $scope.system = sys;
+                                          $scope.system = response.result;
                                           $rootScope.uploadFileContent = '';
                                           $uibModal.open({
                                             templateUrl: "views/systems/filemanager.html",
@@ -2996,7 +2996,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
 
                                   } else {
                                     SystemsController.getSystemDetails(systemId).then(
-                                        function(sys) {
+                                        function(response) {
                                             if ($stateParams.path) {
                                                 $scope.path = $stateParams.path;
                                             } else {
@@ -3004,7 +3004,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
                                                 $stateParams.path = $scope.path;
                                                 // $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
                                             }
-                                            $scope.system = sys;
+                                            $scope.system = response.result;
                                             $rootScope.uploadFileContent = '';
                                             $uibModal.open({
                                               templateUrl: "views/systems/filemanager.html",
@@ -3131,7 +3131,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
 
                                  } else {
                                    SystemsController.getSystemDetails(systemId).then(
-                                       function(sys) {
+                                       function(response) {
                                            if ($stateParams.path) {
                                                $scope.path = $stateParams.path;
                                            } else {
@@ -3139,7 +3139,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
                                                $stateParams.path = $scope.path;
                                                // $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
                                            }
-                                           $scope.system = sys;
+                                           $scope.system = response.result;
                                            $rootScope.uploadFileContent = '';
                                            $uibModal.open({
                                              templateUrl: "views/systems/filemanager.html",
@@ -3269,7 +3269,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
 
                                   } else {
                                     SystemsController.getSystemDetails(systemId).then(
-                                        function(sys) {
+                                        function(response) {
                                             if ($stateParams.path) {
                                                 $scope.path = $stateParams.path;
                                             } else {
@@ -3277,7 +3277,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
                                                 $stateParams.path = $scope.path;
                                                 // $location.path("/data/explorer/" + $stateParams.systemId + "/" + $scope.path);
                                             }
-                                            $scope.system = sys;
+                                            $scope.system = response.result;
                                             $rootScope.uploadFileContent = '';
                                             $uibModal.open({
                                               templateUrl: "views/systems/filemanager.html",
@@ -3976,20 +3976,20 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
         SystemsController.getSystemDetails($stateParams.systemId)
           .then(function(response){
             // Clean unwanted attributes for model
-            if (response.lastModified){
-              delete response.lastModified
+            if (response.result.lastModified){
+              delete response.result.lastModified
             }
-            if (response.revision){
-              delete response.revision;
+            if (response.result.revision){
+              delete response.result.revision;
             }
-            if (response.uuid){
-              delete response.uuid;
+            if (response.result.uuid){
+              delete response.result.uuid;
             }
-            if (response.getContext){
-              delete response.getContext;
+            if (response.result.getContext){
+              delete response.result.getContext;
             }
-            if (response._links){
-              delete response._links;
+            if (response.result._links){
+              delete response.result._links;
             }
             // if (response.login){
             //   delete response.login;
@@ -3997,7 +3997,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
             // if (response.storage){
             //   delete response.storage;
             // }
-            $scope.model = response;
+            $scope.model = response.result;
           })
           .catch(function(response) {
             MessageService.handle(response, $translate.instant('error_systems_edit'));

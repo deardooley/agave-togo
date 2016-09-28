@@ -8,11 +8,11 @@ angular.module('AgaveToGo').controller('FileExplorerController', function($rootS
 
     if ($stateParams.systemId) {
         SystemsController.getSystemDetails($stateParams.systemId)
-          .then(function(system) {
-                $scope.system = system;
+          .then(function(response) {
+                $scope.system = response.result;
                 if (typeof $stateParams.path === 'undefined' || $stateParams.path === "" || $stateParams.path === "/") {
                     // check if username path is browsable
-                    FilesController.listFileItems(system.id, $localStorage.activeProfile.username, 1, 0)
+                    FilesController.listFileItems(response.result.id, $localStorage.activeProfile.username, 1, 0)
                       .then(function(rootFiles){
                         $scope.path = $localStorage.activeProfile.username;
                         $stateParams.path = $scope.path;
@@ -23,7 +23,7 @@ angular.module('AgaveToGo').controller('FileExplorerController', function($rootS
                       })
                       .catch(function(rootFiles){
                         // check if / is browsable
-                        FilesController.listFileItems(system.id, '/', 1, 0)
+                        FilesController.listFileItems(response.result.id, '/', 1, 0)
                             .then(function(usernameFiles){
                               $scope.path = '/';
                               $stateParams.path = $scope.path;

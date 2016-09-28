@@ -154,13 +154,13 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                       "model": $scope.form.model,
                       selectFile: function(key){
                         SystemsController.getSystemDetails($scope.app.deploymentSystem).then(
-                            function(sys) {
+                            function(response) {
                                 // check if modal already opened
                                 if (!$modalStack.getTop()){
                                   $scope.path = $localStorage.activeProfile.username;
                                   $stateParams.path = $scope.path;
 
-                                  $scope.system = sys;
+                                  $scope.system = response.result;
                                   $rootScope.uploadFileContent = '';
                                   $uibModal.open({
                                     templateUrl: "views/apps/filemanager.html",
@@ -215,12 +215,12 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                       "model": $scope.form.model,
                       selectFile: function(key){
                         SystemsController.getSystemDetails($scope.app.deploymentSystem).then(
-                            function(sys) {
+                            function(response) {
                                 if (!$modalStack.getTop()){
                                   $scope.path = $localStorage.activeProfile.username;
                                   $stateParams.path = $scope.path;
 
-                                  $scope.system = sys;
+                                  $scope.system = response.result;
                                   $rootScope.uploadFileContent = '';
                                   $uibModal.open({
                                     templateUrl: "views/apps/filemanager.html",
