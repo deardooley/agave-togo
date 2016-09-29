@@ -33,7 +33,7 @@ describe('MonitorsResourceAddController', function() {
     it('$scope.init() - SystemsController.listSystems real https', function(done) {
       SystemsController.listSystems(99999)
           .then(function(response) {
-              systems = response;
+              systems = response.result;
               expect(systems).not.toEqual(undefined);
               if (systems.length > 0){
                   expect(systems[0].id).toBeDefined();

@@ -1,4 +1,4 @@
-describe('SystemBuilderWizardController', function() {
+describe('SystemEditorWizardController', function() {
     var tester, injector, $timeout, $rootScope, $scope, $state, $stateParams, $uibModal, $localStorage, $location, $translate, WizardHandler, SystemsController, FilesController, MessageService;
 
     beforeEach(function(){
@@ -91,7 +91,7 @@ describe('SystemBuilderWizardController', function() {
       var scope = $rootScope.$new();
       spyOn(SystemsController, 'listSystems').and.callFake(listSystems);
 
-      var SystemBuilderWizardController = $controller('SystemBuilderWizardController', {
+      var SystemEditorWizardController = $controller('SystemEditorWizardController', {
         $scope: scope,
         $rootScope: $rootScope,
         $timeout: $timeout,

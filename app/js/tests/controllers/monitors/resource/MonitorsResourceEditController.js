@@ -30,10 +30,10 @@ describe('MonitorsResourceEditController', function() {
       tester = null;
     });
 
-    it('$scope.init() - SystemsController.listSystems real https', function(done) {
+    it('SystemsController.listSystems real https', function(done) {
       SystemsController.listSystems(99999)
           .then(function(response) {
-              systems = response;
+              systems = response.result;
               expect(systems).not.toEqual(undefined);
               if (systems.length > 0){
                   expect(systems[0].id).toBeDefined();
@@ -62,7 +62,7 @@ describe('MonitorsResourceEditController', function() {
           });
     });
 
-    it('$scope.init() - SystemsController.listSystems mock', inject(function($rootScope, $controller, $stateParams, $translate, MonitorsController, SystemsController, ActionsService, MessageService) {
+    it('SystemsController.listSystems mock', inject(function($rootScope, $controller, $stateParams, $translate, MonitorsController, SystemsController, ActionsService, MessageService) {
       var listSystems = function(limit) {
        return {
          then: function(callback) {
@@ -84,8 +84,26 @@ describe('MonitorsResourceEditController', function() {
              }
           ]});
          }
+       }
       };
-      };
+
+      spyOn(SystemsController, 'listSystems').and.callFake(listSystems);
+      var scope = $rootScope.$new();
+      $stateParams.monitorId = '7619208969218888166-242ac11e-0001-014';
+
+      var MonitorsResourceEditController = $controller('MonitorsResourceEditController', {
+        $scope: scope,
+        $rootScope: $rootScope,
+        $stateParams: $stateParams,
+        $translate: $translate,
+        MonitorsController: MonitorsController,
+        SystemsController: SystemsController,
+        ActionsService: ActionsService,
+        MessageService: MessageService,
+      });
+
+      expect(scope.systemsTitleMap).toBeDefined();
+
     }));
 
 

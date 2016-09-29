@@ -1182,8 +1182,8 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
 
     $scope.fetchUserSystems = function(query) {
         SystemsController.listSystems(null, null).then(
-            function(systems) {
-                angular.forEach(systems, function (system, key) {
+            function(response) {
+                angular.forEach(response.result, function (system, key) {
                     if (system.type === SystemTypeEnum.STORAGE.toString()) {
                         $scope.systems.storage[system.id] = system;
                         $scope.form[0].tabs[1].items[1].titleMap.push({ value: system.id, name: system.id });

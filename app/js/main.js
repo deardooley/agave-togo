@@ -90,29 +90,6 @@ AgaveToGo.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
         debug: true,
         modules: [
-        //   {
-        //     name: 'FileManagerApp',
-        //     files: [
-        //         "../bower_components/angular-cookies/angular-cookies.min.js",
-        //         "../bower_components/angular-filebrowser/src/js/providers/config.js",
-        //         "../bower_components/angular-filebrowser/src/js/directives/directives.js",
-        //         "../bower_components/angular-filebrowser/src/js/filters/filters.js",
-        //         "../bower_components/angular-filebrowser/src/js/entities/acl.js",
-        //         "../bower_components/angular-filebrowser/src/js/entities/chmod.js",
-        //         "../bower_components/angular-filebrowser/src/js/entities/fileitem.js",
-        //         "../bower_components/angular-filebrowser/src/js/entities/item.js",
-        //         "../bower_components/angular-filebrowser/src/js/services/filenavigator.js",
-        //         "../bower_components/angular-filebrowser/src/js/services/fileuploader.js",
-        //         "../bower_components/angular-filebrowser/src/js/providers/translations.js",
-        //         "../bower_components/angular-filebrowser/src/js/app.js",
-        //         "../bower_components/angular-filebrowser/src/js/controllers/main.js",
-        //         "../bower_components/angular-filebrowser/src/js/controllers/selector-controller.js",
-        //         "../bower_components/angular-filebrowser/src/css/angular-filemanager.css",
-        //         //"../bower_components/angular-filebrowser/src/css/animations.css",
-        //         //"../bower_components/angular-filebrowser/src/css/dialogs.css",
-        //         //"../bower_components/angular-filebrowser/src/css/main.css",
-        //     ]
-        // },
         {
             name: "ui.codemirror",
             files: [
@@ -1121,23 +1098,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                     serie: true,
                     name: 'AgaveToGo',
                     files: [
-                        /********* File Manager ******/
-                        "../bower_components/angular-filebrowser/src/js/app.js",
-                        "../bower_components/angular-cookies/angular-cookies.min.js",
-                        "../bower_components/angular-filebrowser/src/js/providers/config.js",
-                        "../bower_components/angular-filebrowser/src/js/directives/directives.js",
-                        "../bower_components/angular-filebrowser/src/js/filters/filters.js",
-                        "../bower_components/angular-filebrowser/src/js/entities/acl.js",
-                        "../bower_components/angular-filebrowser/src/js/entities/chmod.js",
-                        "../bower_components/angular-filebrowser/src/js/entities/fileitem.js",
-                        "../bower_components/angular-filebrowser/src/js/entities/item.js",
-                        "../bower_components/angular-filebrowser/src/js/services/filenavigator.js",
-                        "../bower_components/angular-filebrowser/src/js/services/fileuploader.js",
-                        "../bower_components/angular-filebrowser/src/js/providers/translations.js",
-                        "../bower_components/angular-filebrowser/src/js/controllers/main.js",
-                        "../bower_components/angular-filebrowser/src/js/controllers/selector-controller.js",
-                        "../bower_components/angular-filebrowser/src/css/angular-filemanager.css",
-                        /********* File Manager ******/
                         'js/services/MessageService.js',
                         'js/controllers/apps/resource/AppsResourceRunController.js'
                     ]
@@ -1146,9 +1106,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
               }]
           }
         })
-
-
-
 
 
         /**********************************************************************/
@@ -1173,35 +1130,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             name: 'AgaveToGo',
                             insertBefore: '#ng_load_plugins_before',
                             files: [
-                                /********* File Manager ******/
-                                "../bower_components/angular-filebrowser/src/js/app.js",
-                                "../bower_components/angular-cookies/angular-cookies.min.js",
-                                "../bower_components/angular-filebrowser/src/js/providers/config.js",
-                                "../bower_components/angular-filebrowser/src/js/directives/directives.js",
-                                "../bower_components/angular-filebrowser/src/js/filters/filters.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/acl.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/chmod.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/fileitem.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/item.js",
-                                "../bower_components/angular-filebrowser/src/js/services/filenavigator.js",
-                                "../bower_components/angular-filebrowser/src/js/services/fileuploader.js",
-                                "../bower_components/angular-filebrowser/src/js/providers/translations.js",
-                                "../bower_components/angular-filebrowser/src/js/controllers/main.js",
-                                "../bower_components/angular-filebrowser/src/js/controllers/selector-controller.js",
-                                "../bower_components/angular-filebrowser/src/css/angular-filemanager.css",
-                                /********* File Manager ******/
-
-                                "../bower_components/codemirror/lib/codemirror.css",
-                                "../bower_components/codemirror/theme/neo.css",
-                                "../bower_components/codemirror/theme/solarized.css",
-                                //"../bower_components/codemirror/lib/codemirror.js",
-                                "../bower_components/codemirror/mode/javascript/javascript.js",
-                                "../bower_components/codemirror/mode/markdown/markdown.js",
-                                "../bower_components/codemirror/mode/clike/clike.js",
-                                "../bower_components/codemirror/mode/shell/shell.js",
-                                "../bower_components/codemirror/mode/python/python.js",
-                                "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
-
                                 "js/services/MessageService.js",
                                 "js/controllers/data/FileExplorerController.js"
                             ]
@@ -1226,34 +1154,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             insertBefore: '#ng_load_plugins_before',
                             files: [
                                 /********* File Manager ******/
-                                "../bower_components/angular-filebrowser/src/js/app.js",
-                                "../bower_components/angular-cookies/angular-cookies.min.js",
-                                "../bower_components/angular-filebrowser/src/js/providers/config.js",
-                                "../bower_components/angular-filebrowser/src/js/directives/directives.js",
-                                "../bower_components/angular-filebrowser/src/js/filters/filters.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/acl.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/chmod.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/fileitem.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/item.js",
-                                "../bower_components/angular-filebrowser/src/js/services/filenavigator.js",
-                                "../bower_components/angular-filebrowser/src/js/services/fileuploader.js",
-                                "../bower_components/angular-filebrowser/src/js/providers/translations.js",
-                                "../bower_components/angular-filebrowser/src/js/controllers/main.js",
-                                "../bower_components/angular-filebrowser/src/js/controllers/selector-controller.js",
-                                "../bower_components/angular-filebrowser/src/css/angular-filemanager.css",
-                                /********* File Manager ******/
-
-                                "../bower_components/codemirror/lib/codemirror.css",
-                                "../bower_components/codemirror/theme/neo.css",
-                                "../bower_components/codemirror/theme/solarized.css",
-                                //"../bower_components/codemirror/lib/codemirror.js",
-                                "../bower_components/codemirror/mode/javascript/javascript.js",
-                                "../bower_components/codemirror/mode/markdown/markdown.js",
-                                "../bower_components/codemirror/mode/clike/clike.js",
-                                "../bower_components/codemirror/mode/shell/shell.js",
-                                "../bower_components/codemirror/mode/python/python.js",
-                                "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
-
                                 "js/services/MessageService.js",
                                 "js/controllers/data/FileExplorerController.js"
                             ]
@@ -1372,30 +1272,19 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             name: 'AgaveToGo',
                             insertBefore: '#ng_load_plugins_before',
                             files: [
-                                /********* File Manager ******/
-                                "../bower_components/angular-cookies/angular-cookies.min.js",
-                                "../bower_components/angular-filebrowser/src/js/providers/config.js",
-                                "../bower_components/angular-filebrowser/src/js/directives/directives.js",
-                                "../bower_components/angular-filebrowser/src/js/filters/filters.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/acl.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/chmod.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/fileitem.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/item.js",
-                                "../bower_components/angular-filebrowser/src/js/services/filenavigator.js",
-                                "../bower_components/angular-filebrowser/src/js/services/fileuploader.js",
-                                "../bower_components/angular-filebrowser/src/js/providers/translations.js",
-                                "../bower_components/angular-filebrowser/src/js/app.js",
-                                "../bower_components/angular-filebrowser/src/js/controllers/main.js",
-                                "../bower_components/angular-filebrowser/src/js/controllers/selector-controller.js",
-                                "../bower_components/angular-filebrowser/src/css/angular-filemanager.css",
-                                /********* File Manager ******/
-                                "../bower_components/codemirror/lib/codemirror.css",
-                                "../bower_components/codemirror/theme/neo.css",
-                                "../bower_components/codemirror/lib/codemirror.js",
-                                "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
-
-                                "js/services/MessageService.js",
-                                "js/controllers/systems/SystemBuilderWizardController.js"
+                              'js/services/MessageService.js',
+                              'js/controllers/systems/SystemBuilderWizardController.js',
+                              'js/controllers/data/FileExplorerController.js',
+                              '../bower_components/codemirror/lib/codemirror.css',
+                              '../bower_components/codemirror/theme/neo.css',
+                              '../bower_components/codemirror/theme/solarized.css',
+                              '../bower_components/codemirror/mode/javascript/javascript.js',
+                              '../bower_components/codemirror/mode/markdown/markdown.js',
+                              '../bower_components/codemirror/mode/clike/clike.js',
+                              '../bower_components/codemirror/mode/shell/shell.js',
+                              '../bower_components/codemirror/mode/python/python.js',
+                              '../bower_components/codemirror/lib/codemirror.js',
+                              '../bower_components/angular-ui-codemirror/ui-codemirror.min.js',
                             ]
                         },
                         // "FileManagerApp",
@@ -1417,30 +1306,18 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             name: 'AgaveToGo',
                             insertBefore: '#ng_load_plugins_before',
                             files: [
-                                /********* File Manager ******/
-                                "../bower_components/angular-cookies/angular-cookies.min.js",
-                                "../bower_components/angular-filebrowser/src/js/providers/config.js",
-                                "../bower_components/angular-filebrowser/src/js/directives/directives.js",
-                                "../bower_components/angular-filebrowser/src/js/filters/filters.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/acl.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/chmod.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/fileitem.js",
-                                "../bower_components/angular-filebrowser/src/js/entities/item.js",
-                                "../bower_components/angular-filebrowser/src/js/services/filenavigator.js",
-                                "../bower_components/angular-filebrowser/src/js/services/fileuploader.js",
-                                "../bower_components/angular-filebrowser/src/js/providers/translations.js",
-                                "../bower_components/angular-filebrowser/src/js/app.js",
-                                "../bower_components/angular-filebrowser/src/js/controllers/main.js",
-                                "../bower_components/angular-filebrowser/src/js/controllers/selector-controller.js",
-                                "../bower_components/angular-filebrowser/src/css/angular-filemanager.css",
-                                /********* File Manager ******/
-                                "../bower_components/codemirror/lib/codemirror.css",
-                                "../bower_components/codemirror/theme/neo.css",
-                                "../bower_components/codemirror/lib/codemirror.js",
-                                "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
-
-                                "js/services/MessageService.js",
-                                "js/controllers/systems/SystemEditorWizardController.js"
+                                'js/services/MessageService.js',
+                                'js/controllers/systems/SystemEditorWizardController.js',
+                                '../bower_components/codemirror/lib/codemirror.css',
+                                '../bower_components/codemirror/theme/neo.css',
+                                '../bower_components/codemirror/theme/solarized.css',
+                                '../bower_components/codemirror/mode/javascript/javascript.js',
+                                '../bower_components/codemirror/mode/markdown/markdown.js',
+                                '../bower_components/codemirror/mode/clike/clike.js',
+                                '../bower_components/codemirror/mode/shell/shell.js',
+                                '../bower_components/codemirror/mode/python/python.js',
+                                '../bower_components/codemirror/lib/codemirror.js',
+                                '../bower_components/angular-ui-codemirror/ui-codemirror.min.js',
                             ]
                         },
                         // "FileManagerApp",

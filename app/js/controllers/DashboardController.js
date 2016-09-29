@@ -149,8 +149,8 @@ angular.module('AgaveToGo').controller('DashboardController',
 
       $scope.systems = [];
       SystemsController.listSystems(9999999).then(
-          function(data) {
-              var systemCount = data.length;
+          function(response) {
+              var systemCount = response.result.length;
               $timeout(function () {
                   if (systemCount) {
                       var systems = $filter('orderBy')(data, 'lastUpdated', true);

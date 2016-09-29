@@ -7,7 +7,7 @@ angular.module('AgaveToGo').controller("MonitorsResourceEditController", functio
 		SystemsController.listSystems(99999)
 				.then(function(response){
 					$scope.systemsTitleMap = [];
-					_.each(response, function(system){
+					_.each(response.result, function(system){
 						$scope.systemsTitleMap.push({"value": system.id, "name": system.id});
 					});
 
@@ -123,11 +123,12 @@ angular.module('AgaveToGo').controller("MonitorsResourceEditController", functio
 									}
 							);
 
-				})
-				.catch(function(response){
+				},
+				function(response){
 					$scope.requesting = false;
 					MessageService.handle(response, $translate.instant('error_monitors_list'));
-				});
+				}
+			);
 	} else {
 		MessageService.handle($translate.instant('error_monitors_list'));
 	};
