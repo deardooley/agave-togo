@@ -1,128 +1,209 @@
-## Agave ToGo
+module.exports = function(config){
+  config.set({
 
-Agave ToGo v2 is a full-featured web application providing a reference user interface to exercising the core
-functionality of the Agave Platform and demonstrate some of the advanced use cases which are possible by leveraging
-the core Agave Core Science APIs and mainstream open source web technologies.
+    basePath : './',
 
-This version of the web application is implemented as a client-side application using the
-[AngularJS framework](http://angularjs.org/). It is designed to run entirely within your browser with no need for a
-back-end server. The Aside from the Agave Platform itself, there are no external third-party
-service dependencies. The assets produced by this project are entirely static, thus you may host this application out
-of your Bitbucket, GitHub, Dropbox, Google Drive, or even a folder you published using Agave.
+    files : [
+      {pattern: './assets/global/plugins/font-awesome/css/font-awesome.min.css', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-fonticons/style.css', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/simple-line-icons/simple-line-icons.min.css', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/bootstrap/css/bootstrap.css', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/uniform/css/uniform.default.css', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css', watched: true, included: true, served: true},
+      {pattern: './bower_components/angular-ui-select/dist/select.min.css', watched: true, included: true, served: true},
+      {pattern: './bower_components/datatables/media/css/jquery.dataTables.min.css', watched: true, included: true, served: true},
+      {pattern: './bower_components/datatables/media/css/dataTables.bootstrap.css', watched: true, included: true, served: true},
+      {pattern: './bower_components/angular-toastr/dist/angular-toastr.css', watched: true, included: true, served: true},
+      {pattern: './bower_components/json-formatter/dist/json-formatter.css', watched: true, included: true, served: true},
 
-Agave ToGo is fully open source under the BSD 2-Clause license. We encourage you to fork the project and use it as
-a jumping point from which you can build your own application. To contribute back enhancement and bug fixes, please
-make a pull request on the branch you have forked.
+      {pattern: './assets/global/css/components.css', watched: true, included: true, served: true},
+      {pattern: './assets/global/css/plugins.css', watched: true, included: true, served: true},
+      {pattern: './assets/layouts/layout/css/layout.css', watched: true, included: true, served: true},
+      {pattern: './assets/layouts/layout/css/themes/darkblue.css', watched: true, included: true, served: true},
+      {pattern: './assets/layouts/layout/css/custom.css', watched: true, included: true, served: true},
 
-## Getting Started
+      {pattern: './assets/global/plugins/jquery.min.js', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/bootstrap/js/bootstrap.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/bootstrap-modal/js/bootstrap-modal.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/bootstrap-modal/js/bootstrap-modalmanager.js', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/jquery.blockui/index.js', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/jquery.cokie.min.js', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/uniform/jquery.uniform.min.js', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/datatables/media/js/jquery.dataTables.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/datatables/media/js/dataTables.bootstrap.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/datatables-buttons/js/dataTables.buttons.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/datatables-buttons/js/buttons.colVis.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/datatables-buttons/js/buttons.bootstrap.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/datatables-responsive/js/dataTables.responsive.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/datatables-responsive/js/responsive.bootstrap.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/datatables-colreorder/js/dataTables.colReorder.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/datatables-fixedcolumns/js/dataTables.fixedColumns.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/codemirror/lib/codemirror.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/underscore/underscore-min.js', watched: true, included: true, served: true},
 
-To get you started you can simply clone the angular-seed repository and install the dependencies:
+      {pattern: './bower_components/angular/angular.js', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/angularjs/angular-sanitize.min.js', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/angularjs/angular-touch.min.js', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/angularjs/angular-cookies.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/ng-file-upload/ng-file-upload.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/checklist-model/checklist-model.js', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/angularjs/plugins/angular-ui-router.min.js', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/angularjs/plugins/ocLazyLoad.min.js', watched: true, included: true, served: true},
+      {pattern: './assets/global/plugins/angularjs/plugins/ui-bootstrap-tpls.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/angular-translate/angular-translate.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/angular-sanitize/angular-sanitize.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/oauth-ng/dist/oauth-ng.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/ngstorage/ngStorage.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/angular-md5/angular-md5.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/angular-filebrowser/src/js/app.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/moment/min/moment-with-locales.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/angular-moment/angular-moment.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/angular-cache/dist/angular-cache.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/angular-utils-pagination/dirPagination.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/angular-toastr/dist/angular-toastr.tpls.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/json-formatter/dist/json-formatter.js', watched: true, included: true, served: true},
 
-### Prerequisites
+      {pattern: './bower_components/angular-mocks/angular-mocks.js', watched: true, included: true, served: true},
+      // {pattern: 'app/tests/controllers/monitors/MonitorsManagerDirectoryController.js', watched: true, included: true, served: true},
 
-You need git to clone the `agave-togo` repository. You can get git from [http://git-scm.com/](http://git-scm.com/).
+      {pattern: './bower_components/angular-sanitize/angular-sanitize.min.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/tv4/tv4.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/angular-ui-select/dist/select.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/objectpath/lib/ObjectPath.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/angular-schema-form/dist/schema-form.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/angular-schema-form/dist/bootstrap-decorator.js', watched: true, included: true, served: true},
 
-We also use a number of node.js tools to initialize and test agave-togo. You must have node.js and its package manager (npm) installed. You can get them from [http://nodejs.org/](http://nodejs.org/).
+      {pattern: './assets/global/scripts/app.min.js', watched: true, included: true, served: true},
+      {pattern: './assets/layouts/layout/scripts/layout.min.js', watched: true, included: true, served: true},
+      {pattern: './assets/layouts/global/scripts/quick-sidebar.js', watched: true, included: true, served: true},
+      {pattern: './assets/layouts/layout/scripts/demo.min.js', watched: true, included: true, served: true},
 
-### Clone agave-togo
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Configuration.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/TestConfiguration.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/APIHelper.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Http/Client/HttpContext.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Http/Client/RequestClient.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Http/Request/HttpRequest.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Http/Response/HttpResponse.js', watched: true, included: true, served: true},
 
-Clone the agave-togo repository using [git](http://git-scm.com/):
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/AppsController.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/FilesController.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/JobsController.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/MetaController.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/MonitorsController.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/NotificationsController.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/PostitsController.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/ProfilesController.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/SystemsController.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/TransformsController.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/StatusIoController.js', watched: true, included: true, served: true},
 
-```
-git clone https://github.com/deardooley/agave-togo.git
-cd agave-togo
-```
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/SystemTypeEnum.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/SystemStatusTypeEnum.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/SystemRoleTypeEnum.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/SystemActionTypeEnum.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/HistoryEvent.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/FileInfo.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/PermissionRequest.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/PermissionStanza.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/FilePermissionRequest.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/FileAction.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/Metadata.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/PostItRequest.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/ProfileRequest.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/Profile.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/SystemAction.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/SystemRoleRequest.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/FileManagementActionTypeEnum.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/FileMkdirAction.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/FileRenameAction.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/FileMoveAction.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/FileCopyAction.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/FilePermission.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/HistoryEvent.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/FileImportRequest.js', watched: true, included: true, served: true},
 
-If you just want to start a new project without the agave-togo commit history then you can do:
+      {pattern: 'app/js/main.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/filters/filters.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/filters/spec.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/directives/global.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/directives/TagsModal.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/directives/UserLookup.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/directives/QueryBuilder.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/base-directory-controller.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/base-resource-controller.js', watched: true, included: true, served: true},
 
-```
-git clone --depth=1 https://github.com/deardooley/agave-togo.git <your-project-name>
-```
+      {pattern: 'app/js/services/WizardHandler.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/services/commons.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/services/Tags.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/services/Jira.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/services/ChangelogParser.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/services/ActionsService.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/services/PermissionsService.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/services/RolesService.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/services/MessageService.js', watched: true, included: true, served: true},
 
-The `depth=1` tells git to only pull down one commit worth of historical data.
+      {pattern: 'app/js/controllers/monitors/MonitorsChecksDirectoryController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/monitors/MonitorsManagerDirectoryController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/monitors/resource/MonitorsResourceDetailsController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/monitors/resource/MonitorsResourceAddController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/monitors/resource/MonitorsResourceEditController.js', watched: true, included: true, served: true},
 
-### Install Dependencies
-
-We have two three of dependencies in this project: tools and Agave Platform SDKs, and the angular framework code. The tools help us manage and test the application.
-
-* We get the tools we depend upon via `npm`, the [node package manager](https://www.npmjs.org/).
-* We get the Agave Platform SDKs and angular code via `bower`, a [client-side code package manager](http://bower.io/).
-
-We have pre-configured npm to automatically run bower so we can simply do:
-
-```
-npm install
-```
-
-Behind the scenes this will also call `bower install`. You should find that you have two new folders in your project.
-
-* `node_modules` - contains the npm packages for the tools we need
-* `bower_components` - contains the angular framework files
-
-### Run the Application
-
-We have preconfigured the project with a simple development web server. The simplest way to start this server is:
-
-```
-npm start
-```
-
-Now browse to the app at [http://localhost:9000/app](http://localhost:9000/app).
-
-### Run tests (optional)
-
-Set your tenant `BASEURI` and `oAuthAccessToken` on `/bower_components/agave-angularjs-sdk/Agave/TestConfiguration.js`:
-
-```
-Configuration.BASEURI = 'https://public.agaveapi.co';
-Configuration.oAuthAccessToken = '37d51643...';
-```
-Set `proxies` on `/agave-togo/karma.conf.js`. Defaults to:
-```
-proxies: {
-    '/': 'https://localhost:9000/'
-},
-```
-Finally:
-```
-cd agave-togo
-karma start
-```
-
-## Docker Installation
-
-We also provide Agave ToGo as a [Docker](https://hub.docker.com/r/agaveapi/agave-togo) image. This repository is configured to build automatically
-and publish the resulting image to the [Docker Public Registry].
-
-### Prerequisites
-
-You need git to clone the `agave-togo` repository. You can get git from [http://git-scm.com/](http://git-scm.com/).
-
-You will need to have the [Docker Engine installed](http://docs.docker.com/engine/installation/) to perform the actual build.
+      {pattern: 'app/js/controllers/systems/SystemBuilderWizardController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/systems/SystemDirectoryController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/systems/resource/SystemsResourceController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/systems/resource/SystemsResourceAppsController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/systems/resource/SystemsResourceDetailsController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/systems/resource/SystemsResourceQueuesController.js', watched: true, included: true, served: true},
 
 
-### Build the Image
+      {pattern: 'app/js/tests/Configuration.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/tests/ngMockHttp.js', watched: true, included: true, served: true},
+      {pattern: './node_modules/ng-midway-tester/src/ngMidwayTester.js', watched: true, included: true, served: true},
 
-Clone the image as you would above, then invoke the `docker build` command.
 
-```
-git clone https://github.com/deardooley/agave-togo.git
-cd agave-togo
-docker build --rm=true -t agave-togo .
-```
+      {pattern: 'app/js/tests/controllers/monitors/MonitorsChecksDirectoryController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/tests/controllers/monitors/MonitorsManagerDirectoryController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/tests/controllers/monitors/resource/MonitorsResourceDetailsController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/tests/controllers/monitors/resource/MonitorsResourceAddController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/tests/controllers/monitors/resource/MonitorsResourceEditController.js', watched: true, included: true, served: true},
 
-This will create an `agave-togo` image based on the master branch of the repository that you can run anywhere.
+      {pattern: 'app/js/tests/controllers/systems/SystemBuilderWizardController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/tests/controllers/systems/SystemEditorWizardController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/tests/controllers/systems/SystemsDirectoryController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/tests/controllers/systems/resource/SystemsResourceController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/tests/controllers/systems/resource/SystemsResourceAppsController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/tests/controllers/systems/resource/SystemsResourceDetailsController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/tests/controllers/systems/resource/SystemsResourceQueuesController.js', watched: true, included: true, served: true}
 
-### Run the Docker Container
+    ],
 
-To create and run the image as a Docker image, run the following command:
+    proxies: {
+      '/': 'https://localhost:9000/'
+    },
 
-```
-docker run -p 9000:9000 -n agave-togo agave-togo
-```
+    logLevel: config.LOG_DEBUG,
 
-The container will write the HTTP access logs to std out. You can view them using the `docker logs` command:
+    // singleRun: true,
 
-```
-docker logs agave-togo
-```
+    autoWatch : true,
+
+    frameworks: ['jasmine'],
+
+    browsers : ['Chrome'],
+
+    plugins : [
+      'karma-phantomjs-launcher',
+      'karma-chrome-launcher',
+      'karma-firefox-launcher',
+      'karma-jasmine',
+      'karma-jasmine-html-reporter'
+    ],
+
+    reporters: ['progress', 'html']
+
+  });
+};
