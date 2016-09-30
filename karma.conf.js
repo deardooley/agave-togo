@@ -153,6 +153,7 @@ module.exports = function(config){
       {pattern: 'app/js/controllers/monitors/resource/MonitorsResourceEditController.js', watched: true, included: true, served: true},
 
       {pattern: 'app/js/controllers/systems/SystemBuilderWizardController.js', watched: true, included: true, served: true},
+      {pattern: 'app/js/controllers/systems/SystemEditorWizardController.js', watched: true, included: true, served: true},
       {pattern: 'app/js/controllers/systems/SystemDirectoryController.js', watched: true, included: true, served: true},
       {pattern: 'app/js/controllers/systems/resource/SystemsResourceController.js', watched: true, included: true, served: true},
       {pattern: 'app/js/controllers/systems/resource/SystemsResourceAppsController.js', watched: true, included: true, served: true},

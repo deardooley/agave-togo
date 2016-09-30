@@ -1,5 +1,8 @@
 angular.module('AgaveToGo').controller('SystemBuilderWizardController', function($timeout, $rootScope, $scope, $state, $stateParams, $uibModal, $localStorage, $location, $translate, WizardHandler, SystemsController, FilesController, MessageService) {
 
+    $scope.systemTemplate = {};
+    $scope.systemTemplates = [];
+
     $scope.getSystemsTitleMap = function(){
         $scope.systemsTitleMap = [];
 
@@ -10,8 +13,12 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
             function(response){
               _.each(response.result, function(system){
                 $scope.systemsTitleMap.push({"value": system.id, "name": system.id});
+                $scope.systemTemplates.push({"id": system.id, "name": system.name, "type": system.type});
               });
               return $scope.systemsTitleMap;
+            },
+            function(response){
+              MessageService.handle(response, $translate.instant('error_systems_template'));
             }
           );
 
@@ -19,6 +26,42 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
     };
 
     $scope.systemsTitleMap = $scope.getSystemsTitleMap();
+
+    $scope.changeSystemTemplate = function(system){
+      SystemsController.getSystemDetails(system.id)
+        .then(
+          function(response){
+            if (response.result.id){
+              delete response.result.id;
+            }
+            if (response.result.public){
+              delete response.result.public;
+            }
+            if (response.result.name){
+              delete response.result.name;
+            }
+            if (response.result.revision){
+              delete response.result.revision;
+            }
+            if (response.result.uuid){
+              delete response.result.uuid;
+            }
+            if (response.result.getContext){
+              delete response.result.getContext;
+            }
+            if (response.result.owner){
+              delete response.result.owner;
+            }
+            if (response.result._links){
+              delete response.result._links;
+            }
+            $scope.model = response.result;
+          },
+          function(response){
+            MessageService.handle(response, $translate.instant('error_systems_template'));
+          }
+        );
+    };
 
     $scope.schema = {
         "type": "object",
@@ -188,7 +231,8 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                   },
                   "customDirectives": {
                     "title": "Custom Directives",
-                    "type": "string",
+                    // "type": "string",
+                    "type": [null,"string"],
                     "description": "Arbitrary text that will be appended to the end of the scheduler directives in a batch submit script. This could include a project number, system-specific directives, etc"
                   },
                   "default": {
@@ -1108,7 +1152,9 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                                  "queues[].maxRequestedTime",
                                  {
                                    "key": "queues[].customDirectives",
-                                   "type": "textarea"
+                                   "type": "textarea",
+                                   "title": "Custom Directives",
+                                   "description": "Arbitrary text that will be appended to the end of the scheduler directives in a batch submit script. This could include a project number, system-specific directives, etc"
                                  },
 
                                  "queues[].default"

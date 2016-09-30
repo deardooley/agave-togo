@@ -138,6 +138,7 @@ AgaveToGo.config(function($translateProvider) {
     error_apps_permissions: 'Error: Could not retreive app permissions',
     error_apps_permissions_update: 'Error: Could not update app permissions',
     error_apps_search: 'Error: Could not retrieve apps',
+    error_apps_template: 'Error: Could not retrieve app template',
 
     error_files_list: 'Error: Could not list files for the given system and path',
 
@@ -172,6 +173,7 @@ AgaveToGo.config(function($translateProvider) {
     error_systems_roles: 'Error: Could not retrieve roles',
     error_systems_roles_update: 'Error: Could not update roles',
     error_systems_search: 'Error: Could not retrieve systems',
+    error_systems_template: 'Error: Could not retrieve system template', 
 
     success_apps_permissions_update: 'Success: updated permissions for ',
 
