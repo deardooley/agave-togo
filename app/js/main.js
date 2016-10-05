@@ -173,7 +173,7 @@ AgaveToGo.config(function($translateProvider) {
     error_systems_roles: 'Error: Could not retrieve roles',
     error_systems_roles_update: 'Error: Could not update roles',
     error_systems_search: 'Error: Could not retrieve systems',
-    error_systems_template: 'Error: Could not retrieve system template', 
+    error_systems_template: 'Error: Could not retrieve system template',
 
     success_apps_permissions_update: 'Success: updated permissions for ',
 
@@ -1704,7 +1704,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
 /* Init global settings and run the app */
 //AgaveToGo.run(["$rootScope", "settings", "$state", 'ProfilesController', function($rootScope, settings, $state) { //}, ProfilesController) {
-AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', '$templateCache', 'CacheFactory', 'NotificationsService', function($rootScope, settings, $state, $http, $templateCache, CacheFactory, NotificationsService) {
+AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', '$templateCache', '$localStorage', '$window', 'CacheFactory', 'NotificationsService', function($rootScope, settings, $state, $http, $templateCache, $localStorage, $window, CacheFactory, NotificationsService) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
 
@@ -1715,22 +1715,18 @@ AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', '$templateCache', 'C
         storageMode: 'localStorage'
     });
 
-    // var strVar="";
-    // strVar += "<div class=\"{{toastClass}} {{toastType}}\" ng-click=\"tapToast()\">";
-    // strVar += "  <div ng-switch on=\"allowHtml\">";
-    // strVar += "    <div ng-switch-default ng-if=\"title\" class=\"{{titleClass}}\" aria-label=\"{{title}}\">{{title}}<\/div>";
-    // strVar += "    <div ng-switch-default class=\"{{messageClass}}\" aria-label=\"{{message}}\">{{message}}<\/div>";
-    // strVar += "    <div ng-switch-when=\"true\" ng-if=\"title\" class=\"{{titleClass}}\" ng-bind-html=\"title\"><\/div>";
-    // strVar += "    <div ng-switch-when=\"true\" class=\"{{messageClass}}\" ng-bind-html=\"message\"><\/div>";
-    // strVar += "  <\/div>";
-    // strVar += "  <progress-bar ng-if=\"progressBar\"><\/progress-bar>";
-    // strVar += "<\/div>";
-    //
-    // $templateCache.put('directives/toast/toast.html',
-    //   "<div>Your template here</div>"
-    // );
-    // $templateCache.put('directives/progressbar/progressbar.html',
-    //   "<div>Your progressbar here</div>"
-    // );
+    // Check for valid token on every state change
+    $rootScope.$on('$stateChangeStart', function(){
+        if (typeof $localStorage.tenant !== 'undefined' && typeof $localStorage.token !== 'undefined'){
+          var currentDate = new Date();
+          var expirationDate = Date.parse($localStorage.token.expires_at);
+          var diff = (expirationDate - currentDate) / 60000;
+          if (diff < 0) {
+            $window.location.href = '/auth';
+          }
+        } else {
+          $window.location.href = '/auth';
+        }
+    });
 
 }]);
