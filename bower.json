@@ -134,7 +134,7 @@
     "livecss": "./assets/global/plugins/livecss.js",
     "raphael": "~2.1.4",
     "respond": "~1.4.2",
-    "oauth-ng": "git+https://bitbucket.org/agaveapi/oauth-ng.git#c286595",
+    "oauth-ng": "git+https://bitbucket.org/agaveapi/oauth-ng.git#master",
     "angular-moment": "urish/angular-moment#6e8cd1e",
     "ngstorage": "~0.3.10",
     "stop-angular-overrides": "~0.5.1",
