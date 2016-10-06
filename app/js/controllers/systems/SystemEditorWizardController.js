@@ -4387,12 +4387,14 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
             if (response.result._links){
               delete response.result._links;
             }
-            // if (response.login){
-            //   delete response.login;
-            // }
-            // if (response.storage){
-            //   delete response.storage;
-            // }
+            if (response.result.queues){
+              angular.forEach(response.result.queues, function(queue){
+                if (queue.maxMemoryPerNode) {
+                  queue.maxMemoryPerNode += 'GB';
+                }
+              });
+            }
+
             $scope.model = response.result;
           })
           .catch(function(response) {

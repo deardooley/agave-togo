@@ -15002,6 +15002,10 @@ Color library demo
     word-break: break-all;
 }
 
+.agave-message {
+  color:#b4bcc8;
+}
+
 /* CodeMirror */
 .CodeMirror {
   height: auto !important;

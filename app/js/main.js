@@ -21,6 +21,7 @@ var AgaveToGo = angular.module("AgaveToGo", [
   'schemaForm',
   'schemaFormWizard',
   'TagsService',
+  'timer',
   'toastr',
   'ui.bootstrap',
   'ui.router',
@@ -237,6 +238,15 @@ initialization can be disabled and Layout.init() should be called on page load c
 
 /* Setup Layout Part - Header */
 AgaveToGo.controller('HeaderController', ['$scope', '$localStorage', 'StatusIoController', function($scope, $localStorage, StatusIoController) {
+    $scope.showTokenCountdown = true;
+
+    // get token countdown time
+    if (typeof $localStorage.token !== 'undefined'){
+      var currentDate = new Date();
+      var expirationDate = Date.parse($localStorage.token.expires_at);
+      var diff = Math.abs((expirationDate - currentDate) / 60000);
+      $scope.tokenCountdown = diff * 60;
+    }
 
     $scope.authenticatedUser = $localStorage.activeProfile;
     $scope.platformStatus = { status:'Up', statusCode: 100, incidents: [], issues:[]};
@@ -1728,5 +1738,4 @@ AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', '$templateCache', '$
           $window.location.href = '/auth';
         }
     });
-
 }]);
