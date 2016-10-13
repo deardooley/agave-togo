@@ -185,7 +185,9 @@ AgaveToGo.config(function($translateProvider) {
     success_notifications_test: 'Success: fired notification ',
     success_notifications_update: 'Success: updated ',
 
-    success_systems_roles: 'Success: updated roles for '
+    success_systems_roles: 'Success: updated roles for ',
+    setDefault: 'set to default',
+    unsetDefault: 'unset default'
   });
 
   $translateProvider.preferredLanguage('en');
@@ -238,7 +240,7 @@ initialization can be disabled and Layout.init() should be called on page load c
 
 /* Setup Layout Part - Header */
 AgaveToGo.controller('HeaderController', ['$scope', '$localStorage', 'StatusIoController', function($scope, $localStorage, StatusIoController) {
-    $scope.showTokenCountdown = true;
+    $scope.showTokenCountdown = false;
 
     // get token countdown time
     if (typeof $localStorage.token !== 'undefined'){
@@ -1725,8 +1727,16 @@ AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', '$templateCache', '$
         storageMode: 'localStorage'
     });
 
-    // Check for valid token on every state change
-    $rootScope.$on('$stateChangeStart', function(){
+
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+        // Temp fix until I find better solution
+        // This is to avoid changing url location on filemanager promise returns
+        if ((fromState.name === 'data-explorer-noslash' || fromState.name === 'data-explorer') && (toState.name !== 'data-explorer-noslash' || toState.name !== 'data-explorer')){
+          $rootScope.locationChange = false;
+        } else {
+          $rootScope.locationChange = true;
+        }
+
         if (typeof $localStorage.tenant !== 'undefined' && typeof $localStorage.token !== 'undefined'){
           var currentDate = new Date();
           var expirationDate = Date.parse($localStorage.token.expires_at);
