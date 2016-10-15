@@ -63,7 +63,7 @@ angular.module('AgaveToGo').controller('FileExplorerController', function($rootS
           );
 
     } else {
-        SystemsController.listSystems(99999, 0, true, false)
+        SystemsController.listSystems(99999, 0, true)
           .then(function (response) {
               if (response.result && response.result.length > 0) {
                   $scope.system = response.result[0];

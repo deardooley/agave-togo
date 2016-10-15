@@ -135,6 +135,7 @@ AgaveToGo.config(function($translateProvider) {
     error_apps_details: 'Error: Could not retrieve app',
     error_apps_edit: 'Error: Could not edit app',
     error_apps_edit_permission: 'Error: User does not have permission to edit app',
+    error_apps_files_select: 'Could not find a default system to browse files. Please specify a default system',
     error_apps_form: 'Error: Invalid form. Please check all fields',
     error_apps_permissions: 'Error: Could not retreive app permissions',
     error_apps_permissions_update: 'Error: Could not update app permissions',
@@ -533,6 +534,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/services/MessageService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/notifications/NotificationsManagerDirectoryController.js'
                         ]
@@ -558,6 +560,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/services/MessageService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/notifications/NotificationsManagerDirectoryController.js'
                         ]
@@ -632,6 +635,28 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                       ]
                     }
                   ]);
+                }]
+            }
+        })
+
+        .state('notifications-alerts-id', {
+            url: "/notifications/alerts/:id",
+            templateUrl: "views/notifications/alerts.html",
+            data: {pageTitle: 'Notifications Alerts'},
+            controller: "NotificationsAlertsDirectoryController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        name: 'AgaveToGo',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            'js/services/ActionsService.js',
+                            'js/services/MessageService.js',
+                            'js/controllers/QueryBuilderController.js',
+                            'js/controllers/notifications/NotificationsAlertsDirectoryController.js'
+                        ]
+                    });
                 }]
             }
         })
