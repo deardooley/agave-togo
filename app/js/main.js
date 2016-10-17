@@ -179,6 +179,8 @@ AgaveToGo.config(function($translateProvider) {
 
     success_apps_permissions_update: 'Success: updated permissions for ',
 
+    success_files_permissions_update: 'Success updating file permissions',
+
     success_monitors_test: 'Success: fired monitor ',
     success_monitors_update: 'Success: updated ',
 
