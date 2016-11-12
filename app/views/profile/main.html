@@ -47,6 +47,10 @@
                             <a ui-sref="profile.account">
                                 <i class="icon-settings"></i> Account Settings </a>
                         </li>
+                        <li ng-class="{active: $state.includes('profile.search')}">
+                            <a ui-sref="profile.search">
+                                <i class="icon-info"></i> Directory </a>
+                        </li>
                         <li ng-if="projects.length > 0">
                             <a href="#/projects">
                                 <i class="icon-check"></i> Projects </a>

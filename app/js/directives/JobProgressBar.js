@@ -6,7 +6,7 @@ AgaveToGo.directive('jobProgressBar', function($timeout, JobsController, moment)
         restrict: 'E',
         replace: true,
         scope: {
-            system: '=ngModel',
+            job: '=ngModel',
         },
         templateUrl: '../app/tpl/directives/job-progress-bar.html',
         link: function ($scope, elem, attrs) {

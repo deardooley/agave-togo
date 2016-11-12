@@ -176,6 +176,85 @@ angular.module('AgaveToGo').controller('UserProfileController', function($rootSc
         });
     });
 
+    $scope.searchProfiles = function() {
+
+        $scope.users = [];
+
+        var isSuccess = true;
+        var that = this;
+        var searchTerm = $('#directory-search-input').val();
+        var promises = [];
+        var totalResults = 0;
+        var users = [];
+        if (searchTerm.indexOf(' ') < 0) {
+            promises.push(ProfilesController.listProfiles(null, null, searchTerm, null, null).then(
+                function (response) {
+                    angular.forEach(response, function (user) {
+                        users[user.username] = user;
+                    });
+                },
+                function (response) {
+                    MessageService.handle(response, $translate.instant('error_profiles_search'));
+                }));
+
+            promises.push(ProfilesController.listProfiles(null, null, null, searchTerm, null).then(
+                function (response) {
+                    angular.forEach(response, function (user) {
+                        users[user.username] = user;
+                    });
+                },
+                function (response) {
+                    MessageService.handle(response, $translate.instant('error_profiles_search'));
+                }));
+        }
+        else {
+            promises.push(ProfilesController.listProfiles(null, searchTerm, null, null, null).then(
+                function (response) {
+                    angular.forEach(response, function (user) {
+                        users[user.username] = user;
+                    });
+                },
+                function (response) {
+                    MessageService.handle(response, $translate.instant('error_profiles_search'));
+                }));
+        }
+
+        promises.push(ProfilesController.listProfiles(searchTerm, null, null, null, null).then(
+            function (response) {
+                angular.forEach(response, function (user) {
+                    users[user.username] = user;
+                });
+            },
+            function (response) {
+                MessageService.handle(response, $translate.instant('error_profiles_search'));
+            }));
+
+        promises.push(ProfilesController.listProfiles(null, null, null, null, searchTerm).then(
+            function (response) {
+                angular.forEach(response, function (user) {
+                    users[user.username] = user;
+                });
+            },
+            function (response) {
+                MessageService.handle(response, $translate.instant('error_profiles_search'));
+            }));
+
+        var deferred = $q.all(promises).then(
+            function(result) {
+                $timeout(function() {
+                    var arr = [];
+                    for (var m in users) {
+                        if (users.hasOwnProperty(m)) {
+                            $scope.users.push(users[m]);
+                        }
+                    }
+                }, 10);
+            },
+            function(message, result) {
+                MessageService.handle(response, $translate.instant('error_profiles_search'));
+            });
+    };
+
 
 
     // set sidebar closed and body solid layout mode

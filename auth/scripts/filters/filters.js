@@ -35,7 +35,7 @@ angular.module('AgaveAuth')
         if (tenantCode === 'agave.prod') {
             return 'https://agaveapi.co/';
         } else if (tenantCode === 'iplantc.org') {
-            return 'https://iplantcollaborative.co/';
+            return 'https://cyverse.org/';
         } else if (tenantCode === 'araport') {
             return 'https://araport.org/';
         } else if (tenantCode === 'tacc.prod') {
