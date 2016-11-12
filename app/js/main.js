@@ -583,6 +583,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                       name: 'AgaveToGo',
                       files: [
                           'js/services/ActionsService.js',
+                          'js/services/MessageService.js',
                           'js/controllers/notifications/resource/NotificationsResourceEditController.js'
                       ]
                     }
