@@ -1264,6 +1264,13 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
             data: {pageTitle: 'User Help'}
         })
 
+        // User Profile Search
+        .state("profile.search", {
+            url: "/search",
+            templateUrl: "views/profiles/search.html",
+            data: {pageTitle: 'Directory Search'}
+        })
+
         /**********************************************************************/
         /**********************************************************************/
         /***                                                                ***/
