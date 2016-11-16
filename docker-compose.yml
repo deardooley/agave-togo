@@ -10,6 +10,7 @@ services:
       - 'LOG_TARGET_STDOUT=1'
     ports:
       - '80:80'
+      - '443:443'
     volumes:
       - '.:/var/www/html:ro'
     labels:
