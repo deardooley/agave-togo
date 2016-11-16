@@ -9,3 +9,26 @@
     }
   }
 }
+
+.search-content-3 {
+  .search-body {
+    .search-results {
+      width: 100%;
+      min-height: 390px;
+      .row {
+        margin-left: 0;
+        margin-right: 0;
+        .user-search-result {
+          min-height: 380px;
+        }
+      }
+    }
+  }
+  .tile-container > .tile-title {
+    padding: 30px 20px;
+
+    h3 {
+      height: 41px;
+    }
+  }
+}

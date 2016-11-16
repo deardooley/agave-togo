@@ -1,3 +1,4 @@
+<div class="search-page search-content-3">
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light">
@@ -7,7 +8,7 @@
                     <span class="caption-subject font-blue-madison bold uppercase">Directory Search</span>
                 </div>
             </div>
-            <div class="portlet-body">
+            <div class="portlet-body search-body">
                 <div class="search-bar ">
                     <div class="input-group">
                         <input id="directory-search-input" type="text" class="form-control" name="search-term" ng-model="directorySearchTerm" placeholder="Search by name...">
@@ -37,7 +38,9 @@
                                     <!--</a>-->
                                     <div class="tile-desc">
                                         <p>Email:
-                                            <a href="mailto:{{profile.email}}">{{user.email}}</a>
+                                            <a href="mailto:{{profile.email}}" title="{{user.email}}">
+                                                <span class="fa fa-envelope"></span>
+                                            </a>
                                         </p>
                                     </div>
                                 </div>

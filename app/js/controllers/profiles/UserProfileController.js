@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('UserProfileController', function($rootScope, $scope, $stateParams, $http, $timeout, $localStorage, $translate, Commons, ProfilesController, JobsController, AppsController, SystemsController, MessageService) {
+angular.module('AgaveToGo').controller('UserProfileController', function($rootScope, $scope, $stateParams, $http, $timeout, $localStorage, $translate, $q, $filter, Commons, ProfilesController, JobsController, AppsController, SystemsController, MessageService) {
     $scope.jobCount = '-';
     $scope.systemCount = '-';
     $scope.appCount = '-';

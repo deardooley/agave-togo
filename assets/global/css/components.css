@@ -1,5 +1,5 @@
 /*********************************
- METRONIC SQUARE STYLE COMPONENTS
+ METRONIC SQUARE STYLE COMPONENTS 
 *********************************/
 .last-col {
   overflow: hidden !important; }
@@ -237,8 +237,8 @@ body {
   font-size: 14px; }
 
 /*
- Internet Explorer 10 doesn't differentiate device width from viewport width, and thus doesn't
- properly apply the media queries in Bootstrap's CSS. To address this,
+ Internet Explorer 10 doesn't differentiate device width from viewport width, and thus doesn't 
+ properly apply the media queries in Bootstrap's CSS. To address this, 
  you can optionally include the following CSS and JavaScript to work around this problem until Microsoft issues a fix.
 */
 @-webkit-viewport {
@@ -257,8 +257,8 @@ body {
   width: device-width; }
 
 /*
- Internet Explorer 10 doesn't differentiate device width from viewport width,
- and thus doesn't properly apply the media queries in Bootstrap's CSS. To address this, following CSS code applied
+ Internet Explorer 10 doesn't differentiate device width from viewport width, 
+ and thus doesn't properly apply the media queries in Bootstrap's CSS. To address this, following CSS code applied 
 */
 @-ms-viewport {
   width: auto !important; }
@@ -1469,6 +1469,7 @@ Fontawesome Icons
 [class*=" icon-"] {
   display: inline-block;
   *margin-right: .3em;
+  line-height: 14px;
   -webkit-font-smoothing: antialiased; }
 
 /* Make font awesome icons fixed width */
@@ -1554,7 +1555,7 @@ Simple Line Icons Demo
   .simplelineicons-demo .item-box {
     width: 33.333%; } }
 
-/***
+/*** 
 Glyphicons Demo
 ***/
 .glyphicons-demo ul {
@@ -1692,7 +1693,7 @@ Custom buttons based on bootstrap SASS
   line-height: 1.44; }
 
 /***
-Custom color buttons
+Custom color buttons 
 ***/
 .btn.white:not(.btn-outline) {
   color: #666;
@@ -4913,7 +4914,7 @@ Chats
       transition: all 0.3s; }
 
 /***
-Customized Bootstrap Close Icon
+Customized Bootstrap Close Icon 
 ***/
 .close {
   display: inline-block;
@@ -5562,7 +5563,7 @@ Forms
     height: auto; }
 
 /***
-Custom color buttons
+Custom color buttons 
 ***/
 .form-control.white {
   border-color: #ffffff; }
@@ -6608,7 +6609,7 @@ Metro icons
   background-position: -78px -28px; }
 
 /***
-Customized Bootstrap Modal
+Customized Bootstrap Modal 
 ***/
 .modal {
   z-index: 10050 !important;
@@ -6865,6 +6866,7 @@ Portlets
     .portlet > .portlet-title:after {
       clear: both; }
     .portlet > .portlet-title > .caption {
+      float: left;
       display: inline-block;
       font-size: 18px;
       line-height: 18px;
@@ -6983,28 +6985,24 @@ Portlets
       margin: 2px 0 0 0;
       border: 0;
       padding: 4px 0; }
-    .portlet > .portlet-title > div > .tab-content {
-	display: none; }
-    .portlet > .portlet-title > .nav-tabs, .portlet > .portlet-title > div > .nav-tabs {
+    .portlet > .portlet-title > .nav-tabs {
       background: none;
       margin: 1px 0 0 0;
       float: right;
       display: inline-block;
       border: 0; }
-      .portlet > .portlet-title > .nav-tabs > li, .portlet > .portlet-title > div > .nav-tabs > li {
+      .portlet > .portlet-title > .nav-tabs > li {
         background: none;
         margin: 0;
         border: 0; }
-        .portlet > .portlet-title > .nav-tabs > li > a, .portlet > .portlet-title > div > .nav-tabs > li > a {
+        .portlet > .portlet-title > .nav-tabs > li > a {
           background: none;
           margin: 5px 0 0 1px;
           border: 0;
           padding: 8px 10px;
           color: #fff; }
         .portlet > .portlet-title > .nav-tabs > li.active > a,
-        .portlet > .portlet-title > .nav-tabs > li:hover > a,
-	.portlet > .portlet-title > div > .nav-tabs > li.active > a,
-	.portlet > .portlet-title > div > .nav-tabs > li:hover > a  {
+        .portlet > .portlet-title > .nav-tabs > li:hover > a {
           color: #333;
           background: #fff;
           border: 0; }
@@ -7131,18 +7129,16 @@ Portlets
     .portlet.light > .portlet-title > .tools {
       padding: 10px 0 13px 0;
       margin-top: 2px; }
-    .portlet.light > .portlet-title > .nav-tabs > li, .portlet.light > .portlet-title > div > .nav-tabs > li {
+    .portlet.light > .portlet-title > .nav-tabs > li {
       margin: 0;
       padding: 0; }
-      .portlet.light > .portlet-title > .nav-tabs > li > a, .portlet.light > .portlet-title > div > .nav-tabs > li > a  {
+      .portlet.light > .portlet-title > .nav-tabs > li > a {
         margin: 0;
         padding: 12px 13px 13px 13px;
         font-size: 13px;
         color: #666; }
       .portlet.light > .portlet-title > .nav-tabs > li.active > a,
-      .portlet.light > .portlet-title > .nav-tabs > li:hover > a,
-      .portlet.light > .portlet-title > div > .nav-tabs > li.active > a,
-      .portlet.light > .portlet-title > div > .nav-tabs > li:hover > a {
+      .portlet.light > .portlet-title > .nav-tabs > li:hover > a {
         margin: 0;
         background: none;
         color: #333; }
@@ -7188,7 +7184,7 @@ Portlets
   height: 45px; }
 
 /***
-Custom colored portlets
+Custom colored portlets 
 ***/
 .portlet > .portlet-body.white,
 .portlet.white {
@@ -11891,9 +11887,6 @@ Scrollable Tables
 /***
 Customized Bootstrap Tables
 ***/
-.table {
-  min-height: 300px;
-}
 .table td,
 .table th {
   font-size: 14px; }
@@ -12005,7 +11998,7 @@ Custom tables
 .table .btn {
   margin-top: 0px;
   margin-left: 0px;
-  margin-right: 0px; }
+  margin-right: 5px; }
 
 .table thead tr th {
   font-size: 14px;
@@ -12106,7 +12099,7 @@ Light Table
     background: #f9fafb; }
 
 /***
-Customized Bootstrap Tabs
+Customized Bootstrap Tabs 
 ***/
 /* Tabs and pills */
 .nav-tabs,
@@ -12344,43 +12337,39 @@ Custom tabs
 .portlet:not(.light) .tabbable-line {
   padding-top: 15px; }
 
-.tabbable-line > .nav-tabs, .tabbable-line > div > .nav-tabs {
+.tabbable-line > .nav-tabs {
   border: none;
   margin: 0px; }
-  .tabbable-line > .nav-tabs > li, .tabbable-line > div > .nav-tabs > li {
+  .tabbable-line > .nav-tabs > li {
     margin: 0; }
-    .tabbable-line > .nav-tabs > li > a, .tabbable-line > div > .nav-tabs > li > a {
+    .tabbable-line > .nav-tabs > li > a {
       background: none !important;
       border: 0;
       margin: 0;
       padding-left: 15px;
       padding-right: 15px;
       color: #737373; }
-      .tabbable-line > .nav-tabs > li > a > i, .tabbable-line > div > .nav-tabs > li > a > i {
+      .tabbable-line > .nav-tabs > li > a > i {
         color: #a6a6a6; }
-    .tabbable-line > .nav-tabs > li.active, .tabbable-line > div > .nav-tabs > li.active {
+    .tabbable-line > .nav-tabs > li.active {
       background: none;
       border-bottom: 4px solid #3fc9d5;
       position: relative; }
-      .tabbable-line > .nav-tabs > li.active > a, .tabbable-line > div > .nav-tabs > li.active > a {
+      .tabbable-line > .nav-tabs > li.active > a {
         border: 0;
         color: #333; }
-        .tabbable-line > .nav-tabs > li.active > a > i, .tabbable-line > div > .nav-tabs > li.active > a > i {
+        .tabbable-line > .nav-tabs > li.active > a > i {
           color: #404040; }
-    .tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover,
-    .tabbable-line > div > .nav-tabs > li.open, .tabbable-line > div > .nav-tabs > li:hover {
+    .tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
       background: none;
       border-bottom: 4px solid #a7e6ec; }
-      .tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a,
-      .tabbable-line > div > .nav-tabs > li.open > a, .tabbable-line > div > .nav-tabs > li:hover > a {
+      .tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
         border: 0;
         background: none !important;
         color: #333; }
-        .tabbable-line > .nav-tabs > li.open > a > i, .tabbable-line > .nav-tabs > li:hover > a > i,
-        .tabbable-line > div > .nav-tabs > li.open > a > i, .tabbable-line > div > .nav-tabs > li:hover > a > i {
+        .tabbable-line > .nav-tabs > li.open > a > i, .tabbable-line > .nav-tabs > li:hover > a > i {
           color: #a6a6a6; }
-      .tabbable-line > .nav-tabs > li.open .dropdown-menu, .tabbable-line > .nav-tabs > li:hover .dropdown-menu,
-      .tabbable-line > div > .nav-tabs > li.open .dropdown-menu, .tabbable-line > div > .nav-tabs > li:hover .dropdown-menu {
+      .tabbable-line > .nav-tabs > li.open .dropdown-menu, .tabbable-line > .nav-tabs > li:hover .dropdown-menu {
         margin-top: 0px; }
 
 .tabbable-line > .tab-content {
@@ -13234,7 +13223,7 @@ AngularJS Basic Animations
     margin: 0px 0; } }
 
 /***
-Timeline
+Timeline 
 ***/
 .timeline {
   margin: 0;
@@ -13372,7 +13361,7 @@ Timeline
     top: 17px; } }
 
 /***
-Tasks Widget
+Tasks Widget 
 ***/
 .tasks-widget:after {
   clear: both; }
@@ -13434,7 +13423,7 @@ Tasks Widget
     margin-bottom: 5px; } }
 
 /***
-Custom color buttons
+Custom color buttons 
 ***/
 .bg-white {
   background: #ffffff; }
@@ -14990,23 +14979,3 @@ Color library demo
     border-top: 1px solid #eee;
     padding: 10px 10px;
     text-align: center; }
-
-
-.top-buffer { margin-top:10px; }
-
-.json-formatter-row{
-  font-size: medium;
-}
-
-.table td, .table th {
-    word-break: break-all;
-}
-
-.agave-message {
-  color:#b4bcc8;
-}
-
-/* CodeMirror */
-.CodeMirror {
-  height: auto !important;
-}

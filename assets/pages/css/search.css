@@ -164,7 +164,7 @@ Search Page
       bottom: 0;
       left: 0;
       right: 0;
-      margin: auto; }
+      margin: 0; }
   .search-content-3 .tile-container > .tile-title {
     background-color: #fff;
     padding: 30px 20px; }

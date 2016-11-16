@@ -4,3 +4,17 @@
   .page-header.navbar .page-logo .logo-default {
     margin: 8px 0 0 0;
     height: 27px; }
+
+.search-content-3 .search-body .search-results {
+  width: 100%;
+  min-height: 390px; }
+  .search-content-3 .search-body .search-results .row {
+    margin-left: 0;
+    margin-right: 0; }
+    .search-content-3 .search-body .search-results .row .user-search-result {
+      min-height: 380px; }
+
+.search-content-3 .tile-container > .tile-title {
+  padding: 30px 20px; }
+  .search-content-3 .tile-container > .tile-title h3 {
+    height: 41px; }

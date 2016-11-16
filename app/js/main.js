@@ -1228,6 +1228,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         files: [
                             '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
                             '../assets/pages/css/profile.css',
+                            '../assets/pages/css/search.css',
 
                             '../assets/global/plugins/jquery.sparkline.min.js',
                             '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
@@ -1267,7 +1268,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         // User Profile Search
         .state("profile.search", {
             url: "/search",
-            templateUrl: "views/profiles/search.html",
+            templateUrl: "views/profile/search.html",
             data: {pageTitle: 'Directory Search'}
         })
 
