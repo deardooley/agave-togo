@@ -157,19 +157,19 @@ angular.module('AgaveToGo').controller('UserProfileController', function($rootSc
                 $scope.requesting = false;
             });
 
-        JobsController.listJobs(null, null, null, null, null, null, null, null, 999999).then(function(data) {
+        JobsController.listJobs(null, null, null, null, null, null, null, null, 999).then(function(data) {
             var jobCount = data.result.length;
             $scope.jobCount = jobCount;
 
             $scope.setJobCount(jobCount);
         });
 
-        SystemsController.listSystems(9999999).then(function(response) {
+        SystemsController.listSystems(999).then(function(response) {
             var systemCount = response.result.length;
             $scope.setSystemCount(response.result.length);
         });
 
-        AppsController.listApps(9999999, 0, { filter: 'id' }).then(function(data) {
+        AppsController.listApps(999, 0, { filter: 'id' }).then(function(data) {
             var appCount = data.result.length;
             $scope.appCount = appCount;
             $scope.setAppCount(appCount);
