@@ -1,0 +1,44 @@
+<h3 class="page-title"> Edit Metadata Schema</h3>
+
+<div class="row text-center" ng-show="requesting">
+    <div class="col-md-12">
+      <div class="loading-message"><div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
+    </div>
+</div>
+
+<div class="row top-buffer">
+    <div class="col-md-12" ng-show="!requesting">
+        <div class="portlet light bordered" id="form_wizard_1">
+            <div class="portlet-title top-buffer">
+                <div class="caption">
+                    <i class=" icon-layers font-red"></i>
+                    <span class="caption-subject font-red bold uppercase">
+                        Schema Editor - {{uuid}}
+                    </span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <div class="row">
+                  <div class="col-md-4">
+                    <h4>Original</h4>
+                    <pre ng-bind-html="schemaOriginal.schema | json" style="height: 800px;"></pre>
+                  </div>
+                  <div class="col-md-4">
+                    <h4>Edit</h4>
+                    <div ng-jsoneditor="onLoad" ng-model="schemaEdit" options="options" change="handleError()" style="height: 800px;"></div>
+                    <div class="text-center top-buffer">
+                      <button class="btn btn-primary" ng-click="submit()" ng-class="submitButton ? '' : 'disabled'">Submit</button>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <h4>Diff</h4>
+                    <pre ng-bind-html="schemaDiff" style="height: 800px;"></pre>
+                  </div>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

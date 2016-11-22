@@ -9,6 +9,7 @@ var AgaveToGo = angular.module("AgaveToGo", [
   'angularMoment',
   'angularUtils.directives.dirPagination',
   'CommonsService',
+  'ds.objectDiff',
   'jsonFormatter',
   'JiraService',
   'ChangelogParserService',
@@ -16,6 +17,7 @@ var AgaveToGo = angular.module("AgaveToGo", [
   'ngSanitize',
   'ngStorage',
   'ngMd5',
+  'ng.jsoneditor',
   'oc.lazyLoad',
   'pascalprecht.translate',
   'schemaForm',
@@ -147,6 +149,11 @@ AgaveToGo.config(function($translateProvider) {
     error_jobs_create: 'Error: Could not submit job',
     error_jobs_details: 'Error: Could not retrieve job',
     error_jobs_list: 'Error: Could not retrieve jobs',
+
+    error_meta_list: 'Error: Could not retrieve metadata',
+    error_meta_schema_list: 'Error: Could not retrieve metadata schema',
+    error_meta_schema_update: 'Error: Could not create/update metadata schema',
+    error_meta_schema_update_uuid: 'Error: No metadata schema UUID provided',
 
     error_monitors_add: 'Error: Could not add monitor',
     error_monitors_list: 'Error: Could not retrieve monitor',
@@ -494,6 +501,127 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
               }]
           }
         })
+
+       /**********************************************************************/
+       /**********************************************************************/
+       /***                                                                ***/
+       /***                         Metadata Routes                        ***/
+       /***                                                                ***/
+       /**********************************************************************/
+       /**********************************************************************/
+
+       .state('meta-schema-manager', {
+           url: "/meta/schema",
+           templateUrl: "views/meta/schema-manager.html",
+           data: {pageTitle: 'Metadata Schema Manager'},
+           controller: "SchemaManagerDirectoryController",
+           resolve: {
+               deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                   return $ocLazyLoad.load({
+                       serie: true,
+                       name: 'AgaveToGo',
+                       insertBefore: '#ng_load_plugins_before',
+                       files: [
+                           'js/services/ActionsService.js',
+                           'js/services/MessageService.js',
+                           'js/controllers/meta/SchemaManagerDirectoryController.js'
+                       ]
+                   });
+               }]
+           }
+       })
+
+       .state('meta-schema-add', {
+           url: "/meta/schema/add",
+           data: {pageTitle: 'Metadata Schema Add'},
+           templateUrl: "views/meta/schema-add.html",
+           controller: "SchemaAddController",
+           resolve: {
+               deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                 return $ocLazyLoad.load([
+                   {
+                     serie: true,
+                     name: 'AgaveToGo',
+                     files: [
+                         'js/services/ActionsService.js',
+                         'js/services/MessageService.js',
+                         'js/controllers/meta/SchemaAddController.js'
+                     ]
+                   }
+                 ]);
+               }]
+           }
+       })
+
+       .state('meta-schema-edit', {
+           url: "/meta/schema/edit/:uuid",
+           params: {
+             uuid: '',
+           },
+           data: {pageTitle: 'Metadata Schema Edit'},
+           templateUrl: "views/meta/schema-edit.html",
+           controller: "SchemaEditController",
+           resolve: {
+               deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                 return $ocLazyLoad.load([
+                   {
+                     serie: true,
+                     name: 'AgaveToGo',
+                     files: [
+                         'js/services/ActionsService.js',
+                         'js/services/MessageService.js',
+                         'js/controllers/meta/SchemaEditController.js'
+                     ]
+                   }
+                 ]);
+               }]
+           }
+       })
+
+
+       .state('meta-manager', {
+           url: "/meta/meta",
+           templateUrl: "views/meta/meta-manager.html",
+           data: {pageTitle: 'Metadata Manager'},
+           controller: "MetaManagerDirectoryController",
+           resolve: {
+               deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                   return $ocLazyLoad.load({
+                       serie: true,
+                       name: 'AgaveToGo',
+                       insertBefore: '#ng_load_plugins_before',
+                       files: [
+                           'js/services/ActionsService.js',
+                           'js/services/MessageService.js',
+                           'js/controllers/meta/MetaManagerDirectoryController.js'
+                       ]
+                   });
+               }]
+           }
+       })
+
+       .state('meta-add', {
+           url: "/meta/add",
+           data: {pageTitle: 'Metadata Add'},
+           templateUrl: "views/meta/add.html",
+           controller: "MetaAddController",
+           resolve: {
+               deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                 return $ocLazyLoad.load([
+                   {
+                     serie: true,
+                     name: 'AgaveToGo',
+                     files: [
+                         'js/services/ActionsService.js',
+                         'js/services/MessageService.js',
+                         'js/controllers/meta/MetaAddController.js'
+                     ]
+                   }
+                 ]);
+               }]
+           }
+       })
+
 
         /**********************************************************************/
         /**********************************************************************/

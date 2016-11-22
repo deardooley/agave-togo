@@ -1,0 +1,73 @@
+<div modal="metaSubmitSuccess">
+    <div class="modal-header">
+      <h3 class="modal-title">Meta Schema Edit</h3>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-success">
+        <strong>You have successfully created/updated your schema</strong>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                UUID
+              </td>
+              <td>
+                {{schema.uuid}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Owner
+              </td>
+              <td>
+                {{schema.owner}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Schema
+              </td>
+              <td>
+                  <json-formatter json="schema.schema" open="1"></json-formatter>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Links
+              </td>
+              <td>
+                  <json-formatter json="schema._links" open="1"></json-formatter>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Created
+              </td>
+              <td>
+                {{schema.created}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Last Updated
+              </td>
+              <td>
+                {{schema.lastUpdated}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" type="button" ng-click="close()">Close</button>
+    </div>
+</div>

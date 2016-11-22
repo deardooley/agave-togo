@@ -1,0 +1,135 @@
+meta-manager.html
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="#/dashboard.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a href="#/meta/meta">Metadata</a>
+        </li>
+    </ul>
+    <div landing-start-menu></div>
+</div>
+<h3 class="page-title"> Metadata Manager
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light portlet-fit portlet-datatable bordered">
+          <div class="portlet-title">
+              <div class="caption">
+                  <i class="fa fa-pencil-square-o"></i> Metadata
+              </div>
+
+              <div class="row text-center">
+                <div class="col-md-12">
+                  <a href="#/meta/meta/add" class="btn btn-outline green pull-right" role="button">
+                    <i class="fa fa-plus"></i>
+                    <span class="hidden-480"> New Metadata</span>
+                  </a>
+                </div>
+              </div>
+
+              <div class="text-center top-buffer" ng-keyup="$event.keyCode == 13 ? searchTools(query) : null">
+                  <div class="btn-group top-buffer">
+                    <div class="input-group">
+                      <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
+                      <input type="text" class="form-control" placeholder="Filter" ng-model="$parent.filter">
+                    </div>
+                  </div>
+              </div>
+          </div>
+
+            <div class="portlet-body">
+              <div class="row text-center" ng-show="requesting">
+                  <div class="col-md-12">
+                    <div class="loading-message"><div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
+                  </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div ng-show="!requesting">
+
+                    <div ng-show="metas.length === 0" class="text-center">
+                      <div class="row text-center">
+                        <div class="col-md-12">
+                            No metadata found
+                        </div>
+                      </div>
+                    </div>
+
+                    <div ng-show="metas.length > 0">
+                      <table class="table table-striped table-bordered table-hover management" width="100%" id="datatable_collection">
+                        <thead>
+                          <tr role="row" class="heading">
+                            <th width="10%">
+                                UUID
+                            </th>
+                            <th width="10%" class="hidden-xs">
+                                Name
+                            </th>
+                            <th width="20%" class="hidden-xs">
+                                Association IDs
+                            </th>
+                            <th width="10%" class="hidden-xs">
+                                Owner
+                            </th>
+                            <th width="10%" class="hidden-xs">
+                                Last Updated
+                            </th>
+                            <th width="30%">
+                                Value
+                            </th>
+                            <th width="10%" class="text-center"> Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody ng-repeat="meta in metas | orderBy:sortType:sortReverse | filter: filter">
+                          <tr>
+                            <td>
+                              {{meta.uuid}}
+                            </td>
+                            <td class="hidden-xs">
+                              {{meta.name}}
+                            </td>
+                            <td class="hidden-xs">
+                              <json-formatter json="meta.associationIds" open="1"></json-formatter>
+                            </td>
+                            <td class="hidden-xs">
+                              {{meta.owner}}
+                            </td>
+                            <td class="hidden-xs">
+                              {{meta.lastUpdated}}
+                            </td>
+                            <td>
+                              <json-formatter json="meta.value" open="0"></json-formatter>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <a class="btn red btn-outline" href="#" data-toggle="dropdown">
+                                        Actions
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                      <!-- <li>
+                                        <a ui-sref="notifications-manager({associatedUuid: meta.value.source})" role="button"> <i class="fa fa-pencil"></i> Subscriptions</a>
+                                      </li>
+                                      <li>
+                                        <a ng-click="confirmAction('meta', notification, 'delete', notifications, $index)" role="button"> <i class="fa fa-trash-o"></i> Delete</a>
+                                      </li> -->
+                                    </ul>
+                                </div>
+                            </td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>

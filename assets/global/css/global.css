@@ -1,0 +1,20 @@
+.top-buffer {
+  margin-top:10px;
+}
+
+.json-formatter-row{
+  font-size: medium;
+}
+
+.table td, .table th {
+  word-break: break-all;
+}
+
+.agave-message {
+  color:#b4bcc8;
+}
+
+/* CodeMirror */
+.CodeMirror {
+  height: auto !important;
+}
