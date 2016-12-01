@@ -142,10 +142,10 @@ $ auth-check -v
 We have preconfigured the project with a simple development web server. The simplest way to start this server is:
 
 ```
-npm start
+gulp
 ```
 
-Now browse to the app at [http://localhost:9000/app](http://localhost:9000/app).
+Now browse to the app at [https://localhost:9000/app](https://localhost:9000/app).
 
 ### Run tests (optional)
 

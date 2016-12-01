@@ -131,6 +131,8 @@
     "jquery.scrollTo": "./assets/global/plugins/jquery.scrollTo.min.js",
     "jquery.sparkline": "./assets/global/plugins/jquery.sparkline.min.js",
     "jquery.migrate": "./assets/global/plugins/jquery-migrate.min.js",
+    "jsoneditor": "4.2.1",
+    "ng-jsoneditor": "1.0.0",
     "livecss": "./assets/global/plugins/livecss.js",
     "raphael": "~2.1.4",
     "respond": "~1.4.2",

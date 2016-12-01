@@ -2,6 +2,7 @@
 
 // sass compile
 var gulp = require('gulp');
+var connect = require('gulp-connect');
 var sass = require('gulp-sass');
 var prettify = require('gulp-prettify');
 var minifyCss = require("gulp-minify-css");
@@ -50,7 +51,7 @@ gulp.task('sass:watch', function () {
 
 //*** CSS & JS minify task
 gulp.task('minify', function () {
-    // css minify 
+    // css minify
     gulp.src(['./assets/apps/css/*.css', '!./assets/apps/css/*.min.css']).pipe(minifyCss()).pipe(rename({suffix: '.min'})).pipe(gulp.dest('./html'));
     gulp.src(['./assets/global/css/*.css', '!./assets/global/css/*.min.css']).pipe(minifyCss()).pipe(rename({suffix: '.min'})).pipe(gulp.dest('./html'));
     gulp.src(['./assets/pages/css/*.css', '!./assets/pages/css/*.min.css']).pipe(minifyCss()).pipe(rename({suffix: '.min'})).pipe(gulp.dest('./html'));
@@ -106,6 +107,14 @@ gulp.task('rtlcss', function () {
         .pipe(gulp.dest('./assets/global/plugins/bootstrap/css'));
 });
 
+gulp.task('connect', function() {
+    connect.server({
+        livereload: true,
+        port: 9000,
+	      https: true,
+    });
+});
+
 //*** HTML formatter task
 gulp.task('prettify', function () {
 
@@ -117,3 +126,5 @@ gulp.task('prettify', function () {
         })).
         pipe(gulp.dest('./'));
 });
+
+gulp.task('default', ['connect']);
