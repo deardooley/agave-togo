@@ -27,25 +27,12 @@
                       <input type="text" class="form-control" placeholder="Filter" ng-model="$parent.filter">
                     </div>
                   </div>
-                  <!-- <div class="row top-buffer" ng-show="showSearch">
-                    <query-builder group="filter.group" resource="notifications-alerts"></query-builder>
-                    <div class="col-md-12 top-buffer">
+              </div>
 
-                      <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
-                        <input type="text" class="form-control" placeholder="Search" ng-model="query">
-                      </div>
-
-                      <div class="btn-group">
-                        <button class="btn btn-success top-buffer" ng-click="searchTools(query)">Search</button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="btn-group top-buffer">
-                    <button class="btn btn-default" ng-click="showSearch = !showSearch">
-                      <i class="fa fa-search"></i> {{showSearch ? 'Hide Tools' : 'Search Tools'}}
-                    </button>
-                  </div> -->
+              <div class="btn-group top-buffer pull-right">
+                <button class="btn btn-default" ng-click="showValues = !showValues">
+                  <i class="fa fa-play" ng-class="showValues ? 'fa fa-play fa-rotate-90' : 'fa fa-play'"></i> {{showValues ? 'Close Message Objects' : 'Open Message Objects'}}
+                </button>
               </div>
           </div>
 
@@ -55,7 +42,6 @@
                     <div class="loading-message"><div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
                   </div>
               </div>
-
               <div class="row">
                 <div class="col-md-12">
                   <div ng-show="!requesting">
@@ -101,7 +87,10 @@
                             <td>
                               {{notification.value.notificationId}}
                             </td>
-                            <td class="hidden-xs">
+                            <td ng-if="showValues" class="hidden-xs">
+                              <json-formatter json="notification.value.message" open="1"></json-formatter>
+                            </td>
+                            <td ng-if="!showValues" class="hidden-xs">
                               <json-formatter json="notification.value.message" open="0"></json-formatter>
                             </td>
                             <td class="hidden-xs">
@@ -118,7 +107,7 @@
                                         <a ui-sref="notifications-manager({associatedUuid: notification.value.source})" role="button"> <i class="fa fa-pencil"></i> Subscriptions</a>
                                       </li>
                                       <li>
-                                        <a ng-click="confirmAction('meta', notification, 'delete', notifications, $index)" role="button"> <i class="fa fa-trash-o"></i> Delete</a>
+                                        <a ng-click="confirmAction('metas', notification, 'delete', notifications, $index)" role="button"> <i class="fa fa-trash-o"></i> Delete</a>
                                       </li>
                                     </ul>
                                 </div>

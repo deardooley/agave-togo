@@ -587,6 +587,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
             },
             function(response) {
               MessageService.handle(response, $translate.instant('error_jobs_create'));
+              $scope.requesting = false;
           });
       }
 

@@ -21,7 +21,8 @@ angular.module('AgaveToGo').controller('SchemaAddController', function ($scope, 
             });
           },
           function(response){
-
+            MessageService.handle(response, $translate.instant('error_meta_schema_add'));
+            $scope.requesting = false;
           }
         );
     };
@@ -43,13 +44,5 @@ angular.module('AgaveToGo').controller('SchemaAddController', function ($scope, 
     };
 
     $scope.options = {mode: 'code', change: $scope.handleError };
-
-    $scope.handleError = function(error){
-      if (typeof error === 'undefined'){
-        $scope.submitButton = true;
-      } else {
-        $scope.submitButton = false;
-      }
-    };
 
 });

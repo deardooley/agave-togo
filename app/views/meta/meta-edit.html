@@ -1,4 +1,4 @@
-<h3 class="page-title"> Add Metadata Schema</h3>
+<h3 class="page-title"> Edit Metadata</h3>
 
 <div class="row text-center" ng-show="requesting">
     <div class="col-md-12">
@@ -6,25 +6,37 @@
     </div>
 </div>
 
-<div class="row top-buffer" ng-show="!requesting">
-    <div class="col-md-12">
+<div class="row top-buffer">
+    <div class="col-md-12" ng-show="!requesting">
         <div class="portlet light bordered" id="form_wizard_1">
             <div class="portlet-title top-buffer">
                 <div class="caption">
                     <i class=" icon-layers font-red"></i>
                     <span class="caption-subject font-red bold uppercase">
-                        Schema Editor
+                        Metadata Editor - {{uuid}}
                     </span>
                 </div>
             </div>
             <div class="portlet-body form">
                 <div class="row">
-                  <div class="col-md-10 col-md-offset-1">
-                    <div ng-jsoneditor="onLoad" ng-model="meta" options="options" change="handleError()" style="height: 800px;"></div>
+                  <div class="col-md-4">
+                    <h4>Original</h4>
+                    <pre ng-bind-html="metaOriginal| json" style="height: 800px;"></pre>
+                  </div>
+                  <div class="col-md-4">
+                    <h4>Edit</h4>
+                    <div ng-jsoneditor="onLoad" ng-model="metaEdit" options="options" change="handleError()" style="height: 800px;"></div>
                     <div class="text-center top-buffer">
                       <button class="btn btn-primary" ng-click="submit()" ng-class="submitButton ? '' : 'disabled'">Submit</button>
                     </div>
                   </div>
+                  <div class="col-md-4">
+                    <h4>Diff</h4>
+                    <pre ng-bind-html="metaDiff" style="height: 800px;"></pre>
+                  </div>
+                </div>
+                <div class="row">
+
                 </div>
             </div>
         </div>

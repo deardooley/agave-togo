@@ -151,7 +151,13 @@ AgaveToGo.config(function($translateProvider) {
     error_jobs_list: 'Error: Could not retrieve jobs',
 
     error_meta_list: 'Error: Could not retrieve metadata',
+    error_meta_update_uuid: 'Error: No metadata UUID provided',
+    error_meta_add: 'Error: Could not add metadata',
+    error_meta_search_query: 'Error: Could not parse search query - ',
+
+
     error_meta_schema_list: 'Error: Could not retrieve metadata schema',
+    error_meta_schema_add: 'Error: Could not add metadata schema',
     error_meta_schema_update: 'Error: Could not create/update metadata schema',
     error_meta_schema_update_uuid: 'Error: No metadata schema UUID provided',
 
@@ -580,7 +586,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
 
        .state('meta-manager', {
-           url: "/meta/meta",
+           url: "/meta",
            templateUrl: "views/meta/meta-manager.html",
            data: {pageTitle: 'Metadata Manager'},
            controller: "MetaManagerDirectoryController",
@@ -600,10 +606,11 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
            }
        })
 
+
        .state('meta-add', {
            url: "/meta/add",
            data: {pageTitle: 'Metadata Add'},
-           templateUrl: "views/meta/add.html",
+           templateUrl: "views/meta/meta-add.html",
            controller: "MetaAddController",
            resolve: {
                deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -621,6 +628,32 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                }]
            }
        })
+
+       .state('meta-edit', {
+           url: "/meta/edit/:uuid",
+           params: {
+             uuid: '',
+           },
+           data: {pageTitle: 'Metadata Edit'},
+           templateUrl: "views/meta/meta-edit.html",
+           controller: "MetaEditController",
+           resolve: {
+               deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                 return $ocLazyLoad.load([
+                   {
+                     serie: true,
+                     name: 'AgaveToGo',
+                     files: [
+                         'js/services/ActionsService.js',
+                         'js/services/MessageService.js',
+                         'js/controllers/meta/MetaEditController.js'
+                     ]
+                   }
+                 ]);
+               }]
+           }
+       })
+
 
 
         /**********************************************************************/

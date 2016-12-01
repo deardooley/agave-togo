@@ -1,10 +1,10 @@
 <div modal="metaSubmitSuccess">
     <div class="modal-header">
-      <h3 class="modal-title">Metadata Schema</h3>
+      <h3 class="modal-title">Metadata</h3>
     </div>
     <div class="modal-body">
       <div class="alert alert-success">
-        <strong>You have successfully created/updated your schema</strong>
+        <strong>You have successfully created/updated your metadata</strong>
       </div>
       <div class="table-responsive">
         <table class="table">
@@ -20,7 +20,7 @@
                 UUID
               </td>
               <td>
-                {{schema.uuid}}
+                {{meta.uuid}}
               </td>
             </tr>
             <tr>
@@ -28,15 +28,31 @@
                 Owner
               </td>
               <td>
-                {{schema.owner}}
+                {{meta.owner}}
+              </td>
+            </tr>
+            <tr ng-if="meta.schemaId">
+              <td>
+                Schema ID
+              </td>
+              <td>
+                {{meta.schemaId}}
               </td>
             </tr>
             <tr>
               <td>
-                Schema
+                Association IDs
               </td>
               <td>
-                  <json-formatter json="schema.schema" open="1"></json-formatter>
+                  <json-formatter json="meta.associationsIds" open="1"></json-formatter>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Value
+              </td>
+              <td>
+                  <json-formatter json="meta.value" open="1"></json-formatter>
               </td>
             </tr>
             <tr>
@@ -44,7 +60,7 @@
                 Links
               </td>
               <td>
-                  <json-formatter json="schema._links" open="1"></json-formatter>
+                  <json-formatter json="meta._links" open="1"></json-formatter>
               </td>
             </tr>
             <tr>
@@ -52,7 +68,7 @@
                 Created
               </td>
               <td>
-                {{schema.created}}
+                {{meta.created}}
               </td>
             </tr>
             <tr>
@@ -60,7 +76,7 @@
                 Last Updated
               </td>
               <td>
-                {{schema.lastUpdated}}
+                {{meta.lastUpdated}}
               </td>
             </tr>
           </tbody>

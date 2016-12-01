@@ -29,41 +29,51 @@
                 </div>
               </div>
 
-              <div class="text-center top-buffer" ng-keyup="$event.keyCode == 13 ? searchTools(query) : null">
+              <div class="text-center top-buffer" ng-keyup="($event.keyCode == 13 && searchButton) ? search(query) : null">
                   <div class="btn-group top-buffer">
                     <div class="input-group">
                       <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
                       <input type="text" class="form-control" placeholder="Filter" ng-model="$parent.filter">
                     </div>
                   </div>
-              </div>
-              <!-- <div ng-controller="QueryBuilderMongoCtrl" class="text-center top-buffer" ng-keyup="$event.keyCode == 13 ? searchTools(query) : null">
-                  <div class="btn-group top-buffer">
-                    <div class="input-group">
-                      <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
-                      <input type="text" class="form-control" placeholder="Filter" ng-model="$parent.filter">
-                    </div>
-                  </div>
-                  <div class="row top-buffer">
-                    <query-builder-mongo group="filter.group" resource="meta">HERE</query-builder-mongo>
+
+                  <div class="row top-buffer" ng-show="showSearch">
                     <div class="col-md-12 top-buffer">
-
-                      <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
-                        <input type="text" class="form-control" placeholder="Search" ng-model="query">
-                      </div>
-
-                      <div class="btn-group">
-                        <button class="btn btn-success top-buffer" ng-click="searchTools(query)">Search</button>
-                      </div>
+                      <div ng-jsoneditor="onLoad" ng-model="query" class="text-left" options="options" style="height: 200px;"></div>
                     </div>
                   </div>
+
+                  <div class="row top-buffer" ng-show="showSearch">
+                      <div class="col-md-4 col-md-offset-4 top-buffer">
+                        <div class="input-group ">
+                            <span class="input-group-addon">limit</span>
+                            <input type="text" class="form-control" ng-model="limit"/>
+                            <span class="input-group-addon">offset</span>
+                            <input type="text" class="form-control" ng-model="offset"/>
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="row top-buffer" ng-show="showSearch">
+                    <div class="col-md-12 top-buffer">
+                      <button ng-show="!searchButton" class="btn btn-success top-buffer disabled" data-toggle="tooltip" title="Please insert a valid JSON query to enable search">Search</button>
+                      <button ng-show="searchButton" class="btn btn-success top-buffer" ng-click="search(query)">Search</button>
+                    </div>
+                  </div>
+
                   <div class="btn-group top-buffer">
                     <button class="btn btn-default" ng-click="showSearch = !showSearch">
                       <i class="fa fa-search"></i> {{showSearch ? 'Hide Tools' : 'Search Tools'}}
                     </button>
                   </div>
-              </div> -->
+              </div>
+
+              <div class="btn-group pull-right top-buffer">
+                <button class="btn btn-default" ng-click="showValues = !showValues">
+                  <i class="fa fa-play" ng-class="showValues ? 'fa fa-play fa-rotate-90' : 'fa fa-play'"></i> {{showValues ? 'Close Schema Objects' : 'Open Schema Objects'}}
+                </button>
+              </div>
+
           </div>
 
             <div class="portlet-body">
@@ -77,7 +87,7 @@
                 <div class="col-md-12">
                   <div ng-show="!requesting">
 
-                    <div ng-show="metas.length === 0" class="text-center">
+                    <div ng-show="schemas.length === 0" class="text-center">
                       <div class="row text-center">
                         <div class="col-md-12">
                             No metadata found
@@ -85,44 +95,63 @@
                       </div>
                     </div>
 
-                    <div ng-show="metas.length > 0">
+                    <div ng-show="schemas.length > 0">
                       <table class="table table-striped table-bordered table-hover management" width="100%" id="datatable_collection">
                         <thead>
                           <tr role="row" class="heading">
                             <th width="10%">
+                              <a href="#" ng-click="sortType = 'uuid'; sortReverse = !sortReverse">
                                 UUID
+                                <span ng-show="sortType == 'uuid' && !sortReverse" class="fa fa-caret-down"></span>
+                                <span ng-show="sortType == 'uuid' && sortReverse" class="fa fa-caret-up"></span>
+                              </a>
                             </th>
                             <th width="10%" class="hidden-xs">
+                              <a href="#" ng-click="sortType = 'owner'; sortReverse = !sortReverse">
                                 Owner
+                                <span ng-show="sortType == 'owner' && !sortReverse" class="fa fa-caret-down"></span>
+                                <span ng-show="sortType == 'owner' && sortReverse" class="fa fa-caret-up"></span>
+                              </a>
                             </th>
                             <th width="40%">
                                 Schema
                             </th>
                             <th width="15%" class="hidden-xs">
+                              <a href="#" ng-click="sortType = 'created'; sortReverse = !sortReverse">
                                 Created
+                                <span ng-show="sortType == 'created' && !sortReverse" class="fa fa-caret-down"></span>
+                                <span ng-show="sortType == 'created' && sortReverse" class="fa fa-caret-up"></span>
+                              </a>
                             </th>
                             <th width="15%" class="hidden-xs">
+                              <a href="#" ng-click="sortType = 'lastUpdated'; sortReverse = !sortReverse">
                                 Last Updated
+                                <span ng-show="sortType == 'lastUpdated' && !sortReverse" class="fa fa-caret-down"></span>
+                                <span ng-show="sortType == 'lastUpdated' && sortReverse" class="fa fa-caret-up"></span>
+                              </a>
                             </th>
                             <th width="10%" class="text-center"> Actions</th>
                           </tr>
                         </thead>
-                        <tbody ng-repeat="meta in metas | orderBy:sortType:sortReverse | filter: filter">
+                        <tbody ng-repeat="schema in schemas | orderBy:sortType:sortReverse | filter: filter">
                           <tr>
                             <td>
-                              {{meta.uuid}}
+                              {{schema.uuid}}
                             </td>
                             <td>
-                              {{meta.owner}}
+                              {{schema.owner}}
+                            </td>
+                            <td class="hidden-xs" ng-if="showValues">
+                              <json-formatter json="schema.schema" open="1">{{schema.schema}}</div>
+                            </td>
+                            <td class="hidden-xs" ng-if="!showValues">
+                              <json-formatter json="schema.schema" open="0">{{schema.schema}}</div>
                             </td>
                             <td class="hidden-xs">
-                              <json-formatter json="meta.schema" open="1">{{meta.schema}}</div>
+                              {{schema.created}}
                             </td>
                             <td class="hidden-xs">
-                              {{meta.created}}
-                            </td>
-                            <td class="hidden-xs">
-                              {{meta.lastUpdated}}
+                              {{schema.lastUpdated}}
                             </td>
                             <td class="text-center">
                                 <div class="btn-group">
@@ -132,13 +161,15 @@
                                     </a>
                                     <ul class="dropdown-menu pull-right">
                                       <li>
-                                        <a ui-sref="meta-schema-edit({uuid: meta.uuid})" role="button"> <i class="fa fa-pencil"></i> Edit</a>
+                                        <a ui-sref="meta-schema-edit({uuid: schema.uuid})" role="button"> <i class="fa fa-pencil"></i> Edit</a>
+                                      </li>
+                                      <li>
+                                          <a ng-click="confirmAction('schemas', schema, 'delete', schemas, $index)" > <i class="fa fa-trash-o"></i> Delete</a>
                                       </li>
                                     </ul>
                                 </div>
                             </td>
                           </tr>
-
                         </tbody>
                       </table>
                     </div>

@@ -3,7 +3,8 @@
 </div>
 <div class="modal-body">
     <p>Are you sure you want to {{resourceAction}} the following resource?</p>
-    <span>{{resource.id}}</span>
+    <span ng-show="resource.id">{{resource.id}}</span>
+    <span ng-show="!resource.id && resource.uuid">{{resource.uuid}}</span>
 </div>
 <div class="modal-footer">
     <button class="btn btn-default" ng-click="cancel()">Cancel</button>

@@ -80,9 +80,7 @@ angular.module('AgaveToGo').controller('SchemaEditController', function ($scope,
         if (currentModel){
           $scope.diff = ObjectDiff.diffOwnProperties($scope.schemaOriginal.schema, currentModel);
           $scope.schemaDiff = ObjectDiff.toJsonView($scope.diff);
-        } else {
-
-        }
+        } 
     }, true);
 
 });
