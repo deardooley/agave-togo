@@ -34,6 +34,35 @@ angular.module('AgaveToGo').controller('MetaAddController', function ($scope, $t
 
   $scope.onLoad = function (instance) {
     $scope.editor = instance;
+
+    // jsoneditor currently has no support for menu extension
+    // or autocompletion callbacks. The ace editor supports both
+    // these features. The following code would add autocompletion
+    // to the "schemaId" field. One could also listen for a valid
+    // schema selection event and load that schema to do client-side
+    // validation in the editor...
+    //
+    // $scope.editor.setOptions({enableBasicAutocompletion: true});
+    //
+    // var schemaCompleter = {
+    //   getCompletions: function(editor, session, pos, prefix, callback) {
+    //     if (!prefix.contains('"schemaId":')) { callback(null, []); return }
+    //     var schemaQuery = {uuid: "/" + prefix.subString(prefix.indexOf(':')) + "*/"};
+    //
+    //     MetaController.listMetadataSchema(JSON.stringify(schemaQuery), $scope.limit, $scope.offset)
+    //         .then(
+    //             function (response) {
+    //               callback(null, response.result.map(function(ea) {
+    //                 return {name: ea.uuid, value: ea.uuid, score: 300, meta: ea.schema}
+    //               }));
+    //             },
+    //             function(response){
+    //               MessageService.handle(response, $translate.instant('error_meta_schema_list'));
+    //             }
+    //         );
+    //   }
+    // }
+    // langTools.addCompleter(schemaCompleter);
   };
 
   $scope.handleError = function(error){
