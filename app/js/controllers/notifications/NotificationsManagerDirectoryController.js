@@ -1,8 +1,11 @@
-angular.module('AgaveToGo').controller('NotificationsManagerDirectoryController', function ($scope, $stateParams, NotificationsController, ActionsService) {
+'use strict';
+
+angular.module('AgaveToGo').controller('NotificationsManagerDirectoryController', function ($scope, $stateParams, $translate, NotificationsController, ActionsService, ActionsBulkService, MessageService) {
     $scope._COLLECTION_NAME = 'notifications';
     $scope._RESOURCE_NAME = 'notification';
 
     $scope[$scope._COLLECTION_NAME] = [];
+    $scope.notificationSelected = [];
 
     $scope.associatedUuid = null;
     $scope.queryLimit = 99999;
@@ -48,16 +51,35 @@ angular.module('AgaveToGo').controller('NotificationsManagerDirectoryController'
     $scope.searchTools = function(query){
       $scope.query = query;
       $scope.refresh();
-    }
+    };
 
-    $scope.refresh();
-
-    $scope.confirmAction = function(resourceType, resource, resourceAction, resourceList, resourceIndex){
-      ActionsService.confirmAction(resourceType, resource, resourceAction, resourceList, resourceIndex);
-    }
+    $scope.selectAllMetas = function(checkAll){
+      if (checkAll){
+        _.each($scope[$scope._COLLECTION_NAME], function(notification){
+          $scope.notificationSelected.push(notification);
+        });
+      } else {
+        $scope.notificationSelected = [];
+      }
+    };
 
     $scope.edit = function(resourceType, resource){
       ActionsService.edit(resourceType, resource);
     };
+
+    $scope.confirmBulkAction = function(collectionType, collection, selected, collectionAction){
+      ActionsBulkService.confirmBulkAction(collectionType, collection, selected, collectionAction);
+
+    };
+
+    $scope.confirmAction = function(resourceType, resource, resourceAction, resourceList, resourceIndex){
+      ActionsService.confirmAction(resourceType, resource, resourceAction, resourceList, resourceIndex);
+    };
+
+    $scope.$on('ActionsBulkService:done', function() {
+      $scope.notificationSelected = [];
+    });
+
+    $scope.refresh();
 
 });

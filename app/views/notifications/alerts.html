@@ -1,11 +1,11 @@
 <div class="page-bar">
     <ul class="page-breadcrumb">
         <li>
-            <a href="#/dashboard.html">Home</a>
-            <i class="fa fa-circle"></i>
+          <a href="#/dashboard.html">Home</a>
+          <i class="fa fa-circle"></i>
         </li>
         <li>
-            <a href="#/notifications/alerts">Alerts</a>
+          <a href="#/notifications/alerts">Alerts</a>
         </li>
     </ul>
     <div landing-start-menu></div>
@@ -15,26 +15,11 @@
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light portlet-fit portlet-datatable bordered">
-          <div class="portlet-title">
-              <div class="caption">
-                  <i class="fa fa-bell"></i> Notification Alerts
-              </div>
-
-              <div ng-controller="QueryBuilderCtrl" class="text-center top-buffer" ng-keyup="$event.keyCode == 13 ? searchTools(query) : null">
-                  <div class="btn-group top-buffer">
-                    <div class="input-group">
-                      <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
-                      <input type="text" class="form-control" placeholder="Filter" ng-model="$parent.filter">
-                    </div>
-                  </div>
-              </div>
-
-              <div class="btn-group top-buffer pull-right">
-                <button class="btn btn-default" ng-click="showValues = !showValues">
-                  <i class="fa fa-play" ng-class="showValues ? 'fa fa-play fa-rotate-90' : 'fa fa-play'"></i> {{showValues ? 'Close Message Objects' : 'Open Message Objects'}}
-                </button>
-              </div>
-          </div>
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-search"></i> Notification Alerts
+                </div>
+            </div>
 
             <div class="portlet-body">
               <div class="row text-center" ng-show="requesting">
@@ -42,80 +27,124 @@
                     <div class="loading-message"><div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
                   </div>
               </div>
+
               <div class="row">
                 <div class="col-md-12">
                   <div ng-show="!requesting">
-
                     <div ng-show="notifications.length === 0" class="text-center">
                       <div class="row text-center">
                         <div class="col-md-12">
-                            No alerts found
+                            No notification alert found
                         </div>
                       </div>
                     </div>
 
                     <div ng-show="notifications.length > 0">
-                      <table class="table table-striped table-bordered table-hover management" width="100%" id="datatable_collection">
-                        <thead>
-                          <tr role="row" class="heading">
-                            <th width="10%" class="hidden-xs">
-                                Owner
-                            </th>
-                            <th width="20%">
-                                Source
-                            </th>
-                            <th width="20%">
-                                Notification ID
-                            </th>
-                            <th width="20%" class="hidden-xs">
-                                Message
-                            </th>
-                            <th width="20%" class="hidden-xs">
-                                Event
-                            </th>
-                            <th width="10%" class="text-center"> Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody ng-repeat="notification in notifications | orderBy:sortType:sortReverse | filter: filter">
-                          <tr>
-                            <td class="hidden-xs">
-                              {{notification.value.owner}}
-                            </td>
-                            <td>
-                              {{notification.value.source}}
-                            </td>
-                            <td>
-                              {{notification.value.notificationId}}
-                            </td>
-                            <td ng-if="showValues" class="hidden-xs">
-                              <json-formatter json="notification.value.message" open="1"></json-formatter>
-                            </td>
-                            <td ng-if="!showValues" class="hidden-xs">
-                              <json-formatter json="notification.value.message" open="0"></json-formatter>
-                            </td>
-                            <td class="hidden-xs">
-                              {{notification.value.event}}
-                            </td>
-                            <td class="text-center">
-                                <div class="btn-group">
-                                    <a class="btn red btn-outline" href="#" data-toggle="dropdown">
-                                        Actions
-                                        <i class="fa fa-angle-down"></i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                      <li>
-                                        <a ui-sref="notifications-manager({associatedUuid: notification.value.source})" role="button"> <i class="fa fa-pencil"></i> Subscriptions</a>
-                                      </li>
-                                      <li>
-                                        <a ng-click="confirmAction('metas', notification, 'delete', notifications, $index)" role="button"> <i class="fa fa-trash-o"></i> Delete</a>
-                                      </li>
-                                    </ul>
-                                </div>
-                            </td>
-                          </tr>
-
-                        </tbody>
-                      </table>
+                        <table class="table table-striped table-bordered table-hover management" width="100%" id="datatable_collection">
+                            <thead>
+                                <tr role="row" class="heading">
+                                    <th width="10%" class="text-center">
+                                      <input type="checkbox" ng-click="checkAll = !checkAll; selectAllNotifications(checkAll);">
+                                      <div class="btn-group" ng-show="notificationSelected.length !== 0">
+                                          <a class="btn red btn-outline" href="#" data-toggle="dropdown">
+                                              Actions
+                                              <i class="fa fa-angle-down"></i>
+                                          </a>
+                                          <ul class="dropdown-menu">
+                                              <li>
+                                                  <a ng-click="confirmBulkAction('alerts', notifications, notificationSelected, 'delete')"> <i class="fa fa-trash"></i> Delete </a>
+                                              </li>
+                                          </ul>
+                                      </div>
+                                    </th>
+                                    <th width="10%">
+                                      <a href="#" ng-click="sortType = 'uuid'; sortReverse = !sortReverse">
+                                        Meta UUID
+                                        <span ng-show="sortType == 'uuid' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'uuid' && sortReverse" class="fa fa-caret-up"></span>
+                                      </a>
+                                    </th>
+                                    <th width="10%" class="hidden-xs">
+                                      <a href="#" ng-click="sortType = 'created'; sortReverse = !sortReverse">
+                                        Meta Created Date
+                                        <span ng-show="sortType == 'created' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'created' && sortReverse" class="fa fa-caret-up"></span>
+                                      </a>
+                                    </th>
+                                    <th width="10%" class="hidden-xs">
+                                      Owner
+                                    </th>
+                                    <th width="10%" class="hidden-xs">
+                                        Source
+                                    </th>
+                                    <th width="10%">
+                                        Notification ID
+                                    </th>
+                                    <th width="10%" class="hidden-xs">
+                                        Message
+                                    </th>
+                                    <th width="10%" class="hidden-xs">
+                                      Source
+                                    </th>
+                                    <th width="10%" class="hidden-xs">
+                                        Event
+                                    </th>
+                                    <th width="10%" class="text-center" ng-show="notificationSelected.length === 0"> Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="notification in notifications | orderBy:sortType:sortReverse | filter:filter" >
+                                    <td class="text-center">
+                                      <label>
+                                        <input type="checkbox" data-checklist-model="$parent.notificationSelected" data-checklist-value="notification">
+                                      </label>
+                                    </td>
+                                    <td>
+                                        {{notification.uuid}}
+                                    </td>
+                                    <td class="hidden-xs">
+                                      <span am-time-ago="notification.created" class="date"></span>
+                                    </td>
+                                    <td class="hidden-xs">
+                                      <span> {{notification.value.owner}} </span>
+                                    </td>
+                                    <td class="hidden-xs">
+                                      <span> {{notification.value.source}} </span>
+                                    </td>
+                                    <td>
+                                      <span> {{notification.value.notificationId}} </span>
+                                    </td>
+                                    <td ng-if="showValues" class="hidden-xs">
+                                      <json-formatter json="notification.value.message" open="1"></json-formatter>
+                                    </td>
+                                    <td ng-if="!showValues" class="hidden-xs">
+                                      <json-formatter json="notification.value.message" open="0"></json-formatter>
+                                    </td>
+                                    <td class="hidden-xs">
+                                      <span> {{notification.value.source}} </span>
+                                    </td>
+                                    <td class="hidden-xs">
+                                      {{notification.value.event}}
+                                    </td>
+                                    <td class="text-center" ng-show="notificationSelected.length === 0">
+                                        <div class="btn-group">
+                                            <a class="btn red btn-outline" href="#" data-toggle="dropdown">
+                                                Actions
+                                                <i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right">
+                                              <li>
+                                                <a ui-sref="notifications-manager({associatedUuid: notification.value.source})" role="button"> <i class="fa fa-pencil"></i> Subscriptions</a>
+                                              </li>
+                                              <li>
+                                                <a ng-click="confirmAction('metas', notification, 'delete', notifications, $index)" role="button"> <i class="fa fa-trash-o"></i> Delete</a>
+                                              </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                   </div>
                 </div>

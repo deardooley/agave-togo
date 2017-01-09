@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h3 class="modal-title">Confirm {{collectionAction | translate}}</h3>
+</div>
+<div class="modal-body">
+    <div class="row text-center" ng-show="requesting">
+        <div class="col-md-12">
+          <div class="loading-message"><div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
+        </div>
+    </div>
+    <div ng-show="!requesting"> 
+      <p>Are you sure you want to {{collectionAction | translate}} the following resources?</p>
+      <div ng-repeat="resource in selected" ng-show="resource.id">
+        {{resource.id}}
+      </div>
+      <div ng-repeat="resource in selected" ng-show="resource.uuid">
+        {{resource.uuid}}
+      </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" ng-click="ok()">Ok</button>
+</div>
