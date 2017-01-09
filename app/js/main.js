@@ -1,13 +1,16 @@
+'use strict';
+
 /***
 Agave ToGo AngularJS App Main Script
 ***/
 
 /* Metronic App */
-var AgaveToGo = angular.module("AgaveToGo", [
+var AgaveToGo = angular.module('AgaveToGo', [
   'AgavePlatformScienceAPILib',
   'angular-cache',
   'angularMoment',
   'angularUtils.directives.dirPagination',
+  'checklist-model',
   'CommonsService',
   'ds.objectDiff',
   'jsonFormatter',
@@ -56,12 +59,12 @@ var AgaveToGo = angular.module("AgaveToGo", [
         metadata.value = data;
         MetaController.addMetadata(metadata)
           .then(
-            function(response){
+            function(){
             },
             function(response){
               var message = '';
               if (response.errorResponse.message) {
-                message = 'Error: Could not save notification - ' + response.errorResponse.message
+                message = 'Error: Could not save notification - ' + response.errorResponse.message;
               } else if (response.errorResponse.fault){
                 message = 'Error: Could not save notifications - ' + response.errorResponse.fault.message;
               } else {
@@ -94,12 +97,12 @@ AgaveToGo.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
         debug: true,
         modules: [
         {
-            name: "ui.codemirror",
+            name: 'ui.codemirror',
             files: [
-                "../bower_components/codemirror/lib/codemirror.css",
-                "../bower_components/codemirror/theme/neo.css",
-                "../bower_components/codemirror/lib/codemirror.js",
-                "../bower_components/angular-ui-codemirror/ui-codemirror.min.js"
+                '../bower_components/codemirror/lib/codemirror.css',
+                '../bower_components/codemirror/theme/neo.css',
+                '../bower_components/codemirror/lib/codemirror.js',
+                '../bower_components/angular-ui-codemirror/ui-codemirror.min.js'
             ]
         }]
     });
@@ -131,6 +134,58 @@ AgaveToGo.config(function($locationProvider) {
     });
 });
 
+AgaveToGo.config(function ($provide) {
+  $provide.decorator('$q', function ($delegate) {
+
+    /**
+     * $q.allSettled returns a promise that is fulfilled with an array of promise state snapshots,
+     * but only after all the original promises have settled, i.e. become either fulfilled or rejected.
+     *
+     * This method is often used in order to execute a number of operations concurrently and be
+     * notified when they all finish, regardless of success or failure.
+     *
+     * @param promises array or object of promises
+     * @returns {Promise} when resolved will contain an an array or object of resolved or rejected promises.
+     * A resolved promise have the form { status: 'fulfilled', value: value }.  A rejected promise will have
+     * the form { status: 'rejected', reason: reason }.
+     */
+    function allSettled(promises) {
+      var deferred = $delegate.defer(),
+          counter = 0,
+          results = angular.isArray(promises) ? [] : {};
+
+      angular.forEach(promises, function(promise, key) {
+        counter++;
+        $delegate.when(promise).then(function(value) {
+          if (results.hasOwnProperty(key)) {
+            return;
+          }
+          results[key] = { status: 'fulfilled', value: value };
+          if (!(--counter)){
+            deferred.resolve(results);
+          }
+        }, function(reason) {
+          if (results.hasOwnProperty(key)){
+            return;
+          }
+          results[key] = { status: 'rejected', reason: reason };
+          if (!(--counter)){
+            deferred.resolve(results);
+          }
+        });
+      });
+
+      if (counter === 0) {
+        deferred.resolve(results);
+      }
+
+      return deferred.promise;
+    }
+    $delegate.allSettled = allSettled;
+    return $delegate;
+  });
+});
+
 AgaveToGo.config(function($translateProvider) {
   $translateProvider.translations('en', {
     error_apps_add: 'Error: Could not submit app',
@@ -156,8 +211,11 @@ AgaveToGo.config(function($translateProvider) {
     error_meta_search_query: 'Error: Could not parse search query - ',
 
 
+
     error_meta_schema_list: 'Error: Could not retrieve metadata schema',
     error_meta_schema_add: 'Error: Could not add metadata schema',
+    error_meta_delete: 'Error: Could not delete the following metadata: ',
+    error_meta_schema_delete: 'Error: Could not delete the following schema: ',
     error_meta_schema_update: 'Error: Could not create/update metadata schema',
     error_meta_schema_update_uuid: 'Error: No metadata schema UUID provided',
 
@@ -171,6 +229,7 @@ AgaveToGo.config(function($translateProvider) {
     error_monitors_checks_search: 'Error: could not retrieve monitor checks',
 
     error_notifications_add: 'Error: Could not add notification',
+    error_notifications_delete: 'Error: Could not delete notification: ',
     error_notifications_alerts: 'Error: Could not retrieve notification alerts',
     error_notifications_list: 'Error: Could not retrieve notification',
     error_notifications_search: 'Error: Could not retrieve notifications',
@@ -194,12 +253,18 @@ AgaveToGo.config(function($translateProvider) {
 
     success_files_permissions_update: 'Success updating file permissions',
 
+    success_meta_delete: 'Success deleting metadata: ',
+    success_meta_schema_delete: 'Success deleting schema: ',
+
     success_monitors_test: 'Success: fired monitor ',
     success_monitors_update: 'Success: updated ',
 
-    success_notifications_add: 'Success: added ',
+    success_notifications_add: 'Success adding notification: ',
+    success_notifications_delete: 'Success deleting notification: ',
     success_notifications_test: 'Success: fired notification ',
     success_notifications_update: 'Success: updated ',
+
+    success_schema_delete: 'Success deleting schema: ',
 
     success_systems_roles: 'Success: updated roles for ',
     setDefault: 'set to default',
@@ -241,7 +306,7 @@ AgaveToGo.factory('settings', ['$rootScope', function($rootScope) {
 }]);
 
 /* Setup App Main Controller */
-AgaveToGo.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
+AgaveToGo.controller('AppController', ['$scope', '$rootScope', function($scope) {
     $scope.$on('$viewContentLoaded', function() {
         //App.initComponents(); // init core components
         //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive
@@ -276,11 +341,11 @@ AgaveToGo.controller('HeaderController', ['$scope', '$localStorage', 'StatusIoCo
             for (var i=0; i<data.result.status.length; i++) {
                 if (data.result.status[i].status_code !== 100) {
                     issues.push({
-                        "component": data.result.status[i].name,
-                        "container": data.result.status[i].containers[0].name,
-                        "status": data.result.status[i].status,
-                        "statusCode" : data.result.status[i].status_code,
-                        "updated": data.result.status[i].updated
+                        'component': data.result.status[i].name,
+                        'container': data.result.status[i].containers[0].name,
+                        'status': data.result.status[i].status,
+                        'statusCode' : data.result.status[i].status_code,
+                        'updated': data.result.status[i].updated
                     });
                 }
             }
@@ -291,9 +356,6 @@ AgaveToGo.controller('HeaderController', ['$scope', '$localStorage', 'StatusIoCo
                 $scope.platformStatus.issues = issues;
 
             }, 0);
-
-        },
-        function(data) {
 
         }
     );
@@ -320,7 +382,9 @@ AgaveToGo.controller('QuickSidebarController', ['$scope', '$localStorage', 'Chan
         ChangelogParser.latest().then(function(data) {
             if (data) {
 
-                for(var version in data) break;
+                for(var version in data) {
+                  break;
+                }
                 $scope.changelog = data[version];
                 $scope.changelog.version = version;
 
@@ -357,7 +421,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
     function regexpMatches(val) { /*jshint validthis:true */ return this.pattern.test(val); }
 
     // Redirect any unmatched url
-    $urlRouterProvider.otherwise("/dashboard");
+    $urlRouterProvider.otherwise('/dashboard');
 
     $urlRouterProvider.rule(function ($injector, $location) {
        var path = $location.path().replace(/\/\/+/g, '/');
@@ -370,10 +434,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
     $stateProvider
         // Dashboard
         .state('dashboard', {
-            url: "/dashboard",
-            templateUrl: "views/dashboard.html",
+            url: '/dashboard',
+            templateUrl: 'views/dashboard.html',
             data: {pageTitle: 'Admin Dashboard Template'},
-            controller: "DashboardController",
+            controller: 'DashboardController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -401,10 +465,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         /**********************************************************************/
         /**********************************************************************/
         .state('jobs-manage', {
-            url: "/jobs",
-            templateUrl: "views/jobs/manager.html",
+            url: '/jobs',
+            templateUrl: 'views/jobs/manager.html',
             data: {pageTitle: 'Jobs Manager'},
-            controller: "JobsDirectoryController",
+            controller: 'JobsDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -431,11 +495,11 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
             }
         })
 
-        .state("jobs", {
+        .state('jobs', {
           abtract: true,
-          url:"/jobs/:id",
-          templateUrl:"views/jobs/resource/resource.html",
-          controller: "JobsResourceController",
+          url:'/jobs/:id',
+          templateUrl:'views/jobs/resource/resource.html',
+          controller: 'JobsResourceController',
           resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
               return $ocLazyLoad.load([
@@ -450,10 +514,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
-        .state("jobs.details", {
-          url: "",
-          templateUrl: "views/jobs/resource/details.html",
-          controller: "JobsResourceDetailsController",
+        .state('jobs.details', {
+          url: '',
+          templateUrl: 'views/jobs/resource/details.html',
+          controller: 'JobsResourceDetailsController',
           resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -471,10 +535,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
-        .state("jobs.history", {
-          url: "/history",
-          controller: "JobsResourceHistoryController",
-          templateUrl: "views/jobs/resource/history.html",
+        .state('jobs.history', {
+          url: '/history',
+          controller: 'JobsResourceHistoryController',
+          templateUrl: 'views/jobs/resource/history.html',
           resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -490,10 +554,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
-        .state("jobs.stats", {
-          url: "/jobs",
-          controller: "JobsResourceStatsController",
-          templateUrl: "views/jobs/resource/stats.html",
+        .state('jobs.stats', {
+          url: '/jobs',
+          controller: 'JobsResourceStatsController',
+          templateUrl: 'views/jobs/resource/stats.html',
           resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -517,10 +581,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
        /**********************************************************************/
 
        .state('meta-schema-manager', {
-           url: "/meta/schema",
-           templateUrl: "views/meta/schema-manager.html",
+           url: '/meta/schema',
+           templateUrl: 'views/meta/schema-manager.html',
            data: {pageTitle: 'Metadata Schema Manager'},
-           controller: "SchemaManagerDirectoryController",
+           controller: 'SchemaManagerDirectoryController',
            resolve: {
                deps: ['$ocLazyLoad', function($ocLazyLoad) {
                    return $ocLazyLoad.load({
@@ -529,6 +593,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                        insertBefore: '#ng_load_plugins_before',
                        files: [
                            'js/services/ActionsService.js',
+                           'js/services/ActionsBulkService.js',
                            'js/services/MessageService.js',
                            'js/controllers/meta/SchemaManagerDirectoryController.js'
                        ]
@@ -538,10 +603,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
        })
 
        .state('meta-schema-add', {
-           url: "/meta/schema/add",
+           url: '/meta/schema/add',
            data: {pageTitle: 'Metadata Schema Add'},
-           templateUrl: "views/meta/schema-add.html",
-           controller: "SchemaAddController",
+           templateUrl: 'views/meta/schema-add.html',
+           controller: 'SchemaAddController',
            resolve: {
                deps: ['$ocLazyLoad', function($ocLazyLoad) {
                  return $ocLazyLoad.load([
@@ -560,13 +625,13 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
        })
 
        .state('meta-schema-edit', {
-           url: "/meta/schema/edit/:uuid",
+           url: '/meta/schema/edit/:uuid',
            params: {
              uuid: '',
            },
            data: {pageTitle: 'Metadata Schema Edit'},
-           templateUrl: "views/meta/schema-edit.html",
-           controller: "SchemaEditController",
+           templateUrl: 'views/meta/schema-edit.html',
+           controller: 'SchemaEditController',
            resolve: {
                deps: ['$ocLazyLoad', function($ocLazyLoad) {
                  return $ocLazyLoad.load([
@@ -586,10 +651,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
 
        .state('meta-manager', {
-           url: "/meta",
-           templateUrl: "views/meta/meta-manager.html",
+           url: '/meta',
+           templateUrl: 'views/meta/meta-manager.html',
            data: {pageTitle: 'Metadata Manager'},
-           controller: "MetaManagerDirectoryController",
+           controller: 'MetaManagerDirectoryController',
            resolve: {
                deps: ['$ocLazyLoad', function($ocLazyLoad) {
                    return $ocLazyLoad.load({
@@ -598,6 +663,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                        insertBefore: '#ng_load_plugins_before',
                        files: [
                            'js/services/ActionsService.js',
+                           'js/services/ActionsBulkService.js',
                            'js/services/MessageService.js',
                            'js/controllers/meta/MetaManagerDirectoryController.js'
                        ]
@@ -608,10 +674,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
 
        .state('meta-add', {
-           url: "/meta/add",
+           url: '/meta/add',
            data: {pageTitle: 'Metadata Add'},
-           templateUrl: "views/meta/meta-add.html",
-           controller: "MetaAddController",
+           templateUrl: 'views/meta/meta-add.html',
+           controller: 'MetaAddController',
            resolve: {
                deps: ['$ocLazyLoad', function($ocLazyLoad) {
                  return $ocLazyLoad.load([
@@ -630,13 +696,13 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
        })
 
        .state('meta-edit', {
-           url: "/meta/edit/:uuid",
+           url: '/meta/edit/:uuid',
            params: {
              uuid: '',
            },
            data: {pageTitle: 'Metadata Edit'},
-           templateUrl: "views/meta/meta-edit.html",
-           controller: "MetaEditController",
+           templateUrl: 'views/meta/meta-edit.html',
+           controller: 'MetaEditController',
            resolve: {
                deps: ['$ocLazyLoad', function($ocLazyLoad) {
                  return $ocLazyLoad.load([
@@ -665,10 +731,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         /**********************************************************************/
 
         .state('notifications-noslash', {
-            url: "/notifications",
-            templateUrl: "views/notifications/manager.html",
+            url: '/notifications',
+            templateUrl: 'views/notifications/manager.html',
             data: {pageTitle: 'Notifications Manager'},
-            controller: "NotificationsManagerDirectoryController",
+            controller: 'NotificationsManagerDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -677,6 +743,9 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/services/ActionsBulkService.js',
+                            'js/services/MessageService.js',
+                            'js/controllers/QueryBuilderController.js',
                             'js/controllers/notifications/NotificationsManagerDirectoryController.js'
                         ]
                     });
@@ -685,10 +754,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('notifications-manager-noslash', {
-            url: "/notifications/manager",
-            templateUrl: "views/notifications/manager.html",
+            url: '/notifications/manager',
+            templateUrl: 'views/notifications/manager.html',
             data: {pageTitle: 'Notifications Manager'},
-            controller: "NotificationsManagerDirectoryController",
+            controller: 'NotificationsManagerDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -697,6 +766,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/services/ActionsBulkService.js',
                             'js/services/MessageService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/notifications/NotificationsManagerDirectoryController.js'
@@ -707,14 +777,14 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('notifications-manager', {
-            url: "/notifications/manager/:associatedUuid",
+            url: '/notifications/manager/:associatedUuid',
             params: {
               associatedUuid: '',
               resourceType: ''
             },
-            templateUrl: "views/notifications/manager.html",
+            templateUrl: 'views/notifications/manager.html',
             data: {pageTitle: 'Notifications Manager'},
-            controller: "NotificationsManagerDirectoryController",
+            controller: 'NotificationsManagerDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -723,6 +793,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/services/ActionsBulkService.js',
                             'js/services/MessageService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/notifications/NotificationsManagerDirectoryController.js'
@@ -733,9 +804,9 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('notifications-edit', {
-            url: "/notifications/edit/:notificationId",
-            templateUrl: "views/notifications/resource/edit.html",
-            controller: "NotificationsResourceEditController",
+            url: '/notifications/edit/:notificationId',
+            templateUrl: 'views/notifications/resource/edit.html',
+            controller: 'NotificationsResourceEditController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                   return $ocLazyLoad.load([
@@ -754,13 +825,13 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('notifications-add-noslash', {
-            url: "/notifications/add",
+            url: '/notifications/add',
             params: {
               associatedUuid: '',
               resourceType: ''
             },
-            templateUrl: "views/notifications/resource/add.html",
-            controller: "NotificationsResourceAddController",
+            templateUrl: 'views/notifications/resource/add.html',
+            controller: 'NotificationsResourceAddController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                   return $ocLazyLoad.load([
@@ -779,13 +850,13 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('notifications-add', {
-            url: "/notifications/add/:associatedUuid",
+            url: '/notifications/add/:associatedUuid',
             params: {
               associatedUuid: '',
               resourceType: ''
             },
-            templateUrl: "views/notifications/resource/add.html",
-            controller: "NotificationsResourceAddController",
+            templateUrl: 'views/notifications/resource/add.html',
+            controller: 'NotificationsResourceAddController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                   return $ocLazyLoad.load([
@@ -804,10 +875,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('notifications-alerts-id', {
-            url: "/notifications/alerts/:id",
-            templateUrl: "views/notifications/alerts.html",
+            url: '/notifications/alerts/:id',
+            templateUrl: 'views/notifications/alerts.html',
             data: {pageTitle: 'Notifications Alerts'},
-            controller: "NotificationsAlertsDirectoryController",
+            controller: 'NotificationsAlertsDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -816,6 +887,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/services/ActionsBulkService.js',
                             'js/services/MessageService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/notifications/NotificationsAlertsDirectoryController.js'
@@ -826,10 +898,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('notifications-history', {
-            url: "/notifications/alerts",
-            templateUrl: "views/notifications/alerts.html",
+            url: '/notifications/alerts',
+            templateUrl: 'views/notifications/alerts.html',
             data: {pageTitle: 'Notifications History'},
-            controller: "NotificationsAlertsDirectoryController",
+            controller: 'NotificationsAlertsDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -838,6 +910,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                             'js/services/ActionsService.js',
+                            'js/services/ActionsBulkService.js',
+                            'js/services/MessageService.js',
                             'js/controllers/QueryBuilderController.js',
                             'js/controllers/notifications/NotificationsAlertsDirectoryController.js'
                         ]
@@ -848,9 +922,9 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         .state('notifications', {
             abtract: true,
-            url: "/notifications/:id",
-            templateUrl: "views/notifications/resource/resource.html",
-            controller: "NotificationsResourceController",
+            url: '/notifications/:id',
+            templateUrl: 'views/notifications/resource/resource.html',
+            controller: 'NotificationsResourceController',
             resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -866,9 +940,9 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('notifications.details', {
-            url: "",
-            templateUrl: "views/notifications/resource/details.html",
-            controller: "NotificationsResourceDetailsController",
+            url: '',
+            templateUrl: 'views/notifications/resource/details.html',
+            controller: 'NotificationsResourceDetailsController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                   return $ocLazyLoad.load([
@@ -895,10 +969,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         /**********************************************************************/
 
         .state('monitors-noslash', {
-            url: "/monitors",
-            templateUrl: "views/monitors/manager.html",
+            url: '/monitors',
+            templateUrl: 'views/monitors/manager.html',
             data: {pageTitle: 'Monitors Manager'},
-            controller: "MonitorsManagerDirectoryController",
+            controller: 'MonitorsManagerDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -917,10 +991,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('monitors-manager-noslash', {
-            url: "/monitors/manager",
-            templateUrl: "views/monitors/manager.html",
+            url: '/monitors/manager',
+            templateUrl: 'views/monitors/manager.html',
             data: {pageTitle: 'Monitors Manager'},
-            controller: "MonitorsManagerDirectoryController",
+            controller: 'MonitorsManagerDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -939,13 +1013,13 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('monitors-manager', {
-            url: "/monitors/manager/:systemId",
+            url: '/monitors/manager/:systemId',
             params: {
               systemId: ''
             },
-            templateUrl: "views/monitors/manager.html",
+            templateUrl: 'views/monitors/manager.html',
             data: {pageTitle: 'Monitors Manager'},
-            controller: "MonitorsManagerDirectoryController",
+            controller: 'MonitorsManagerDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -964,9 +1038,9 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('monitors-edit', {
-            url: "/monitors/edit/:monitorId",
-            templateUrl: "views/monitors/resource/edit.html",
-            controller: "MonitorsResourceEditController",
+            url: '/monitors/edit/:monitorId',
+            templateUrl: 'views/monitors/resource/edit.html',
+            controller: 'MonitorsResourceEditController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                   return $ocLazyLoad.load([
@@ -985,13 +1059,13 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('monitors-add-noslash', {
-            url: "/monitors/add",
+            url: '/monitors/add',
             params: {
               associatedUuid: '',
               resourceType: ''
             },
-            templateUrl: "views/monitors/resource/add.html",
-            controller: "MonitorsResourceAddController",
+            templateUrl: 'views/monitors/resource/add.html',
+            controller: 'MonitorsResourceAddController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                   return $ocLazyLoad.load([
@@ -1010,12 +1084,12 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('monitors-add', {
-            url: "/monitors/add/:systemId",
+            url: '/monitors/add/:systemId',
             params: {
               systemId: ''
             },
-            templateUrl: "views/monitors/resource/add.html",
-            controller: "MonitorsResourceAddController",
+            templateUrl: 'views/monitors/resource/add.html',
+            controller: 'MonitorsResourceAddController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                   return $ocLazyLoad.load([
@@ -1034,10 +1108,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('monitors-checks', {
-            url: "/monitors/checks",
-            templateUrl: "views/monitors/checks.html",
+            url: '/monitors/checks',
+            templateUrl: 'views/monitors/checks.html',
             data: {pageTitle: 'Monitors Checks'},
-            controller: "MonitorsChecksDirectoryController",
+            controller: 'MonitorsChecksDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -1056,10 +1130,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('monitors-checks-id', {
-            url: "/monitors/checks/:monitorId",
-            templateUrl: "views/monitors/checks.html",
+            url: '/monitors/checks/:monitorId',
+            templateUrl: 'views/monitors/checks.html',
             data: {pageTitle: 'Monitors Checks'},
-            controller: "MonitorsChecksDirectoryController",
+            controller: 'MonitorsChecksDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -1079,9 +1153,9 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         .state('monitors', {
             abtract: true,
-            url: "/monitors/:id",
-            templateUrl: "views/monitors/resource/resource.html",
-            controller: "MonitorsResourceController",
+            url: '/monitors/:id',
+            templateUrl: 'views/monitors/resource/resource.html',
+            controller: 'MonitorsResourceController',
             resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -1097,9 +1171,9 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('monitors.details', {
-            url: "",
-            templateUrl: "views/monitors/resource/details.html",
-            controller: "MonitorsResourceDetailsController",
+            url: '',
+            templateUrl: 'views/monitors/resource/details.html',
+            controller: 'MonitorsResourceDetailsController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                   return $ocLazyLoad.load([
@@ -1127,26 +1201,26 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         /**********************************************************************/
 
         .state('apps-edit', {
-            url: "/apps/edit/:appId",
-            templateUrl: "views/apps/edit-wizard.html",
+            url: '/apps/edit/:appId',
+            templateUrl: 'views/apps/edit-wizard.html',
             data: {pageTitle: 'App Edit Wizard'},
-            controller: "AppEditWizardController",
+            controller: 'AppEditWizardController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         serie: true,
                         name: 'AgaveToGo',
                         files: [
-                            "../bower_components/codemirror/lib/codemirror.css",
-                            "../bower_components/codemirror/theme/neo.css",
-                            "../bower_components/codemirror/lib/codemirror.js",
-                            "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+                            '../bower_components/codemirror/lib/codemirror.css',
+                            '../bower_components/codemirror/theme/neo.css',
+                            '../bower_components/codemirror/lib/codemirror.js',
+                            '../bower_components/angular-ui-codemirror/ui-codemirror.min.js',
 
                             'js/services/MessageService.js',
                             'js/controllers/apps/AppEditWizardController.js'
                         ]
                     },
-                    "ui.codemirror"
+                    'ui.codemirror'
                     );
                 }]
             }
@@ -1154,36 +1228,36 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
 
         .state('apps-new', {
-            url: "/apps/new",
-            templateUrl: "views/apps/wizard.html",
+            url: '/apps/new',
+            templateUrl: 'views/apps/wizard.html',
             data: {pageTitle: 'App Builder Wizard'},
-            controller: "AppBuilderWizardController",
+            controller: 'AppBuilderWizardController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         serie: true,
                         name: 'AgaveToGo',
                         files: [
-                            "../bower_components/codemirror/lib/codemirror.css",
-                            "../bower_components/codemirror/theme/neo.css",
-                            "../bower_components/codemirror/lib/codemirror.js",
-                            "../bower_components/angular-ui-codemirror/ui-codemirror.min.js",
+                            '../bower_components/codemirror/lib/codemirror.css',
+                            '../bower_components/codemirror/theme/neo.css',
+                            '../bower_components/codemirror/lib/codemirror.js',
+                            '../bower_components/angular-ui-codemirror/ui-codemirror.min.js',
 
                             'js/services/MessageService.js',
                             'js/controllers/apps/AppBuilderWizardController.js'
                         ]
                     },
-                    "ui.codemirror"
+                    'ui.codemirror'
                     );
                 }]
             }
         })
 
         .state('apps-manage', {
-            url: "/apps",
-            templateUrl: "views/apps/manager.html",
+            url: '/apps',
+            templateUrl: 'views/apps/manager.html',
             data: {pageTitle: 'App Manager'},
-            controller: "AppDirectoryController",
+            controller: 'AppDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -1205,10 +1279,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('apps-manage-slash', {
-            url: "/apps/",
-            templateUrl: "views/apps/manager.html",
+            url: '/apps/',
+            templateUrl: 'views/apps/manager.html',
             data: {pageTitle: 'App Manager'},
-            controller: "AppDirectoryController",
+            controller: 'AppDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -1231,11 +1305,11 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
 
-        .state("apps", {
+        .state('apps', {
           abtract: true,
-          url:"/apps/:appId",
-          templateUrl:"views/apps/resource/resource.html",
-          controller: "AppsResourceController",
+          url:'/apps/:appId',
+          templateUrl:'views/apps/resource/resource.html',
+          controller: 'AppsResourceController',
           resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
               return $ocLazyLoad.load([
@@ -1250,10 +1324,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
-        .state("apps.details", {
-          url: "",
-          templateUrl: "views/apps/resource/details.html",
-          controller: "AppsResourceDetailsController",
+        .state('apps.details', {
+          url: '',
+          templateUrl: 'views/apps/resource/details.html',
+          controller: 'AppsResourceDetailsController',
           resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -1272,10 +1346,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
-        .state("apps.stats", {
-          url: "/stats",
-          controller: "AppsResourceStatsController",
-          templateUrl: "views/apps/resource/stats.html",
+        .state('apps.stats', {
+          url: '/stats',
+          controller: 'AppsResourceStatsController',
+          templateUrl: 'views/apps/resource/stats.html',
           resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -1290,10 +1364,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
-        .state("apps.run", {
-          url: "/run",
-          controller: "AppsResourceRunController",
-          templateUrl: "views/apps/resource/job-form.html",
+        .state('apps.run', {
+          url: '/run',
+          controller: 'AppsResourceRunController',
+          templateUrl: 'views/apps/resource/job-form.html',
           resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -1321,10 +1395,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         // TO-DO: need to improve this with redirect
         .state('data-explorer-noslash', {
-            url: "/data/explorer/:systemId",
-            templateUrl: "views/data/explorer.html",
+            url: '/data/explorer/:systemId',
+            templateUrl: 'views/data/explorer.html',
             data: { pageTitle: 'File Explorer' },
-            controller: "FileExplorerController",
+            controller: 'FileExplorerController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
@@ -1333,8 +1407,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             name: 'AgaveToGo',
                             insertBefore: '#ng_load_plugins_before',
                             files: [
-                                "js/services/MessageService.js",
-                                "js/controllers/data/FileExplorerController.js"
+                                'js/services/MessageService.js',
+                                'js/controllers/data/FileExplorerController.js'
                             ]
                         }
                     ]);
@@ -1344,10 +1418,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         // AngularJS plugins
         .state('data-explorer', {
-            url: "/data/explorer/:systemId/{path:any}",
-            templateUrl: "views/data/explorer.html",
+            url: '/data/explorer/:systemId/{path:any}',
+            templateUrl: 'views/data/explorer.html',
             data: { pageTitle: 'File Explorer' },
-            controller: "FileExplorerController",
+            controller: 'FileExplorerController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
@@ -1357,8 +1431,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             insertBefore: '#ng_load_plugins_before',
                             files: [
                                 /********* File Manager ******/
-                                "js/services/MessageService.js",
-                                "js/controllers/data/FileExplorerController.js"
+                                'js/services/MessageService.js',
+                                'js/controllers/data/FileExplorerController.js'
                             ]
                         }
                     ]);
@@ -1376,11 +1450,11 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         /**********************************************************************/
 
         // User Profile
-        .state("profile", {
-            url: "/profile/:username",
-            templateUrl: "views/profile/main.html",
+        .state('profile', {
+            url: '/profile/:username',
+            templateUrl: 'views/profile/main.html',
             data: {pageTitle: 'User Profile'},
-            controller: "UserProfileController",
+            controller: 'UserProfileController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -1406,30 +1480,30 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         // User Profile Dashboard
-        .state("profile.dashboard", {
-            url: "/dashboard",
-            templateUrl: "views/profile/dashboard.html",
+        .state('profile.dashboard', {
+            url: '/dashboard',
+            templateUrl: 'views/profile/dashboard.html',
             data: {pageTitle: 'User Profile'}
         })
 
         // User Profile Account
-        .state("profile.account", {
-            url: "/account",
-            templateUrl: "views/profile/account.html",
+        .state('profile.account', {
+            url: '/account',
+            templateUrl: 'views/profile/account.html',
             data: {pageTitle: 'User Account'}
         })
 
         // User Profile Help
-        .state("profile.help", {
-            url: "/help",
-            templateUrl: "views/profile/help.html",
+        .state('profile.help', {
+            url: '/help',
+            templateUrl: 'views/profile/help.html',
             data: {pageTitle: 'User Help'}
         })
 
         // User Profile Search
-        .state("profile.search", {
-            url: "/search",
-            templateUrl: "views/profile/search.html",
+        .state('profile.search', {
+            url: '/search',
+            templateUrl: 'views/profile/search.html',
             data: {pageTitle: 'Directory Search'}
         })
 
@@ -1442,10 +1516,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         /**********************************************************************/
 
         .state('systems-manage', {
-            url: "/systems",
-            templateUrl: "views/systems/manager.html",
+            url: '/systems',
+            templateUrl: 'views/systems/manager.html',
             data: {pageTitle: 'Systems Manager'},
-            controller: "SystemDirectoryController",
+            controller: 'SystemDirectoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -1472,10 +1546,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('systems-new', {
-            url: "/systems/new",
-            templateUrl: "views/systems/wizard.html",
+            url: '/systems/new',
+            templateUrl: 'views/systems/wizard.html',
             data: {pageTitle: 'System Builder Wizard'},
-            controller: "SystemBuilderWizardController",
+            controller: 'SystemBuilderWizardController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -1498,18 +1572,18 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                               '../bower_components/angular-ui-codemirror/ui-codemirror.min.js',
                             ]
                         },
-                        // "FileManagerApp",
-                        "ui.codemirror"
+                        // 'FileManagerApp',
+                        'ui.codemirror'
                     );
                 }]
             }
         })
 
         .state('systems-edit', {
-            url: "/systems/edit/:systemId",
-            templateUrl: "views/systems/edit-wizard.html",
+            url: '/systems/edit/:systemId',
+            templateUrl: 'views/systems/edit-wizard.html',
             data: {pageTitle: 'System Editor Wizard'},
-            controller: "SystemEditorWizardController",
+            controller: 'SystemEditorWizardController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -1531,18 +1605,18 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                                 '../bower_components/angular-ui-codemirror/ui-codemirror.min.js',
                             ]
                         },
-                        // "FileManagerApp",
-                        "ui.codemirror"
+                        // 'FileManagerApp',
+                        'ui.codemirror'
                     );
                 }]
             }
         })
 
-        .state("systems", {
+        .state('systems', {
           abtract: true,
-          url:"/systems/:systemId",
-          templateUrl:"views/systems/resource/resource.html",
-          controller: "SystemsResourceController",
+          url:'/systems/:systemId',
+          templateUrl:'views/systems/resource/resource.html',
+          controller: 'SystemsResourceController',
           resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
               return $ocLazyLoad.load([
@@ -1557,10 +1631,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
-        .state("systems.details", {
-          url: "",
-          templateUrl: "views/systems/resource/details.html",
-          controller: "SystemsResourceDetailsController",
+        .state('systems.details', {
+          url: '',
+          templateUrl: 'views/systems/resource/details.html',
+          controller: 'SystemsResourceDetailsController',
           resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -1579,10 +1653,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
-        .state("systems.queues", {
-          url: "/queues",
-          controller: "SystemsResourceQueuesController",
-          templateUrl: "views/systems/resource/queues.html",
+        .state('systems.queues', {
+          url: '/queues',
+          controller: 'SystemsResourceQueuesController',
+          templateUrl: 'views/systems/resource/queues.html',
           resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -1598,10 +1672,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
-        .state("systems.apps", {
-          url: "/apps",
-          templateUrl: "views/systems/resource/apps.html",
-          controller: "SystemsResourceAppsController",
+        .state('systems.apps', {
+          url: '/apps',
+          templateUrl: 'views/systems/resource/apps.html',
+          controller: 'SystemsResourceAppsController',
           resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -1617,10 +1691,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
-        .state("systems.stats", {
-          url: "/stats",
-          controller: "SystemsResourceStatsController",
-          templateUrl: "views/systems/resource/stats.html",
+        .state('systems.stats', {
+          url: '/stats',
+          controller: 'SystemsResourceStatsController',
+          templateUrl: 'views/systems/resource/stats.html',
           resolve: {
               deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -1649,10 +1723,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         // UI Select
         .state('uiselect', {
-            url: "/ui_select.html",
-            templateUrl: "views/ui_select.html",
+            url: '/ui_select.html',
+            templateUrl: 'views/ui_select.html',
             data: {pageTitle: 'AngularJS Ui Select'},
-            controller: "UISelectController",
+            controller: 'UISelectController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([{
@@ -1674,10 +1748,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         // UI Bootstrap
         .state('uibootstrap', {
-            url: "/ui_bootstrap.html",
-            templateUrl: "views/ui_bootstrap.html",
+            url: '/ui_bootstrap.html',
+            templateUrl: 'views/ui_bootstrap.html',
             data: {pageTitle: 'AngularJS UI Bootstrap'},
-            controller: "GeneralPageController",
+            controller: 'GeneralPageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([{
@@ -1692,10 +1766,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         // Tree View
         .state('tree', {
-            url: "/tree",
-            templateUrl: "views/tree.html",
+            url: '/tree',
+            templateUrl: 'views/tree.html',
             data: {pageTitle: 'jQuery Tree View'},
-            controller: "GeneralPageController",
+            controller: 'GeneralPageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([{
@@ -1714,10 +1788,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         // Form Tools
         .state('formtools', {
-            url: "/form-tools",
-            templateUrl: "views/form_tools.html",
+            url: '/form-tools',
+            templateUrl: 'views/form_tools.html',
             data: {pageTitle: 'Form Tools'},
-            controller: "GeneralPageController",
+            controller: 'GeneralPageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([{
@@ -1749,10 +1823,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         // Date & Time Pickers
         .state('pickers', {
-            url: "/pickers",
-            templateUrl: "views/pickers.html",
+            url: '/pickers',
+            templateUrl: 'views/pickers.html',
             data: {pageTitle: 'Date & Time Pickers'},
-            controller: "GeneralPageController",
+            controller: 'GeneralPageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([{
@@ -1785,10 +1859,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         // Custom Dropdowns
         .state('dropdowns', {
-            url: "/dropdowns",
-            templateUrl: "views/dropdowns.html",
+            url: '/dropdowns',
+            templateUrl: 'views/dropdowns.html',
             data: {pageTitle: 'Custom Dropdowns'},
-            controller: "GeneralPageController",
+            controller: 'GeneralPageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([{
@@ -1814,10 +1888,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         // Advanced Datatables
         .state('datatablesAdvanced', {
-            url: "/datatables/managed.html",
-            templateUrl: "views/datatables/managed.html",
+            url: '/datatables/managed.html',
+            templateUrl: 'views/datatables/managed.html',
             data: {pageTitle: 'Advanced Datatables'},
-            controller: "GeneralPageController",
+            controller: 'GeneralPageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -1840,10 +1914,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         // Ajax Datetables
         .state('datatablesAjax', {
-            url: "/datatables/ajax.html",
-            templateUrl: "views/datatables/ajax.html",
+            url: '/datatables/ajax.html',
+            templateUrl: 'views/datatables/ajax.html',
             data: {pageTitle: 'Ajax Datatables'},
-            controller: "GeneralPageController",
+            controller: 'GeneralPageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -1876,10 +1950,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
         // Projects
         .state('projects', {
-            url: "/projects",
-            templateUrl: "views/projects/dashboard.html",
+            url: '/projects',
+            templateUrl: 'views/projects/dashboard.html',
             data: {pageTitle: 'Projects'},
-            controller: "ProjectDashboardController",
+            controller: 'ProjectDashboardController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -1898,21 +1972,21 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         })
 
         .state('project.new', {
-            url: "/projects/new",
-            templateUrl: "views/projects/editor.html",
+            url: '/projects/new',
+            templateUrl: 'views/projects/editor.html',
             data: {pageTitle: 'New Project'}
         })
 
         .state('project.edit', {
-            url: "/projects/edit",
-            templateUrl: "views/projects/editor.html",
+            url: '/projects/edit',
+            templateUrl: 'views/projects/editor.html',
             data: {pageTitle: 'New Project'}
         })
 
 }]);
 
 /* Init global settings and run the app */
-//AgaveToGo.run(["$rootScope", "settings", "$state", 'ProfilesController', function($rootScope, settings, $state) { //}, ProfilesController) {
+//AgaveToGo.run(['$rootScope', 'settings', '$state', 'ProfilesController', function($rootScope, settings, $state) { //}, ProfilesController) {
 AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', '$templateCache', '$localStorage', '$window', 'CacheFactory', 'NotificationsService', function($rootScope, settings, $state, $http, $templateCache, $localStorage, $window, CacheFactory, NotificationsService) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
@@ -1937,6 +2011,7 @@ AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', '$templateCache', '$
         if (typeof $localStorage.tenant !== 'undefined' && typeof $localStorage.token !== 'undefined'){
           var currentDate = new Date();
           var expirationDate = Date.parse($localStorage.token.expires_at);
+
           var diff = (expirationDate - currentDate) / 60000;
           if (diff < 0) {
             $window.location.href = '/auth';

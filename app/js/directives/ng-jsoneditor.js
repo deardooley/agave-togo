@@ -43,7 +43,7 @@
                                       settings.change(error);
                                     }
                                 }
-                            }, settings.timeout || 2000);
+                            }, settings.timeout || 1000);
                         }
                     });
 

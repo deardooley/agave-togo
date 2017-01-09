@@ -1,9 +1,12 @@
-angular.module('AgaveToGo').controller('SchemaManagerDirectoryController', function ($scope, $stateParams, $translate, MetaController, ActionsService, MessageService) {
+'use strict';
+
+angular.module('AgaveToGo').controller('SchemaManagerDirectoryController', function ($scope, $stateParams, $translate, MetaController, ActionsService, ActionsBulkService, MessageService) {
 
     $scope._COLLECTION_NAME = 'schemas';
     $scope._RESOURCE_NAME = 'schema';
 
     $scope[$scope._COLLECTION_NAME] = [];
+    $scope.schemaSelected = [];
 
     $scope.query = '';
 
@@ -74,9 +77,28 @@ angular.module('AgaveToGo').controller('SchemaManagerDirectoryController', funct
       }
     };
 
-    $scope.refresh();
+    $scope.selectAllSchemas = function(checkAll){
+      if (checkAll){
+        _.each($scope[$scope._COLLECTION_NAME], function(schema){
+          $scope.schemaSelected.push(schema);
+        });
+      } else {
+        $scope.schemaSelected = [];
+      }
+    };
+
+    $scope.confirmBulkAction = function(collectionType, collection, selected, collectionAction){
+      ActionsBulkService.confirmBulkAction(collectionType, collection, selected, collectionAction );
+
+    };
 
     $scope.confirmAction = function(resourceType, resource, resourceAction, resourceList, resourceIndex){
       ActionsService.confirmAction(resourceType, resource, resourceAction, resourceList, resourceIndex);
-    }
+    };
+
+    $scope.$on('ActionsBulkService:done', function() {
+      $scope.schemaSelected = [];
+    });
+
+    $scope.refresh();
 });
