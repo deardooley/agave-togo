@@ -258,6 +258,7 @@ angular.module('AgaveToGo').service('ActionsBulkService',['$uibModal', '$rootSco
             };
 
             $scope.cancel = function(){
+                $rootScope.$broadcast('ActionsBulkService:done');
                 $modalInstance.dismiss('cancel');
             };
 
