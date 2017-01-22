@@ -13,17 +13,54 @@
                 <div class="caption">
                     <i class=" icon-layers font-red"></i>
                     <span class="caption-subject font-red bold uppercase">
-                        Metadata Editor
+                        Metadata Uploader
                     </span>
                 </div>
             </div>
             <div class="portlet-body form">
                 <div class="row">
                   <div class="col-md-10 col-md-offset-1">
-                    <div ng-jsoneditor="onLoad" ng-model="meta" options="options" change="handleError()" style="height: 800px;"></div>
-                    <div class="text-center top-buffer">
-                      <button class="btn btn-primary" ng-click="submit()" ng-class="submitButton ? '' : 'disabled'">Submit</button>
-                    </div>
+                    <uib-tabset active="active" justified="true">
+                      <uib-tab index="0" heading="JSON">
+                        <div ng-jsoneditor="onLoad" ng-model="meta" options="options" change="handleError()" style="height: 800px;"></div>
+                        <div class="text-center top-buffer">
+                          <button class="btn btn-primary" ng-click="submitMetadata(meta)" ng-class="submitButton ? '' : 'disabled'">Submit</button>
+                        </div>
+                      </uib-tab>
+
+                      <uib-tab index="1" heading="Files" ng-controller="MetaAddController">
+                        <form
+                          name="myForm"
+                          sf-schema="schema"
+                          sf-form="form"
+                          sf-model="model"
+                        >
+                        </form>
+
+                        <div  ngf-drop="addForUpload($files)"
+                              ngf-select="addForUpload($files)"
+                              class="drop-box"
+                              ngf-drag-over-class="'dragover'"
+                              ngf-multiple="true">Drop files here or click to upload</div>
+                        <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+
+                        <div class="upload-list">
+                          <ul class="list-group">
+                            <li class="list-group-item" ng-repeat="(index, uploadFile) in uploadFileList">
+                              <button class="btn btn-sm btn-danger pull-right" ng-click="removeFromUpload(index)">
+                                  &times;
+                              </button>
+                              <h5 class="list-group-item-heading">{{uploadFile.name}}</h5>
+                              <p class="list-group-item-text">{{uploadFile.size | humanReadableFileSize}}</p>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" ng-click="submitMetadataFiles()">Submit</button>
+                        </div>
+                      </uib-tab>
+                    </uib-tabset>
                   </div>
                 </div>
             </div>

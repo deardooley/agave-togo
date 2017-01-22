@@ -17,6 +17,7 @@ var AgaveToGo = angular.module('AgaveToGo', [
   'JiraService',
   'ChangelogParserService',
   'ngCookies',
+  'ngFileUpload',
   'ngSanitize',
   'ngStorage',
   'ngMd5',
@@ -208,6 +209,9 @@ AgaveToGo.config(function($translateProvider) {
     error_meta_list: 'Error: Could not retrieve metadata',
     error_meta_update_uuid: 'Error: No metadata UUID provided',
     error_meta_add: 'Error: Could not add metadata',
+
+    error_meta_files_add: 'Error: Could not convert the following file(s) to Base64: ',
+    error_meta_files_add_parse: 'Error: Could not parse the associationIds',
     error_meta_search_query: 'Error: Could not parse search query - ',
 
 
@@ -685,6 +689,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                      serie: true,
                      name: 'AgaveToGo',
                      files: [
+                          '../bower_components/ng-file-upload/ng-file-upload.min.js',
                          'js/services/ActionsService.js',
                          'js/services/MessageService.js',
                          'js/controllers/meta/MetaAddController.js'
