@@ -29,8 +29,14 @@ var OAuthClients = {
         "clientKey": "fSsbB1Lj1W4qKXrDQWSk78gVuE4a",
         "callbackUrl": "https://togo.staging.agaveapi.co/auth/",
         "scope": "PRODUCTION"
+    },
+    'sgci': {
+      'clientKey': '8maiQzf82y4Qeg7acRlF3RHP9Cca',
+      'callbackUrl': 'https://togo.staging.agaveapi.co/auth/',
+      'scope': 'PRODUCTION'
     }
 };
+
 // // production
 // var OAuthClients = {
 //     "araport.org": {
@@ -62,5 +68,10 @@ var OAuthClients = {
 //         "clientKey": "T5zzfUqLyZQf25TF8BHo66hKIR8a",
 //         "callbackUrl": "https://togo.agaveapi.co/auth/",
 //         "scope": "PRODUCTION"
+//     },
+//     'sgci': {
+//       'clientKey': 'VcmT2bf_ywTDo7qh2xCChUZRGbwa',
+//       'callbackUrl': 'https://togo.agaveapi.co/auth/',
+//       'scope': 'PRODUCTION'
 //     }
 // };
