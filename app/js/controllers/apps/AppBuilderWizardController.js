@@ -498,7 +498,138 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                         }
                     }
                 }
+            },
+            "outputs": {
+                "type": "array",
+                "description": "Outputs produced by this application.",
+                "items": {
+                    "type": "object",
+                    "title": "Input",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The unique identifier for this input file. This will be referenced in the wrapper script.",
+                        "title": "ID",
+                        "valueInLegend": true
+                      },
+                      "details": {
+                        "type": "object",
+                        "description": "Descriptive details about this app input used in form generation.",
+                        "title": "Details",
+                        "properties": {
+                            "argument": {
+                                "type": "string",
+                                "description": "Name of the command line flag or argument (including dashes) for this input.",
+                                "title": "Argument value"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Verbose information on what this input does.",
+                                "title": "Description"
+                            },
+                            "label": {
+                                "type": "string",
+                                "description": "The label displayed for this input.",
+                                "title": "Label"
+                            },
+                            "showArgument": {
+                                "type": "boolean",
+                                "description": "Should this command line argument be injected into the submit script preceding the input?",
+                                "title": "Prepend command line argument?",
+                                "default": true
+                            },
+                            "repeatArgument": {
+                                "type": "boolean",
+                                "description": "In instances where multiple values are supplied for this input, should this command line argument be repeatedly injected into the submit script preceding every instance of the input value?",
+                                "title": "Repeat argument for every value?",
+                                "default": false
+                            }
+                        }
+                      },
+                        "semantics": {
+                            "type": "object",
+                            "description": "Semantic information about the input field.",
+                            "title": "Semantics",
+                            "properties": {
+                                "fileTypes": {
+                                     "type": "array",
+                                     "description": "Array of file types required for this input.",
+                                     "items": {
+                                         "type": "string"
+                                     },
+                                     "title": "File types"
+                                },
+                                "minCardinality": {
+                                    "type": "integer",
+                                    "description": "Minimum number of instances of this input per job.",
+                                    "title": "Min cardinality",
+                                    "default": 0,
+                                    "minimum": 0,
+                                    "required": false
+                                },
+                                "maxCardinality": {
+                                    "title": "Max cardinality",
+                                    "type": "integer",
+                                    "description": "Max number of instances of this input per job.",
+                                    "default": -1,
+                                    "minimum": -1,
+                                    "required": false
+                                },
+                                "ontology": {
+                                    "title": "Ontology",
+                                    "type": "array",
+                                    "description": "Array of ontology terms describing this input.",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "value": {
+                            "type": "object",
+                            "description": "Default value and validations for the parameter field.",
+                            "title": "Value",
+                            "properties": {
+                                "default": {
+                                    "type": ["number","string"],
+                                    "description": "Default value",
+                                    "title": "Default value"
+                                },
+                                "order": {
+                                    "type": "integer",
+                                    "description": "The order in which this parameter should be printed when generating an execution command for forked execution. This will also be the order in which paramters are returned in the response json.",
+                                    "title": "Order",
+                                },
+                                "validator": {
+                                    "type": [null,"string"],
+                                    "description": "The regular expression used to validate this parameter value.",
+                                    "title": "Validator regex"
+                                },
+                                "required": {
+                                    "type": "boolean",
+                                    "description": "Is this parameter required? If visible is false, this must be true.",
+                                    "title": "Required",
+                                    "default": true
+                                },
+                                "visible": {
+                                    "type": "boolean",
+                                    "description": "Should this parameter be visible? If not, there must be a default and it will be required.",
+                                    "title": "Visible",
+                                    "default": true
+                                },
+                                "enquote": {
+                                    "type": "boolean",
+                                    "description": "Should this value be double quoted prior to injection in the wrapper template.",
+                                    "title": "Visible",
+                                    "default": true,
+                                    "required": true
+                                }
+                            }
+                        }
+                    }
+                }
             }
+
         }
     };
 
@@ -1186,7 +1317,251 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
                         ]
                     }
                 ]
+            },
+            {
+                "title": "Outputs",
+                "items": [
+                    {
+                        "type": "tabarray",
+                        "title": "{{value.id || ('Input ' + $index)}}",
+                        "tabType": "top",
+                        "key": "outputs",
+                        "style": {
+                            "remove": "btn-danger"
+                        },
+                        "add": "Add output",
+                        "startEmpty": true,
+                        "items": [
+                            {
+                                "key": "outputs[].id",
+                                ngModelOptions: {
+                                    updateOnDefault: true
+                                },
+                                ngModel: function(ngModel) {
+                                    ngModel.$validators.myMail = function(value) {
+                                        var exp = /[a-zA-Z0-9_]+/.exec(value);
+                                        if (!exp) {
+                                            return false;
+                                        }
+                                        return true;
+                                    };
+                                },
+                                validationMessage: {
+                                    'invalidCharacters': "Invalid output id. Outputs must be alphanumeric strings and may include underscores."
+                                }
+                            },
+                            {
+                                "key": "output[].details",
+                                "type": "fieldset",
+                                "title": "Details",
+                                "description": "Descriptive details about this app outputs used in form generation.",
+                                "items": [
+                                    {
+                                      "key": "outputs[].details.label"
+                                    },
+                                    {
+                                        "key": "outputs[].details.showArgument",
+                                        "type": "radiobuttons",
+                                        "style": {
+                                            "selected": "btn-success",
+                                            "unselected": "btn-default"
+                                        },
+                                        "titleMap": [
+                                            {"value": true, "name": "True"},
+                                            {"value": false, "name": "False"}
+                                        ],
+                                        ngModelOptions: {
+                                            updateOnDefault: true
+                                        }
+                                    },
+                                    {
+                                        "key": "outputs[].details.argument",
+                                        "condition": "model.parameters[arrayIndex].details.showArgument",
+                                        "title": "Command line argument"
+                                    },
+                                    {
+                                        "key": "outputs[].details.repeatArgument",
+                                        "type": "radiobuttons",
+                                        "condition": "model.outputs[arrayIndex].details.showArgument",
+                                        "style": {
+                                            "selected": "btn-success",
+                                            "unselected": "btn-default"
+                                        },
+                                        "titleMap": [
+                                            {"value": true, "name": "True"},
+                                            {"value": false, "name": "False"}
+                                        ],
+                                        ngModelOptions: {
+                                            updateOnDefault: true
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "key": "outputs[].semantics",
+                                "type": "fieldset",
+                                "title": "Semantics",
+                                "description": "Semantic information about the output field.",
+                                "items": [
+                                    {
+                                      "key": "outputs[].semantics.ontology",
+                                      "startEmpty": true,
+                                    },
+                                    {
+                                        "key": "outputs[].semantics.minCardinality",
+                                        "type": "number",
+                                        ngModelOptions: {
+                                            updateOnDefault: true
+                                        },
+                                        validationMessage: {
+                                            'minLessThanMax': 'Minimum number of values allowed by this output must be a non-negative integer value less than or equal to the maximum number of values.',
+                                            'gtzeroWhenRequired': 'Minimum number of values allowed by this output must be greater than zero when required.',
+                                        },
+                                        $validators: {
+                                            minLessThanMax: function (value) {
+                                                if (typeof $scope.model.outputs !== 'undefined'){
+                                                  if ($scope.model.outputs.length > 0 && typeof arrayIndex !== 'undefined'){
+                                                    if (value && $scope.model.outputs[arrayIndex].semantics.maxCardinality > 0 &&
+                                                        value > $scope.model.outputs[arrayIndex].semantics.maxCardinality) {
+                                                        return false;
+                                                    }
+                                                  }
+                                                }
+                                                return true;
+                                              },
+                                              gtzeroWhenRequired: function (value) {
+                                                if (typeof $scope.model.outputs !== 'undefined'){
+                                                  if ($scope.model.outputs.length > 0 && typeof arrayIndex !== 'undefined'){
+                                                    if (value && $scope.model.outputs[arrayIndex].semantics.maxCardinality > 0 &&
+                                                        value > $scope.model.outputs[arrayIndex].semantics.maxCardinality) {
+                                                        return false;
+                                                    }
+                                                  }
+                                                }
+                                                return true;
+                                              }
+                                        },
+                                    },
+                                    {
+                                        "key": "outputs[].semantics.maxCardinality",
+                                        "type": "number",
+                                        ngModelOptions: {
+                                            updateOnDefault: true
+                                        },
+                                        validationMessage: {
+                                            'maxGreaterThanMax': 'Maximum number of values allowed by this parameter must be a non-negative integer value less than or equal to the maximum number of values.',
+                                            'oneWhenBoolish': 'Maximum number of values is one when parameter is of type bool or flag.',
+                                        },
+                                        $validators: {
+                                            minLessThanMax: function (value) {
+                                                if (typeof $scope.model.outputs !== 'undefined'){
+                                                  if ($scope.model.outputs.length > 0 && typeof arrayIndex !== 'undefined'){
+                                                    if (value && $scope.model.outputs[arrayIndex].semantics.maxCardinality > 0 &&
+                                                        value > $scope.model.ouputs[arrayIndex].semantics.maxCardinality) {
+                                                        return false;
+                                                    }
+                                                  }
+                                                }
+                                                return true;
+                                            },
+                                            oneWhenBoolish: function (value) {
+                                              if (typeof $scope.model.outputs !== 'undefined'){
+                                                if ($scope.model.outputs.length > 0 && typeof arrayIndex !== 'undefined'){
+                                                  if (value && ($scope.model.outputs[arrayIndex].value.type == 'bool' ||
+                                                      $scope.model.outputs[arrayIndex].value.type == 'flag') &&
+                                                      $scope.model.outputs[arrayIndex].semantics.maxCardinality > 1) {
+                                                      return false;
+                                                  }
+                                                }
+                                              }
+                                              return true;
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "key": "outputs[].value",
+                                "type": "fieldset",
+                                "title": "Values",
+                                "description": "Default value and validations for the output field.",
+                                "items": [
+                                    {
+                                        "key": "outputs[].value.default",
+                                        "description": "Default value",
+                                        "title": "Default value"
+                                    },
+                                    {
+                                        "key": "outputs[].value.validator",
+                                        "title": "Validator regex",
+                                        "description": "The regular expression used to validate this parameter value.",
+                                        "condition": "[string,number].indexOf(model.outputs[arrayIndex].value.type) !== -1",
+                                        ngModelOptions: {
+                                            updateOnDefault: true
+                                        }
+                                    },
+                                    {
+                                        "key": "outputs[].value.visible",
+                                        "type": "radiobuttons",
+                                        "style": {
+                                            "selected": "btn-success",
+                                            "unselected": "btn-default"
+                                        },
+                                        "titleMap": [
+                                            {"value": true, "name": "Yes"},
+                                            {"value": false, "name": "No"}
+                                        ],
+                                        ngModelOptions: {
+                                            updateOnDefault: true
+                                        },
+                                        onChange: function (modelValue, form) {
+                                          if (typeof $scope.model.outputs !== 'undefined'){
+                                            if ($scope.model.outputs.length > 0 && typeof form.key !== 'undefined'){
+                                              if (!modelValue) {
+                                                  $scope.model.outputs[form.key[1]].value.required = true
+                                              }
+                                            }
+                                          }
+                                        }
+                                    },
+                                    {
+                                        "key": "outputs[].value.required",
+                                        "type": "radiobuttons",
+                                        "condition": "model.outputs[arrayIndex].value.visible",
+                                        "style": {
+                                            "selected": "btn-success",
+                                            "unselected": "btn-default"
+                                        },
+                                        "titleMap": [
+                                            {"value": true, "name": "Yes"},
+                                            {"value": false, "name": "No"}
+                                        ],
+                                        ngModelOptions: {
+                                            updateOnDefault: true
+                                        },
+                                        onChange: function (modelValue, form) {
+                                          if (typeof $scope.model.outputs !== 'undefined'){
+                                            if ($scope.model.ouputs.length > 0 && typeof form.key !== 'undefined'){
+                                              if (modelValue && $scope.model.outputs[form.key[1]].semantics.minCardinality == 0) {
+                                                  $scope.model.outputs[form.key[1]].semantics.minCardinality = 1;
+                                              } else if (!modelValue && $scope.model.parameters[form.key[1]].semantics.minCardinality > 0) {
+                                                  $scope.model.ouputs[form.key[1]].semantics.minCardinality = 0;
+                                              }
+                                            }
+                                          }
+                                        }
+                                    },
+                                    {
+                                      "key": "outputs[].value.order"
+                                    }
+                                ]
+                            }
+
+                        ]
+                    }
+                ]
             }
+
         ]
     }];
 
@@ -1409,12 +1784,10 @@ angular.module('AgaveToGo').controller('AppBuilderWizardController', function ($
     };
 
     $scope.$watch('model', function(currentModel){
-        // if (currentModel === ''){
-        //   $scope.model = {};
-        // }
         if (currentModel){
             $scope.prettyModel = JSON.stringify(currentModel, undefined, 2);
         }
+
     }, true);
 
     $scope.$watch('model.modules', function(newValue, oldValue){
