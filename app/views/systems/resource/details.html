@@ -19,6 +19,10 @@
              <td>ID</td>
              <td><strong>{{system.id}}</strong></td>
            </tr>
+           <tr ng-if="system.uuid">
+             <td>UUID</td>
+             <td>{{system.uuid}}</td>
+           </tr>
            <tr ng-if="system.name">
              <td>Name</td>
              <td>{{system.name}}</td>

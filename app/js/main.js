@@ -253,6 +253,8 @@ AgaveToGo.config(function($translateProvider) {
     error_systems_search: 'Error: Could not retrieve systems',
     error_systems_template: 'Error: Could not retrieve system template',
 
+    error_tags_list: 'Error: Could not retrieve tags',
+
     success_apps_permissions_update: 'Success: updated permissions for ',
 
     success_files_permissions_update: 'Success updating file permissions',
@@ -1714,6 +1716,60 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
               }]
           }
         })
+
+        /**********************************************************************/
+        /**********************************************************************/
+        /***                                                                ***/
+        /***                          Tags Routes                           ***/
+        /***                                                                ***/
+        /**********************************************************************/
+        /**********************************************************************/
+
+        .state('tags-manage', {
+            url: '/tags',
+            templateUrl: 'views/tags/manager.html',
+            data: {pageTitle: 'Tags Manager'},
+            controller: 'TagsManagerDirectoryController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        name: 'AgaveToGo',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            '../assets/global/css/components.css',
+                            '../assets/global/css/components-md.css',
+                            '../assets/pages/css/search.css',
+                            'js/services/MessageService.js',
+                            'js/controllers/tags/TagsManagerDirectoryController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
+        // .state('tags-new', {
+        //     url: '/systems/new',
+        //     templateUrl: 'views/tags/add.html',
+        //     data: {pageTitle: 'System Builder Wizard'},
+        //     controller: 'SystemBuilderWizardController',
+        //     resolve: {
+        //         deps: ['$ocLazyLoad', function($ocLazyLoad) {
+        //             return $ocLazyLoad.load({
+        //                     serie: true,
+        //                     name: 'AgaveToGo',
+        //                     insertBefore: '#ng_load_plugins_before',
+        //                     files: [
+        //                       'js/services/MessageService.js',
+        //                       'js/controllers/systems/SystemBuilderWizardController.js',
+        //                     ]
+        //                 },
+        //                 // 'FileManagerApp',
+        //                 'ui.codemirror'
+        //             );
+        //         }]
+        //     }
+        // })
 
 
 
