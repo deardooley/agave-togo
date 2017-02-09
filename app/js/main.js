@@ -274,7 +274,10 @@ AgaveToGo.config(function($translateProvider) {
 
     success_systems_roles: 'Success: updated roles for ',
     setDefault: 'set to default',
-    unsetDefault: 'unset default'
+    unsetDefault: 'unset default',
+
+    resource_template_app: 'views/apps/resource/details.html',
+    resource_template_system: 'views/systems/resource/details.html'
   });
 
   $translateProvider.preferredLanguage('en');
@@ -1740,7 +1743,11 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             '../assets/global/css/components.css',
                             '../assets/global/css/components-md.css',
                             '../assets/pages/css/search.css',
+                            'js/services/ActionsService.js',
                             'js/services/MessageService.js',
+                            'js/services/PermissionsService.js',
+                            'js/services/RolesService.js',
+                            'js/controllers/apps/resource/AppsResourceDetailsController.js',
                             'js/controllers/tags/TagsManagerDirectoryController.js'
                         ]
                     });

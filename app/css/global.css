@@ -1,15 +1,20 @@
 /* tags */
-.tags-image{
-  float:left;
-  line-height:100px;
-}
-
-.search-content-1 .search-container > ul .search-item > .search-content {
-  padding-left: 0px;
-}
-
 .tags-resource{
   cursor: pointer;
+}
+
+.tags-resource-detail-container{
+  padding:20px;
+}
+
+.tags-head{
+  background-color: #36C6D3;
+  color: white;
+  min-height: 15px;
+}
+
+.tags-footer {
+  padding: 0.5px !important;
 }
 /* end tags */
 

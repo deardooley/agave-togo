@@ -10,158 +10,200 @@
    </ul>
    <div landing-start-menu></div>
 </div>
-<h1 class="page-title"> Tags
-   <small>Manager</small>
-</h1>
-<div class="search-page search-content-1">
-   <div class="search-bar ">
-      <div class="row">
-         <div class="col-md-10">
-            <div class="input-group">
-               <input type="text" class="form-control" placeholder="Search by tag name... me no work yet">
-               <span class="input-group-btn">
-               <button class="btn blue uppercase bold" type="button">search</button>
-               </span>
+<h3 class="page-title"> Tags</h3>
+<div class="row">
+   <div class="col-md-12">
+      <div class="portlet light portlet-fit portlet-datatable bordered">
+         <div class="portlet-title">
+            <div class="caption">
+               <i class="fa fa-tags"></i> Tags Management
+            </div>
+            <div class="row text-center">
+               <div class="col-md-12">
+                  <a ui-sref="tags-add()" class="btn btn-outline green pull-right" role="button">
+                  <i class="fa fa-plus"></i>
+                  <span class="hidden-480"> Add Tag</span>
+                  </a>
+               </div>
+            </div>
+            <div class="text-center top-buffer" ng-keyup="$event.keyCode == 13 ? searchTools(query) : null">
+               <div class="btn-group top-buffer">
+                  <div class="input-group">
+                     <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                     <input type="text" class="form-control" placeholder="Search tag by name..." ng-model="$parent.filter">
+                  </div>
+               </div>
             </div>
          </div>
-         <div class="col-md-5">
-         </div>
-      </div>
-   </div>
-   <div class="row">
-
-     <!-- begin portlet -->
-      <div class="col-md-6">
-        <div class="mt-element-list" ng-repeat="tagObj in tags">
-
-           <!-- tag header -->
-           <div class="mt-list-head list-todo red">
-              <div class="list-head-title-container">
-                 <div class="row">
-                   <div class="col-md-6">
-                      <h3 class="list-title"><i class="fa fa-tag"></i> {{tagObj.tag.name}}</h3>
-                   </div>
-                   <div class="col-md-6 text-right">
-                     <div class="list-head-count">
-                        <div class="list-head-count-item"  ng-repeat="(resourceObjKey, resourceObjValue) in tagObj.resources">
-                          <i ng-class="{'fa fa-code': resourceObjKey === 'app',
-                                        'fa fa-database' : resourceObjKey === 'file',
-                                        'fa fa-rocket': resourceObjKey === 'job',
-                                        'fa fa-pencil-square-o': resourceObjKey === 'metadata',
-                                        'fa fa-television': resourceObjKey === 'monitor',
-                                        'fa fa-bell': resourceObjKey === 'notification',
-                                        'fa fa-server': resourceObjKey === 'system',
-                                        'fa fa-tag': resourceObjKey === 'tag'}
-                          "></i> {{resourceObjValue.length}}
+         <div class="portlet-body">
+            <div class="row text-center" ng-show="requesting">
+               <div class="col-md-12">
+                  <div class="loading-message">
+                     <div class="block-spinner-bar">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div ng-show="!requesting">
+                     <div ng-show="tags.length === 0" class="text-center">
+                        <div class="row text-center">
+                           <div class="col-md-12">
+                              No tags found
+                           </div>
+                        </div>
+                        <div class="row text-center top-buffer">
+                           <div class="col-md-12">
+                              <a ui-sref="tags-add()" class="btn btn-outline green" role="button">
+                              <i class="fa fa-plus"></i>
+                              <span class="hidden-480"> Add Tag</span>
+                              </a>
+                           </div>
                         </div>
                      </div>
-                   </div>
-                 </div>
-              </div>
-           </div>
-           <!-- end tag header -->
-           <div class="mt-list-container list-todo">
-              <div class="list-todo-line"></div>
-              <ul>
-                 <li class="mt-list-item" ng-repeat="(resourceObjKey, resourceObjValue) in tagObj.resources">
-                    <div class="list-todo-icon bg-white">
-                       <!-- <i class="fa fa-database"></i> -->
-                       <i ng-class="{'fa fa-code': resourceObjKey === 'app',
-                                     'fa fa-database' : resourceObjKey === 'file',
-                                     'fa fa-rocket': resourceObjKey === 'job',
-                                     'fa fa-pencil-square-o': resourceObjKey === 'metadata',
-                                     'fa fa-television': resourceObjKey === 'monitor',
-                                     'fa fa-bell': resourceObjKey === 'notification',
-                                     'fa fa-server': resourceObjKey === 'system',
-                                     'fa fa-tag': resourceObjKey === 'tag'}
-                       "></i>
-                    </div>
-                    <div class="list-todo-item grey">
-                       <!-- resource header -->
-                       <a class="list-toggle-container font-white" data-toggle="collapse" data-target="#{{tagObj.tag.name}}-{{$index}}" aria-expanded="true">
-                          <div class="list-toggle done uppercase">
-                             <div class="list-toggle-title bold">{{resourceObjKey}}</div>
-                             <div class="badge badge-default pull-right bold">{{resourceObjValue.length}}</div>
-                          </div>
-                       </a>
-                        <!-- end resource header -->
-                       <div class="task-list panel-collapse collapse in" id="{{tagObj.tag.name}}-{{$index}}" aria-expanded="true">
-                          <ul>
-                             <li class="task-list-item done tags-resource" ng-repeat="(resourceKey, resourceValue) in resourceObjValue"  ng-click="getResourceDetails(resourceValue)">
-                                <div class="task-icon">
-                                   <a href="javascript:;">
-                                   <!-- <i class="fa fa-database"></i> -->
-                                   <i ng-class="{'fa fa-code': resourceObjKey === 'app',
-                                                 'fa fa-database' : resourceObjKey === 'file',
-                                                 'fa fa-rocket': resourceObjKey === 'job',
-                                                 'fa fa-pencil-square-o': resourceObjKey === 'metadata',
-                                                 'fa fa-television': resourceObjKey === 'monitor',
-                                                 'fa fa-bell': resourceObjKey === 'notification',
-                                                 'fa fa-server': resourceObjKey === 'system',
-                                                 'fa fa-tag': resourceObjKey === 'tag'}
-                                   "></i>
-                                   </a>
-                                </div>
-                                <!-- <div class="task-status">
-                                   <a class="done" href="javascript:;">
-                                     More
-                                   </a>
-                                </div> -->
-                                <div class="task-content">
-                                   <h4 class="uppercase bold">
-                                      <a href="javascript:;">{{resourceValue.type}} - {{resourceValue.uuid}}</a>
-                                   </h4>
-                                </div>
-                             </li>
-                          </ul>
-                          <div class="task-footer bg-grey">
+                     <div>
+                        <div class="row">
+                           <!-- begin portlet -->
+                           <!-- <div ng-class="{'col-md-6 col-md-offset-3': !resource, 'col-md-6': resource}"> -->
+                           <div class="col-md-6">
+                              <div class="mt-element-list" ng-repeat="tagObj in tags">
+                                 <!-- tag header -->
+                                 <div class="mt-list-head list-todo tags-head">
+                                    <div class="list-head-title-container">
+                                       <div class="row">
+                                          <div class="col-md-6">
+                                             <h4 class="list-title"><i class="fa fa-tag"></i> {{tagObj.tag.name}}</h4>
+                                          </div>
+                                          <div class="col-md-6 text-right">
+                                             <div class="list-head-count">
+                                                <div class="list-head-count-item"  ng-repeat="(resourceObjKey, resourceObjValue) in tagObj.resources">
+                                                   <i ng-class="{'fa fa-code': resourceObjKey === 'app',
+                                                      'fa fa-database' : resourceObjKey === 'file',
+                                                      'fa fa-rocket': resourceObjKey === 'job',
+                                                      'fa fa-pencil-square-o': resourceObjKey === 'metadata',
+                                                      'fa fa-television': resourceObjKey === 'monitor',
+                                                      'fa fa-bell': resourceObjKey === 'notification',
+                                                      'fa fa-server': resourceObjKey === 'system',
+                                                      'fa fa-tag': resourceObjKey === 'tag'}
+                                                      "></i> {{resourceObjValue.length}}
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-- end tag header -->
+                                 <div class="mt-list-container list-todo">
+                                    <div class="list-todo-line"></div>
+                                    <ul>
+                                       <li class="mt-list-item" ng-repeat="(resourceObjKey, resourceObjValue) in tagObj.resources">
+                                          <div class="list-todo-icon bg-white">
+                                             <!-- <i class="fa fa-database"></i> -->
+                                             <i ng-class="{'fa fa-code': resourceObjKey === 'app',
+                                                'fa fa-database' : resourceObjKey === 'file',
+                                                'fa fa-rocket': resourceObjKey === 'job',
+                                                'fa fa-pencil-square-o': resourceObjKey === 'metadata',
+                                                'fa fa-television': resourceObjKey === 'monitor',
+                                                'fa fa-bell': resourceObjKey === 'notification',
+                                                'fa fa-server': resourceObjKey === 'system',
+                                                'fa fa-tag': resourceObjKey === 'tag'}
+                                                "></i>
+                                          </div>
+                                          <div class="list-todo-item grey">
+                                             <!-- resource header -->
+                                             <a class="list-toggle-container font-white" data-toggle="collapse" data-target="#{{tagObj.tag.name}}-{{$index}}" aria-expanded="true">
+                                                <div class="list-toggle done uppercase">
+                                                   <div class="list-toggle-title bold">{{resourceObjKey}}</div>
+                                                   <div class="badge badge-default pull-right bold">{{resourceObjValue.length}}</div>
+                                                </div>
+                                             </a>
+                                             <!-- end resource header -->
+                                             <div class="task-list panel-collapse collapse in" id="{{tagObj.tag.name}}-{{$index}}" aria-expanded="true">
+                                                <ul>
+                                                   <li class="task-list-item done tags-resource" ng-repeat="(resourceKey, resourceValue) in resourceObjValue"  ng-click="getResourceDetails(resourceValue)">
+                                                      <div class="task-icon">
+                                                         <a href="javascript:;">
+                                                            <!-- <i class="fa fa-database"></i> -->
+                                                            <i ng-class="{'fa fa-code': resourceObjKey === 'app',
+                                                               'fa fa-database' : resourceObjKey === 'file',
+                                                               'fa fa-rocket': resourceObjKey === 'job',
+                                                               'fa fa-pencil-square-o': resourceObjKey === 'metadata',
+                                                               'fa fa-television': resourceObjKey === 'monitor',
+                                                               'fa fa-bell': resourceObjKey === 'notification',
+                                                               'fa fa-server': resourceObjKey === 'system',
+                                                               'fa fa-tag': resourceObjKey === 'tag'}
+                                                               "></i>
+                                                         </a>
+                                                      </div>
+                                                      <!-- <div class="task-status">
+                                                         <a class="done" href="javascript:;">
+                                                           More
+                                                         </a>
+                                                         </div> -->
+                                                      <div class="task-content">
+                                                         <h4 class="uppercase bold">
+                                                            <a href="javascript:;">{{resourceValue.type}} - {{resourceValue.uuid}}</a>
+                                                         </h4>
+                                                      </div>
+                                                   </li>
+                                                </ul>
+                                                <div class="task-footer bg-grey tags-footer">
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </li>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- end portlet -->
+                           <!-- begin portlet 2 -->
+                           <!-- <div class="col-md-6" data-spy="affix" data-offset-top="205"> -->
+                           <div class="col-md-6">
+                              <div class="mt-element-list">
+                                 <!-- tag header -->
+                                 <!-- <div class="mt-list-head list-todo red">
+                                    <div class="list-head-title-container">
+                                       <h3 class="list-title"><i class="fa fa-info-circle"></i> Resource Details </h3>
+                                       <div class="list-head-count">
+                                          <div class="list-head-count-item"  ng-repeat="(resourceObjKey, resourceObjValue) in tagObj.resources">
+                                            <i class="fa fa-rocket"></i>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    </div> -->
+                                 <!-- end tag header -->
+                                 <!-- tag header -->
+                                 <div class="mt-list-head list-todo tags-head">
+                                    <div class="list-head-title-container">
+                                       <div class="row">
+                                          <div class="col-md-12">
+                                             <h4 class="list-title"><i class="fa fa-info-circle"></i> {{resource.uuid}}</h4>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-- end tag header -->
+                                 <!-- portlet 2 container -->
+                                 <div class="mt-list-container list-todo tags-resource-detail-container">
+                                   <!-- resource-{{resource.object}} -->
+                                    <div ng-include="resource.url"></div>
 
-                          </div>
-                       </div>
-                    </div>
-                 </li>
-              </ul>
-           </div>
-        </div>
-      </div>
-      <!-- end portlet -->
-
-      <!-- begin portlet 2 -->
-      <div class="col-md-6" ng-show="resource">
-        <div class="mt-element-list">
-          <!-- tag header -->
-          <!-- <div class="mt-list-head list-todo red">
-             <div class="list-head-title-container">
-                <h3 class="list-title"><i class="fa fa-info-circle"></i> Resource Details </h3>
-                <div class="list-head-count">
-                   <div class="list-head-count-item"  ng-repeat="(resourceObjKey, resourceObjValue) in tagObj.resources">
-                     <i class="fa fa-rocket"></i>
-                   </div>
-                </div>
-             </div>
-          </div> -->
-          <!-- end tag header -->
-
-          <!-- tag header -->
-          <div class="mt-list-head list-todo red">
-             <div class="list-head-title-container">
-                <div class="row">
-                  <div class="col-md-6">
-                     <h3 class="list-title"><i class="fa fa-info-circle"></i> Resource details</h3>
+                                 </div>
+                                 <!-- end porlet 2 container -->
+                              </div>
+                           </div>
+                           <!-- end portlet 2 -->
+                        </div>
+                     </div>
                   </div>
-                </div>
-             </div>
-          </div>
-          <!-- end tag header -->
-
-          <!-- portlet 2 container -->
-          <div class="mt-list-container list-todo">
-            {{resource}}
-          </div>
-          <!-- end porlet 2 container -->
-
-        </div>
+               </div>
+            </div>
+         </div>
       </div>
-      <!-- end portlet 2 -->
    </div>
 </div>

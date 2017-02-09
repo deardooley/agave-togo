@@ -14,7 +14,11 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
     'SystemsController',
     'TagsController',
     'UUIDsController',
-    'MessageService', function (
+    'ActionsService',
+    'MessageService',
+    'PermissionsService',
+    'RolesService',
+      function (
       $scope,
       $q,
       $translate,
@@ -28,7 +32,11 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
       SystemsController,
       TagsController,
       UUIDsController,
-      MessageService) {
+      ActionsService,
+      MessageService,
+      PermissionsService,
+      RolesService
+    ) {
 
     $scope._COLLECTION_NAME = 'tags';
     $scope._RESOURCE_NAME = 'tag';
@@ -38,11 +46,12 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
     $scope.offset = 0;
     $scope.limit = 10;
     $scope.query = '';
+    $scope.resource = {};
 
     $scope.refresh = function(){
       var promisesUuids = [];
       var promises = [];
-
+      $scope.requesting = true;
       TagsController.listTags($scope.query, $scope.limit, $scope.offset)
         .then(
           function(response){
@@ -78,6 +87,7 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
                         // do something with failed
                       }
                   });
+                  $scope.requesting = false;
                 }
 
               );
@@ -89,16 +99,19 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
     };
 
     $scope.getResourceDetails = function(resource){
-      $scope.resource = '';
+      // $scope.resource = '';
       switch(resource.type){
-        case 'app': UUIDsController.getUUID(resource.uuid, true)
-                      .then(
-                        function(response){
-                          $scope.resource = response.result;
-                        },
-                        function(response){
-                        }
-                      );
+        case 'app':
+          $scope.resource.url = $translate.instant('resource_template_app');
+          UUIDsController.getUUID(resource.uuid, true)
+            .then(
+              function(response){
+                $scope.resource.uuid = response.result.uuid;
+                $scope.app = response.result;
+              },
+              function(response){
+              }
+            );
           break;
         case 'file':
           break;
@@ -111,10 +124,42 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
         case 'notification':
           break;
         case 'system':
+          $scope.resource.url = $translate.instant('resource_template_system');
+          UUIDsController.getUUID(resource.uuid, true)
+            .then(
+              function(response){
+                $scope.resource.uuid = response.result.uuid;
+                $scope.system = response.result;
+              },
+              function(response){
+              }
+            );
           break;
         case 'tag':
           break;
       }
+    };
+
+    // Apps
+    $scope.confirmAction = function(resourceType, resource, resourceAction, resourceIndex){
+      ActionsService.confirmAction(resourceType, resource, resourceAction, resourceIndex);
+    };
+
+    $scope.editPermissions = function(resource) {
+      PermissionsService.editPermissions(resource);
+    }
+
+    $scope.edit = function(resourceType, resource){
+      ActionsService.edit(resourceType, resource);
+    };
+
+    $scope.getNotifications = function(resourceType, resource){
+      ActionsService.getNotifications(resourceType, resource);
+    };
+
+    // Systems
+    $scope.editRoles = function(system){
+      RolesService.editRoles(system);
     }
 
     $scope.refresh();
