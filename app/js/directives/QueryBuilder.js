@@ -170,6 +170,15 @@ AgaveToGo.directive('queryBuilder', ['$compile', function ($compile) {
                       {name: 'url'}                            // The callback url to which deliveries should be made.
                     ];
                     break;
+                  case 'tags':
+                    scope.fields = [
+                      {name: 'id'},
+                      {name: 'name'},
+                      {name: 'created'},
+                      {name: 'lastupdated'},
+                      {name: 'associationIds'}
+                    ];
+                    break;
                 }
 
                 scope.conditions = [
@@ -231,6 +240,13 @@ AgaveToGo.directive('queryBuilder', ['$compile', function ($compile) {
                       scope.group.rules.push({
                           condition: '.eq=',
                           field: 'available',
+                          data: ''
+                      });
+                      break;
+                    case 'tags':
+                      scope.group.rules.push({
+                          condition: '.eq=',
+                          field: 'name',
                           data: ''
                       });
                       break;

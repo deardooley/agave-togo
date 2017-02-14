@@ -1,21 +1,49 @@
 /* tags */
+
+.tags-container-list{
+  list-style-type: none;
+}
+
+.tags-container{
+  margin-bottom: 5px;
+  margin-top: 5px;
+  min-width: 264px;
+  font-size: 14px;
+}
+
 .tags-resource{
   cursor: pointer;
 }
 
+.tags-resource-container{
+  border-style: solid;
+  border-width: 1px;
+}
+
 .tags-resource-detail-container{
   padding:20px;
+  border-style: solid;
+  border-width: 1px;
 }
 
 .tags-head{
   background-color: #36C6D3;
   color: white;
-  min-height: 15px;
+  min-height: 55px;
+  max-width: 400px;
+  cursor: pointer;
+}
+
+.tags-detail-head{
+  background-color: #36C6D3;
+  color: white;
+  min-height: 55px;
 }
 
 .tags-footer {
   padding: 0.5px !important;
 }
+
 /* end tags */
 
 /* metadata file upload */

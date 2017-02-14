@@ -1,0 +1,61 @@
+<div>
+  <div class="row">
+    <div class="col-xs-9">
+      <div class="table-responsive">
+        <table class="table">
+          <thead class="hidden-sm hidden-xs">
+           <tr>
+             <th class="col-sm-2"></th>
+             <th class="col-sm-10"></th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr ng-if="tag.name">
+             <td>ID</td>
+             <td><strong>{{tag.id}}</strong></td>
+           </tr>
+           <tr ng-if="tag.name">
+             <td>Name</td>
+             <td>{{tag.name}}</td>
+           </tr>
+           <tr ng-if="tag.associationIds">
+             <td>Association IDs</td>
+             <td>{{tag.associationIds}}</td>
+           </tr>
+           <tr ng-if="tag.lastUpdated">
+             <td>Last Updated</td>
+             <td>{{tag.lastUpdated}}</td>
+           </tr>
+           <tr ng-if="tag.created">
+             <td>Created</td>
+             <td>{{tag.created}}</td>
+           </tr>
+           <tr ng-if="tag._links">
+             <td>Links</td>
+             <td><json-formatter json="tag._links" open="1"></json-formatter></td>
+           </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div ng-if="tag" class="btn-group pull-right">
+          <a class="btn red btn-outline" href="#" data-toggle="dropdown">
+              Actions
+              <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu pull-right">
+            <li>
+              <a ng-click="edit('tags', tag)" role="button"> <i class="fa fa-pencil"></i> Edit </a>
+            </li>
+            <li>
+              <a ng-click="getNotifications('tag', tag)" > <i class="fa fa-bell"></i> Notifications</a>
+            </li>
+            <li>
+              <a ng-click="confirmAction('tags', tag, 'delete')"> <i class="fa fa-trash-o"></i> Delete </a>
+            </li>
+          </ul>
+      </div>
+    </div>
+  </div>
+</div>

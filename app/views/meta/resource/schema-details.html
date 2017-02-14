@@ -1,0 +1,28 @@
+<div>
+  <div class="row">
+    <div class="col-xs-9">
+      <div ng-if="schema">
+        <json-formatter json="schema" open="1"></json-formatter>
+      </div>
+      <div ng-if="!schema">
+        No schema found
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div class="btn-group">
+        <a class="btn red btn-outline" href="#" data-toggle="dropdown">
+            Actions
+            <i class="fa fa-angle-down"></i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <a ui-sref="meta-schema-edit({uuid: schema.uuid})" role="button"> <i class="fa fa-pencil"></i> Edit</a>
+          </li>
+          <li>
+              <a ng-click="confirmAction('schemas', schema, 'delete', schemas, $index)" > <i class="fa fa-trash-o"></i> Delete</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

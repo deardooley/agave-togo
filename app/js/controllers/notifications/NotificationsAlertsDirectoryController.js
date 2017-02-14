@@ -20,10 +20,6 @@ angular.module('AgaveToGo').controller('NotificationsAlertsDirectoryController',
     $scope.refresh = function() {
       $scope.requesting = true;
 
-      if ($stateParams.id){
-        $scope.filter = $stateParams.id;
-      }
-
       MetaController.listMetadata($scope.query, null, $scope.offset)
         .then(
           function (response) {

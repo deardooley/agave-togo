@@ -253,7 +253,9 @@ AgaveToGo.config(function($translateProvider) {
     error_systems_search: 'Error: Could not retrieve systems',
     error_systems_template: 'Error: Could not retrieve system template',
 
-    error_tags_list: 'Error: Could not retrieve tags',
+    error_tags_list: 'Error: Could not retrieve tag',
+    error_tags_add: 'Error: Could not add tag',
+    error_tags_delete: 'Error: Could not delete tag',
 
     success_apps_permissions_update: 'Success: updated permissions for ',
 
@@ -273,11 +275,22 @@ AgaveToGo.config(function($translateProvider) {
     success_schema_delete: 'Success deleting schema: ',
 
     success_systems_roles: 'Success: updated roles for ',
+
+    success_tags_add: 'Success adding/editing tag: ',
+    success_tags_delete: 'Success deleting tag: ',
+
     setDefault: 'set to default',
     unsetDefault: 'unset default',
 
     resource_template_app: 'views/apps/resource/details.html',
-    resource_template_system: 'views/systems/resource/details.html'
+    resource_template_file: 'views/data/resource/details.html',
+    resource_template_job: 'views/jobs/resource/details.html',
+    resource_template_meta: 'views/meta/resource/meta-details.html',
+    resource_template_monitor: 'views/monitors/resource/details.html',
+    resource_template_notification: 'views/notifications/resource/details.html',
+    resource_template_schema: 'views/meta/resource/schema-details.html',
+    resource_template_system: 'views/systems/resource/details.html',
+    resource_template_tag: 'views/tags/resource/details.html'
   });
 
   $translateProvider.preferredLanguage('en');
@@ -706,7 +719,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
        })
 
        .state('meta-edit', {
-           url: '/meta/edit/:uuid',
+           url: '/meta/edit/:id',
            params: {
              uuid: '',
            },
@@ -1747,6 +1760,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             'js/services/MessageService.js',
                             'js/services/PermissionsService.js',
                             'js/services/RolesService.js',
+                            'js/controllers/QueryBuilderController.js',
                             'js/controllers/apps/resource/AppsResourceDetailsController.js',
                             'js/controllers/tags/TagsManagerDirectoryController.js'
                         ]
@@ -1755,28 +1769,50 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
             }
         })
 
-        // .state('tags-new', {
-        //     url: '/systems/new',
-        //     templateUrl: 'views/tags/add.html',
-        //     data: {pageTitle: 'System Builder Wizard'},
-        //     controller: 'SystemBuilderWizardController',
-        //     resolve: {
-        //         deps: ['$ocLazyLoad', function($ocLazyLoad) {
-        //             return $ocLazyLoad.load({
-        //                     serie: true,
-        //                     name: 'AgaveToGo',
-        //                     insertBefore: '#ng_load_plugins_before',
-        //                     files: [
-        //                       'js/services/MessageService.js',
-        //                       'js/controllers/systems/SystemBuilderWizardController.js',
-        //                     ]
-        //                 },
-        //                 // 'FileManagerApp',
-        //                 'ui.codemirror'
-        //             );
-        //         }]
-        //     }
-        // })
+        .state('tags-add', {
+            url: '/tags/add',
+            data: {pageTitle: 'Tags Add'},
+            templateUrl: 'views/tags/resource/add.html',
+            controller: 'TagsResourceAddController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                  return $ocLazyLoad.load([
+                    {
+                      serie: true,
+                      name: 'AgaveToGo',
+                      files: [
+                          'js/services/ActionsService.js',
+                          'js/services/MessageService.js',
+                          'js/controllers/tags/resource/TagsResourceAddController.js'
+                      ]
+                    }
+                  ]);
+                }]
+            }
+        })
+
+        .state('tags-edit', {
+            url: '/tags/edit/:id',
+            data: {pageTitle: 'Tags Edit'},
+            templateUrl: 'views/tags/resource/edit.html',
+            controller: 'TagsResourceEditController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                  return $ocLazyLoad.load([
+                    {
+                      serie: true,
+                      name: 'AgaveToGo',
+                      files: [
+                          'js/services/ActionsService.js',
+                          'js/services/MessageService.js',
+                          'js/controllers/tags/resource/TagsResourceEditController.js'
+                      ]
+                    }
+                  ]);
+                }]
+            }
+        })
+
 
 
 

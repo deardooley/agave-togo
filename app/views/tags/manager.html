@@ -20,19 +20,48 @@
             </div>
             <div class="row text-center">
                <div class="col-md-12">
-                  <a ui-sref="tags-add()" class="btn btn-outline green pull-right" role="button">
-                  <i class="fa fa-plus"></i>
-                  <span class="hidden-480"> Add Tag</span>
-                  </a>
+                 <a href="#/tags/add" class="btn btn-outline green pull-right" role="button">
+                   <i class="fa fa-plus"></i>
+                   <span class="hidden-480"> Add Tag</span>
+                 </a>
                </div>
             </div>
-            <div class="text-center top-buffer" ng-keyup="$event.keyCode == 13 ? searchTools(query) : null">
-               <div class="btn-group top-buffer">
+            <div ng-controller="QueryBuilderCtrl" class="text-center top-buffer" ng-keyup="$event.keyCode == 13 ? searchTools(query) : null">
+                <div class="btn-group top-buffer">
                   <div class="input-group">
-                     <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
-                     <input type="text" class="form-control" placeholder="Search tag by name..." ng-model="$parent.filter">
+                    <div class="input-group-addon"><i class="fa fa-filter" aria-hidden="true"></i></div>
+                    <input type="text" class="form-control" placeholder="Filter by name..." ng-model="$parent.filter" ng-change="filterTags()" ng-model-options="{ debounce: 1000 }">
                   </div>
-               </div>
+                </div>
+                <!-- <div class="row top-buffer" ng-show="showSearch">
+                  <query-builder group="filter.group" resource="tags"></query-builder>
+                  <div class="col-md-12 top-buffer">
+
+                    <div class="input-group">
+                      <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                      <input type="text" class="form-control" placeholder="Search" ng-model="query">
+                    </div>
+
+                    <div class="btn-group">
+                      <button class="btn btn-success top-buffer" ng-click="searchTools(query)">Search</button>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="btn-group top-buffer">
+                  <button class="btn btn-default" ng-click="showSearch = !showSearch">
+                    <i class="fa fa-search"></i> {{showSearch ? 'Hide Tools' : 'Search Tools'}}
+                  </button>
+                </div> -->
+            </div>
+
+            <div class="btn-group pull-right top-buffer">
+              <button class="btn btn-default" ng-click="expandAll()" ng-show="!expand">
+                Expand All
+              </button>
+              <button class="btn btn-default" ng-click="collapseAll()" ng-show="expand">
+                Collapse All
+              </button>
             </div>
          </div>
          <div class="portlet-body">
@@ -58,10 +87,10 @@
                         </div>
                         <div class="row text-center top-buffer">
                            <div class="col-md-12">
-                              <a ui-sref="tags-add()" class="btn btn-outline green" role="button">
-                              <i class="fa fa-plus"></i>
-                              <span class="hidden-480"> Add Tag</span>
-                              </a>
+                             <a href="#/tags/add" class="btn btn-outline green pull-right" role="button">
+                               <i class="fa fa-plus"></i>
+                               <span class="hidden-480"> Add Tag</span>
+                             </a>
                            </div>
                         </div>
                      </div>
@@ -69,16 +98,17 @@
                         <div class="row">
                            <!-- begin portlet -->
                            <!-- <div ng-class="{'col-md-6 col-md-offset-3': !resource, 'col-md-6': resource}"> -->
-                           <div class="col-md-6">
-                              <div class="mt-element-list" ng-repeat="tagObj in tags">
+                           <!-- tags-{{tags}}
+                           filterquery-{{filterquery}} -->
+                           <ul ng-class="expand || resource.url ? 'col-md-6 tags-container-list' : 'col-md-12 list-inline tags-container-list'">
+                              <li class="panel panel-default mt-element-list tags-container" ng-repeat="tagObj in tags">
                                  <!-- tag header -->
-                                 <div class="mt-list-head list-todo tags-head">
-                                    <div class="list-head-title-container">
+                                 <!-- <div class="panel-heading mt-list-head list-todo tags-head" data-toggle="collapse" data-target="#{{tagObj.tag.name}}" ng-click="tagObj.expand = !tagObj.expand"> -->
+                                 <div class="panel-heading mt-list-head list-todo tags-head">
+                                    <div class="panel-title list-head-title-container">
                                        <div class="row">
-                                          <div class="col-md-6">
-                                             <h4 class="list-title"><i class="fa fa-tag"></i> {{tagObj.tag.name}}</h4>
-                                          </div>
-                                          <div class="col-md-6 text-right">
+                                          <div class="col-md-10" ng-click="tagObj.expand = !tagObj.expand">
+                                             <strong>{{tagObj.tag.name}}</strong>
                                              <div class="list-head-count">
                                                 <div class="list-head-count-item"  ng-repeat="(resourceObjKey, resourceObjValue) in tagObj.resources">
                                                    <i ng-class="{'fa fa-code': resourceObjKey === 'app',
@@ -87,17 +117,21 @@
                                                       'fa fa-pencil-square-o': resourceObjKey === 'metadata',
                                                       'fa fa-television': resourceObjKey === 'monitor',
                                                       'fa fa-bell': resourceObjKey === 'notification',
+                                                      'fa fa fa-pencil-square': resourceObjKey === 'schema',
                                                       'fa fa-server': resourceObjKey === 'system',
                                                       'fa fa-tag': resourceObjKey === 'tag'}
                                                       "></i> {{resourceObjValue.length}}
                                                 </div>
                                              </div>
                                           </div>
+                                          <div class="col-md-2">
+                                            <i class="fa fa-pencil-square-o pull-right" ng-click="editTag($event, tagObj)"></i>
+                                          </div>
                                        </div>
                                     </div>
                                  </div>
                                  <!-- end tag header -->
-                                 <div class="mt-list-container list-todo">
+                                 <div class="mt-list-container list-todo tags-resource-container" collapse="!tagObj.expand">
                                     <div class="list-todo-line"></div>
                                     <ul>
                                        <li class="mt-list-item" ng-repeat="(resourceObjKey, resourceObjValue) in tagObj.resources">
@@ -109,6 +143,7 @@
                                                 'fa fa-pencil-square-o': resourceObjKey === 'metadata',
                                                 'fa fa-television': resourceObjKey === 'monitor',
                                                 'fa fa-bell': resourceObjKey === 'notification',
+                                                'fa fa fa-pencil-square': resourceObjKey === 'schema',
                                                 'fa fa-server': resourceObjKey === 'system',
                                                 'fa fa-tag': resourceObjKey === 'tag'}
                                                 "></i>
@@ -134,6 +169,7 @@
                                                                'fa fa-pencil-square-o': resourceObjKey === 'metadata',
                                                                'fa fa-television': resourceObjKey === 'monitor',
                                                                'fa fa-bell': resourceObjKey === 'notification',
+                                                               'fa fa fa-pencil-square': resourceObjKey === 'schema',
                                                                'fa fa-server': resourceObjKey === 'system',
                                                                'fa fa-tag': resourceObjKey === 'tag'}
                                                                "></i>
@@ -158,43 +194,27 @@
                                        </li>
                                     </ul>
                                  </div>
-                              </div>
-                           </div>
+                              </li>
+                           </ul>
                            <!-- end portlet -->
                            <!-- begin portlet 2 -->
                            <!-- <div class="col-md-6" data-spy="affix" data-offset-top="205"> -->
-                           <div class="col-md-6">
+                           <div class="col-md-6" ng-show="resource.url">
                               <div class="mt-element-list">
-                                 <!-- tag header -->
-                                 <!-- <div class="mt-list-head list-todo red">
-                                    <div class="list-head-title-container">
-                                       <h3 class="list-title"><i class="fa fa-info-circle"></i> Resource Details </h3>
-                                       <div class="list-head-count">
-                                          <div class="list-head-count-item"  ng-repeat="(resourceObjKey, resourceObjValue) in tagObj.resources">
-                                            <i class="fa fa-rocket"></i>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    </div> -->
-                                 <!-- end tag header -->
-                                 <!-- tag header -->
-                                 <div class="mt-list-head list-todo tags-head">
+                                 <div class="mt-list-head list-todo tags-detail-head">
                                     <div class="list-head-title-container">
                                        <div class="row">
                                           <div class="col-md-12">
-                                             <h4 class="list-title"><i class="fa fa-info-circle"></i> {{resource.uuid}}</h4>
+                                             <h4 class="list-title" ng-if="resource.uuid"><i class="fa fa-info-circle"></i> {{resource.uuid}}</h4>
+                                             <h4 class="list-title" ng-if="!resource.uuid"><i class="fa fa-info-circle"></i> {{resource.id}}</h4>
                                           </div>
                                        </div>
                                     </div>
                                  </div>
-                                 <!-- end tag header -->
-                                 <!-- portlet 2 container -->
                                  <div class="mt-list-container list-todo tags-resource-detail-container">
-                                   <!-- resource-{{resource.object}} -->
                                     <div ng-include="resource.url"></div>
 
                                  </div>
-                                 <!-- end porlet 2 container -->
                               </div>
                            </div>
                            <!-- end portlet 2 -->

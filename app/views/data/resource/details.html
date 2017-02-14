@@ -1,0 +1,63 @@
+<div>
+  <div class="row">
+    <div class="col-xs-12" ng-show="file">
+      Could not retrieve file
+    </div>
+    <div class="col-xs-9" ng-show="file">
+      <div class="table-responsive">
+        <table class="table">
+          <thead class="hidden-sm hidden-xs">
+           <tr>
+             <th class="col-sm-2"></th>
+             <th class="col-sm-10"></th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr ng-if="file.name">
+             <td>Name</td>
+             <td><strong>{{file.name}}</strong></td>
+           </tr>
+           <tr ng-if="file.type">
+             <td>Type</td>
+             <td>{{file.format}}</td>
+           </tr>
+           <tr ng-if="file.system">
+             <td>System</td>
+             <td>{{file.system}}</td>
+           </tr>
+           <tr ng-if="file.path">
+             <td>Path</td>
+             <td>{{file.path}}</td>
+           </tr>
+           <tr ng-if="file.permission">
+             <td>Permission</td>
+             <td>{{file.permission}}</td>
+           </tr>
+           <tr ng-if="file.mimeType">
+             <td>Format</td>
+             <td>{{file.format}}</td>
+           </tr>
+           <tr ng-if="file.length">
+             <td>Size</td>
+             <td>{{file.length}}</td>
+           </tr>
+           <tr ng-if="file.lastModified">
+             <td>Last Modified</td>
+             <td>{{file.lastModified}}</td>
+           </tr>
+           <tr ng-if="file._links">
+             <td>Length</td>
+             <td><json-formatter json="file._links" open="1"></json-formatter></td>
+           </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-xs-3" ng-show="file">
+      <a ui-sref="data-explorer({systemId:resource.systemId, path: resource.path})" class="btn btn-outline green pull-right" role="button">
+        <i class="fa fa-eye"></i>
+        <span class="hidden-480"> View in browser </span>
+      </a>
+    </div>
+  </div>
+</div>

@@ -3,15 +3,12 @@
 angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
     '$scope',
     '$q',
-    '$translate',
+    '$state',
     '$stateParams',
-    'AppsController',
+    '$translate',
     'FilesController',
-    'JobsController',
     'MetaController',
     'MonitorsController',
-    'NotificationsController',
-    'SystemsController',
     'TagsController',
     'UUIDsController',
     'ActionsService',
@@ -21,15 +18,12 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
       function (
       $scope,
       $q,
-      $translate,
+      $state,
       $stateParams,
-      AppsController,
+      $translate,
       FilesController,
-      JobsController,
       MetaController,
       MonitorsController,
-      NotificationsController,
-      SystemsController,
       TagsController,
       UUIDsController,
       ActionsService,
@@ -78,6 +72,7 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
 
                       if (zipped[1].status === 'fulfilled'){
                         if (typeof $scope[$scope._COLLECTION_NAME][zipped[0].name].resources[zipped[1].value.result.type] == 'undefined'){
+                          $scope[$scope._COLLECTION_NAME][zipped[0].name].expand = false;
                           $scope[$scope._COLLECTION_NAME][zipped[0].name].resources[zipped[1].value.result.type] = [];
                           $scope[$scope._COLLECTION_NAME][zipped[0].name].resources[zipped[1].value.result.type].push(zipped[1].value.result);
                         } else {
@@ -87,6 +82,7 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
                         // do something with failed
                       }
                   });
+                  $scope.tagsOriginal = angular.copy($scope[$scope._COLLECTION_NAME]);
                   $scope.requesting = false;
                 }
 
@@ -98,8 +94,39 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
         );
     };
 
+    $scope.expandAll = function(){
+      $scope.expand = true;
+      _.each($scope[$scope._COLLECTION_NAME], function(tag){
+        tag.expand = true;
+      });
+    };
+
+    $scope.collapseAll = function(){
+      $scope.expand = false;
+      _.each($scope[$scope._COLLECTION_NAME], function(tag){
+        tag.expand = false;
+      });
+    };
+
+    $scope.filterTags = function(){
+      $scope[$scope._COLLECTION_NAME] = {};
+      if ($scope.filter === ''){
+        _.each($scope.tagsOriginal, function(tagValue, tagKey){
+          $scope[$scope._COLLECTION_NAME][tagKey] = tagValue;
+        });
+      }
+      _.each($scope.tagsOriginal, function(tagValue, tagKey){
+        if (tagKey.includes($scope.filter)){
+          $scope[$scope._COLLECTION_NAME][tagKey] = tagValue;
+        }
+      });
+    };
+
+    $scope.editTag = function($event, tagObj){
+       $state.go('tags-edit', {'id': tagObj.tag.id});
+    }
+
     $scope.getResourceDetails = function(resource){
-      // $scope.resource = '';
       switch(resource.type){
         case 'app':
           $scope.resource.url = $translate.instant('resource_template_app');
@@ -110,18 +137,104 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
                 $scope.app = response.result;
               },
               function(response){
+                MessageService.handle(response, $translate.instant('error_apps_details'));
               }
             );
           break;
         case 'file':
+          $scope.resource.url = $translate.instant('resource_template_file');
+
+          // special attributes here for file
+          $scope.resource.systemId = resource._links.self.href.split('/')[7];
+          $scope.resource.path = resource._links.self.href.split('/system/'+ $scope.resource.systemId + '/')[1];
+
+          FilesController.listFileItems($scope.resource.systemId, $scope.resource.path, 1, 0)
+            .then(
+              function(response){
+                if (response.length > 0){
+                  $scope.file = response[0];
+                } else {
+                  MessageService.handle('', $translate.instant('error_files_list'));
+                }
+              },
+              function(response){
+                MessageService.handle(response, $translate.instant('error_files_list'));
+              }
+            )
           break;
         case 'job':
+          $scope.resource.url = $translate.instant('resource_template_job');
+          UUIDsController.getUUID(resource.uuid, true)
+            .then(
+              function(response){
+                $scope.resource.uuid = response.result.id;
+                $scope.job = response.result;
+              },
+              function(response){
+                MessageService.handle(response, $translate.instant('error_tags_list'));
+              }
+            );
           break;
         case 'metadata':
+          $scope.resource.url = $translate.instant('resource_template_meta');
+          var query = '{"uuid": "' + resource.uuid + '"}';
+          MetaController.listMetadata(query, 1, 0)
+            .then(
+              function(response){
+                if (response.result.length > 0){
+                  $scope.meta = response.result[0];
+                } else {
+                  MessageService.handle(response, $translate.instant('error_meta_list'));
+                }
+              },
+              function(response){
+                MessageService.handle(response, $translate.instant('error_meta_list'));
+              }
+            );
           break;
         case 'monitor':
+          $scope.resource.url = $translate.instant('resource_template_monitor');
+
+          MonitorsController.getMonitoringTask(resource.uuid)
+            .then(
+              function(response){
+                $scope.resource.uuid = response.result.id;
+                $scope.monitor = response.result;
+              },
+              function(response){
+                MessageService.handle(response, $translate.instant('error_tags_list'));
+              }
+            );
           break;
         case 'notification':
+          $scope.resource.url = $translate.instant('resource_template_notification');
+          UUIDsController.getUUID(resource.uuid, true)
+            .then(
+              function(response){
+                $scope.resource.uuid = response.result.id;
+                $scope.notification = response.result;
+              },
+              function(response){
+                MessageService.handle(response, $translate.instant('error_tags_list'));
+              }
+            );
+          break;
+        case 'schema':
+          $scope.resource.url = $translate.instant('resource_template_schema');
+          var query = '{"uuid": "' + resource.uuid + '"}';
+          MetaController.listMetadataSchema(query, 1, 0)
+            .then(
+              function(response){
+                if (response.result.length > 0){
+                  $scope.schema = response.result[0];
+                } else {
+                  MessageService.handle(response, $translate.instant('error_meta_schema_list'));
+                }
+              },
+              function(response){
+                MessageService.handle(response, $translate.instant('error_meta_schema_list'));
+              }
+            );
           break;
         case 'system':
           $scope.resource.url = $translate.instant('resource_template_system');
@@ -132,10 +245,22 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
                 $scope.system = response.result;
               },
               function(response){
+                MessageService.handle(response, $translate.instant('error_systems_list'));
               }
             );
           break;
         case 'tag':
+          $scope.resource.url = $translate.instant('resource_template_tag');
+          UUIDsController.getUUID(resource.uuid, true)
+            .then(
+              function(response){
+                $scope.resource.uuid = response.result.id;
+                $scope.tag = response.result;
+              },
+              function(response){
+                MessageService.handle(response, $translate.instant('error_tags_list'));
+              }
+            );
           break;
       }
     };

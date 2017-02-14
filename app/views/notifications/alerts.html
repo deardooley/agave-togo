@@ -75,25 +75,34 @@
                                       Owner
                                     </th>
                                     <th width="10%" class="hidden-xs">
+                                      <a href="#" ng-click="sortType = 'value.source'; sortReverse = !sortReverse">
                                         Source
+                                        <span ng-show="sortType == 'value.source' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'value.source' && sortReverse" class="fa fa-caret-up"></span>
+                                      </a>
                                     </th>
                                     <th width="10%">
+                                      <a href="#" ng-click="sortType = 'value.notificationId'; sortReverse = !sortReverse">
                                         Notification ID
+                                        <span ng-show="sortType == 'value.notificationId' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'value.notificationId' && sortReverse" class="fa fa-caret-up"></span>
+                                      </a>
                                     </th>
                                     <th width="10%" class="hidden-xs">
                                         Message
                                     </th>
                                     <th width="10%" class="hidden-xs">
-                                      Source
-                                    </th>
-                                    <th width="10%" class="hidden-xs">
+                                      <a href="#" ng-click="sortType = 'value.event'; sortReverse = !sortReverse">
                                         Event
+                                        <span ng-show="sortType == 'value.event' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'value.event' && sortReverse" class="fa fa-caret-up"></span>
+                                      </a>
                                     </th>
                                     <th width="10%" class="text-center" ng-show="notificationSelected.length === 0"> Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="notification in notifications | orderBy:sortType:sortReverse | filter:filter" >
+                                <tr ng-repeat="notification in notifications | orderBy:sortType:sortReverse" >
                                     <td class="text-center">
                                       <label>
                                         <input type="checkbox" data-checklist-model="$parent.notificationSelected" data-checklist-value="notification">
@@ -121,9 +130,6 @@
                                       <json-formatter json="notification.value.message" open="0"></json-formatter>
                                     </td>
                                     <td class="hidden-xs">
-                                      <span> {{notification.value.source}} </span>
-                                    </td>
-                                    <td class="hidden-xs">
                                       {{notification.value.event}}
                                     </td>
                                     <td class="text-center" ng-show="notificationSelected.length === 0">
@@ -143,6 +149,11 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <!-- <tr ng-repeat="notification in notifications">
+                                  <td>
+                                    {{notification}}
+                                  </td>
+                                </tr> -->
                             </tbody>
                         </table>
                     </div>
