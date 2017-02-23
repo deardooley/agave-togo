@@ -65,35 +65,47 @@ You must set your own `clientKey` and `callbackUrl` in `/agave-togo/auth/scripts
 
 ```
 var OAuthClients = {
-    'agave.prod': {
-        'clientKey': 'B241…’,
-        'callbackUrl': 'https://localhost:9000/auth/',
-        'scope': 'PRODUCTION'
+    "agave.prod": {
+        "clientKey": "r7tbaux...",
+        "callbackUrl": "https://localhost:9000/auth/",
+        "createAccountUrl": "https://www.araport.org/user/register",
+        "scope": "PRODUCTION"
     },
-    'iplantc.org': {
-        'clientKey': 'USjf…’,
-        'callbackUrl': 'https://localhost:9000/auth/',
-        'scope': 'PRODUCTION'
+    "iplantc.org": {
+        "clientKey": "YlO7hX2...",
+        "callbackUrl": "https://localhost:9000/auth/",
+        "createAccountUrl": "https://user.cyverse.org/register/",
+        "scope": "PRODUCTION"
     },
-    'dev.staging': {
-        'clientKey': 'FxWr…,
-        'callbackUrl': 'https://localhost:9000/auth/',
-        'scope': 'PRODUCTION'
+    "dev.staging": {
+        "clientKey": "FxWrkKJ...",
+        "callbackUrl": "https://localhost:9000/auth/",
+        "createAccountUrl": "https://public.agaveapi.co/create_account",
+        "scope": "PRODUCTION"
     },
-    'tacc.prod': {
-        'clientKey': 'B4oW…’,
-        'callbackUrl': 'https://localhost:9000/auth/',
-        'scope': 'PRODUCTION'
+    "tacc.prod": {
+        "clientKey": "B4oW43L...",
+        "callbackUrl": "https://localhost:9000/auth/",
+        "createAccountUrl": "https://portal.tacc.utexas.edu/account-request",
+        "scope": "PRODUCTION"
     },
-    'araport.org': {
-        'clientKey': 'JsKm…’,
-        'callbackUrl': 'https://localhost:9000/auth/',
-        'scope': 'PRODUCTION'
+    "araport.org": {
+        "clientKey": "QCU7Zb...",
+        "callbackUrl": "https://localhost:9000/auth/",
+        "createAccountUrl": "https://www.araport.org/user/register",
+        "scope": "PRODUCTION"
     },
-    'designsafe': {
-        'clientKey': 'jNWc…’,
-        'callbackUrl': 'https://localhost:9000/auth/',
-        'scope': 'PRODUCTION'
+    "designsafe": {
+        "clientKey": "jNWc7x...",
+        "callbackUrl": "https://localhost:9000/auth/",
+        "createAccountUrl": "https://www.designsafe-ci.org/account/register/",
+        "scope": "PRODUCTION"
+    },
+    "sgci": {
+        "clientKey": "_Ld_7Fw...",
+        "callbackUrl": "https://localhost:9000/auth/",
+        "createAccountUrl": "https://sgci.agaveapi.co/create_account",
+        "scope": "PRODUCTION"
     }
 };
 ```
