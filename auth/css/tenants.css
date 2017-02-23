@@ -1,3 +1,61 @@
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+  background-color:  #3A4554;
+}
+
+.lock-tabset{
+  background-color: #3A4554;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    background-color: #3A4554;
+}
+
+.nav>li>a, .nav>li>a {
+    background-color: #323D4B;
+}
+
+.page-lock .page-body {
+  background-color: #323D4B !important;
+}
+
+.nav-tabs-justified>li>a, .nav-tabs.nav-justified>li>a {
+  border-bottom-color: #68BFCE !important;
+  color: #68BFCE;
+}
+
+.nav-tabs-justified>.active>a, .nav-tabs-justified>.active>a:focus, .nav-tabs-justified>.active>a:hover, .nav-tabs.nav-justified>.active>a, .nav-tabs.nav-justified>.active>a:focus, .nav-tabs.nav-justified>.active>a:hover {
+  border-bottom-color: #68BFCE !important;
+  color: #68BFCE;
+}
+
+
+.nav-tabs-justified>.active>a, .nav-tabs-justified>.active>a:focus, .nav-tabs-justified>.active>a:hover, .nav-tabs.nav-justified>.active>a, .nav-tabs.nav-justified>.active>a:focus, .nav-tabs.nav-justified>.active>a:hover {
+  border: 1px solid transparent;
+}
+
+.collapsing, .dropdown, .dropup {
+  max-width: 240px;
+}
+
+.input-group .form-control {
+    position: relative;
+     z-index: auto;
+    float: left;
+    margin-bottom: 0;
+}
+
+.btn.btn-outline.green-sharp {
+    border-color: #6B7478;
+    color: #FFFFFF;
+    background: none;
+}
+
+.btn.btn-outline.green-sharp:hover, .btn.btn-outline.green-sharp:active, .btn.btn-outline.green-sharp:active:hover, .btn.btn-outline.green-sharp:active:focus, .btn.btn-outline.green-sharp:focus, .btn.btn-outline.green-sharp.active {
+    border-color: #6B747F;
+    color: #FFFFFF;
+    background-color: #6B747F;
+}
+
 body {
     background-color: #465568 !important;
     padding: 0;

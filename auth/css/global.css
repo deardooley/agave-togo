@@ -1,0 +1,7 @@
+.lock-form{
+  padding-right: 0px !important;
+}
+
+.collapsing, .dropdown, .dropup {
+  max-width: 240px;
+}

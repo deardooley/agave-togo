@@ -7,6 +7,7 @@ angular.module('AgaveAuth').controller('TenantSelectionController', function ($i
     $scope.tenants = [];
     $scope.displayTenant = undefined;
 
+<<<<<<< HEAD
 
 
     //TenantsController.listTenants().then(
@@ -58,6 +59,29 @@ angular.module('AgaveAuth').controller('TenantSelectionController', function ($i
         $timeout(function() {
             $scope.displayTenant = item;
         }, 0);
+=======
+    $scope.getTenantByCode = function (tenantId) {
+        var namedTenant = false;
+        angular.forEach(settings.tenants, function (tenant, key) {
+            if (tenant.code === tenantId) {
+                namedTenant = tenant;
+                return false;
+            }
+        });
+
+        if (namedTenant) {
+            return namedTenant;
+        } else {
+            Alerts.danger({message: 'No tenant found matching ' + tenantId});
+        }
+    };
+
+    $scope.updateTenant = function(item, model) {
+      $scope.displayTenant = item;
+      $scope.tenant = $scope.getTenantByCode($scope.displayTenant.code);
+      $localStorage.tenant = $scope.displayTenant;
+
+>>>>>>> feature/login
     }
 
     $scope.loadTenant = function() {
@@ -69,4 +93,8 @@ angular.module('AgaveAuth').controller('TenantSelectionController', function ($i
             Alerts.danger({container: ".lock-body .message", message: "Select an organization to login."});
         }
     };
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> feature/login
