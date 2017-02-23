@@ -3,7 +3,8 @@
  */
 var AgaveAuth = angular
     .module('AgaveAuth', [
-        "ui.router",
+        'ui.bootstrap',
+        'ui.router',
         'oc.lazyLoad',
         'angularMoment',
         'ngStorage',
