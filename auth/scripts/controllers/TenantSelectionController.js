@@ -7,59 +7,6 @@ angular.module('AgaveAuth').controller('TenantSelectionController', function ($i
     $scope.tenants = [];
     $scope.displayTenant = undefined;
 
-<<<<<<< HEAD
-
-
-    //TenantsController.listTenants().then(
-    //    function (response) {
-    //        console.log(response);
-    //        var tenants = [];
-    //        angular.forEach(response, function (tenant, key) {
-    //            if (settings.debug
-    //                || !(Commons.contains(tenant.name.toLowerCase(), 'staging')
-    //                || Commons.contains(tenant.name.toLowerCase(), 'dev')))
-    //            {
-    //                tenants.push(tenant);
-    //            }
-    //        });
-    //        $timeout(function() {
-    //            $scope.tenants = tenants;
-    //            console.log($scope.tenants);
-    //        }, 50);
-    //
-    //        //$timeout(function () {
-    //        //
-    //        //}, 50);
-    //    },
-    //    function (message) {
-    //        console.log("error: " + message);
-    //        Alerts.danger({message: "Failed to retrieve tenant information."});
-    //    }
-    //);
-
-    //$scope.$watch('$rootScope.settings.tenants', function(value){
-    //    $timeout(function() {
-    //        $scope.tenants = value;
-    //    }, 500);
-    //}, true);
-    //TenantsController.listTenants().then(
-    //    function (response) {
-    //        $timeout(function () {
-    //            console.log(response);
-    //            $scope.tenants = response;
-    //        }, 50);
-    //    },
-    //    function (message) {
-    //        console.log("error: " + message);
-    //        Alerts.danger({message: "Failed to retrieve tenant list."});
-    //    }
-    //);
-
-    $scope.updateTenant = function(item, model) {
-        $timeout(function() {
-            $scope.displayTenant = item;
-        }, 0);
-=======
     $scope.getTenantByCode = function (tenantId) {
         var namedTenant = false;
         angular.forEach(settings.tenants, function (tenant, key) {
@@ -81,7 +28,6 @@ angular.module('AgaveAuth').controller('TenantSelectionController', function ($i
       $scope.tenant = $scope.getTenantByCode($scope.displayTenant.code);
       $localStorage.tenant = $scope.displayTenant;
 
->>>>>>> feature/login
     }
 
     $scope.loadTenant = function() {
@@ -93,8 +39,4 @@ angular.module('AgaveAuth').controller('TenantSelectionController', function ($i
             Alerts.danger({container: ".lock-body .message", message: "Select an organization to login."});
         }
     };
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> feature/login
