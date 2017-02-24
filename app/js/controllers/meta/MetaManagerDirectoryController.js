@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('AgaveToGo').controller('MetaManagerDirectoryController', function ($scope, $translate, $stateParams, MetaController, ActionsService, ActionsBulkService, MessageService) {
+angular.module('AgaveToGo').controller('MetaManagerDirectoryController', ['$scope', '$translate', '$stateParams', 'MetaController', 'ActionsService', 'ActionsBulkService', 'MessageService', 'PermissionsService', function ($scope, $translate, $stateParams, MetaController, ActionsService, ActionsBulkService, MessageService, PermissionsService) {
 
     $scope._COLLECTION_NAME = 'metas';
     $scope._RESOURCE_NAME = 'meta';
@@ -90,6 +90,10 @@ angular.module('AgaveToGo').controller('MetaManagerDirectoryController', functio
 
     };
 
+    $scope.editPermissions = function(resource, resourceType) {
+      PermissionsService.editPermissions(resource, resourceType);
+    }
+
     $scope.confirmAction = function(resourceType, resource, resourceAction, resourceList, resourceIndex){
       ActionsService.confirmAction(resourceType, resource, resourceAction, resourceList, resourceIndex);
     };
@@ -99,4 +103,4 @@ angular.module('AgaveToGo').controller('MetaManagerDirectoryController', functio
     });
 
     $scope.refresh();
-});
+}]);

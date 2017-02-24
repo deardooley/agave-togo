@@ -219,6 +219,8 @@ AgaveToGo.config(function($translateProvider) {
     error_meta_schema_list: 'Error: Could not retrieve metadata schema',
     error_meta_schema_add: 'Error: Could not add metadata schema',
     error_meta_delete: 'Error: Could not delete the following metadata: ',
+    error_meta_permissions_list: 'Error: Could not retrieve metadata',
+    error_meta_permissions_update: 'Error: Could not update the following metadata: ',
     error_meta_schema_delete: 'Error: Could not delete the following schema: ',
     error_meta_schema_update: 'Error: Could not create/update metadata schema',
     error_meta_schema_update_uuid: 'Error: No metadata schema UUID provided',
@@ -262,7 +264,10 @@ AgaveToGo.config(function($translateProvider) {
     success_files_permissions_update: 'Success updating file permissions',
 
     success_meta_delete: 'Success deleting metadata: ',
+    success_meta_permissions_update: 'Success: updated permissions for ' ,
     success_meta_schema_delete: 'Success deleting schema: ',
+
+
 
     success_monitors_test: 'Success: fired monitor ',
     success_monitors_update: 'Success: updated ',
@@ -687,6 +692,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                            'js/services/ActionsService.js',
                            'js/services/ActionsBulkService.js',
                            'js/services/MessageService.js',
+                           'js/services/PermissionsService.js',
                            'js/controllers/meta/MetaManagerDirectoryController.js'
                        ]
                    });
