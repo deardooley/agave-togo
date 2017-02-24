@@ -29,19 +29,11 @@ angular.module('AgaveToGo').controller('UUIDsManagerDirectoryController', [
       PermissionsService,
       RolesService
     ) {
-    $scope._COLLECTION_NAME = 'uuids';
-    $scope._RESOURCE_NAME = 'uuid';
-
-    $scope[$scope._COLLECTION_NAME] = [];
-
-    $scope.queryLimit = 99999;
-
-    $scope.offset = 0;
-    $scope.limit = 10;
-
-    $scope.query = '';
 
     $scope.searchUUID = function(uuid){
+      // Update url
+      $state.go('uuids-manage-id', {uuid: uuid}, {notify: false});
+
       $scope.requesting = true;
       UUIDsController.getUUID(uuid, false)
         .then(
@@ -237,6 +229,10 @@ angular.module('AgaveToGo').controller('UUIDsManagerDirectoryController', [
        $state.go('tags-edit', {'id': tagObj.id});
     }
 
+    if ($stateParams){
+      $scope.uuid = $stateParams.uuid;
+      $scope.searchUUID($scope.uuid);
+    }
 
 
 }]);
