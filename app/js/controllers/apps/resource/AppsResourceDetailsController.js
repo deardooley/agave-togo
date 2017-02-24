@@ -22,8 +22,8 @@ angular.module('AgaveToGo').controller('AppsResourceDetailsController', function
     ActionsService.confirmAction(resourceType, resource, resourceAction, resourceIndex);
   };
 
-  $scope.editPermissions = function(resource) {
-    PermissionsService.editPermissions(resource);
+  $scope.editPermissions = function(resource, resourceType) {
+    PermissionsService.editPermissions(resource, resourceType);
   }
 
   $scope.edit = function(resourceType, resource){

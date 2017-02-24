@@ -1,10 +1,21 @@
 <div>
+  <div class="row text-center" ng-show="requesting">
+     <div class="col-md-12">
+        <div class="loading-message">
+           <div class="block-spinner-bar">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+           </div>
+        </div>
+     </div>
+  </div>
   <div class="row">
     <div class="col-xs-9">
       <div ng-if="meta">
-        <json-formatter json="schema" open="1"></json-formatter>
+        <json-formatter json="meta" open="1"></json-formatter>
       </div>
-      <div ng-if="!meta">
+      <div ng-if="!meta && !requesting">
         No metadata found
       </div>
     </div>

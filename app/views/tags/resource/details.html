@@ -1,6 +1,20 @@
 <div>
+  <div class="row text-center" ng-show="requesting">
+     <div class="col-md-12">
+        <div class="loading-message">
+           <div class="block-spinner-bar">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+           </div>
+        </div>
+     </div>
+  </div>
   <div class="row">
     <div class="col-xs-9">
+      <div ng-if="!tag && !requesting">
+        No tag found
+      </div>
       <div class="table-responsive">
         <table class="table">
           <thead class="hidden-sm hidden-xs">
@@ -46,7 +60,7 @@
           </a>
           <ul class="dropdown-menu pull-right">
             <li>
-              <a ng-click="edit('tags', tag)" role="button"> <i class="fa fa-pencil"></i> Edit </a>
+              <a ng-click="editTag('tags', tag)" role="button"> <i class="fa fa-pencil"></i> Edit </a>
             </li>
             <li>
               <a ng-click="getNotifications('tag', tag)" > <i class="fa fa-bell"></i> Notifications</a>

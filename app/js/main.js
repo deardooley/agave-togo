@@ -259,6 +259,8 @@ AgaveToGo.config(function($translateProvider) {
     error_tags_add: 'Error: Could not add tag',
     error_tags_delete: 'Error: Could not delete tag',
 
+    error_uuids_list: 'Error: Could not retrieve uuid',
+
     success_apps_permissions_update: 'Success: updated permissions for ',
 
     success_files_permissions_update: 'Success updating file permissions',
@@ -1815,6 +1817,49 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                       ]
                     }
                   ]);
+                }]
+            }
+        })
+
+        /**********************************************************************/
+        /**********************************************************************/
+        /***                                                                ***/
+        /***                          UUIDs Routes                          ***/
+        /***                                                                ***/
+        /**********************************************************************/
+        /**********************************************************************/
+
+        .state('uuids-manage', {
+            url: '/uuids',
+            templateUrl: 'views/uuids/manager.html',
+            data: {pageTitle: 'UUIDs Manager'},
+            controller: 'UUIDsManagerDirectoryController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        name: 'AgaveToGo',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            '../assets/global/plugins/font-awesome/css/font-awesome.min.css',
+                            '../assets/global/plugins/simple-line-icons/simple-line-icons.min.css',
+                            '../assets/global/plugins/bootstrap/css/bootstrap.min.css',
+                            '../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css',
+                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            '../assets/global/plugins/fancybox/source/jquery.fancybox.css',
+                            '../assets/global/css/components.min.css',
+                            '../assets/global/css/plugins.min.css',
+                            '../assets/pages/css/search.min.css',
+                            '../assets/layouts/layout/css/layout.min.css',
+                            '../assets/layouts/layout/css/themes/darkblue.min.css',
+                            '../assets/layouts/layout/css/custom.min.css',
+                            'js/services/ActionsService.js',
+                            'js/services/MessageService.js',
+                            'js/services/PermissionsService.js',
+                            'js/services/RolesService.js',
+                            'js/controllers/uuids/UUIDsManagerDirectoryController.js'
+                        ]
+                    });
                 }]
             }
         })

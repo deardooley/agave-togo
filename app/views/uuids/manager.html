@@ -1,0 +1,37 @@
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+      <li>
+          <a href="#/dashboard.html">Home</a>
+          <i class="fa fa-circle"></i>
+      </li>
+      <li>
+          <a href="#/uuids">UUIDs</a>
+      </li>
+    </ul>
+</div>
+
+<h1 class="page-title"> UUIDs
+    <small>Manager</small>
+</h1>
+
+<div class="search-page search-content-3">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="search-filter">
+                <div class="search-label uppercase">Search By</div>
+                <div class="input-icon right" ng-keyup="$event.keyCode == 13 ? searchUUID(uuid) : null">
+                    <i class="icon-magnifier"></i>
+                    <input type="text" class="form-control" placeholder="UUID..." ng-model="uuid" >
+                </div>
+
+                <button class="btn green bold uppercase btn-block" ng-click="searchUUID(uuid)">Search</button>
+            </div>
+        </div>
+        <div class="col-lg-6">
+          <div ng-show="!resource.url" class="text-center lookup">
+            <h1 class="page-title"> Look up UUIDs</h1>
+          </div>
+          <div ng-include="resource.url"></div>
+        </div>
+    </div>
+</div>

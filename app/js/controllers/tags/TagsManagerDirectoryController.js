@@ -89,7 +89,8 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
               );
           },
           function(response){
-            MessageService.handle(response, $translate.instant('error_files_list'));
+            MessageService.handle(response, $translate.instant('error_tags_list'));
+            $scope.requesting = false;
           }
         );
     };
@@ -123,7 +124,9 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
     };
 
     $scope.editTag = function($event, tagObj){
-       $state.go('tags-edit', {'id': tagObj.tag.id});
+       console.log('inside editTag');
+       console.log(tagObj);
+       $state.go('tags-edit', {'id': tagObj.id});
     }
 
     $scope.getResourceDetails = function(resource){
@@ -270,8 +273,8 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
       ActionsService.confirmAction(resourceType, resource, resourceAction, resourceIndex);
     };
 
-    $scope.editPermissions = function(resource) {
-      PermissionsService.editPermissions(resource);
+    $scope.editPermissions = function(resource, resourceType) {
+      PermissionsService.editPermissions(resource, resourceType);
     }
 
     $scope.edit = function(resourceType, resource){
