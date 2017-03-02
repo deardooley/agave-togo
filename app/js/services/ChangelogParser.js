@@ -12,7 +12,7 @@ function ($rootScope, $http, $q) {
 
     this.latest = function() {
       var options = {
-          url: this.baseUrl + '?force=true&source=https://bitbucket.org/agaveapi/agave/raw/develop/CHANGELOG.md&latest=true',
+          url: this.baseUrl + '?force=true&latest=true&source=https://bitbucket.org/agaveapi/agave-flat/raw/master/CHANGELOG.md',
           method: 'GET'
       };
       var deferred = $q.defer();
