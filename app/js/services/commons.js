@@ -1836,7 +1836,7 @@ angular.module('CommonsService', []).service('Commons', ['$rootScope', '$window'
                 precision = 1;
             }
             if (size === 0 || size === null) {
-                return "";
+                return "0B";
             }
             else if (!isNaN(size)) {
                 var sizes = ['B', 'KB', 'MB', 'GB', 'TB'];

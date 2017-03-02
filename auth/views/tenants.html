@@ -96,11 +96,11 @@
                               </a>
                             </div>
                             <div ng-if="item.projectUrl" class="select2-result-repository__forks">
-                              <a href="{{item.projectUrl}}">
+                              <a href="{{item.supportUrl}}">
                                 <span class="fa fa-support"></span> website
                               </a>
                             </div>
-                            <div class="select2-result-repository__watchers">
+                            <div ng-if="!item.projectUrl" lass="select2-result-repository__watchers">
                               <span class="fa fa-globe"></span> {{ item.code | tenantWebsite:item.baseUrl }}
                             </div>
                           </div>
@@ -109,7 +109,7 @@
                       </ui-select-choices>
                     </ui-select>
                     <span class="input-group-btn">
-                      <a href="{{settings.oauth.clients[tenant.code].createAccountUrl}}" target="_blank" class="btn red uppercase">Create</a>
+                      <a href="{{item.signupUrl}}" target="_blank" class="btn red uppercase">Create</a>
                     </span>
                   </div>
                 </div>

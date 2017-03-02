@@ -262,6 +262,10 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
                 if (settings.oauth.clients[tenant.code] &&
                         settings.oauth.clients[tenant.code].clientKey)
                 {
+                    // hack until we push this info into the tenants api
+                    tenant.signupUrl = settings.oauth.clients[tenant.code].signupUrl;
+                    tenant.projectUrl = settings.oauth.clients[tenant.code].projectUrl;
+                    tenant.supportUrl = settings.oauth.clients[tenant.code].supportUrl;
                     settings.tenants.push(tenant);
                 }
             });

@@ -3,44 +3,58 @@ var OAuthClients = {
     "araport.org": {
         "clientKey": "WrFKPGDZd6L7m2PEzTxNGw7YpyAa",
         "callbackUrl": "https://togo.staging.agaveapi.co/auth/",
-        "createAccountUrl": "https://www.araport.org/user/register",
-        "scope": "PRODUCTION"
+        "scope": "PRODUCTION",
+        "projectUrl": "https://www.araport.org",
+        "supportUrl": "https://www.araport.org/contact",
+        "signupUrl": "https://www.araport.org/user/register"
     },
     "tacc.prod": {
         "clientKey": "qflYPovh1XYCzrPZKf8mWWH0NtIa",
         "callbackUrl": "https://togo.staging.agaveapi.co/auth/",
-        "createAccountUrl": "https://portal.tacc.utexas.edu/account-request",
-        "scope": "PRODUCTION"
+        "scope": "PRODUCTION",
+        "projectUrl": "https://tacc.utexas.edu/",
+        "supportUrl": "https://portal.tacc.utexas.edu/tacc-consulting",
+        "signupUrl": "https://portal.tacc.utexas.edu/account-request"
     },
     "agave.prod": {
         "clientKey": "ApXiZQtdxzaqN_KEWhF6vw9X4PUa",
         "callbackUrl": "https://togo.staging.agaveapi.co/auth/",
-        "createAccountUrl": "https://public.agaveapi.co/create_account",
-        "scope": "PRODUCTION"
+        "scope": "PRODUCTION",
+        "projectUrl": "https://agaveapi.co/",
+        "supportUrl": "https://support.agaveapi.co",
+        "signupUrl": "https://public.agaveapi.co/create_account"
     },
     "iplantc.org": {
         "clientKey": "tZAdl43gBSJjglfMEdh0KqL5SuYa",
         "callbackUrl": "https://togo.staging.agaveapi.co/auth/",
-        "createAccountUrl": "https://user.cyverse.org/register/",
-        "scope": "PRODUCTION"
+        "scope": "PRODUCTION",
+        "projectUrl": "https://cyverse.org/",
+        "supportUrl": "https://ask.cyverse.org/",
+        "signupUrl": "https://user.cyverse.org/register/"
     },
     "designsafe": {
         "clientKey": "oRy7dGF5zLDQdlvrMrLfcCSHZwMa",
         "callbackUrl": "https://togo.staging.agaveapi.co/auth/",
-        "createAccountUrl": "https://www.designsafe-ci.org/account/register/",
-        "scope": "PRODUCTION"
+        "scope": "PRODUCTION",
+        "projectUrl": "https://designsafe-ci.org/",
+        "supportUrl": "https://www.designsafe-ci.org/help/new-ticket/",
+        "signupUrl": "https://www.designsafe-ci.org/account/register/"
     },
     "dev.staging": {
         "clientKey": "fSsbB1Lj1W4qKXrDQWSk78gVuE4a",
         "callbackUrl": "https://togo.staging.agaveapi.co/auth/",
-        "createAccountUrl": "https://public.agaveapi.co/create_account",
-        "scope": "PRODUCTION"
+        "scope": "PRODUCTION",
+        "projectUrl": "https://agaveapi.co",
+        "supportUrl": "https://support.agaveapi.co",
+        "signupUrl": "https://public.agaveapi.co/create_account"
     },
     "sgci": {
-      "clientKey": "8maiQzf82y4Qeg7acRlF3RHP9Cca",
-      "callbackUrl": "https://togo.staging.agaveapi.co/auth/",
-      "createAccountUrl": "https://sgci.agaveapi.co/create_account",
-      "scope": "PRODUCTION"
+        "clientKey": "8maiQzf82y4Qeg7acRlF3RHP9Cca",
+        "callbackUrl": "https://togo.staging.agaveapi.co/auth/",
+        "scope": "PRODUCTION",
+        "projectUrl": "https://sciencegateways.org",
+        "supportUrl": "https://sciencegateways.org/contact-us",
+        "signupUrl": "https://sgci.agaveapi.co/create_account"
     }
 };
 
