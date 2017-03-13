@@ -125,8 +125,8 @@ angular.module('AgaveToGo').controller('TagsManagerDirectoryController', [
 
     $scope.editTag = function($event, tagObj){
        console.log('inside editTag');
-       console.log(tagObj);
-       $state.go('tags-edit', {'id': tagObj.id});
+       console.log(tagObj.tag);
+       $state.go('tags-edit', {'id': tagObj.tag.id});
     }
 
     $scope.getResourceDetails = function(resource){

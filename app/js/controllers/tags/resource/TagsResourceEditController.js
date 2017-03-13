@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('AgaveToGo').controller('TagsResourceEditController', ['$scope', '$state', '$stateParams', '$translate', 'ActionsService', 'MessageService', 'TagsController' , function($scope, $state, $stateParams, $translate, ActionsService, MessageService, TagsController) {
+angular.module('AgaveToGo').controller('TagsResourceEditController', ['$scope', '$state', '$stateParams', '$translate', 'ActionsService', 'MessageService', 'TagsController', function($scope, $state, $stateParams, $translate, ActionsService, MessageService, TagsController) {
 
 		if ($stateParams.id){
 			$scope.requesting = true;
@@ -12,6 +12,7 @@ angular.module('AgaveToGo').controller('TagsResourceEditController', ['$scope', 
 						$scope.requesting = false;
 
 						$scope.model = {
+							'id': response.result.id,
 							'name': response.result.name,
 							'associationIds': response.result.associationIds
 						};
@@ -70,19 +71,22 @@ angular.module('AgaveToGo').controller('TagsResourceEditController', ['$scope', 
 			body.name = $scope.model.name;
 
 			try {
-				if ($scope.model.associationIds){
+				if (angular.isArray($scope.model.associationIds)){
+					body.associationIds = $scope.model.associationIds;
+				}
+				else {
 					body.associationIds = $scope.model.associationIds.replace(/\s/g,'').split(',');
 				}
 			} catch(error){
 				App.alert(
 					{
 						type: 'danger',
-						message: $translate.instant('error_meta_image_add_parse')
+						message: $translate.instant('error_tag_update_parse')
 					}
 				);
 			}
 
-			TagsController.addTag(body)
+			TagsController.updateTag($scope.model.id, body)
 				.then(
 					function(response){
 						App.alert({message: $translate.instant('success_tags_add') + response.result.id });

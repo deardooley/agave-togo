@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').service('PermissionsService',['$uibModal', '$rootScope', '$location', '$state', '$timeout', '$q', '$translate', 'AppsController', 'ProfilesController', 'MetaController', 'MessageService', function($uibModal, $rootScope, $location, $state, $timeout, $q, $translate, AppsController, ProfilesController, MetaController, MessageService){
+angular.module('AgaveToGo').service('PermissionsService',['$uibModal', '$rootScope', '$location', '$state', '$timeout', '$q', '$translate', 'AppsController', 'JobsController', 'ProfilesController', 'MetaController', 'MessageService', function($uibModal, $rootScope, $location, $state, $timeout, $q, $translate, AppsController, JobsController, ProfilesController, MetaController, MessageService){
   this.editPermissions = function(resource, resourceType){
       var modalInstance = $uibModal.open({
         templateUrl: 'tpl/modals/ModalPermissionManager.html',
@@ -287,6 +287,103 @@ angular.module('AgaveToGo').service('PermissionsService',['$uibModal', '$rootSco
                     }
                   );
                 break;
+                case 'jobs':
+                  console.log('inside jobs');
+                  JobsController.listJobPermissions($scope.resource.id, 99999, 0).then(
+                      function(response) {
+                        $scope.model = {};
+                        $scope.tempModel = {};
+
+                        $scope.schema =
+                        {
+                          "type": "object",
+                          "title": "Complex Key Support",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "title": "Name"
+                            },
+                            "permissions": {
+                              "title": "permissions by username",
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "username": {
+                                    "title": " ",
+                                    "type": "string"
+                                  },
+                                  "permission": {
+                                    "title": " ",
+                                    "type": "string",
+                                    "enum": [
+                                      "ALL",
+                                      "READ",
+                                      "WRITE",
+                                      "EXECUTE",
+                                      "READ_WRITE",
+                                      "READ_EXECUTE",
+                                      "WRITE_EXECUTE",
+                                      "NONE"
+                                    ]
+                                  }
+                                },
+                              }
+                            },
+                          }
+                        };
+
+                        $scope.form = [
+                          {
+                            "key": "permissions",
+                            "items": [
+                              {
+                                "type": "fieldset",
+                                "items": [
+                                  {
+                                    "type": "section",
+                                    "htmlClass": "col-xs-6",
+                                    "items": [
+                                      {
+                                        "key": "permissions[].username"
+                                      }
+                                    ],
+
+                                  },
+                                  {
+                                    "type": "section",
+                                    "htmlClass": "col-xs-6",
+                                    "items": ["permissions[].permission"]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ];
+
+                        var tempList = [];
+                        $scope.tempModel.permissions = [];
+
+                        angular.forEach(response.result, function(permission){
+                          tempList.push({username: permission.username, permission:  $scope.transformRwxToAgave(permission.permission)});
+                        });
+
+                        // remove double listing of permissions for admin app owners
+                        var uniqueTempList = _.uniq(tempList, function(permission){
+                          return permission.username;
+                        });
+                        $scope.tempModel.permissions = angular.copy(uniqueTempList);
+
+                        $scope.model.permissions = _.clone($scope.tempModel.permissions);
+                        $scope.requesting = false;
+                      },
+                      function(response) {
+                        $scope.requesting = false;
+                        $modalInstance.dismiss('cancel');
+                        MessageService.handle(response, $translate.instant('error_jobs_permissions'));
+                      });
+                  break;
+
               }
 
 
@@ -362,6 +459,37 @@ angular.module('AgaveToGo').service('PermissionsService',['$uibModal', '$rootSco
                         $modalInstance.close();
                     });
                 break;
+
+                case 'jobs':
+                  var deletedpermissions = _.difference($scope.model.permissions, $scope.tempModel.permissions);
+                  $scope.requesting = true;
+                  var promises = [];
+
+                  // Take care of deleted permissions first
+                  angular.forEach(deletedpermissions, function(permission){
+                    promises.push(
+                        JobsController.deleteJobPermission(resource.id, permission.username)
+                    );
+                  });
+
+                  angular.forEach($scope.tempModel.permissions, function(permission){
+                    promises.push(
+                        JobsController.updateJobPermission(permission, resource.id, permission.username)
+                    );
+                  });
+
+                  $q.all(promises).then(
+                      function(response) {
+                        App.alert({message: $translate.instant('success_jobs_permissions_update') + resource.id});
+                        $scope.requesting = false;
+                        $modalInstance.close();
+                      },
+                      function(response) {
+                        App.alert({message: $translate.instant('error_jobs_permissions_update')});
+                        $scope.requesting = false;
+                        $modalInstance.close();
+                      });
+                  break
               }
 
 
@@ -381,6 +509,8 @@ angular.module('AgaveToGo').service('PermissionsService',['$uibModal', '$rootSco
   this.edit = function(resourceType, resource){
     switch(resourceType){
       case 'apps': $state.go('apps-edit', {'appId': resource.id });
+        break;
+      case 'jobs': $state.go('jobs-edit', {'jobId': resource.id });
         break;
       case 'systems': $state.go('systems-edit', {'systemId': resource.id });
         break;

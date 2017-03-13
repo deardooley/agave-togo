@@ -258,7 +258,8 @@ AgaveToGo.config(function($translateProvider) {
     error_tags_list: 'Error: Could not retrieve tag',
     error_tags_add: 'Error: Could not add tag',
     error_tags_delete: 'Error: Could not delete tag',
-
+    error_tag_update_parse: 'Error: Could not update tag',
+    
     error_uuids_list: 'Error: Could not retrieve uuid',
 
     success_apps_permissions_update: 'Success: updated permissions for ',
