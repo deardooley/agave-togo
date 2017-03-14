@@ -259,7 +259,7 @@ AgaveToGo.config(function($translateProvider) {
     error_tags_add: 'Error: Could not add tag',
     error_tags_delete: 'Error: Could not delete tag',
     error_tag_update_parse: 'Error: Could not update tag',
-    
+
     error_uuids_list: 'Error: Could not retrieve uuid',
 
     success_apps_permissions_update: 'Success: updated permissions for ',
@@ -352,6 +352,7 @@ initialization can be disabled and Layout.init() should be called on page load c
 /* Setup Layout Part - Header */
 AgaveToGo.controller('HeaderController', ['$scope', '$localStorage', 'StatusIoController', function($scope, $localStorage, StatusIoController) {
     $scope.showTokenCountdown = false;
+    $scope.loggedIn = false;
 
     // get token countdown time
     if (typeof $localStorage.token !== 'undefined'){
@@ -359,6 +360,8 @@ AgaveToGo.controller('HeaderController', ['$scope', '$localStorage', 'StatusIoCo
       var expirationDate = Date.parse($localStorage.token.expires_at);
       var diff = Math.abs((expirationDate - currentDate) / 60000);
       $scope.tokenCountdown = diff * 60;
+      $scope.loggedIn = (diff > 0);
+      $scope.tenant = $localStorage.tenant;
     }
 
     $scope.authenticatedUser = $localStorage.activeProfile;

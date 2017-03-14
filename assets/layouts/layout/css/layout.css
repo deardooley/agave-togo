@@ -362,6 +362,9 @@ Page Header
         .page-header.navbar .top-menu .navbar-nav > li.dropdown-user .dropdown-menu > li > a {
           font-size: 14px;
           font-weight: 300; }
+          .page-header.navbar .top-menu .navbar-nav > li.dropdown-user .dropdown-menu > li > a .logo img {
+            width: 16px;
+            margin-right: 8px; }
           .page-header.navbar .top-menu .navbar-nav > li.dropdown-user .dropdown-menu > li > a i {
             width: 15px;
             display: inline-block;

@@ -510,7 +510,14 @@ Page Header
                             > a {
                                 font-size: $header-top-menu-user-dropdown-link-font-size;
                                 font-weight: $header-top-menu-user-dropdown-link-font-weight;
-                                
+
+								.logo {
+									img {
+										width: 16px;
+										margin-right: 8px;
+									}
+								}
+
                                 i {
                                     width: 15px;
                                     display: inline-block;

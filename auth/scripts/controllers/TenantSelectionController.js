@@ -1,4 +1,4 @@
-angular.module('AgaveAuth').controller('TenantSelectionController', function ($injector, $timeout, $rootScope, $scope, $state, $location, settings, $localStorage, TenantsController, Commons, Alerts) {
+angular.module('AgaveAuth').controller('TenantSelectionController', function ($injector, $timeout, $rootScope, $scope, $state, $location, settings, $localStorage, $window, TenantsController, Commons, Alerts) {
 
     settings.layout.tenantPage = true;
     settings.layout.loginPage = false;
@@ -29,6 +29,17 @@ angular.module('AgaveAuth').controller('TenantSelectionController', function ($i
       $localStorage.tenant = $scope.displayTenant;
 
     }
+
+    $scope.redirectToSignup = function($event) {
+        $event.stopPropagation();
+        if ($scope.displayTenant && $scope.displayTenant.signupUrl) {
+            alert($scope.displayTenant.signupUrl);
+            $window.location.href = $scope.displayTenant.signupUrl;
+            return false;
+        } else {
+            Alerts.danger({container: ".lock-body .message", message: "Select an organization to create an account."});
+        }
+    };
 
     $scope.loadTenant = function() {
         if ($scope.displayTenant && $scope.displayTenant.code) {

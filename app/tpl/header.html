@@ -392,6 +392,16 @@
                     <i class="fa fa-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-default">
+                    <li class="tenant-badge">
+                        <a href="{{ tenant.contact.url || 'http://developer.agaveapi.co/' }}">
+                                <span class="logo">
+                                    <img ng-src="../auth/img/tenants/{{tenant.code}}-icon.png">
+                                </span>
+                                <span class="details">
+                                    {{ tenant.name }}
+
+                                </span></a>
+                    </li>
                     <li>
                         <a href="#/profile/me/account">
                             <i class="icon-user"></i> My Profile </a>
@@ -409,10 +419,28 @@
                         <!--</a>-->
                     <!--</li>-->
                     <li class="divider"> </li>
-                    <li>
-                        <a href="/auth/#/logout">
-                            <i class="icon-lock"></i> Logout </a>
+                    <li ng-if="loggedIn">
+                        <a href="#" >
+                            <i class="icon fa fa-clock-o"></i>
+                            <timer class="agave-message" countdown="tokenCountdown" interval="1000">
+                                {{mminutes}}:{{sseconds}}
+                            </timer>  remaining
+                        </a>
                     </li>
+                    <li ng-if="loggedIn">
+                        <a ui-sref="logout">
+                            <i class="icon-key"></i> Log Out
+                        </a>
+                    </li>
+                    <li ng-if="!loggedIn">
+                        <a ui-sref="login">
+                            <i class="icon-key"></i> Log In
+                        </a>
+                    </li>
+                    <!--<li>-->
+                        <!--<a href="/auth/#/logout">-->
+                            <!--<i class="icon-lock"></i> Logout </a>-->
+                    <!--</li>-->
                 </ul>
             </li>
             <!-- END USER LOGIN DROPDOWN -->
