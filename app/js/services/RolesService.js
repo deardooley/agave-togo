@@ -124,7 +124,8 @@ angular.module('AgaveToGo').service('RolesService',['$uibModal', '$rootScope', '
 
                   angular.forEach($scope.tempModel.roles, function(role){
                     promises.push(
-                      SystemsController.updateSystemRole(role, system.id)
+                      // From Rion
+                      SystemsController.updateSystemRole(role, system.id, role.username)
                     );
                   });
                   $q.all(promises).then(
