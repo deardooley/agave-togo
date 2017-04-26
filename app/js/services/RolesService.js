@@ -124,9 +124,10 @@ angular.module('AgaveToGo').service('RolesService',['$uibModal', '$rootScope', '
 
                   angular.forEach($scope.tempModel.roles, function(role){
                     promises.push(
-                      SystemsController.updateSystemRole(role, system.id)
+                      SystemsController.updateSystemRole(role, system.id, role.username)
                     );
                   });
+
                   $q.all(promises).then(
                     function(result) {
                         App.alert({message: $translate.instant('success_systems_roles') + system.id});

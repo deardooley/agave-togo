@@ -2177,3 +2177,39 @@ Page Loading
   .page-on-load > .clearfix {
     display: none;
     transition: all 2s; }
+
+#agave-filemanager .browser-title {
+  margin-left: -15px;
+  margin-right: -15px; }
+  #agave-filemanager .browser-title:before, #agave-filemanager .browser-title:after {
+    content: " ";
+    display: table; }
+  #agave-filemanager .browser-title:after {
+    clear: both; }
+  #agave-filemanager .browser-title div.caption {
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    line-height: 32px;
+    margin-bottom: 10px; }
+    @media (min-width: 992px) {
+      #agave-filemanager .browser-title div.caption {
+        float: left;
+        width: 50%; } }
+  #agave-filemanager .browser-title div.actions {
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: right;
+    margin-bottom: 10px; }
+    @media (min-width: 992px) {
+      #agave-filemanager .browser-title div.actions {
+        float: left;
+        width: 50%; } }
+  #agave-filemanager .browser-title div.actions:after {
+    clear: both; }
+  @media (min-width: 1200px) {
+    #agave-filemanager .browser-title div.action {
+      text-align: left; } }

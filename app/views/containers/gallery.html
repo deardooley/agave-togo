@@ -1,0 +1,84 @@
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="#/dashboard.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a href="#/library">Library</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            Gallery
+        </li>
+    </ul>
+    <div landing-start-menu></div>
+</div>
+<h3 class="page-title"> App Exchange Gallery
+    <small>View and run publicy shared codes</small>
+</h3>
+<div class="row">
+    <!-- END PAGE HEADER-->
+    <div id="app-gallery" class="portfolio-content portfolio-3">
+        <div class="clearfix">
+            <div id="js-filters-lightbox-gallery1" class="cbp-l-filters-dropdown cbp-l-filters-dropdown-floated">
+                <div class="cbp-l-filters-dropdownWrap border-grey-salsa">
+                    <div class="cbp-l-filters-dropdownHeader uppercase">Sort Gallery</div>
+                    <div class="cbp-l-filters-dropdownList">
+                        <div data-filter="*" class="cbp-filter-item-active cbp-filter-item uppercase"> All (
+                            <div class="cbp-filter-counter"></div>
+                            codes)
+                        </div>
+                        <div data-filter=".docker" class="cbp-filter-item uppercase"> Docker (
+                            <div class="cbp-filter-counter"></div>
+                            codes)
+                        </div>
+                        <div data-filter=".singularity" class="cbp-filter-item uppercase"> Singularity (
+                            <div class="cbp-filter-counter"></div>
+                            codes)
+                        </div>
+                        <div data-filter=".native" class="cbp-filter-item uppercase"> Native (
+                            <div class="cbp-filter-counter"></div>
+                            codes)
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div id="js-filters-lightbox-gallery2" class="cbp-l-filters-button cbp-l-filters-left">
+                <div data-filter="*" class="cbp-filter-item-active cbp-filter-item btn blue btn-outline uppercase">All
+                </div>
+                <div data-filter=".hpc" class="cbp-filter-item btn blue btn-outline uppercase">HPC</div>
+                <div data-filter=".cloud" class="cbp-filter-item btn blue btn-outline uppercase">Cloud</div>
+                <div data-filter=".cli" class="cbp-filter-item btn blue btn-outline uppercase">VM</div>
+                <div data-filter=".condor" class="cbp-filter-item btn blue btn-outline uppercase">Condor</div>
+            </div>
+        </div>
+        <div id="js-grid-lightbox-gallery" class="cbp">
+            <div ng-repeat="container in containers | orderBy:sortType:sortReverse | filter:filter"
+                 class="cbp-item {{ container | executionTypes }} {{ container | runtimes }}">
+                <a href="{{container.name}}" class="cbp-caption cbp-singlePageInline"
+                   data-title="{{container.name}} v{{container.version}}" rel="nofollow">
+                    <div class="cbp-caption-defaultWrap">
+                        <img ng-src="{{ container.icon | appImage }}" alt=""></div>
+                    <div class="cbp-caption-activeWrap">
+                        <div class="cbp-l-caption-alignLeft">
+                            <div class="cbp-l-caption-body">
+                                <div class="cbp-l-caption-title">{{container.name}} version {{container.version}}</div>
+                                <div class="cbp-l-caption-desc">{{container.description}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id="js-loadMore-lightbox-gallery" class="cbp-l-loadMore-button">
+            <a href="../assets/global/plugins/cubeportfolio/ajax/loadMore3.html"
+               class="cbp-l-loadMore-link btn grey-mint btn-outline" rel="nofollow">
+                <span class="cbp-l-loadMore-defaultText">LOAD MORE</span>
+                <span class="cbp-l-loadMore-loadingText">LOADING...</span>
+                <span class="cbp-l-loadMore-noMoreLoading">NO MORE LIBRARY CODES</span>
+            </a>
+        </div>
+    </div>
+</div>

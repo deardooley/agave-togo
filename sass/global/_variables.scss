@@ -38,8 +38,8 @@ $link-hover-color:      			darken($link-color, 15%) !default;
 
 $primary-link-color:                #65A0D0 !default;
 
-$general-img-path:                  '../img/' !default; 
-
+$general-img-path:                  '../img/' !default;
+$general-border-radius:             4px !default;
 @if $theme-type == "material-design" {
 $general-border-radius:				2px !default;
 } @else {

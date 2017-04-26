@@ -32,3 +32,27 @@ Page Loading
 		transition: all 2s;
 	}
 }
+
+#agave-filemanager {
+	.browser-title {
+		@include make-row();
+		div.caption {
+			@include make-md-column(6);
+			line-height: 32px;
+			margin-bottom: 10px;
+		}
+		div.actions {
+			@include make-md-column(6);
+			text-align: right;
+			margin-bottom: 10px;
+		}
+		div.actions:after {
+			clear: both;
+		}
+		@media(min-width: $screen-lg-min) {
+			div.action {
+				text-align: left;
+			}
+		}
+	}
+}

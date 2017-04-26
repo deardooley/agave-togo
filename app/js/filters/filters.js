@@ -107,4 +107,9 @@ AgaveToGo.filter('propsFilter', function () {
   var result = decimalByteUnits[i];
     return Math.max(fileSizeInBytes, 0.1).toFixed(1) + ' ' + result;
   };
+}])
+.filter('jobStatusIsActive', ['$filter', 'Commons', function($filter, Commons) {
+    return function(status) {
+        return Commons.contains(status, ['RUNNING','PENDING','QUEUED','ARCHIVING','STAGING_INPUTS','STAGED','SUBMITTING_JOB','SUBMITTING','PROCESSING_INPUTS']);
+    };
 }]);

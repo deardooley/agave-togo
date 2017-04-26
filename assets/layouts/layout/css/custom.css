@@ -18,3 +18,14 @@
   padding: 30px 20px; }
   .search-content-3 .tile-container > .tile-title h3 {
     height: 41px; }
+
+.runtime-icon {
+  width: 30%;
+  max-width: 64px; }
+
+.table > tbody > tr > td.markdown-container {
+  padding: 0;
+  background-color: #eef1f5; }
+  .table > tbody > tr > td.markdown-container div.markdown-wrapper {
+    padding: 8px;
+    border: 3px solid #FFF; }

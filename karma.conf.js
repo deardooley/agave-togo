@@ -100,6 +100,7 @@ module.exports = function(config){
       {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/SystemsController.js', watched: true, included: true, served: true},
       {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/TransformsController.js', watched: true, included: true, served: true},
       {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/StatusIoController.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Controllers/TagsController.js', watched: true, included: true, served: true},
 
       {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/SystemTypeEnum.js', watched: true, included: true, served: true},
       {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/SystemStatusTypeEnum.js', watched: true, included: true, served: true},
@@ -125,6 +126,7 @@ module.exports = function(config){
       {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/FilePermission.js', watched: true, included: true, served: true},
       {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/HistoryEvent.js', watched: true, included: true, served: true},
       {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/FileImportRequest.js', watched: true, included: true, served: true},
+      {pattern: './bower_components/agave-angularjs-sdk/Agave/Models/Tag.js', watched: true, included: true, served: true},
 
       {pattern: 'app/js/main.js', watched: true, included: true, served: true},
       {pattern: 'app/js/filters/filters.js', watched: true, included: true, served: true},
@@ -178,7 +180,8 @@ module.exports = function(config){
       {pattern: 'app/js/tests/controllers/systems/resource/SystemsResourceController.js', watched: true, included: true, served: true},
       {pattern: 'app/js/tests/controllers/systems/resource/SystemsResourceAppsController.js', watched: true, included: true, served: true},
       {pattern: 'app/js/tests/controllers/systems/resource/SystemsResourceDetailsController.js', watched: true, included: true, served: true},
-      {pattern: 'app/js/tests/controllers/systems/resource/SystemsResourceQueuesController.js', watched: true, included: true, served: true}
+      {pattern: 'app/js/tests/controllers/systems/resource/SystemsResourceQueuesController.js', watched: true, included: true, served: true},
+
 
     ],
 
@@ -194,12 +197,14 @@ module.exports = function(config){
 
     frameworks: ['jasmine'],
 
-    browsers : ['Chrome'],
+    browsers : ['Edge'],
 
     plugins : [
       'karma-phantomjs-launcher',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
+      'karma-edge-launcher',
+      'karma-ie-launcher',
       'karma-jasmine',
       'karma-jasmine-html-reporter'
     ],

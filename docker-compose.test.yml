@@ -1,6 +1,34 @@
 build:
   image: node:0.10
-  command: npm install --unsafe-perm --production
+  command: npm install --unsafe-perm
+  working_dir: '/usr/src/app'
+  volumes:
+    - '.:/usr/src/app'
+
+test:
+  image: node:0.10
+  command: npm run test
+  working_dir: '/usr/src/app'
+  volumes:
+    - '.:/usr/src/app'
+
+sass:
+  image: node:0.10
+  command: node_modules/gulp/bin/gulp.js sass
+  working_dir: '/usr/src/app'
+  volumes:
+    - '.:/usr/src/app'
+
+minify:
+  image: node:0.10
+  command: node_modules/gulp/bin/gulp.js minify
+  working_dir: '/usr/src/app'
+  volumes:
+    - '.:/usr/src/app'
+
+watch:
+  image: node:0.10
+  command: node_modules/gulp/bin/gulp.js sass:watch
   working_dir: '/usr/src/app'
   volumes:
     - '.:/usr/src/app'

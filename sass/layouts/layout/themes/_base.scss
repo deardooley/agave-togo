@@ -179,6 +179,12 @@ Page Header
 
         > .dropdown-menu {
           width: 195px;
+          > .tenant-badge {
+            .logo img {
+              width: 100%;
+              text-align: left;
+            }
+          }
         }
       }
 

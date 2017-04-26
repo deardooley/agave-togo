@@ -1,0 +1,54 @@
+angular.module('AgaveToGo').controller('ContainerResourceDetailsController', function($scope, $stateParams, $translate, $timeout, AppsController, ActionsService, MessageService, Quay, SystemExecutionTypeEnum) {
+
+  $scope.requesting = true;
+  $scope.image = {};
+
+  $(".knob").knob();
+
+  // $scope.refresh = function() {
+  //   $scope.requesting = true;
+    if ($stateParams.id) {
+      Quay.getImageDetails($stateParams.id).then(
+          function (image) {
+            image.available = true;
+            image.version = '--';
+            image.runtimes = {
+              docker: {executionType: SystemExecutionTypeEnum.CLI},
+              singularity: {executionType: SystemExecutionTypeEnum.CLI},
+              native: {executionType: SystemExecutionTypeEnum.CLI},
+              rocket: {executionType: SystemExecutionTypeEnum.CLI}
+            };
+
+            $scope.image = image;
+            $scope.requesting = false;
+
+            $timeout(function() {
+
+
+            $(".knob").val(image.popularity).trigger('change');
+
+            },50);
+
+          },
+          function (errorResponse) {
+            $scope.requesting = false;
+            MessageService.handle(response, $translate.instant('error_image_details'));
+          });
+    }
+    else {
+      $scope.requesting = false;
+      $state.go("containers-browser");
+    }
+  // };
+
+  $scope.confirmAction = function(resourceType, resource, resourceAction, resourceIndex){
+    ActionsService.confirmAction(resourceType, resource, resourceAction, resourceIndex);
+  };
+
+  $scope.getNotifications = function(resourceType, resource){
+    ActionsService.getNotifications(resourceType, resource);
+  };
+
+  // $scope.refresh();
+
+});

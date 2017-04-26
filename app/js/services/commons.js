@@ -208,7 +208,7 @@ angular.module('CommonsService', []).service('Commons', ['$rootScope', '$window'
             return (haystack.toString().indexOf(needle) !== -1);
         }
     };
-
+    
     /* Generates a gravitar from the given email address. Defaults to 'Mystery Man'
      if no gravitar exists for the email address.
      */

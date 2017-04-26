@@ -17,16 +17,32 @@ var OAuthClients = {
         "signupUrl": "https://portal.tacc.utexas.edu/account-request"
     },
     "agave.prod": {
-        "clientKey": "ApXiZQtdxzaqN_KEWhF6vw9X4PUa",
-        "callbackUrl": "https://togo.staging.agaveapi.co/auth/",
+        "clientKey": "_2xmhvwpwGOLwLqP6AkR9stGHoQa",
+        "callbackUrl": "http://localhost:8080/app/",
         "scope": "PRODUCTION",
         "projectUrl": "https://agaveapi.co/",
         "supportUrl": "https://support.agaveapi.co",
         "signupUrl": "https://public.agaveapi.co/create_account"
     },
+    // "agave.prod": {
+    //     "clientKey": "ApXiZQtdxzaqN_KEWhF6vw9X4PUa",
+    //     "callbackUrl": "https://togo.staging.agaveapi.co/auth/",
+    //     "scope": "PRODUCTION",
+    //     "projectUrl": "https://agaveapi.co/",
+    //     "supportUrl": "https://support.agaveapi.co",
+    //     "signupUrl": "https://public.agaveapi.co/create_account"
+    // },
+    // "iplantc.org": {
+    //     "clientKey": "GlGcjTWcYXtCzBXAAbi3IQFhjuIa",
+    //     "callbackUrl": "http://localhost:9000/auth/",
+    //     "scope": "PRODUCTION",
+    //     "projectUrl": "https://cyverse.org/",
+    //     "supportUrl": "https://ask.cyverse.org/",
+    //     "signupUrl": "https://user.cyverse.org/register/"
+    // },
     "iplantc.org": {
-        "clientKey": "tZAdl43gBSJjglfMEdh0KqL5SuYa",
-        "callbackUrl": "https://togo.staging.agaveapi.co/auth/",
+        "clientKey": "D1qAH1mhYLKiTqep6c_9KUZyLYAa",
+        "callbackUrl": "http://localhost:9000/auth/",
         "scope": "PRODUCTION",
         "projectUrl": "https://cyverse.org/",
         "supportUrl": "https://ask.cyverse.org/",

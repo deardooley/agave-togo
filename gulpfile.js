@@ -44,10 +44,10 @@ gulp.task('sass', function () {
     gulp.src('./sass/layouts/layout7/*.scss').pipe(sass()).pipe(gulp.dest('./assets/layouts/layout7/css'));
 });
 
-//*** SASS watch(realtime) compiler task
-gulp.task('sass:watch', function () {
-    gulp.watch('./sass/**/*.scss', ['sass']);
-});
+// //*** SASS watch(realtime) compiler task
+// gulp.task('sass:watch', function () {
+//     gulp.watch('./sass/**/*.scss', ['sass']);
+// });
 
 //*** CSS & JS minify task
 gulp.task('minify', function () {
@@ -107,6 +107,22 @@ gulp.task('rtlcss', function () {
         .pipe(gulp.dest('./assets/global/plugins/bootstrap/css'));
 });
 
+gulp.task('js', function () {
+    gulp.src(['./app/**/*.js', './auth/**/*.js'])
+        .pipe(connect.reload());
+});
+
+gulp.task('html', function () {
+    gulp.src(['./app/**/*.html', './auth/**/*.html'])
+        .pipe(connect.reload());
+});
+
+gulp.task('watch', function() {
+    gulp.watch('./sass/**/*.scss', ['sass']);
+    gulp.watch(['./app/**/*.js', './auth/**/*.js'], ['js']);
+    gulp.watch(['./app/**/*.html', './auth/**/*.html'], ['html']);
+});
+
 gulp.task('connect', function() {
     connect.server({
         livereload: true,
@@ -127,4 +143,4 @@ gulp.task('prettify', function () {
         pipe(gulp.dest('./'));
 });
 
-gulp.task('default', ['connect']);
+gulp.task('default', ['connect', 'watch']);

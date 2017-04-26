@@ -1,5 +1,7 @@
 angular.module('AgaveToGo').controller('AppsResourceRunController', function($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, $translate, AppsController, SystemsController, JobsController, NotificationsController, FilesController, MessageService) {
 
+    $scope.executionSystem = {};
+    $scope.defaultQueue = {};
     $scope.formSchema = function(app) {
       var schema = {
         type: 'object',
@@ -112,12 +114,36 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
         type: 'string',
         required: true
       };
+
       schema.properties.archivePath = {
         title: 'Job output archive location (optional)',
         description: 'Specify a location where the job output should be archived. By default, job output will be archived at: <code>&lt;username&gt;/archive/jobs/${YYYY-MM-DD}/${JOB_NAME}-${JOB_ID}</code>.',
         type: 'string',
         format: 'agaveFile',
+        condition: "form.model.archive",
         'x-schema-form': {placeholder: '<username>/archive/jobs/${YYYY-MM-DD}/${JOB_NAME}-${JOB_ID}'}
+      };
+
+      schema.properties.archive = {
+        title: 'Archive output',
+        description: 'Should the output be archived',
+        type: 'boolean',
+        required: false
+      };
+
+      // schema.properties.archiveSystem = {
+      //   title: 'Archive system',
+      //   description: 'System to archive job output folder',
+      //   type: 'text',
+      //   required: false
+      // };
+
+      schema.properties.defaultQueue = {
+        title: 'Batch Queue',
+        description: 'System queue to which the job should be submited',
+        type: 'number',
+        required: false,
+        'x-schema-form': {placeholder: $scope.defaultQueue.name}
       };
 
       return schema;
@@ -132,6 +158,22 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
               $scope.form = {model: {}};
               $scope.form.schema = $scope.formSchema($scope.app);
               $scope.form.form = [];
+
+              SystemsController.getSystemDetails($scope.app.executionSystem)
+                .then(function(systemResponse) {
+                  $scope.executionSystem = systemResponse.result;
+                  $scope.defaultQueue = {};
+                  angular.forEach($scope.executionSystem.queues, function(queue, index) {
+                    if (queue.name == $scope.app.defaultQueue) {
+                      $scope.defaultQueue = queue;
+                      return false;
+                    }
+                  });
+                },
+                function(systemErrorResponse) {
+                  MessageService.handle(response, $translate.instant('error_system_details'));
+                });
+
 
               /* inputs */
               var inputs = [];
@@ -408,63 +450,64 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                   'items': []
                 });
                 angular.forEach($scope.form.schema.properties.parameters.properties, function(input, key){
-                  parameters[0].items.push(
-                    {
-                      "input": key,
-                      "type": "template",
-                      "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <input type="text" class="form-control" id="input" ng-model="form.model.parameters[form.input]"> <span class="help-block">{{form.description}}</span> </div>',
-                      "title": input.title,
-                      "description": input.description,
-                      "model": $scope.form.model,
-                      selectFile: function(key){
-                        // SystemsController.getSystemDetails($scope.app.deploymentSystem)
-                        SystemsController.listSystems(1, 0, true, false, 'STORAGE')
-                          .then(
-                            function(response) {
-                              if (response.result.length > 0){
-                                if (!$modalStack.getTop()){
-                                  // $scope.path = $localStorage.activeProfile.username;
-                                  $stateParams.path = $scope.path;
-
-                                  $scope.system = response.result[0];
-                                  $rootScope.uploadFileContent = '';
-                                  $uibModal.open({
-                                    templateUrl: "views/apps/filemanager.html",
-                                    scope: $scope,
-                                    size: 'lg',
-                                    controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
-                                      $scope.cancel = function()
-                                      {
-                                          $modalInstance.dismiss('cancel');
-                                      };
-
-                                      $scope.close = function(){
-                                          $modalInstance.close();
-                                      }
-
-                                      $scope.$watch('uploadFileContent', function(uploadFileContent){
-                                          if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
-                                            if (typeof $scope.form.model.parameters === 'undefined'){
-                                              $scope.form.model.parameters = {};
-                                            }
-                                            $scope.form.model.parameters[key] = uploadFileContent;
-                                            $scope.close();
-                                          }
-                                      });
-                                    }]
-                                  });
-                                } else {
-                                  MessageService.handle(response, $translate.instant('error_apps_files_select'));
-                                }
-                              }
-                            },
-                            function(response) {
-                              MessageService.handle(response, $translate.instant('error_apps_details'));
-                            }
-                        );
-                      }
-                    }
-                  );
+                  parameters[0].items.push(input);
+                  // parameters[0].items.push(
+                  //   {
+                  //     "input": key,
+                  //     "type": "template",
+                  //     "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <input type="text" class="form-control" id="input" ng-model="form.model.parameters[form.input]"> <span class="help-block">{{form.description}}</span> </div>',
+                  //     "title": input.title,
+                  //     "description": input.description,
+                  //     "model": $scope.form.model,
+                  //     selectFile: function(key){
+                  //       // SystemsController.getSystemDetails($scope.app.deploymentSystem)
+                  //       SystemsController.listSystems(1, 0, true, false, 'STORAGE')
+                  //         .then(
+                  //           function(response) {
+                  //             if (response.result.length > 0){
+                  //               if (!$modalStack.getTop()){
+                  //                 // $scope.path = $localStorage.activeProfile.username;
+                  //                 $stateParams.path = $scope.path;
+                  //
+                  //                 $scope.system = response.result[0];
+                  //                 $rootScope.uploadFileContent = '';
+                  //                 $uibModal.open({
+                  //                   templateUrl: "views/apps/filemanager.html",
+                  //                   scope: $scope,
+                  //                   size: 'lg',
+                  //                   controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                  //                     $scope.cancel = function()
+                  //                     {
+                  //                         $modalInstance.dismiss('cancel');
+                  //                     };
+                  //
+                  //                     $scope.close = function(){
+                  //                         $modalInstance.close();
+                  //                     }
+                  //
+                  //                     $scope.$watch('uploadFileContent', function(uploadFileContent){
+                  //                         if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
+                  //                           if (typeof $scope.form.model.parameters === 'undefined'){
+                  //                             $scope.form.model.parameters = {};
+                  //                           }
+                  //                           $scope.form.model.parameters[key] = uploadFileContent;
+                  //                           $scope.close();
+                  //                         }
+                  //                     });
+                  //                   }]
+                  //                 });
+                  //               } else {
+                  //                 MessageService.handle(response, $translate.instant('error_apps_files_select'));
+                  //               }
+                  //             }
+                  //           },
+                  //           function(response) {
+                  //             MessageService.handle(response, $translate.instant('error_apps_details'));
+                  //           }
+                  //       );
+                  //     }
+                  //   }
+                  // );
                 });
               }
 
@@ -485,14 +528,19 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
                 });
               }
 
+
+
               /* job details */
               $scope.form.form.push({
                 type: 'fieldset',
                 title: 'Job details',
-                items: ['requestedTime','name', 'archivePath']
+                items: ['requestedTime','name', 'defaultQueue', 'archive', 'archivePath']
               });
 
-              /* buttons */
+
+
+
+                  /* buttons */
               items = [];
 
               items.push({type: 'submit', title: 'Run', style: 'btn-primary'});
@@ -593,6 +641,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
 
     };
 
+
     $scope.lazyLoadFileManagerParams = [
       '../bower_components/angular-filebrowser/src/js/app.js',
       '../bower_components/angular-cookies/angular-cookies.min.js',
@@ -619,6 +668,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function($sc
       '../bower_components/codemirror/mode/python/python.js',
       '../bower_components/angular-ui-codemirror/ui-codemirror.min.js',
     ];
+
 
     $scope.resetForm();
 

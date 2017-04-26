@@ -9,16 +9,18 @@
     "gulp": "^3.9.0",
     "gulp-connect": "5.0.0",
     "gulp-ignore": "^2.0.1",
+    "gulp-imagemin": "^2.4.0",
     "gulp-minify-css": "^1.2.1",
+    "gulp-prettify": "^0.3.0",
     "gulp-rename": "^1.2.2",
     "gulp-rtlcss": "^0.1.4",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.4.2",
-    "gulp-prettify": "^0.3.0",
-    "gulp-imagemin": "^2.4.0",
+    "jasmine-core": "^2.5.2",
     "karma": "^0.13.19",
     "karma-chrome-launcher": "^0.2.2",
+    "karma-edge-launcher": "^0.4.1",
     "karma-firefox-launcher": "^0.1.7",
     "karma-ie-launcher": "^1.0.0",
     "karma-jasmine": "^0.3.6",
@@ -32,9 +34,7 @@
   },
   "scripts": {
     "postinstall": "node_modules/bower/bin/bower --allow-root install",
-
     "start": "http-server -a localhost -p 9000 -c-1",
-
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start"
   }
 }

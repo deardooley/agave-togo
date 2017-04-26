@@ -1,4 +1,4 @@
-angular.module('AgaveToGo').controller('JobsResourceDetailsController', function($scope, $stateParams, $state, $translate, JobsController, ActionsService, MessageService, PermissionsService) {
+angular.module('AgaveToGo').controller('JobsResourceDetailsController', function($scope, $stateParams, $state, $translate, $uibModal, JobsController, ActionsService, MessageService, PermissionsService, NotificationsController) {
 
   $scope.job = null;
 
@@ -35,8 +35,13 @@ angular.module('AgaveToGo').controller('JobsResourceDetailsController', function
       );
   };
 
+  
   $scope.editPermissions = function(resource, resourceType) {
     PermissionsService.editPermissions(resource, resourceType);
+  }
+
+  $scope.confirmAction = function(resourceType, resource, resourceAction, resourceList, resourceIndex){
+    ActionsService.confirmAction(resourceType, resource, resourceAction, resourceList, resourceIndex);
   }
 
   $scope.getJob();

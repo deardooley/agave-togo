@@ -33,7 +33,7 @@ var AgaveToGo = angular.module('AgaveToGo', [
   'ui.router',
   'ui.select'
 ]).service('NotificationsService',['$rootScope', '$localStorage', 'MetaController', 'toastr', function($rootScope, $localStorage, MetaController, toastr){
-    if (typeof $localStorage.tenant !== 'undefined' && typeof $localStorage.activeProfile !== 'undefined') {
+    if (false && typeof $localStorage.tenant !== 'undefined' && typeof $localStorage.activeProfile !== 'undefined') {
       this.client = new Fpp.Client('https://48e3f6fe.fanoutcdn.com/fpp');
       this.channel = this.client.Channel($localStorage.tenant.code + '/' + $localStorage.activeProfile.username);
       this.channel.on('data', function (data) {
@@ -97,7 +97,7 @@ AgaveToGo.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
         debug: true,
         modules: [
-        {
+          {
             name: 'ui.codemirror',
             files: [
                 '../bower_components/codemirror/lib/codemirror.css',
@@ -105,7 +105,23 @@ AgaveToGo.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
                 '../bower_components/codemirror/lib/codemirror.js',
                 '../bower_components/angular-ui-codemirror/ui-codemirror.min.js'
             ]
-        }]
+          },
+          {
+            name: 'FileManagerApp',
+            files: [
+              '../bower_components/angular-filebrowser/dist/agave-angular-filemanager.min.js',
+              '../bower_components/angular-filebrowser/dist/agave-angular-filemanager.min.css'
+            ]
+          },
+          {
+            serie: true,
+            insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+            name: 'btford.markdown',
+            files: [
+              '../bower_components/showdown/compressed/Showdown.min.js',
+              '../bower_components/angular-markdown-directive/markdown.js'
+            ]
+          }]
     });
 }]);
 
@@ -126,6 +142,12 @@ AgaveToGo.config(function(toastrConfig) {
     timeOut: 5000
   });
 });
+
+// AgaveToGo.config(function(fileManagerConfig) {
+//   angular.extend(fileManagerConfig, {
+//     tplPath: '../bower_components/angular-filebrowser/src/templates'
+//   });
+// });
 
 AgaveToGo.config(function($locationProvider) {
     $locationProvider.html5Mode({
@@ -1419,6 +1441,186 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
           }
         })
 
+        /**********************************************************************/
+        /**********************************************************************/
+        /***                                                                ***/
+        /***                       Container Browsing Routes                  ***/
+        /***                                                                ***/
+        /**********************************************************************/
+        /**********************************************************************/
+
+
+
+        .state('containers-manage', {
+          url: '/library',
+          templateUrl: 'views/containers/manager.html',
+          data: {pageTitle: 'Application Exchange'},
+          controller: 'ContainersDirectoryController',
+          resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load({
+                serie: true,
+                name: 'AgaveToGo',
+                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                files: [
+                  '../bower_components/showdown/compressed/Showdown.min.js',
+                  '../bower_components/angular-markdown-directive/markdown.js',
+                  '../assets/global/plugins/jquery-knob/js/jquery.knob.js',
+                  'js/services/ActionsService.js',
+                  'js/services/MessageService.js',
+                  'js/services/PermissionsService.js',
+                  'js/services/QuayRepositoryService.js',
+                  'js/controllers/QueryBuilderController.js',
+                  'js/controllers/containers/ContainersDirectoryController.js',
+                  'js/controllers/modals/ModalConfirmResourceActionController.js'
+                ]
+              },
+              'btford.markdown');
+            }]
+          }
+        })
+
+        .state('containers-browse', {
+          url: '/imgagegallery',
+          templateUrl: 'views/containers/gallery.html',
+          data: {pageTitle: 'Application Exchange'},
+          controller: 'ContainersGalleryController',
+          resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load({
+                serie: true,
+                name: 'AgaveToGo',
+                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                files: [
+                  '../assets/global/plugins/cubeportfolio/css/cubeportfolio.min.css',
+                  '../bower_components/showdown/compressed/Showdown.min.js',
+                  '../bower_components/angular-markdown-directive/markdown.js',
+                  '../assets/global/plugins/jquery-knob/js/jquery.knob.js',
+                  'js/services/ActionsService.js',
+                  'js/services/MessageService.js',
+                  'js/services/PermissionsService.js',
+                  'js/services/QuayRepositoryService.js',
+                  'js/controllers/containers/ContainersGalleryController.js',
+                  'js/controllers/modals/ModalConfirmResourceActionController.js',
+                  '../assets/global/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js'
+                ]
+              });
+            }]
+          }
+        })
+        
+        .state('containers', {
+          abtract: true,
+          url:'/library/:id',
+          data: {pageTitle: 'Application Exchange'},
+          templateUrl:'views/containers/resource/resource.html',
+          controller: 'ContainerResourceController',
+          resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  name: 'AgaveToGo',
+                  files: [
+                    'js/services/QuayRepositoryService.js',
+                    'js/controllers/containers/resource/ContainerResourceController.js'
+                  ]
+                }
+              ]);
+            }]
+          }
+        })
+
+        .state('containers.details', {
+          url: '',
+          templateUrl: 'views/containers/resource/details.html',
+          controller: 'ContainerResourceDetailsController',
+          resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load(
+                {
+                  serie: true,
+                  name: 'AgaveToGo',
+                  files: [
+                    '../bower_components/showdown/compressed/Showdown.min.js',
+                    '../bower_components/angular-markdown-directive/markdown.js',
+                    '../assets/global/plugins/jquery-knob/js/jquery.knob.js',
+                    'js/services/ActionsService.js',
+                    'js/services/MessageService.js',
+                    'js/services/PermissionsService.js',
+                    'js/services/QuayRepositoryService.js',
+                    'js/controllers/containers/resource/ContainerResourceDetailsController.js'
+                  ]
+                },
+                'btford.markdown'
+              );
+            }]
+          }
+        })
+
+        .state('containers.run', {
+          url: '/run',
+          controller: 'ContainerResourceRunController',
+          templateUrl: 'views/containers/resource/job-form.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  serie: true,
+                  name: 'AgaveToGo',
+                  files: [
+                    'js/services/MessageService.js',
+                    'js/services/QuayRepositoryService.js',
+                    'js/controllers/containers/resource/ContainerResourceRunController.js'
+                  ]
+                }
+              ]);
+            }]
+          }
+        })
+
+        .state('containers.history', {
+          url: '/history',
+          controller: 'ContainerResourceHistoryController',
+          templateUrl: 'views/containers/resource/history.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  serie: true,
+                  name: 'AgaveToGo',
+                  files: [
+                    '../assets/global/plugins/flot/jquery.flot.all.min.js',
+                    '../assets/global/plugins/flot/jquery.flot.time.min.js',
+                    'js/services/MessageService.js',
+                    'js/services/QuayRepositoryService.js',
+                    'js/controllers/containers/resource/ContainerResourceHistoryController.js'
+                  ]
+                }
+              ]);
+            }]
+          }
+        })
+
+        .state('containers.tags', {
+          url: '/tags',
+          controller: 'ContainerResourceTagsController',
+          templateUrl: 'views/containers/resource/tags.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  serie: true,
+                  name: 'AgaveToGo',
+                  files: [
+                    'js/services/MessageService.js',
+                    'js/services/QuayRepositoryService.js',
+                    'js/controllers/containers/resource/ContainerResourceTagsController.js'
+                  ]
+                }
+              ]);
+            }]
+          }
+        })
 
         /**********************************************************************/
         /**********************************************************************/
@@ -1442,16 +1644,16 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             name: 'AgaveToGo',
                             insertBefore: '#ng_load_plugins_before',
                             files: [
-                                'js/services/MessageService.js',
+                              'js/services/MessageService.js',
                                 'js/controllers/data/FileExplorerController.js'
                             ]
-                        }
-                    ]);
+                        }]
+                    );
                 }]
             }
         })
 
-        // AngularJS plugins
+        // Main route for all file browsing
         .state('data-explorer', {
             url: '/data/explorer/:systemId/{path:any}',
             templateUrl: 'views/data/explorer.html',
@@ -1466,11 +1668,11 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             insertBefore: '#ng_load_plugins_before',
                             files: [
                                 /********* File Manager ******/
-                                'js/services/MessageService.js',
-                                'js/controllers/data/FileExplorerController.js'
+                              'js/services/MessageService.js',
+                               'js/controllers/data/FileExplorerController.js'
                             ]
-                        }
-                    ]);
+                        }]
+                    );
                 }]
             }
         })
