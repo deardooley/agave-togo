@@ -1,4 +1,4 @@
 rotate_keys.sh
-#bower_components
+bower_components
 node_modules
 .idea

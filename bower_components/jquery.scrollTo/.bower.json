@@ -1,7 +1,0 @@
-{
-  "name": "jquery.scrollTo",
-  "main": "index.js",
-  "_source": "/Users/dooley/dockerspace/agave-togo/assets/global/plugins/jquery.scrollTo.min.js",
-  "_target": "*",
-  "_originalSource": "./assets/global/plugins/jquery.scrollTo.min.js"
-}

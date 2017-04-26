@@ -1,7 +1,0 @@
-{
-  "name": "extcanvas",
-  "main": "index.js",
-  "_source": "/Users/dooley/dockerspace/agave-togo/assets/global/plugins/excanvas.min.js",
-  "_target": "*",
-  "_originalSource": "./assets/global/plugins/excanvas.min.js"
-}
