@@ -1,6 +1,9 @@
 rotate_keys.sh
 node_modules
 .idea
+*.php
+*.java
+*.rb
 bower_components/**/doc
 bower_components/**/docs
 bower_components/**/documentation
@@ -28,7 +31,7 @@ bower_components/**/.*
 bower_components/**/LICENSE*
 bower_components/amcharts
 bower_components/*/webpack.*
-bower_components/*/index.*
+bower_components/*/index.html
 bower_components/*/circle.yml
 bower_components/**/*example*
 bower_components/**/src
