@@ -11,8 +11,8 @@
               <div class="row">
                 <div class="col-xs-12 vcenter text-center">
                     <div>
-                      <img ng-show="!displayTenant" ng-src="/auth/img/tenants/agave.prod-thumb.png" class="lock-avatar">
-                      <img ng-show="displayTenant" ng-src="/auth/img/tenants/{{displayTenant.code}}-thumb.png" class="lock-avatar">
+                      <img ng-show="!displayTenant" ng-src="img/tenants/agave.prod-thumb.png" class="lock-avatar">
+                      <img ng-show="displayTenant" ng-src="img/tenants/{{displayTenant.code}}-thumb.png" class="lock-avatar">
                     </div>
                 </div>
               </div>
@@ -23,7 +23,7 @@
                       <ui-select-match placeholder="Select your organization...">{{$select.selected.name}}</ui-select-match>
                       <ui-select-choices repeat="item.name as item in settings.tenants | filter: $select.search">
                       <div class="select2-result-repository clearfix">
-                        <div class="select2-result-repository__avatar"><img ng-src="/auth/img/tenants/{{item.code}}-thumb.png" /></div>
+                        <div class="select2-result-repository__avatar"><img ng-src="img/tenants/{{item.code}}-thumb.png" /></div>
                         <div class="select2-result-repository__meta">
                           <div class="select2-result-repository__title" ng-bind-html="item.name | highlight: $select.search"> {{item.name}}</div>
                           <div class="select2-result-repository__statistics">
@@ -44,7 +44,7 @@
                     </ui-select>
                     <span class="input-group-btn">
                       <oauth
-                              template="/auth/views/templates/oauth-ng-button.html"
+                              template="views/templates/oauth-ng-button.html"
                               site="tenant.baseUrl"
                               client-id="settings.oauth.clients[tenant.code].clientKey"
                               redirect-uri="{{settings.oauth.clients[tenant.code].callbackUrl}}"

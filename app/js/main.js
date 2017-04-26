@@ -531,13 +531,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         name: 'AgaveToGo',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            //'../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
-                            //'../bower_components/datatables/media/css/jquery.dataTables.min.css',
-                            //
-                            //'../bower_components/datatables/media/js/dataTables.bootstrap.js',
-                            //'../bower_components/datatables/media/js/jquery.dataTables.js',
-                            '../assets/global/scripts/datatable.js',
-                            '../bower_components/holderjs/holder.js',
+                            // '../bower_components/holderjs/holder.js',
                             'js/services/ActionsService.js',
                             'js/services/MessageService.js',
                             'js/services/PermissionsService.js',
@@ -1347,7 +1341,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         name: 'AgaveToGo',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/scripts/datatable.js',
+                            // '../assets/global/scripts/datatable.js',
                             '../bower_components/holderjs/holder.js',
                             'js/services/ActionsService.js',
                             'js/services/PermissionsService.js',
@@ -1764,12 +1758,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                         name: 'AgaveToGo',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            //'../bower_components/datatables/media/css/dataTables.bootstrap.min.css',
-                            //'../bower_components/datatables/media/css/jquery.dataTables.min.css',
-                            //
-                            //'../bower_components/datatables/media/js/dataTables.bootstrap.js',
-                            //'../bower_components/datatables/media/js/jquery.dataTables.js',
-                            '../assets/global/scripts/datatable.js',
+                            // '../assets/global/scripts/datatable.js',
                             '../bower_components/holderjs/holder.js',
                             'js/services/ActionsService.js',
                             'js/services/MessageService.js',
@@ -2275,60 +2264,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                             'js/controllers/GeneralPageController.js'
                         ]
                     }]);
-                }]
-            }
-        })
-
-        // Advanced Datatables
-        .state('datatablesAdvanced', {
-            url: '/datatables/managed.html',
-            templateUrl: 'views/datatables/managed.html',
-            data: {pageTitle: 'Advanced Datatables'},
-            controller: 'GeneralPageController',
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'AgaveToGo',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/global/plugins/datatables/datatables.min.css',
-                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-
-                            '../assets/global/plugins/datatables/datatables.all.min.js',
-
-                            '../assets/pages/scripts/table-datatables-managed.min.js',
-
-                            'js/controllers/GeneralPageController.js'
-                        ]
-                    });
-                }]
-            }
-        })
-
-        // Ajax Datetables
-        .state('datatablesAjax', {
-            url: '/datatables/ajax.html',
-            templateUrl: 'views/datatables/ajax.html',
-            data: {pageTitle: 'Ajax Datatables'},
-            controller: 'GeneralPageController',
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'AgaveToGo',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/global/plugins/datatables/datatables.min.css',
-                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-
-                            '../assets/global/plugins/datatables/datatables.all.min.js',
-                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            '../assets/global/scripts/datatable.js',
-
-                            'js/scripts/table-ajax.js',
-                            'js/controllers/GeneralPageController.js'
-                        ]
-                    });
                 }]
             }
         })
