@@ -9,19 +9,35 @@ var OAuthClients = {
         "signupUrl": "https://public.agaveapi.co/create_account"
     },
     "iplantc.org": {
-        "clientKey": "xovyOn2MEz8nQICNitKIF10Ne2ka",
-        "callbackUrl": "https://togo.agaveapi.co/auth/",
-        "scope": "PRODUCTION",
-        "projectUrl": "https://cyverse.org/",
-        "supportUrl": "https://ask.cyverse.org/",
-        "signupUrl": "https://user.cyverse.org/register/"
-    },
-    "iplantc.org": {
         "clientKey": "wertyerthdfgbwergwerg2345dfsgwer",
         "callbackUrl": "https://togo.agaveapi.co/auth/",
         "scope": "PRODUCTION",
         "projectUrl": "https://cyverse.org/",
         "supportUrl": "https://ask.cyverse.org/",
         "signupUrl": "https://user.cyverse.org/register/"
+    },
+    "tacc.prod": {
+        "clientKey": "234t23wergwef_OUIYOIJwerfwer",
+        "callbackUrl": "https://togo.agaveapi.co/auth/",
+        "scope": "PRODUCTION",
+        "projectUrl": "https://tacc.utexas.edu/",
+        "supportUrl": "https://portal.tacc.utexas.edu/tacc-consulting",
+        "signupUrl": "https://portal.tacc.utexas.edu/account-request"
+    },
+    "araport": {
+        "clientKey": "fwlifuyoqwieyfhd986987HKLHJLKJ",
+        "callbackUrl": "https://togo.agaveapi.co/auth/",
+        "scope": "PRODUCTION",
+        "projectUrl": "https://www.araport.org",
+        "supportUrl": "https://www.araport.org/contact",
+        "signupUrl": "https://www.araport.org/user/register"
+    },
+    "designsafe": {
+        "clientKey": "IOUYWOEIR09780870_asdfAFASDasdfj",
+        "callbackUrl": "https://togo.agaveapi.co/auth/",
+        "scope": "PRODUCTION",
+        "projectUrl": "https://designsafe-ci.org/",
+        "supportUrl": "https://www.designsafe-ci.org/help/new-ticket/",
+        "signupUrl": "https://www.designsafe-ci.org/account/register/"
     }
 };
