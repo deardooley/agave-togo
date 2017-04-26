@@ -47,6 +47,9 @@ bower_components/*/*.txt
 bower_components/**/grunts
 bower_components/**/meteor
 bower_components/**/screenshot*.png
-bower_components/faker
+bower_components/faker/lib
+bower_components/faker/vendor
+bower_components/faker/locale
 bower_components/PACE
 bower_components/**/demos
+bower_components/**/Makefile
