@@ -31,10 +31,14 @@ bower_components/*/webpack.*
 bower_components/*/index.*
 bower_components/*/circle.yml
 bower_components/**/*example*
-!bower_components/**/src
+bower_components/**/src
+bower_components/agave-angularjs-sdk
+!bower_components/angular-filebrowser/src
 bower_components/**/less
 bower_components/**/sass
 bower_components/**/test
+bower_components/**/tests
+bower_components/**/testsuite
 bower_components/**/website
 bower_components/**/nuget
 bower_components/**/*.scss
@@ -43,3 +47,6 @@ bower_components/*/*.txt
 bower_components/**/grunts
 bower_components/**/meteor
 bower_components/**/screenshot*.png
+bower_components/faker
+bower_components/PACE
+bower_components/**/demos
