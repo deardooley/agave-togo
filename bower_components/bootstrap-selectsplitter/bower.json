@@ -1,0 +1,10 @@
+{
+  "name": "bootstrap-selectsplitter",
+  "main": [
+    "bootstrap-selectsplitter.js"
+  ],
+  "dependencies": {
+  	"jQuery": ">= 1.9.1",
+ 	"bootstrap": ">= 3.0"
+ 	}
+}

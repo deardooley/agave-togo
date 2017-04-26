@@ -1,0 +1,741 @@
+//colors
+$color_wild_sand_approx: #f5f5f5;
+$color_gallery_approx: #eee;
+$color_royal_blue_approx: #4285f4;
+$color_punch_approx: #de3e35;
+$color_lightning_yellow_approx: #f7c223;
+$color_eucalyptus_approx: #1b9a59;
+$color_tundora_approx: #444;
+$alabaster: #fafafa;
+$black_26: rgba(0, 0, 0, .26);
+$black: #000;
+$white: #fff;
+$color_dodger_blue_approx: #2196f3;
+$color_alto_approx: #ddd;
+$black_10: rgba(0, 0, 0, .1);
+$black_7: rgba(0, 0, 0, .07);
+$black_20: rgba(0, 0, 0, .2);
+$color_pink_swan_approx: #bbb;
+$color_suva_gray_approx: #888;
+$blue: blue;
+$color_desert_storm_approx: #f8f8f8;
+
+//fonts
+$font_0: Menlo;
+$font_1: Monaco;
+$font_2: Consolas;
+$font_3: Courier New;
+$font_4: monospace;
+
+$header-height: 32px;
+$header-top-menu-user-item-padding: 17px;
+$header-top-menu-user-font-weight: 400;
+$header-top-menu-user-font-size: 15px;
+$header-top-menu-user-dropdown-link-font-size: 15px;
+$header-top-menu-user-dropdown-link-font-weight: 400;
+
+body {
+  padding-top: 55px;
+  font-size: 14px;
+}
+
+[ng-cloak] {
+  display: none !important;
+}
+
+[data-ng-cloak] {
+  display: none !important;
+}
+
+[x-ng-cloak] {
+  display: none !important;
+}
+
+.ng-cloak {
+  display: none !important;
+}
+
+.x-ng-cloak {
+  display: none !important;
+}
+
+.navbar {
+  min-height: $header-height;
+  .navbar-toggle {
+    padding: 5px 10px;
+  }
+  .navbar-brand {
+    font-size: inherit;
+    height: 55px;
+    line-height: 100%;
+  }
+  .navbar-form {
+    border-bottom: none;
+    border-top: none;
+    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: none;
+    padding: 0 10px;
+    margin-top: 10px;
+  }
+
+  /* Search box */
+  .search-form {
+    display: inline-block;
+    width: $header-height;
+    position: relative;
+    float: left;
+    transition: all 0.6s;
+
+    .input-group {
+      .form-control {
+        height: $header-height;
+        border: 0;
+        background: transparent !important;
+        font-size: 13px;
+        padding-left: 0;
+        margin-left: 12px;
+        text-indent: -150000px;
+        border-bottom: 0;
+        box-shadow: none;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .input-group-btn {
+        height: $header-height;
+
+        .btn.submit {
+          margin-left: -24px;
+          padding:0;
+          width: $header-height;
+          background: none;
+          margin-top: 4px;
+          display: block;
+          box-shadow: none;
+          -webkit-box-shadow: none;
+
+          > i {
+            color: #FFF;
+            opacity: .8;
+            font-size: 15px;
+          }
+          &:hover {
+            color: #FFF;
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+
+    &.open {
+      transition: all 0.6s;
+      width: 300px !important;
+
+      .input-group {
+        .form-control {
+          text-indent: 0;
+          box-shadow: inset 0 -1px 0 #ddd;
+          &:hover {
+            cursor:text;
+          }
+        }
+
+        .input-group-btn {
+          .btn.submit {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .navbar-nav {
+    > li.dropdown-user {
+      .dropdown-toggle {
+        padding: $header-top-menu-user-item-padding;
+
+        > .username {
+          display: inline-block;
+          font-size: $header-top-menu-user-font-size;
+          font-weight: $header-top-menu-user-font-weight;
+        }
+
+        > img {
+          float: left;
+          margin-top: -5px;
+          margin-right: 5px;
+          height: 29px;
+          display: inline-block;
+        }
+
+        > i {
+          display: inline-block;
+          margin-top: 5px;
+          margin: 0;
+          font-size: $header-top-menu-user-font-size;
+        }
+      }
+
+      .dropdown-menu {
+        width: 175px;
+        > li {
+          > a {
+            font-size: $header-top-menu-user-dropdown-link-font-size;
+            font-weight: $header-top-menu-user-dropdown-link-font-weight;
+
+            .logo {
+              img {
+                height: 32px;
+                max-width: 100%;
+                margin-right: 0px;
+              }
+            }
+
+            i {
+              width: 15px;
+              display: inline-block;
+              margin-right: 9px;
+            }
+
+            .badge {
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
+
+.breadcrumb {
+  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+  border-radius: 0;
+  .btn {
+    margin-top: -5px;
+  }
+}
+
+.btn {
+  //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+  box-shadow: 0 2px 5px 0 $black_26;
+  font-weight: 500;
+  letter-spacing: .01em;
+  border: none;
+  &.btn-default {
+    color: $color_tundora_approx;
+    background-color: $alabaster;
+  }
+  &.fullscreen {
+    margin-top: -6px;
+    opacity: .2;
+    background-color: transparent;
+    border: none;
+    &:hover {
+      opacity: 1;
+      border: none;
+      background-color: transparent;
+    }
+  }
+}
+
+* {
+  outline: 0 !important;
+  &:focus {
+    outline: 0 !important;
+  }
+}
+
+.modal {
+  word-wrap: break-word;
+  .modal-header {
+    padding-bottom: 0;
+  }
+  .breadcrumb {
+    margin-bottom: 10px;
+  }
+  &.animated {
+    animation-duration: .2s;
+  }
+  .label.error-msg {
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+    padding: 0;
+    padding: 5px;
+    margin-top: 10px;
+    text-align: left;
+    > span {
+      white-space: pre-wrap;
+    }
+  }
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.mb0 {
+  margin-bottom: 0;
+}
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid $color_gallery_approx;
+}
+
+.navbar-fixed-top {
+  border: 0;
+}
+
+.sidebar {
+  display: none;
+}
+
+.btn-go-back {
+  margin-top: -5px;
+}
+
+.table-modal-condensed {
+}
+
+@media(min-width: 768px) {
+  .main {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  .sidebar {
+    position: fixed;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 5px 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: $color_wild_sand_approx;
+    border-right: 1px solid $color_gallery_approx;
+  }
+}
+
+@media(max-width: 768px) {
+  .navbar-form .btn {
+    margin-top: 5px;
+  }
+}
+
+.nav-sidebar {
+  margin-right: -21px;
+  margin-bottom: 20px;
+  margin-left: -20px;
+  > li > a {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  > .active > a {
+    color: $white;
+    background-color: $color_dodger_blue_approx;
+    &:hover {
+      color: $white;
+      background-color: $color_dodger_blue_approx;
+    }
+    &:focus {
+      color: $white;
+      background-color: $color_dodger_blue_approx;
+    }
+  }
+}
+
+.main {
+  padding: 0;
+  .page-header {
+    margin-top: 0;
+  }
+}
+
+.mr2 {
+  margin-right: 2px;
+}
+
+.mr5 {
+  margin-right: 5px;
+}
+
+#context-menu {
+  position: absolute;
+  display: none;
+  z-index: 9999;
+}
+
+.iconset {
+  padding: 10px;
+  .thumbnail {
+    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+    border-radius: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    padding: 10px 0;
+    border: none;
+    .item-icon {
+      font-size: 32px;
+    }
+  }
+}
+
+.col-120 {
+  width: 100px;
+  max-height: 100px;
+  float: left;
+  margin-bottom: 9px;
+  margin-right: 9px;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.modal-fullscreen {
+  .modal-dialog {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0;
+    width: 100%;
+  }
+  .modal-content {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: none;
+    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+    border-radius: 0;
+    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: inherit;
+  }
+  textarea.code {
+    min-height: 450px;
+  }
+}
+
+.animated {
+  animation-duration: .7s;
+  animation-fill-mode: both;
+  &.fast {
+    animation-duration: .2s;
+  }
+  &.slow {
+    animation-duration: 1.1s;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: none;
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: none;
+  }
+}
+
+.fadeInDown {
+  animation-name: fadeInDown;
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.block {
+  display: block;
+}
+
+.detail-sources {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: $white;
+  //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+  box-shadow: inset 1px 1px 0 $black_10, inset -1px -1px 0 $black_7;
+  &:hover {
+    background-color: $color_gallery_approx;
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  min-height: 0.8em;
+  min-width: 0.8em;
+  background-color: $black_20;
+  //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+  box-shadow: inset 1px 1px 0 $black_10, inset -1px -1px 0 $black_7;
+  &:hover {
+    background-color: $color_pink_swan_approx;
+  }
+  &:active {
+    background-color: $color_suva_gray_approx;
+  }
+}
+
+.spinner-container {
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 8%;
+}
+
+.spinner {
+  width: 45px;
+  height: 45px;
+  animation: rotator 1.4s linear infinite;
+}
+
+@-webkit-keyframes rotator {
+  0% {
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: rotate(0deg);
+  }
+  100% {
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: rotate(270deg);
+  }
+}
+
+@keyframes rotator {
+  0% {
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: rotate(0deg);
+  }
+  100% {
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: rotate(270deg);
+  }
+}
+
+.path {
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  //Instead of the line below you could use @include transform-origin($origin-x, $origin-y, $origin-z, $only3d)
+  transform-origin: center;
+  animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
+}
+
+@-webkit-keyframes colors {
+  0% {
+    stroke: $color_royal_blue_approx;
+  }
+  25% {
+    stroke: $color_punch_approx;
+  }
+  50% {
+    stroke: $color_lightning_yellow_approx;
+  }
+  75% {
+    stroke: $color_eucalyptus_approx;
+  }
+  100% {
+    stroke: $color_royal_blue_approx;
+  }
+}
+
+@keyframes colors {
+  0% {
+    stroke: $color_royal_blue_approx;
+  }
+  25% {
+    stroke: $color_punch_approx;
+  }
+  50% {
+    stroke: $color_lightning_yellow_approx;
+  }
+  75% {
+    stroke: $color_eucalyptus_approx;
+  }
+  100% {
+    stroke: $color_royal_blue_approx;
+  }
+}
+
+@-webkit-keyframes dash {
+  0% {
+    stroke-dashoffset: 187;
+  }
+  50% {
+    stroke-dashoffset: 46.75;
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: 187;
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: rotate(450deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 187;
+  }
+  50% {
+    stroke-dashoffset: 46.75;
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: 187;
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: rotate(450deg);
+  }
+}
+
+.sortorder {
+  &:after {
+    color: $color_dodger_blue_approx;
+    content: '\25bc';
+  }
+  &.reverse:after {
+    color: $color_dodger_blue_approx;
+    content: '\25b2';
+  }
+}
+
+.dragover {
+  border: 5px dashed $blue;
+}
+
+.drop-box {
+  background: $color_desert_storm_approx;
+  border: 5px dashed $color_alto_approx;
+  width: 100%;
+  height: 100px;
+  text-align: center;
+  padding-top: 35px;
+  margin-bottom: 10px;
+}
+
+[ng\:cloak] {
+  display: none !important;
+}
+
+textarea.code {
+  font-family: $font_0, $font_1, $font_2, $font_3, $font_4;
+  font-size: 13px;
+  min-height: 250px;
+  resize: vertical;
+  color: $black;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.file-tree ul.nav.nav-sidebar {
+  margin: 0;
+  padding: 0;
+  padding-left: 12px;
+  > li {
+    border-left: 1px solid $color_alto_approx;
+    padding-left: 4px;
+    > a {
+      padding: 2px 2px 2px 4px;
+    }
+  }
+  &:first-child {
+    padding-left: 0;
+  }
+  &.file-tree-root > li {
+    border-left: none;
+    padding-left: 0;
+  }
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.dropdown-menu.dropdown-right-click {
+  display: block;
+  position: static;
+  margin-bottom: 5px;
+  font-size: 1em;
+  .divider {
+    margin: 3px 0;
+  }
+  > li > a {
+    padding: 5px 12px;
+    > i {
+      font-size: .9em;
+      margin-right: 1px;
+    }
+  }
+}
+
+table th > a {
+  &:hover {
+    text-decoration: none;
+  }
+  &:active {
+    text-decoration: none;
+  }
+  &:focus {
+    text-decoration: none;
+  }
+}

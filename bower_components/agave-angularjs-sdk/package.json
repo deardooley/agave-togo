@@ -1,0 +1,29 @@
+{
+  "name": "agave-angularjs-sdk",
+  "version": "1.0.0",
+  "author": "Rion Dooley <dooley@tacc.utexas.edu>",
+  "contributors": [
+    {
+      "name": "Manuel Rojas",
+      "email": "mrojas@tacc.utexas.edu"
+    },
+    {
+      "name": "Sean Cleveland",
+      "email": "seanbc@hawaii.edu"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:agaveapi/angularjs-sdk.git"
+  },
+  "scripts": {
+    "postinstall": "node_modules/gulp/bin/gulp.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-uglify": "^1.2.0",
+    "del": "^1.2.0"
+  }
+}

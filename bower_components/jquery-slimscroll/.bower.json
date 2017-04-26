@@ -1,0 +1,12 @@
+{
+  "name": "jquery-slimscroll",
+  "homepage": "https://github.com/rochal/jQuery-slimScroll",
+  "_release": "f1e3eeb4c5",
+  "_resolution": {
+    "type": "commit",
+    "commit": "f1e3eeb4c571e77a9abdfaa13186a43611c91025"
+  },
+  "_source": "https://github.com/rochal/jQuery-slimScroll.git",
+  "_target": "f1e3eeb4c571e77a9abdfaa13186a43611c91025",
+  "_originalSource": "git+https://github.com/rochal/jQuery-slimScroll.git"
+}

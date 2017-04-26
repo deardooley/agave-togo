@@ -1,0 +1,31 @@
+{
+  "name": "AngularJS-OAuth2",
+  "version": "1.2.3",
+  "homepage": "https://github.com/JamesRandall/AngularJS-OAuth2",
+  "authors": [
+    "James Randall"
+  ],
+  "description": "Adds OAuth 2 authentication support to AngularJS",
+  "keywords": [
+    "angularjs",
+    "oauth2",
+    "identity",
+    "openid",
+    "openidconnect",
+    "directive",
+    "authentication",
+    "authorization"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-md5": ">=0.1.7"
+  },
+  "main": "dist/angularJsOAuth2.js"
+}

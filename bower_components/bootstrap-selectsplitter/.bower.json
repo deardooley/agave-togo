@@ -1,0 +1,21 @@
+{
+  "name": "bootstrap-selectsplitter",
+  "main": [
+    "bootstrap-selectsplitter.js"
+  ],
+  "dependencies": {
+    "jQuery": ">= 1.9.1",
+    "bootstrap": ">= 3.0"
+  },
+  "homepage": "https://github.com/xavierfaucon/bootstrap-selectsplitter",
+  "version": "0.1.4",
+  "_release": "0.1.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.4",
+    "commit": "91b7fdcc9077c12ff2e28cdc5d7852dbf1f78c96"
+  },
+  "_source": "https://github.com/xavierfaucon/bootstrap-selectsplitter.git",
+  "_target": "~0.1.2",
+  "_originalSource": "bootstrap-selectsplitter"
+}

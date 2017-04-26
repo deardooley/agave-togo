@@ -1,0 +1,36 @@
+{
+  "name": "oauth-ng",
+  "main": [
+    "dist/oauth-ng.js",
+    "dist/views/templates/default"
+  ],
+  "ignore": [
+    "app",
+    "test",
+    "bower.json",
+    "Gruntfile.js",
+    "karma.conf.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "~1.3.12",
+    "ngstorage": "~0.3.0"
+  },
+  "devDependencies": {
+    "json3": "~3.2.4",
+    "es5-shim": "~2.0.8",
+    "timecop": "~0.1.1",
+    "bootstrap-sass": "~3.0.2",
+    "jquery": "~1.9.1",
+    "angular-mocks": "~1.3.12"
+  },
+  "_release": "640e1e418f",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "640e1e418f813732d6cbc47f1bc711acb0e52da3"
+  },
+  "_source": "https://bitbucket.org/agaveapi/oauth-ng.git",
+  "_target": "master",
+  "_originalSource": "git+https://bitbucket.org/agaveapi/oauth-ng.git"
+}

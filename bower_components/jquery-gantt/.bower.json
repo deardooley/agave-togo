@@ -1,0 +1,15 @@
+{
+  "name": "jquery-gantt",
+  "homepage": "https://github.com/taitems/jQuery.Gantt",
+  "version": "1.1.0",
+  "_release": "1.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.1.0",
+    "commit": "11a12ae7fdb7b8dbeb12d727638f0fcca934592b"
+  },
+  "_source": "git://github.com/taitems/jQuery.Gantt.git",
+  "_target": "~1.1.0",
+  "_originalSource": "jquery-gantt",
+  "_direct": true
+}
