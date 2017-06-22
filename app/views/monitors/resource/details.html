@@ -18,7 +18,10 @@
           <tbody>
             <tr ng-if="monitor.id">
               <td>ID</td>
-              <td><a ui-sref="monitors({id: monitor.id})"> {{monitor.id}}</a></td>
+              <td>
+                  <a ui-sref="monitors({id: monitor.id})"> {{monitor.id}}</a>
+                  <a href="#" ngclipboard data-clipboard-text="{{monitor.id}}" title="Copy to clipboard"><i class="fa fa-copy"></i></a>
+              </td>
             </tr>
             <tr ng-if="monitor.target">
               <td>Target</td>

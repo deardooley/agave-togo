@@ -22,9 +22,11 @@
 
         this.uploadFile = function(file, form, filesUri, callback) {
           var self = this;
+          var filepath = file.path.split('/')
+          filepath.pop();
 
           return Upload.upload({
-              url: filesUri,
+              url: filesUri + '/' + filepath.join('/') + "?naked=true",
               data: {
                 file: file,
                 fileToUpload: file,
@@ -43,7 +45,43 @@
               file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
           });
         }
+        this.makeFolders = function(fileList, system, path){
+          var promises = [];
+          var self = this;
+          var foldersUri = Configuration.BASEURI + 'files/v2/media/system/' + system.id + '/'+"/?naked=true&action=mkdir";
+           //create directories first
+          angular.forEach(fileList, function (fileObj, key) {
+            self.requesting = true;
+            if (fileObj.type == 'directory'){
+             var body = {};
+             body.action = 'mkdir'
+             body.path = fileObj.path;
+             promises.push(
+               FilesController.updateInvokeFileItemAction(body, system.id, path.join('/'))
+                   .then(function(data) {
+                       //self.deferredHandler(data, deferred);
+                   }, function(data) {
+                       //self.deferredHandler(data, deferred, $translate.instant('error_creating_folder'));
+                   })
+               //self.createFolder(fileObj, foldersUri, path, function(value){
+               //})
+             )
+            }
+          })
+          var deferred = $q.defer();
 
+          return $q.all(promises).then(
+            function(data) {
+              deferredHandler(data, deferred);
+              return true;
+            },
+            function(data) {
+              deferredHandler(data, deferred, $translate.instant('error_uploading_directory'));
+              return false;
+            }
+          )
+          return true;
+        }
         this.requesting = false;
         //
         // this.createDirectoryTree = function(fileList, system, path) {
@@ -135,71 +173,43 @@
 
           var promises = [];
           var totalUploaded = 0;
-          var pathsCreated = [];
+          return self.makeFolders(fileList, system, path)
+            .then(function(response){
+              angular.forEach(fileList, function (fileObj, key) {
+                if(fileObj.type != 'directory'){
+                  var form = new window.FormData();
 
-          angular.forEach(fileList, function (fileObj, key) {
+                  if (fileObj instanceof window.File) {
+                    form.append('fileToUpload', fileObj);
+                    form.append('append', false);
+                    form.append('fileType', 'raw');
+                  }
 
-            var form = new window.FormData();
+                  self.requesting = true;
 
-            if (fileObj instanceof window.File) {
-              console.log("Preparing to upload " + (fileObj.path ? fileObj.path + "/" : "") + fileObj.name )
-              form.append('fileToUpload', fileObj);
-              form.append('append', false);
-              form.append('fileType', 'raw');
+                  var filesUri = Configuration.BASEURI + 'files/v2/media/system/' + system.id + '/' + path.join('/');
 
-              self.requesting = true;
-
-              var filesUri = Configuration.BASEURI + 'files/v2/media/system/' + system.id + '/' + path.join('/');
-
-              // if ($scope.$parent.preserveDirectoryStructure && fileObj.path && !_.contains(pathsCreated, fileObj.path)) {
-              //   filesUri += "/" + fileObj.path + "?naked=true";
-              //
-              //   var mkdirAction = new FileMkdirAction();
-              //   mkdirAction.setName(fileObj.path);
-              //
-              //   promises.push(
-              //     FilesController.updateInvokeFileItemAction(mkdirAction, systemId, path).then(
-              //       function(response) {
-              //         console.log("Successfully created " + relativeDirectoryPath);
-              //         console.log(response);
-              //
-              //         // mark the directory as created
-              //         pathsCreated.push(fileObj.path);
-              //
-              //         self.uploadFile(fileObj, form, filesUri, function(value){
-              //           self.files.push(value);
-              //         });
-              //       },
-              //       function(message) {
-              //         console.error("Failed to create remote directory at " + relativeDirectoryPath + ". " + message);
-              //         return message;
-              //       })
-              //   );
-              // }
-              // else {
-                filesUri += "?naked=true";
-
-                promises.push(
-                    self.uploadFile(fileObj, form, filesUri, function (value) {
+                  promises.push(
+                    self.uploadFile(fileObj, form, filesUri, function(value){
                       self.files.push(value);
                     })
-                );
-              // }
-            }
-          });
+                  );
+                }
+              });
 
-          var deferred = $q.defer();
+              var deferred = $q.defer();
 
-          return $q.all(promises).then(
-            function(data) {
-              deferredHandler(data, deferred);
-            },
-            function(data) {
-              deferredHandler(data, deferred, $translate.instant('error_uploading_files'));
-          })
-          ['finally'](function (data) {
-            self.requesting = false;
-          });
+              return $q.all(promises).then(
+                function(data) {
+                  deferredHandler(data, deferred);
+                },
+                function(data) {
+                  deferredHandler(data, deferred, $translate.instant('error_uploading_files'));
+              })
+              ['finally'](function (data) {
+                self.requesting = false;
+              });
+           })
         };
 
         this.download = function(file, callback) {
@@ -210,7 +220,7 @@
             var postitIt = new PostItRequest();
             postitIt.setMaxUses(2);
             postitIt.setMethod("GET");
-            postitIt.setUrl([file.model._links.self.href, $.param(data)].join('?'));
+            postitIt.setUrl([decodeURIComponent(file.model._links.self.href), $.param(data)].join('?'));
 
             return PostitsController.addPostit(postitIt)
                 .then(function(resp) {

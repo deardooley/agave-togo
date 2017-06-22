@@ -1,0 +1,29 @@
+[
+  "js/modules/apps",
+  "js/modules/containers",
+  "js/modules/data",
+  "js/modules/jobs",
+  "js/modules/meta",
+  "js/modules/monitors",
+  "js/modules/notifications",
+  "js/modules/profiles",
+  "js/modules/projects",
+  "js/modules/systems",
+  "js/modules/tags",
+  "js/modules/uuids"
+  // "js/modules/postits",
+  // "js/modules/transfers",
+  // "js/modules/transforms",
+  //
+  // "js/modules/events",
+  // "js/modules/groups",
+  // "js/modules/repositories",
+  // "js/modules/reactors",
+  // "js/modules/repls",
+  //
+  //
+  // "js/modules/admin/clients",
+  // "js/modules/admin/apis",
+  // "js/modules/admin/roles"
+]
+

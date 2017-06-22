@@ -4,7 +4,7 @@
     <uib-tabset active="active" justified="true" class="lock-tabset">
       <uib-tab index="0">
         <uib-tab-heading>
-          Login
+          Sign In
         </uib-tab-heading>
         <div class="row">
             <div class="form-group text-center">
@@ -19,7 +19,7 @@
               <div class="row">
                 <div class="col-xs-8 vcenter">
                   <div class="input-group text-center">
-                    <ui-select allow-clear ng-model="$root.tenantSelected" on-select="updateTenant($item, $model)" theme="bootstrap" ng-disabled="disabled" title="Select a tenant">
+                    <ui-select allow-clear ng-model="displayTenant" on-select="updateTenant($item, $model)" theme="bootstrap" ng-disabled="disabled" title="Select a tenant">
                       <ui-select-match placeholder="Select your organization...">{{$select.selected.name}}</ui-select-match>
                       <ui-select-choices repeat="item.name as item in settings.tenants | filter: $select.search">
                       <div class="select2-result-repository clearfix">
@@ -111,9 +111,10 @@
             </div>
         </div>
       </uib-tab>
+
     </uib-tabset>
   </form>
 </div>
 <div class="lock-bottom">
-  <a href="https://agaveapi.co/" target="_blank">Don't have a tenant?</a>
+  <a href="{{displayTenant.signupUrl}}" target="_blank">Don't have a {{tenant.name}} account?</a>
 </div>

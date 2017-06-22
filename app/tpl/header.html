@@ -352,7 +352,15 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="external">
+                        <h3><span class="bold">last check at {{ lastStatusCheckedAt | amDateFormat:'h:mm:ss a' }}</span></h3>
+                        <a ng-click="toggleStatusCheck()" href="#">
+                            <span ng-if="statusCheckEnabled" class="fa fa-pause">pause</span>
+                            <span ng-if="!statusCheckEnabled" class="fa fa-play">resume</span>
+                        </a>
+                    </li>
                 </ul>
+
             </li>
             <!-- END TODO DROPDOWN -->
             <!-- BEGIN LANGUAGE BAR -->
@@ -400,7 +408,8 @@
                                 <!--<span class="details">-->
                                     <!--{{ tenant.name }}-->
 
-                                <!--</span></a>-->
+                                <!--</span>-->
+                        </a>
                     </li>
                     <li>
                         <a href="#/profile/me/account">
@@ -428,7 +437,7 @@
                         </a>
                     </li>
                     <li ng-if="loggedIn">
-                        <a ui-sref="logout">
+                        <a href="../auth/#/logout">
                             <i class="icon-key"></i> Log Out
                         </a>
                     </li>
@@ -437,10 +446,6 @@
                             <i class="icon-key"></i> Log In
                         </a>
                     </li>
-                    <!--<li>-->
-                        <!--<a href="/auth/#/logout">-->
-                            <!--<i class="icon-lock"></i> Logout </a>-->
-                    <!--</li>-->
                 </ul>
             </li>
             <!-- END USER LOGIN DROPDOWN -->

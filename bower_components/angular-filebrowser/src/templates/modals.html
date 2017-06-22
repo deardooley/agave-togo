@@ -146,6 +146,7 @@
                         <div class="panel-body">
                           <div class="detail-sources">
                               <code><a ng-href="{{temp.postit.link}}" target="_blank" class="mr5"> {{temp.postit.link}}</a></code>
+                              <a href="#" ngclipboard data-clipboard-text="{{temp.postit.link}}" title="Copy to clipboard"><i class="fa fa-copy"></i></a>
                           </div>
 
                         </div>
@@ -364,6 +365,7 @@
                     ngf-select="$parent.addForUpload($files)"
                     class="drop-box"
                     ngf-drag-over-class="'dragover'"
+                    ngf-include-dir="true"
                     ngf-multiple="true">Drop files here or click to upload</div>
               <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
 

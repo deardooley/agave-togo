@@ -17,7 +17,10 @@
           <tbody>
            <tr ng-if="system.id">
              <td>ID</td>
-             <td><strong>{{system.id}}</strong></td>
+             <td>
+                 <strong>{{system.id}}</strong>
+                 <a href="#" ngclipboard data-clipboard-text="{{system.id}}" title="Copy to clipboard"><i class="fa fa-copy"></i></a>
+             </td>
            </tr>
            <tr ng-if="system.uuid">
              <td>UUID</td>

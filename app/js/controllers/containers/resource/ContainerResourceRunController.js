@@ -1,81 +1,193 @@
-angular.module('AgaveToGo').controller('ContainerResourceRunController', function($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, $translate, AppsController, SystemsController, JobsController, NotificationsController, FilesController, MessageService) {
+angular.module('AgaveToGo').controller('ContainerResourceRunController', function ($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, $translate, AppsController, SystemsController, JobsController, NotificationSubscriptionTemplateService, NotificationsController, FilesController, SystemExecutionTypeEnum, MessageService, Quay, $filter) {
+  $scope.appId = $stateParams.appId || 'jfonner-run-singularity-4.2.3';
+  $scope.executionSystem = {};
+  $scope.image = {};
+  $scope.tags = {};
+  $scope.systems = [];
 
-    $scope.executionSystem = {};
-    $scope.defaultQueue = {};
-    $scope.formSchema = function(app) {
-      var schema = {
+  Quay.getImageDetails($stateParams.id).then(
+      function (image) {
+        image.available = true;
+        image.version = '--';
+        image.runtimes = {
+          docker: {
+            executionType: SystemExecutionTypeEnum.CLI
+          },
+          singularity: {
+            executionType: SystemExecutionTypeEnum.CLI
+          },
+          native: {
+            executionType: SystemExecutionTypeEnum.CLI,
+            url: ''
+          }
+        };
+
+        $scope.image = image;
+
+        Quay.getImageTags($stateParams.id).then(
+            function (response) {
+              $scope.tags = [];
+              for (key in response) {
+                if (key !== 'latest') {
+                  $scope.tags.push({ value: 'agave://singularity-storage/' + image.name + '_' + key + '.img.bz2', label: image.name + " - " + key });
+                }
+              }
+
+              // fetch systems for archiving, etc
+              SystemsController.searchSystems('limit=999999&filter=name,id,type,executionSystem,executionType,label,default').then(
+                  function(response) {
+                    $scope.systems = response.result;
+
+                    AppsController.getAppDetails($scope.appId).then(
+                        function(response) {
+                          $scope.app = response.result;
+
+                          // find the execution system in the list
+                          angular.forEach($scope.systems, function (system) {
+                            if (system.id == $scope.app.executionSystem) {
+                              $scope.executionSystem = system;
+                              return false;
+                            }
+                          });
+
+
+                          for (index in $scope.executionSystem.queues) {
+                            var q = $scope.executionSystem.queues[index];
+                            if (q["name"] == $scope.app.defaultQueue) {
+                              $scope.defaultBatchQueue = q;
+                              break;
+                            }
+                          }
+
+                          $scope.requesting = false;
+
+                          $scope.resetForm();
+                        },
+                        function(errorResponse) {
+                          MessageService.handle(errorResponse, $translate.instant('error_container_app'));
+                        })
+                    // // fetch storage systems for archiving, etc
+                    // AppsController.searchApps('name.like=*singularity*&filter=*').then(
+                    //     function(response) {
+                    //       $scope.apps = response;
+                    //       $scope.appChoices = $filter('filter')(response.result, function(system) {
+                    //         return { value: app.id, label: app.executionSystem };
+                    //       });
+                    //
+                    //       $scope.requesting = false;
+                    //
+                    //       $scope.resetForm();
+                    //     },
+                    //     function(errorResponse) {
+                    //       MessageService.handle(errorResponse, $translate.instant('error_container_apps_list'));
+                    //     });
+                  },
+                  function(errorResponse) {
+                    MessageService.handle(errorResponse, $translate.instant('error_systems_list'));
+                  });
+
+            },
+            function (errorResponse) {
+              MessageService.handle(errorResponse, $translate.instant('error_container_tags'));
+            });
+
+      },
+      function (errorResponse) {
+        MessageService.handle(errorResponse, $translate.instant('error_container_details'));
+      });
+
+
+  $scope.formSchema = function(app) {
+    var schema = {
+      type: 'object',
+      properties: {}
+    };
+
+    var params = app.parameters || [];
+    var inputs = app.inputs || [];
+
+    if (params.length > 0) {
+      schema.properties.parameters = {
         type: 'object',
         properties: {}
       };
-
-      var params = app.parameters || [];
-      var inputs = app.inputs || [];
-
-      if (params.length > 0) {
-        schema.properties.parameters = {
-          type: 'object',
-          properties: {}
+      _.each(params, function(param) {
+        if (! param.value.visible) {
+          return;
+        }
+        if (param.id.startsWith('_')) {
+          return;
+        }
+        var field = {
+          title: param.details.label,
+          description: param.details.description,
+          required: param.value.required
         };
-        _.each(params, function(param) {
-          if (! param.value.visible) {
-            return;
-          }
-          if (param.id.startsWith('_')) {
-            return;
-          }
-          var field = {
-            title: param.details.label,
-            description: param.details.description,
-            required: param.value.required
-          };
-          switch (param.value.type) {
-            case 'bool':
-            case 'flag':
-              field.type = 'boolean';
-              break;
+        switch (param.value.type) {
+          case 'bool':
+          case 'flag':
+            field.type = 'boolean';
+            break;
 
-            case 'enumeration':
-              field.type = 'string';
-              field.enum = _.map(param.value.enum_values, function(enum_val) {
-                return Object.keys(enum_val)[0];
-              });
-              field['x-schema-form'] = {
-                'titleMap': _.map(param.value.enum_values, function(enum_val) {
-                  var key = Object.keys(enum_val)[0];
-                  return {
-                    'value': key,
-                    'name': enum_val[key]
-                  };
-                })
-              };
-              break;
+          case 'enumeration':
+            field.type = 'string';
+            field.format = 'uiselect';
+            field.enum = _.map(param.value.enum_values, function(enum_val) {
+              return Object.keys(enum_val)[0];
+            });
+            field.items = {
+              'titleMap': _.map(param.value.enum_values, function(enum_val) {
+                var key = Object.keys(enum_val)[0];
+                return {
+                  'value': key,
+                  'name': enum_val[key]
+                };
+              })
+            };
+            break;
 
-            case 'number':
-              field.type = 'number';
-              break;
+          case 'number':
+            field.type = 'number';
+            break;
 
-            case 'string':
-            default:
-              field.type = 'string';
-          }
-          schema.properties.parameters.properties[param.id] = field;
-        });
-      }
+          case 'string':
+          default:
+            field.type = 'string';
+        }
+        schema.properties.parameters.properties[param.id] = field;
+      });
+    }
 
 
-      if (inputs.length > 0) {
-        schema.properties.inputs = {
-          type: 'object',
-          properties: {}
-        };
-        _.each(inputs, function(input) {
-          if (! input.value.visible) {
-            return;
+    if (inputs.length > 0) {
+      schema.properties.inputs = {
+        type: 'object',
+        properties: {
+          singularityImage: {
+            title: 'Select the ' + $scope.image.name + ' version',
+            description: "Each version of " + $scope.image.name + " has a separate tag. Select the tagged version fo the image corresponding to the version of the code you would like to run.",
+            required: true,
+            type: 'string',
+            format: 'uiselect',
+            placeholder: 'None selected',
+            items: $scope.tags,
+            default: $scope.tags[0].value
           }
-          if (input.id.startsWith('_')) {
-            return;
-          }
-          var field = {
+        }
+      };
+      _.each(inputs, function(input) {
+        var field;
+        if (input.id == 'singularityImage') {
+          return;
+        }
+        else if (! input.value.visible) {
+          return;
+        }
+        else if (input.id.startsWith('_')) {
+          return;
+        }
+        else {
+          field = {
             title: input.details.label,
             description: input.details.description,
           };
@@ -94,518 +206,555 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
               field.maxItems = input.semantics.maxCardinality;
             }
           }
-          schema.properties.inputs.properties[input.id] = field;
-        });
-      }
+        }
+        schema.properties.inputs.properties[input.id] = field;
+      });
+    }
 
-      schema.properties.requestedTime = {
-        title: 'Maximum job runtime',
-        description: 'In HH:MM:SS format. The maximum time you expect this job to run for. After this amount of time your job will be killed by the job scheduler. Shorter run times result in shorter queue wait times. Maximum possible time is 48:00:00 (48 hours).',
-        type: 'string',
-        "pattern":"^(48:00:00)|([0-4][0-7]:[0-5][0-9]:[0-5][0-9])$",
-        "validationMessage":"Must be in format HH:MM:SS and be less than 48 hours (48:00:00)",
-        required: true,
-        'x-schema-form': {placeholder: app.defaultMaxRunTime}
-      };
-
-      schema.properties.name = {
-        title: 'Job name',
-        description: 'A recognizable name for this job',
-        type: 'string',
-        required: true
-      };
-
-      schema.properties.archivePath = {
-        title: 'Job output archive location (optional)',
-        description: 'Specify a location where the job output should be archived. By default, job output will be archived at: <code>&lt;username&gt;/archive/jobs/${YYYY-MM-DD}/${JOB_NAME}-${JOB_ID}</code>.',
-        type: 'string',
-        format: 'agaveFile',
-        condition: "form.model.archive",
-        'x-schema-form': {placeholder: '<username>/archive/jobs/${YYYY-MM-DD}/${JOB_NAME}-${JOB_ID}'}
-      };
-
-      schema.properties.archive = {
-        title: 'Archive output',
-        description: 'Should the output be archived',
-        type: 'template',
-        required: false,
-        template: '<input type="checkbox" class="make-switch" checked data-on="Yes" data-off="No" value="true">',
-        model: $scope.form.model
-      };
-
-      // schema.properties.archiveSystem = {
-      //   title: 'Archive system',
-      //   description: 'System to archive job output folder',
-      //   type: 'text',
-      //   required: false
-      // };
-
-      schema.properties.defaultQueue = {
-        title: 'Batch Queue',
-        description: 'System queue to which the job should be submited',
-        type: 'number',
-        required: false,
-        'x-schema-form': {placeholder: $scope.defaultQueue.name}
-      };
-
-      return schema;
+    schema.properties.showAadvancedOptions = {
+      title: 'View advanced options',
+      type: 'boolean',
+      default: false
     };
 
-    $scope.resetForm = function(){
-      if (true){//$stateParams.appId !== ''){
-        AppsController.getAppDetails('jfonner-run-singularity-4.2.3')
+    schema.properties.name = {
+      title: 'Job name',
+      description: 'A recognizable name for this job',
+      type: 'string',
+      required: true,
+      default: $localStorage.activeProfile.username + '-' + $scope.image.name + '-' + moment(Date.now()).format('YYYYMMDD')
+    };
+
+    schema.properties.requestedTime = {
+      title: 'Maximum job runtime',
+      description: 'In HH:MM:SS format. The maximum time you expect this job to run for. '+
+        'After this amount of time your job will be killed by the job scheduler. '+
+        'Shorter run times result in shorter queue wait times.',
+      type: 'string',
+      pattern: "^([0-9]{2,}:[0-5][0-9]:[0-5][0-9])$",
+      validationMessage: "Must be in format HH:MM:SS",
+      required: true,
+      default: $scope.defaultBatchQueue["maxRequestedTime"],
+      'x-schema-form': {placeholder: app.defaultMaxRunTime}
+    };
+
+    var batchQueueArray = [];
+    for(index in $scope.executionSystem.queues) {
+      var name = $scope.executionSystem.queues[index]['name'];
+      batchQueueArray.push({ value: name, label: name});
+    }
+    schema.properties.batchQueue = {
+      title: 'Batch Queue',
+      description: 'Which batch queue to submit the job to',
+      type: 'string',
+      format: 'uiselect',
+      items: batchQueueArray,
+      required: true,
+      placeholder: 'None selected',
+      default: app.defaultQueue
+    };
+
+    schema.properties.nodeCount = {
+      title: 'Node Count',
+      description: 'The number of nodes to use for this job',
+      type: 'integer',
+      required: true,
+      maximum: $scope.defaultBatchQueue.maxNodes,
+      minimum: 1,
+      default: 1
+    };
+
+    schema.properties.processorsPerNode = {
+      title: 'Processors Per Node',
+      description: 'The number of processors per node to use for this job',
+      type: 'integer',
+      required: true,
+      maximum: $scope.defaultBatchQueue.maxProcessorsPerNode,
+      minimum: 1,
+      default: $scope.defaultBatchQueue["maxProcessorsPerNode"]
+    };
+
+    schema.properties.archive = {
+      title: 'Archive the job output',
+      type: 'boolean',
+      default: true
+    };
+
+    var archiveSystems = [];
+    angular.forEach($scope.systems, function(system) {
+      if (system.type == 'STORAGE') {
+        if (system.default) {
+          $scope.defaultSystem = system;
+        }
+        archiveSystems.push({ value: system.id, label: system.name, description: system.id});
+      }
+
+    });
+
+    schema.properties.archiveSystem = {
+      title: 'Archive System',
+      description: 'The system to which the output should be archived',
+      type: 'string',
+      format: 'uiselect',
+      items:archiveSystems,
+      placeholder: 'None selected',
+      default: $scope.defaultSystem.id,
+      options:{
+        searchDescriptions : true
+      }
+    };
+
+    schema.properties.archivePath = {
+      title: 'Job output archive location (optional)',
+      description: 'Specify a location where the job output should be archived. By default, job output will be archived at: <code>&lt;username&gt;/archive/jobs/${YYYY-MM-DD}/${JOB_NAME}-${JOB_ID}</code>.',
+      type: 'string',
+      format: 'agaveFile',
+      'x-schema-form': {placeholder: '<username>/archive/jobs/${YYYY-MM-DD}/${JOB_NAME}-${JOB_ID}'}
+    };
+
+    return schema;
+  };
+
+  $scope.resetForm = function() {
+    if ($scope.appId !== ''){
+      AppsController.getAppDetails($scope.appId)
           .then(
-            function(response){
-              $scope.app = response.result;
-              $scope.form = {model: {}};
-              $scope.form.schema = $scope.formSchema($scope.app);
-              $scope.form.form = [];
+              function(response){
+                $scope.app = response.result;
+                SystemsController.getSystemDetails($scope.app.executionSystem)
+                    .then(function(systemResponse){
+                      $scope.executionSystem = systemResponse.result;
+                      for(index in $scope.executionSystem.queues) {
+                        var q = $scope.executionSystem.queues[index];
+                        if(q["name"] == $scope.app.defaultQueue) {
+                          $scope.defaultBatchQueue = q;
+                        }
+                      }
+                      $scope.form = {model: {}};
+                      $scope.form.schema = $scope.formSchema($scope.app);
+                      $scope.form.form = [];
 
-              SystemsController.getSystemDetails($scope.app.executionSystem)
-                .then(function(systemResponse) {
-                  $scope.executionSystem = systemResponse.result;
-                  $scope.defaultQueue = {};
-                  angular.forEach($scope.executionSystem.queues, function(queue, index) {
-                    if (queue.name == $scope.app.defaultQueue) {
-                      $scope.defaultQueue = queue;
-                      return false;
-                    }
-                  });
-                },
-                function(systemErrorResponse) {
-                  MessageService.handle(response, $translate.instant('error_system_details'));
-                });
+                      /* inputs */
+                      var inputs = [];
+                      var parameters = [];
 
+                      if ($scope.form.schema.properties.inputs && Object.keys($scope.form.schema.properties.inputs.properties).length > 0) {
 
-              /* inputs */
-              var inputs = [];
-              var parameters = [];
+                        inputs.push({
+                          'key':'inputs',
+                          'items': [
+                            {
+                              key: 'inputs.singularityImage'
+                            }
+                          ]
+                        });
 
-              if ($scope.form.schema.properties.inputs && Object.keys($scope.form.schema.properties.inputs.properties).length > 0) {
-
-                inputs.push({
-                  'key':'inputs',
-                  'items': []
-                });
-                angular.forEach($scope.form.schema.properties.inputs.properties, function(input, key){
-                  inputs[0].items.push(
-                    {
-                      "input": key,
-                      "type": "template",
-                      "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <div class="input-group"> <a class="input-group-addon" ng-click="form.selectFile(form.input)">Select</a> <input type="text" class="form-control" id="input" ng-model="form.model.inputs[form.input]"></div> <span class="help-block">{{form.description}}</span> </div>',
-                      "title": input.title,
-                      "description": input.description,
-                      "model": $scope.form.model,
-                      selectFile: function(key){
-                        $scope.requesting = true;
-                        // SystemsController.getSystemDetails($scope.app.deploymentSystem).then(
-                        SystemsController.listSystems(99999, 0, true, false, 'STORAGE')
-                          .then(
-                            function(response) {
-                              if (response.result > 0){
-                                // check if modal already opened
-                                if (!$modalStack.getTop()){
-                                  $stateParams.path = $scope.path;
-
-                                  $scope.system = response.result[0];
-                                  $rootScope.uploadFileContent = '';
-
-                                  if (typeof $stateParams.path === 'undefined' || $stateParams.path === "" || $stateParams.path === "/") {
-                                      // check if username path is browsable
-                                      FilesController.listFileItems(response.result[0].id, $localStorage.activeProfile.username, 1, 0)
+                        angular.forEach($scope.form.schema.properties.inputs.properties, function(input, key){
+                          if (key !== 'singularityImage') {
+                            inputs[0].items.push(
+                                {
+                                  "input": key,
+                                  "type": "template",
+                                  "template": '<div class="form-group has-success has-feedback"> <label for="input">{{form.title}}</label> <div class="input-group"> <a class="input-group-addon" ng-click="form.selectFile(form.input)">Select</a> <input type="text" class="form-control" id="input" ng-model="form.model.inputs[form.input]"></div> <span class="help-block">{{form.description}}</span> </div>',
+                                  "title": input.title,
+                                  "description": input.description,
+                                  "model": $scope.form.model,
+                                  selectFile: function (key) {
+                                    $scope.requesting = true;
+                                    // SystemsController.getSystemDetails($scope.app.deploymentSystem).then(
+                                    SystemsController.searchSystems('type.eq=storage&default.eq=true')
                                         .then(
-                                          function(rootFiles){
-                                            $scope.path = $localStorage.activeProfile.username;
-                                            $stateParams.path = $scope.path;
-                                            $uibModal.open({
-                                              templateUrl: "views/apps/filemanager.html",
-                                              scope: $scope,
-                                              size: 'lg',
-                                              controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
-                                                $scope.cancel = function()
-                                                {
-                                                    $modalInstance.dismiss('cancel');
-                                                };
-
-                                                $scope.close = function(){
-                                                    $modalInstance.close();
-                                                }
-
-                                                $scope.$watch('uploadFileContent', function(uploadFileContent){
-                                                    if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
-                                                      if (typeof $scope.form.model.inputs === 'undefined'){
-                                                        $scope.form.model.inputs = {};
-                                                      }
-                                                      $scope.form.model.inputs[key] = uploadFileContent;
-                                                      $scope.close();
-                                                    }
-                                                });
-                                              }]
-                                            });
-                                            $scope.error = false;
-                                            $scope.requesting = false;
-                                          },
-                                          function(rootFiles){
-                                            // check if / is browsable
-                                            FilesController.listFileItems(response.result.id, '/', 1, 0)
-                                              .then(
-                                                function(usernameFiles){
-                                                  $scope.path = '/';
+                                            function (response) {
+                                              if (response.result > 0) {
+                                                // check if modal already opened
+                                                if (!$modalStack.getTop()) {
                                                   $stateParams.path = $scope.path;
-                                                  $uibModal.open({
-                                                    templateUrl: "views/apps/filemanager.html",
-                                                    scope: $scope,
-                                                    size: 'lg',
-                                                    controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
-                                                      $scope.cancel = function()
-                                                      {
+
+                                                  $scope.system = response.result[0];
+                                                  $rootScope.uploadFileContent = '';
+
+                                                  if (typeof $stateParams.path === 'undefined' || $stateParams.path === "" || $stateParams.path === "/") {
+                                                    // check if username path is browsable
+                                                    FilesController.listFileItems(response.result[0].id, $localStorage.activeProfile.username, 1, 0)
+                                                        .then(
+                                                            function (rootFiles) {
+                                                              $scope.path = $localStorage.activeProfile.username;
+                                                              $stateParams.path = $scope.path;
+                                                              $uibModal.open({
+                                                                templateUrl: "views/apps/filemanager.html",
+                                                                scope: $scope,
+                                                                size: 'lg',
+                                                                controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+                                                                  $scope.cancel = function () {
+                                                                    $modalInstance.dismiss('cancel');
+                                                                  };
+
+                                                                  $scope.close = function () {
+                                                                    $modalInstance.close();
+                                                                  }
+
+                                                                  $scope.$watch('uploadFileContent', function (uploadFileContent) {
+                                                                    if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== '') {
+                                                                      if (typeof $scope.form.model.inputs === 'undefined') {
+                                                                        $scope.form.model.inputs = {};
+                                                                      }
+                                                                      $scope.form.model.inputs[key] = uploadFileContent;
+                                                                      $scope.close();
+                                                                    }
+                                                                  });
+                                                                }]
+                                                              });
+                                                              $scope.error = false;
+                                                              $scope.requesting = false;
+                                                            },
+                                                            function (rootFiles) {
+                                                              // check if / is browsable
+                                                              FilesController.listFileItems(response.result.id, '/', 1, 0)
+                                                                  .then(
+                                                                      function (usernameFiles) {
+                                                                        $scope.path = '/';
+                                                                        $stateParams.path = $scope.path;
+                                                                        $uibModal.open({
+                                                                          templateUrl: "views/apps/filemanager.html",
+                                                                          scope: $scope,
+                                                                          size: 'lg',
+                                                                          controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+                                                                            $scope.cancel = function () {
+                                                                              $modalInstance.dismiss('cancel');
+                                                                            };
+
+                                                                            $scope.close = function () {
+                                                                              $modalInstance.close();
+                                                                            }
+
+                                                                            $scope.$watch('uploadFileContent', function (uploadFileContent) {
+                                                                              if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== '') {
+                                                                                if (typeof $scope.form.model.inputs === 'undefined') {
+                                                                                  $scope.form.model.inputs = {};
+                                                                                }
+                                                                                $scope.form.model.inputs[key] = uploadFileContent;
+                                                                                $scope.close();
+                                                                              }
+                                                                            });
+                                                                          }]
+                                                                        });
+                                                                        $scope.error = false;
+                                                                        $scope.requesting = false;
+                                                                      },
+                                                                      function (response) {
+                                                                        MessageService.handle(response, $translate.instant('error_files_list'));
+                                                                        $scope.requesting = false;
+                                                                      }
+                                                                  )
+                                                            }
+                                                        );
+                                                  } else {
+                                                    $scope.path = $stateParams.path;
+                                                    $uibModal.open({
+                                                      templateUrl: "views/apps/filemanager.html",
+                                                      scope: $scope,
+                                                      size: 'lg',
+                                                      controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+                                                        $scope.cancel = function () {
                                                           $modalInstance.dismiss('cancel');
-                                                      };
+                                                        };
 
-                                                      $scope.close = function(){
+                                                        $scope.close = function () {
                                                           $modalInstance.close();
-                                                      }
+                                                        }
 
-                                                      $scope.$watch('uploadFileContent', function(uploadFileContent){
-                                                          if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
-                                                            if (typeof $scope.form.model.inputs === 'undefined'){
+                                                        $scope.$watch('uploadFileContent', function (uploadFileContent) {
+                                                          if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== '') {
+                                                            if (typeof $scope.form.model.inputs === 'undefined') {
                                                               $scope.form.model.inputs = {};
                                                             }
                                                             $scope.form.model.inputs[key] = uploadFileContent;
                                                             $scope.close();
                                                           }
-                                                      });
-                                                    }]
-                                                  });
-                                                  $scope.error = false;
-                                                  $scope.requesting = false;
-                                                },
-                                                function(response){
-                                                  MessageService.handle(response, $translate.instant('error_files_list'));
-                                                  $scope.requesting = false;
-                                                }
-                                              )
-                                        }
-                                      );
-                                  } else {
-                                      $scope.path = $stateParams.path;
-                                      $uibModal.open({
-                                        templateUrl: "views/apps/filemanager.html",
-                                        scope: $scope,
-                                        size: 'lg',
-                                        controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
-                                          $scope.cancel = function()
-                                          {
-                                              $modalInstance.dismiss('cancel');
-                                          };
-
-                                          $scope.close = function(){
-                                              $modalInstance.close();
-                                          }
-
-                                          $scope.$watch('uploadFileContent', function(uploadFileContent){
-                                              if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
-                                                if (typeof $scope.form.model.inputs === 'undefined'){
-                                                  $scope.form.model.inputs = {};
-                                                }
-                                                $scope.form.model.inputs[key] = uploadFileContent;
-                                                $scope.close();
-                                              }
-                                          });
-                                        }]
-                                      });
-                                      $scope.error = false;
-                                      $scope.requesting = false;
-                                  }
-                                }
-                              }
-
-                              // check if modal already opened
-                              if (!$modalStack.getTop()){
-                                $stateParams.path = $scope.path;
-
-                                $scope.system = response.result[0];
-                                $rootScope.uploadFileContent = '';
-
-                                if (typeof $stateParams.path === 'undefined' || $stateParams.path === "" || $stateParams.path === "/") {
-                                    // check if username path is browsable
-                                    FilesController.listFileItems(response.result[0].id, $localStorage.activeProfile.username, 1, 0)
-                                      .then(
-                                        function(rootFiles){
-                                          $scope.path = $localStorage.activeProfile.username;
-                                          $stateParams.path = $scope.path;
-                                          $uibModal.open({
-                                            templateUrl: "views/apps/filemanager.html",
-                                            scope: $scope,
-                                            size: 'lg',
-                                            controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
-                                              $scope.cancel = function()
-                                              {
-                                                  $modalInstance.dismiss('cancel');
-                                              };
-
-                                              $scope.close = function(){
-                                                  $modalInstance.close();
-                                              }
-
-                                              $scope.$watch('uploadFileContent', function(uploadFileContent){
-                                                  if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
-                                                    if (typeof $scope.form.model.inputs === 'undefined'){
-                                                      $scope.form.model.inputs = {};
-                                                    }
-                                                    $scope.form.model.inputs[key] = uploadFileContent;
-                                                    $scope.close();
+                                                        });
+                                                      }]
+                                                    });
+                                                    $scope.error = false;
+                                                    $scope.requesting = false;
                                                   }
-                                              });
-                                            }]
-                                          });
-                                          $scope.error = false;
-                                          $scope.requesting = false;
-                                        },
-                                        function(rootFiles){
-                                          // check if / is browsable
-                                          FilesController.listFileItems(response.result[0].id, '/', 1, 0)
-                                            .then(
-                                              function(usernameFiles){
-                                                $scope.path = '/';
+                                                }
+                                              }
+
+                                              // check if modal already opened
+                                              if (!$modalStack.getTop()) {
                                                 $stateParams.path = $scope.path;
-                                                $uibModal.open({
-                                                  templateUrl: "views/apps/filemanager.html",
-                                                  scope: $scope,
-                                                  size: 'lg',
-                                                  controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
-                                                    $scope.cancel = function()
-                                                    {
+
+                                                $scope.system = response.result[0];
+                                                $rootScope.uploadFileContent = '';
+
+                                                if (typeof $stateParams.path === 'undefined' || $stateParams.path === "" || $stateParams.path === "/") {
+                                                  // check if username path is browsable
+                                                  FilesController.listFileItems(response.result[0].id, $localStorage.activeProfile.username, 1, 0)
+                                                      .then(
+                                                          function (rootFiles) {
+                                                            $scope.path = $localStorage.activeProfile.username;
+                                                            $stateParams.path = $scope.path;
+                                                            $uibModal.open({
+                                                              templateUrl: "views/apps/filemanager.html",
+                                                              scope: $scope,
+                                                              size: 'lg',
+                                                              controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+                                                                $scope.cancel = function () {
+                                                                  $modalInstance.dismiss('cancel');
+                                                                };
+
+                                                                $scope.close = function () {
+                                                                  $modalInstance.close();
+                                                                }
+
+                                                                $scope.$watch('uploadFileContent', function (uploadFileContent) {
+                                                                  if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== '') {
+                                                                    if (typeof $scope.form.model.inputs === 'undefined') {
+                                                                      $scope.form.model.inputs = {};
+                                                                    }
+                                                                    $scope.form.model.inputs[key] = uploadFileContent;
+                                                                    $scope.close();
+                                                                  }
+                                                                });
+                                                              }]
+                                                            });
+                                                            $scope.error = false;
+                                                            $scope.requesting = false;
+                                                          },
+                                                          function (rootFiles) {
+                                                            // check if / is browsable
+                                                            FilesController.listFileItems(response.result[0].id, '/', 1, 0)
+                                                                .then(
+                                                                    function (usernameFiles) {
+                                                                      $scope.path = '/';
+                                                                      $stateParams.path = $scope.path;
+                                                                      $uibModal.open({
+                                                                        templateUrl: "views/apps/filemanager.html",
+                                                                        scope: $scope,
+                                                                        size: 'lg',
+                                                                        controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+                                                                          $scope.cancel = function () {
+                                                                            $modalInstance.dismiss('cancel');
+                                                                          };
+
+                                                                          $scope.close = function () {
+                                                                            $modalInstance.close();
+                                                                          }
+
+                                                                          $scope.$watch('uploadFileContent', function (uploadFileContent) {
+                                                                            if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== '') {
+                                                                              if (typeof $scope.form.model.inputs === 'undefined') {
+                                                                                $scope.form.model.inputs = {};
+                                                                              }
+                                                                              $scope.form.model.inputs[key] = uploadFileContent;
+                                                                              $scope.close();
+                                                                            }
+                                                                          });
+                                                                        }]
+                                                                      });
+                                                                      $scope.error = false;
+                                                                      $scope.requesting = false;
+                                                                    },
+                                                                    function (response) {
+                                                                      MessageService.handle(response, $translate.instant('error_files_list'));
+                                                                      $scope.requesting = false;
+                                                                    }
+                                                                )
+                                                          }
+                                                      );
+                                                } else {
+                                                  $scope.path = $stateParams.path;
+                                                  $uibModal.open({
+                                                    templateUrl: "views/apps/filemanager.html",
+                                                    scope: $scope,
+                                                    size: 'lg',
+                                                    controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+                                                      $scope.cancel = function () {
                                                         $modalInstance.dismiss('cancel');
-                                                    };
+                                                      };
 
-                                                    $scope.close = function(){
+                                                      $scope.close = function () {
                                                         $modalInstance.close();
-                                                    }
+                                                      }
 
-                                                    $scope.$watch('uploadFileContent', function(uploadFileContent){
-                                                        if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
-                                                          if (typeof $scope.form.model.inputs === 'undefined'){
+                                                      $scope.$watch('uploadFileContent', function (uploadFileContent) {
+                                                        if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== '') {
+                                                          if (typeof $scope.form.model.inputs === 'undefined') {
                                                             $scope.form.model.inputs = {};
                                                           }
                                                           $scope.form.model.inputs[key] = uploadFileContent;
                                                           $scope.close();
                                                         }
-                                                    });
-                                                  }]
-                                                });
-                                                $scope.error = false;
-                                                $scope.requesting = false;
-                                              },
-                                              function(response){
-                                                MessageService.handle(response, $translate.instant('error_files_list'));
-                                                $scope.requesting = false;
+                                                      });
+                                                    }]
+                                                  });
+                                                  $scope.error = false;
+                                                  $scope.requesting = false;
+                                                }
                                               }
-                                            )
-                                      }
-                                    );
-                                } else {
-                                    $scope.path = $stateParams.path;
-                                    $uibModal.open({
-                                      templateUrl: "views/apps/filemanager.html",
-                                      scope: $scope,
-                                      size: 'lg',
-                                      controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
-                                        $scope.cancel = function()
-                                        {
-                                            $modalInstance.dismiss('cancel');
-                                        };
-
-                                        $scope.close = function(){
-                                            $modalInstance.close();
-                                        }
-
-                                        $scope.$watch('uploadFileContent', function(uploadFileContent){
-                                            if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== ''){
-                                              if (typeof $scope.form.model.inputs === 'undefined'){
-                                                $scope.form.model.inputs = {};
-                                              }
-                                              $scope.form.model.inputs[key] = uploadFileContent;
-                                              $scope.close();
+                                            },
+                                            function (response) {
+                                              MessageService.handle(response, $translate.instant('error_apps_details'));
                                             }
-                                        });
-                                      }]
-                                    });
-                                    $scope.error = false;
-                                    $scope.requesting = false;
+                                        );
+                                  }
                                 }
-                              }
-                            },
-                            function(response) {
-                              MessageService.handle(response, $translate.instant('error_apps_details'));
-                            }
-                        );
+                            );
+                          }
+                        });
                       }
-                    }
-                  );
-                });
-              }
 
-              if ($scope.form.schema.properties.parameters && Object.keys($scope.form.schema.properties.parameters.properties).length > 0) {
-                parameters.push({
-                  'key': 'parameters',
-                  'items': []
-                });
-                angular.forEach($scope.form.schema.properties.parameters.properties, function(input, key){
-                  parameters[0].items.push(
-                    {
-                      "input": key,
-                      "type": input.type,
-                      "title": input.title,
-                      "description": input.description,
-                      "model": $scope.form.model
-                    }
-                  );
-                });
-              }
+                      /* job details */
+                      $scope.form.form.push({
+                        type: 'fieldset',
+                        title: 'Details',
+                        items: [
+                          'name',
+                          'showAadvancedOptions',
+                          {
+                            type: "conditional",
+                            condition: "form.model.showAadvancedOptions",
+                            items: [
+                              'requestedTime',
+                              'batchQueue',
+                              'nodeCount',
+                              'processorsPerNode',
+                              'archive',
+                              {
+                                key: 'archiveSystem',
+                                condition: "form.model.archive"
+                              },
+                              {
+                                key: 'archivePath',
+                                condition: "form.model.archive"
+                              }
+                            ]
+                          }
+                        ]
+                      });
 
-              if (inputs.length > 0){
-                $scope.form.form.push({
-                  type: 'fieldset',
-                  title: 'Inputs',
-                  items: inputs,
-                });
-              }
+                      if (inputs.length > 0){
+                        $scope.form.form.push({
+                          type: 'fieldset',
+                          title: 'Inputs',
+                          items: inputs,
+                        });
+                      }
 
-              if (parameters.length > 0){
-                $scope.form.form.push({
-                  type: 'fieldset',
-                  title: 'Parameters',
-                  items: parameters,
+                      $scope.form.form.push({
+                        type: 'fieldset',
+                        title: 'Parameters',
+                        items: [
+                          'parameters'
+                        ],
+                      });
 
-                });
-              }
 
-              /* job details */
-              $scope.form.form.push({
-                type: 'fieldset',
-                title: 'Job details',
-                items: ['requestedTime','name', 'defaultQueue', 'archive', 'archivePath']
-              });
+                      /* buttons */
+                      items = [];
 
-              /* buttons */
-              items = [];
-
-              items.push({type: 'submit', title: 'Run', style: 'btn-primary'});
-              $scope.form.form.push({
-                type: 'actions',
-                items: items
-              });
-            }
+                      items.push({type: 'submit', title: 'Run', style: 'btn-primary'});
+                      $scope.form.form.push({
+                        type: 'actions',
+                        items: items
+                      });
+                    })}
           )
           .catch(
-            function(response){
-              MessageService.handle(response, $translate.instant('error_apps_details'));
-            }
+              function(response){
+                MessageService.handle(response, $translate.instant('error_apps_details'));
+              }
           );
-      } else {
-        MessageService.handle(response, $translate.instant('error_apps_details'));
-      }
-    };
+    } else {
+      MessageService.handle(response, $translate.instant('error_apps_details'));
+    }
+  };
 
-    $scope.onSubmit = function(form) {
 
-      $scope.$broadcast('schemaFormValidate');
+  $scope.onSubmit = function(form) {
 
-      if (form.$valid) {
-        var jobData = {
-            appId: $scope.app.id,
-            archive: true,
-            inputs: {},
-            parameters: {}
-        };
+    $scope.$broadcast('schemaFormValidate');
 
-        /* copy form model to disconnect from $scope */
-        _.extend(jobData, angular.copy($scope.form.model));
+    if (form.$valid) {
+      var jobData = {
+        appId: $scope.app.id,
+        archive: true,
+        inputs: {},
+        parameters: {}
+      };
 
-        /* remove falsy input/parameter */
-        _.each(jobData.inputs, function(v,k) {
-          if (_.isArray(v)) {
-            v = _.compact(v);
-            if (v.length === 0) {
-              delete jobData.inputs[k];
-            }
+      /* copy form model to disconnect from $scope */
+      _.extend(jobData, angular.copy($scope.form.model));
+
+      /* remove falsy input/parameter */
+      _.each(jobData.inputs, function(v,k) {
+        if (_.isArray(v)) {
+          v = _.compact(v);
+          if (v.length === 0) {
+            delete jobData.inputs[k];
           }
-        });
-        _.each(jobData.parameters, function(v,k) {
-          if (_.isArray(v)) {
-            v = _.compact(v);
-            if (v.length === 0) {
-              delete jobData.parameters[k];
-            }
+        }
+      });
+      _.each(jobData.parameters, function(v,k) {
+        if (_.isArray(v)) {
+          v = _.compact(v);
+          if (v.length === 0) {
+            delete jobData.parameters[k];
           }
-        });
+        }
+      });
 
-        $scope.requesting = true;
+      $scope.requesting = true;
 
-        JobsController.createSubmitJob(jobData)
+      // add whatever notifications the user has set in their config to the job request.
+      // this saves a few api calls after job creation.
+      jobData.notifications = NotificationSubscriptionTemplateService.getDefaultSubscriptions();
+
+      JobsController.createSubmitJob(jobData)
           .then(
-            function(response) {
-              // hard-wired for now
-              var notification = {};
-              notification.associatedUuid = response.result.id;
-              notification.event = '*';
-              notification.persistent = true;
-              notification.url = 'https://9d1e23fc.fanoutcdn.com/fpp';
+              function(response) {
+                // hard-wired for now
+                $scope.job = response.result;
 
-              NotificationsController.addNotification(notification)
-                .then(
-                  function(response){
-                  },
-                  function(response){
-                    MessageService.handle(response, $translate.instant('error_notifications_add'));
-                  }
-                );
-              $scope.job = response.result;
-
-              $uibModal.open({
-                templateUrl: "views/apps/resource/job-success.html",
-                scope: $scope,
-                size: 'lg',
-                controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
-                  $scope.cancel = function()
-                  {
+                $uibModal.open({
+                  templateUrl: "views/apps/resource/job-success.html",
+                  scope: $scope,
+                  size: 'lg',
+                  controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
+                    $scope.cancel = function()
+                    {
                       $modalInstance.dismiss('cancel');
-                  };
+                    };
 
-                  $scope.close = function(){
+                    $scope.close = function(){
                       $modalInstance.close();
-                  }
-                }]
+                    }
+                  }]
+                });
+                $scope.resetForm();
+                $scope.requesting = false;
+              },
+              function(response) {
+                MessageService.handle(response, $translate.instant('error_jobs_create'));
+                $scope.requesting = false;
               });
-              $scope.resetForm();
-              $scope.requesting = false;
-            },
-            function(response) {
-              MessageService.handle(response, $translate.instant('error_jobs_create'));
-              $scope.requesting = false;
-          });
-      }
+    }
 
-    };
+  };
 
-
-    $scope.lazyLoadFileManagerParams = [
-      '../bower_components/angular-cookies/angular-cookies.min.js',
-      '../bower_components/angular-filebrowser/dist/agave-angular-filemanager.min.js',
-      '../bower_components/angular-filebrowser/dist/agave-angular-filemanager.min.css',
-      '../bower_components/codemirror/lib/codemirror.css',
-      '../bower_components/codemirror/theme/neo.css',
-      '../bower_components/codemirror/theme/solarized.css',
-      '../bower_components/codemirror/mode/javascript/javascript.js',
-      '../bower_components/codemirror/mode/markdown/markdown.js',
-      '../bower_components/codemirror/mode/clike/clike.js',
-      '../bower_components/codemirror/mode/shell/shell.js',
-      '../bower_components/codemirror/mode/python/python.js',
-      '../bower_components/angular-ui-codemirror/ui-codemirror.min.js',
-    ];
+  $scope.lazyLoadFileManagerParams = [
+    '../bower_components/angular-cookies/angular-cookies.min.js',
+    '../bower_components/codemirror/lib/codemirror.css',
+    '../bower_components/codemirror/theme/neo.css',
+    '../bower_components/codemirror/theme/solarized.css',
+    '../bower_components/codemirror/mode/javascript/javascript.js',
+    '../bower_components/codemirror/mode/markdown/markdown.js',
+    '../bower_components/codemirror/mode/clike/clike.js',
+    '../bower_components/codemirror/mode/shell/shell.js',
+    '../bower_components/codemirror/mode/python/python.js',
+    '../bower_components/angular-ui-codemirror/ui-codemirror.min.js',
+  ];
 
 
-    $scope.resetForm();
 
 });

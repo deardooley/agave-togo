@@ -34,7 +34,10 @@
             </tr>
             <tr ng-if="notification.id">
               <td>ID</td>
-              <td>{{notification.id}}</td>
+              <td>
+                  {{notification.id}}
+                  <a href="#" ngclipboard data-clipboard-text="{{notification.id}}" title="Copy to clipboard"><i class="fa fa-copy"></i></a>
+              </td>
             </tr>
            <tr ng-if="notification.lastSent">
              <td>Last Sent</td>

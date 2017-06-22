@@ -6,7 +6,8 @@ var OAuthClients = {
         "scope": "PRODUCTION",
         "projectUrl": "https://agaveapi.co/",
         "supportUrl": "https://support.agaveapi.co",
-        "signupUrl": "https://public.agaveapi.co/create_account"
+        "signupUrl": "https://public.agaveapi.co/create_account",
+        "allowsSignup": true
     },
     "iplantc.org": {
         "clientKey": "fkZuyK5k0fJaTC6htUMRcyJz7E4a",
@@ -14,7 +15,8 @@ var OAuthClients = {
         "scope": "PRODUCTION",
         "projectUrl": "https://cyverse.org/",
         "supportUrl": "https://ask.cyverse.org/",
-        "signupUrl": "https://user.cyverse.org/register/"
+        "signupUrl": "https://user.cyverse.org/register/",
+        "allowsSignup": false
     }
 };
 

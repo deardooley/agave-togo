@@ -6,17 +6,26 @@ angular.module('AgaveToGo').controller('ContainerResourceDetailsController', fun
   $(".knob").knob();
 
   // $scope.refresh = function() {
-  //   $scope.requesting = true;
+    $scope.requesting = true;
     if ($stateParams.id) {
       Quay.getImageDetails($stateParams.id).then(
           function (image) {
             image.available = true;
             image.version = '--';
             image.runtimes = {
-              docker: {executionType: SystemExecutionTypeEnum.CLI},
-              singularity: {executionType: SystemExecutionTypeEnum.CLI},
-              native: {executionType: SystemExecutionTypeEnum.CLI},
-              rocket: {executionType: SystemExecutionTypeEnum.CLI}
+              docker: {
+                executionType: SystemExecutionTypeEnum.CLI,
+                url: 'https://quay.io/repository/biocontainers/' + image.name
+              },
+              singularity: {
+                executionType: SystemExecutionTypeEnum.CLI,
+                url: 'https://public.agaveapi.co/files/v2/download/dooley/system/singularity-storage/' + image.name + '_' + Object.keys(image.tags)[0] +'.img.bz2'
+              },
+              native: {
+                executionType: SystemExecutionTypeEnum.CLI,
+                url: ''
+              }
+              // rocket: {executionType: SystemExecutionTypeEnum.CLI}
             };
 
             $scope.image = image;
@@ -32,7 +41,7 @@ angular.module('AgaveToGo').controller('ContainerResourceDetailsController', fun
           },
           function (errorResponse) {
             $scope.requesting = false;
-            MessageService.handle(response, $translate.instant('error_image_details'));
+            MessageService.handle(response, $translate.instant('error_container_details'));
           });
     }
     else {

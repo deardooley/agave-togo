@@ -24,7 +24,7 @@ angular.module('AgaveAuth').controller('LoginSuccessController', function ($inje
                     $('#tokenCountdown').countdown({
                         until: tokenEndsAt
                     });
-                    $window.location.href = '/app';
+                    $window.location.href = $localStorage.redirectUrl || "../app/"
                 },
                 function(message) {
                     Alerts.danger({message:"Failed to fetch user profile."});

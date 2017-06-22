@@ -1,5 +1,5 @@
 // Handle global start menu toggle button
-AgaveToGo.directive('tagsModal', function ($parse, $q, $timeout, Tags) {
+AgaveToGo.directive('tagsModal', function ($parse, $q, $timeout, TagsController) {
     return {
         restrict: 'E',
         replace: true,
@@ -19,7 +19,7 @@ AgaveToGo.directive('tagsModal', function ($parse, $q, $timeout, Tags) {
 
             $scope.selectEvents = function($item, $model) {
                 $scope.tagModel.activeTags.push($item);
-            }
+            };
 
             $scope.removeEvents = function($item, $model) {
                 for (var i = 0; i < $scope.tagModel.activeTags.length; i++) {
@@ -31,12 +31,12 @@ AgaveToGo.directive('tagsModal', function ($parse, $q, $timeout, Tags) {
                 if ($item.created) {
                     $scope.tagModel.removedTags.push($item);
                 }
-            }
+            };
 
             var refreshTags = function() {
                 clearTags();
 
-                Tags.listTags(99999, 0).then(
+                TagsController.listTags(99999, 0).then(
                     function (data) {
                         $timeout(function () {
                             var activeTags = [];

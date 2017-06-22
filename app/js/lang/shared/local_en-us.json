@@ -1,0 +1,193 @@
+{
+  "language.label.en-us": "English",
+  "app": {
+    "loader": {
+      "message": "LOADING..."
+    },
+    "breadcrumb": {
+      "admin": "{{name}} Admin",
+      "dashboard": "{{name}} Dashboard",
+      "users": "{{name}} Users",
+      "profile": "{{name}} Profile",
+      "profiles": "{{name}} Profiles",
+      "newUser": "{{name}} New User",
+      "editUser": "{{name}} Edit User",
+      "clients": "{{name}} Client Applications",
+      "newClient": "{{name}} New Client Application",
+      "data": "{{name}} Data Explorer",
+      "apps": "{{name}} Apps",
+      "newApp": "{{name}} New App",
+      "jobs": "{{name}} Jobs",
+      "newJob": "{{name}} New Job",
+      "systems": "{{name}} Systems",
+      "newSystem": "{{name}} New System",
+      "metadata": "{{name}} Metadata",
+      "newMetadata": "{{name}} New Metadata",
+      "metadataSchema": "{{name}} Metadata Schema",
+      "newMetadataSchema": "{{name}} New Metadata Schema",
+      "notifications": "{{name}} Notifications",
+      "newNotifications": "{{name}} New Notifications",
+      "monitor": "{{name}} Monitors",
+      "newMonitor": "{{name}} New Monitor",
+      "tags": "{{name}} Tags",
+      "newTag": "{{name}} New Tag",
+      "uuids": "{{name}} Search by UUID",
+      "community": "Community",
+      "feedback": "Feedback",
+      "support": "Support",
+
+
+      "roles": "{{name}} Roles",
+      "newRole": "{{name}} New Role",
+      "editRole": "{{name}} Edit Role",
+      "permissions": "{{name}} Permissions",
+      "newPermission": "{{name}} New Permission",
+      "share": "{{name}} Share Resource",
+
+      "tasks": "{{name}} Tasks",
+      "newTask": "{{name}} New Task",
+      "editTask": "{{name}} Edit Task",
+
+      "taskView": "{{name}} Task View",
+
+      "settings": "{{name}} Settings",
+      "preferences": "{{name}} Preferences"
+    },
+    "errors": {
+      "301": "Moved temporarily",
+      "302": "Moved permanently",
+      "304": "Not Modified",
+      "400": "Bad request",
+      "401": "Authentication required",
+      "403": "Permission denied",
+      "404": "Not found",
+      "405": "Method Not Allowed",
+      "408": "Request timeout",
+      "413": "Request Entity Too Large",
+      "5xx": "Server error",
+      "500": "Server error",
+      "503": "Service unavailable",
+      "504": "Gateway timeout"
+    }
+  },
+  "error_apps_add": "Error: Could not submit app",
+  "error_apps_details": "Error: Could not retrieve app",
+  "error_apps_edit": "Error: Could not edit app",
+  "error_apps_edit_permission": "Error: User does not have permission to edit app",
+  "error_apps_files_select": "Could not find a default system to browse files. Please specify a default system",
+  "error_apps_form": "Error: Invalid form. Please check all fields",
+  "error_apps_permissions": "Error: Could not retreive app permissions",
+  "error_apps_permissions_update": "Error: Could not update app permissions",
+  "error_apps_search": "Error: Could not retrieve apps",
+  "error_apps_template": "Error: Could not retrieve app template",
+  "error_apps_list": "Error: Could not fetch app listing",
+
+  "error_files_list": "Error: Could not list files for the given system and path",
+
+  "error_jobs_create": "Error: Could not submit job",
+  "error_jobs_details": "Error: Could not retrieve job",
+  "error_jobs_list": "Error: Could not retrieve jobs",
+
+  "error_meta_list": "Error: Could not retrieve metadata",
+  "error_meta_update_uuid": "Error: No metadata UUID provided",
+  "error_meta_add": "Error: Could not add metadata",
+
+  "error_meta_files_add": "Error: Could not convert the following file(s) to Base64: ",
+  "error_meta_files_add_parse": "Error: Could not parse the associationIds",
+  "error_meta_search_query": "Error: Could not parse search query - ",
+
+
+
+  "error_meta_schema_list": "Error: Could not retrieve metadata schema",
+  "error_meta_schema_add": "Error: Could not add metadata schema",
+  "error_meta_delete": "Error: Could not delete the following metadata: ",
+  "error_meta_permissions_list": "Error: Could not retrieve metadata",
+  "error_meta_permissions_update": "Error: Could not update the following metadata: ",
+  "error_meta_schema_delete": "Error: Could not delete the following schema: ",
+  "error_meta_schema_update": "Error: Could not create/update metadata schema",
+  "error_meta_schema_update_uuid": "Error: No metadata schema UUID provided",
+
+  "error_monitors_add": "Error: Could not add monitor",
+  "error_monitors_list": "Error: Could not retrieve monitor",
+  "error_monitors_search": "Error: Could not retrieve monitors",
+  "error_monitors_test": "Error: Could not test monitor",
+  "error_monitors_update": "Error: Could not update monitor",
+
+  "error_monitors_checks_id": "Error: Please provide a monitor id",
+  "error_monitors_checks_search": "Error: could not retrieve monitor checks",
+
+  "error_notifications_add": "Error: Could not add notification",
+  "error_notifications_delete": "Error: Could not delete notification: ",
+  "error_notifications_alerts": "Error: Could not retrieve notification alerts",
+  "error_notifications_list": "Error: Could not retrieve notification",
+  "error_notifications_search": "Error: Could not retrieve notifications",
+  "error_notifications_test": "Error: Could not test notification",
+  "error_notifications_update": "Error: Could not update notification",
+
+  "error_profiles_list": "Error: Could not retrieve profile",
+
+  "error_systems_add": "Error: Could not create system",
+  "error_systems_default": "Error: Could not set default system",
+  "error_systems_edit": "Error: Could not edit system",
+  "error_systems_edit_permission": "Error: User does not have permission to edit system",
+  "error_systems_form": "Error: Invalid form. Please check all fields",
+  "error_systems_list": "Error: Could not retrieve system",
+  "error_systems_roles": "Error: Could not retrieve roles",
+  "error_systems_roles_update": "Error: Could not update roles",
+  "error_systems_search": "Error: Could not retrieve systems",
+  "error_systems_template": "Error: Could not retrieve system template",
+
+  "error_tags_list": "Error: Could not retrieve tag",
+  "error_tags_add": "Error: Could not add tag",
+  "error_tags_delete": "Error: Could not delete tag",
+  "error_tag_update_parse": "Error: Could not update tag",
+
+  "error_uuids_list": "Error: Could not retrieve uuid",
+
+  "error_container_listing": "Error: Could not retrieve list of available image",
+  "error_container_search": "Error: Cound not retrieve the image search results",
+  "error_container_details": "Error: Could not retrieve image details",
+  "error_container_tags": "Error: Could not retrieve image tags",
+  "error_container_history": "Error: Could not retrieve image history",
+  "error_container_app": "Error: Could not retrieve app details to run the image",
+  "error_container_apps_list": "Error: Could not retrieve the apps avaialble to run the image",
+
+
+  "success_apps_permissions_update": "Success: updated permissions for ",
+
+  "success_files_permissions_update": "Success updating file permissions",
+
+  "success_meta_delete": "Success deleting metadata: ",
+  "success_meta_permissions_update": "Success: updated permissions for " ,
+  "success_meta_schema_delete": "Success deleting schema: ",
+
+
+
+  "success_monitors_test": "Success: fired monitor ",
+  "success_monitors_update": "Success: updated ",
+
+  "success_notifications_add": "Success adding notification: ",
+  "success_notifications_delete": "Success deleting notification: ",
+  "success_notifications_test": "Success: fired notification ",
+  "success_notifications_update": "Success: updated ",
+
+  "success_schema_delete": "Success deleting schema: ",
+
+  "success_systems_roles": "Success: updated roles for ",
+
+  "success_tags_add": "Success adding/editing tag: ",
+  "success_tags_delete": "Success deleting tag: ",
+
+  "setDefault": "set to default",
+  "unsetDefault": "unset default",
+
+  "resource_template_app": "views/apps/resource/details.html",
+  "resource_template_file": "views/data/resource/details.html",
+  "resource_template_job": "views/jobs/resource/details.html",
+  "resource_template_meta": "views/meta/resource/meta-details.html",
+  "resource_template_monitor": "views/monitors/resource/details.html",
+  "resource_template_notification": "views/notifications/resource/details.html",
+  "resource_template_schema": "views/meta/resource/schema-details.html",
+  "resource_template_system": "views/systems/resource/details.html",
+  "resource_template_tag": "views/tags/resource/details.html"
+}

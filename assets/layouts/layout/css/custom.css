@@ -29,3 +29,24 @@
   .table > tbody > tr > td.markdown-container div.markdown-wrapper {
     padding: 8px;
     border: 3px solid #FFF; }
+
+.login-form h3 span.subtitle {
+  width: 100%;
+  display: block; }
+
+.login-form h3 .tenant-avatar {
+  width: 75px;
+  height: 75px;
+  display: inline-block; }
+
+.schema-form-checkbox label input[type="checkbox"] {
+  margin-left: 0; }
+
+.schema-form-checkbox label span {
+  margin-left: 20px; }
+
+.bootstrap-table .fixed-table-header, .bootstrap-table .fixed-table-loading {
+  display: none !important; }
+
+.bootstrap-table .fixed-table-toolbar > * {
+  margin-bottom: 10px; }

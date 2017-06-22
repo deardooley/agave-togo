@@ -26,7 +26,10 @@
           <tbody>
            <tr ng-if="tag.name">
              <td>ID</td>
-             <td><strong>{{tag.id}}</strong></td>
+             <td>
+                 <strong>{{tag.id}}</strong>
+                 <a href="#" ngclipboard data-clipboard-text="{{tag.id}}" title="Copy to clipboard"><i class="fa fa-copy"></i></a>
+             </td>
            </tr>
            <tr ng-if="tag.name">
              <td>Name</td>

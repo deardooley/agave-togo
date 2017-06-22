@@ -1,5 +1,5 @@
 angular.module('AgaveToGo').controller('DashboardController',
-  function($rootScope, $scope, $http, $timeout, $filter, $localStorage, Commons, MonitorsController, AppsController, JobsController, SystemsController, StatusIoController, moment, amMoment, Jira) {
+  function($rootScope, $scope, $http, $timeout, $filter, $localStorage, Commons, MonitorsController, AppsController, JobsController, SystemsController, StatusIoController, moment, amMoment, Jira, Preferences) {
     $scope.$on('$viewContentLoaded', function () {
       // initialize core components
       App.initAjax();

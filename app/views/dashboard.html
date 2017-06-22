@@ -15,7 +15,7 @@
 <!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
 <div ng-controller="DashboardController">
-    <div class="note note-info">
+    <div class="note note-info" remember-dismiss preference-key="'alerts.dashboard.welcome'" >
         <h3>Introducing the new Agave ToGo!
             <span class="close" data-close="note"></span>
         </h3>
@@ -87,81 +87,69 @@
     </div>
     <!-- END DASHBOARD STATS -->
     <div class="row">
-        <div class="col-md-6 col-sm-12">
-            <!-- BEGIN PORTLET-->
+        <div class="col-md-6 col-sm-6">
+            <!-- BEGIN REGIONAL STATS PORTLET-->
             <div class="portlet light bordered ">
                 <div class="portlet-title">
-                    <div class="caption caption-md">
-                        <i class="icon-bar-chart font-red"></i>
-                        <span class="caption-subject font-red bold uppercase">Project Activity</span>
-                        <span class="caption-helper hide">{{projectStatsTimeframe}} stats...</span>
+                    <div class="caption">
+                        <i class="icon-share font-green"></i>
+                        <span class="caption-subject font-green bold uppercase">System Monitors</span>
                     </div>
                     <div class="actions">
-                        <div class="btn-group btn-group-devided" data-toggle="buttons">
-                            <label class="btn green btn-outline btn-circle btn-sm active" uib-btn-radio="'daily'" ng-model="projectStatsTimeframe">Today</label>
-                            <label class="btn red btn-outline btn-circle btn-sm"uib-btn-radio="'weekly'" ng-model="projectStatsTimeframe">Week</label>
-                            <label class="btn blue btn-outline btn-circle btn-sm"uib-btn-radio="'monthly'" ng-model="projectStatsTimeframe">Month</label>
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-default btn-circle" href="#" data-toggle="dropdown" dropdown-menu-hover data-close-others="true"> Filter By
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <div class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
+                                <label>
+                                    <input type="checkbox" checked="" /> Passed</label>
+                                <label>
+                                    <input type="checkbox" checked="" /> Failed</label>
+                                <label>
+                                    <input type="checkbox" /> Maintenance</label>
+                            </div>
                         </div>
+                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="#"> </a>
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <div class="row number-stats margin-bottom-30">
-                        <div class="col-md-6 col-sm-6 col-xs-6">
-                            <div class="stat-left">
-                                <div class="stat-chart">
-                                    <!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-                                    <div id="project_sparkline_total"></div>
+                    <div class="scroller" style="height: 300px;" data-always-visible="1" data-rail-visible="0">
+                        <ul class="feeds">
+                            <li ng-if="monitors.length == 0">
+                                <div class="desc text-center text-bold">You do not have any monitors configured. You can add one <a ui-sref="monitors-add">here</a> to keep a watch on the status an availability of your compute and storage systems.</div>
+                            </li>
+                            <li ng-repeat="monitor in monitors">
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="label label-sm {{ monitor.lastSuccess === monitor.lastUpdated ? 'label-default' : 'label-danger' }}">
+                                                <i class="fa {{ monitor.lastSuccess === monitor.lastUpdated ? 'fa-check' : 'fa-close' }}"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cont-col2">
+                                            <div class="desc"> <a ui-sref="monitors-manager({systemId: monitor.target })">{{monitor.target}}</a>
+                                                <span ng-if="monitor.lastSuccess !== monitor.lastUpdated" class="label label-sm label-danger "> Take action
+                                                    <i class="fa fa-share"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="stat-number">
-                                    <div class="title"> Total </div>
-                                    <div class="number"> {{ projectLeaders.alltime.totals.users }} </div>
+                                <div class="col2">
+                                    <div class="date" am-time-ago="monitor.lastUpdated"></div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-6">
-                            <div class="stat-right">
-                                <div class="stat-chart">
-                                    <!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-                                    <div ng-show="projectStatsTimeframe == 'daily'" id="project_sparkline_day"></div>
-                                    <div ng-show="projectStatsTimeframe == 'weekly'" id="project_sparkline_week"></div>
-                                    <div ng-show="projectStatsTimeframe == 'monthly'" id="project_sparkline_month"></div>
-                                </div>
-                                <div class="stat-number">
-                                    <div class="title"> New </div>
-                                    <div class="number"> {{projectLeaders[projectStatsTimeframe].totals.users}} </div>
-                                </div>
-                            </div>
-                        </div>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="table-scrollable table-scrollable-borderless">
-                        <table class="table table-hover table-light">
-                            <thead>
-                                <tr class="uppercase">
-                                    <th colspan="2"> TOP USERS </th>
-                                    <th> COMMENTS </th>
-                                    <th> JOBS </th>
-                                    <th> DOCS </th>
-                                    <th> QUOTA </th>
-                                </tr>
-                            </thead>
-                            <tr ng-repeat="n in [] | range:4">
-                                <td class="fit">
-                                    <img class="user-pic rounded" ng-src="{{ projectLeaders[projectStatsTimeframe].leaders[n].img }}"> </td>
-                                <td>
-                                    <a href="javascript:;" class="primary-link">{{ projectLeaders[projectStatsTimeframe].leaders[n].firstName }}</a>
-                                </td>
-                                <td> {{ projectLeaders[projectStatsTimeframe].leaders[n].comments }} </td>
-                                <td> {{ projectLeaders[projectStatsTimeframe].leaders[n].jobs }} </td>
-                                <td> {{ projectLeaders[projectStatsTimeframe].leaders[n].documents }} </td>
-                                <td>
-                                    <span class="bold font-green">{{ projectLeaders[projectStatsTimeframe].leaders[n].karma }}%</span>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                    <!--<div class="scroller-footer">-->
+                    <!--<div class="btn-arrow-link pull-right">-->
+                    <!--<a href="#">See All Records</a>-->
+                    <!--<i class="icon-arrow-right"></i>-->
+                    <!--</div>-->
+                    <!--</div>-->
                 </div>
             </div>
-            <!-- END PORTLET-->
+            <!-- END REGIONAL STATS PORTLET-->
         </div>
         <div class="col-md-6 col-sm-12">
             <!-- BEGIN PORTLET-->
@@ -270,108 +258,6 @@
                 </div>
             </div>
             <!-- END PORTLET-->
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 col-sm-6">
-            <!-- BEGIN REGIONAL STATS PORTLET-->
-            <div class="portlet light bordered ">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="icon-share font-green"></i>
-                        <span class="caption-subject font-green bold uppercase">System Monitors</span>
-                    </div>
-                    <div class="actions">
-                        <div class="btn-group">
-                            <a class="btn btn-sm btn-default btn-circle" href="#" data-toggle="dropdown" dropdown-menu-hover data-close-others="true"> Filter By
-                                <i class="fa fa-angle-down"></i>
-                            </a>
-                            <div class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
-                                <label>mo
-                                    <input type="checkbox" checked="" /> Passed</label>
-                                <label>
-                                    <input type="checkbox" checked="" /> Failed</label>
-                                <label>
-                                    <input type="checkbox" /> Maintenance</label>
-
-                            </div>
-                        </div>
-                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="#"> </a>
-                    </div>
-                </div>
-                <div class="portlet-body">
-                    <div class="scroller" style="height: 300px;" data-always-visible="1" data-rail-visible="0">
-                        <ul class="feeds">
-                            <li ng-repeat="monitor in monitors">
-                                <div class="col1">
-                                    <div class="cont">
-                                        <div class="cont-col1">
-                                            <div class="label label-sm {{ monitor.lastSuccess === monitor.lastUpdated ? 'label-default' : 'label-danger' }}">
-                                                <i class="fa {{ monitor.lastSuccess === monitor.lastUpdated ? 'fa-check' : 'fa-close' }}"></i>
-                                            </div>
-                                        </div>
-                                        <div class="cont-col2">
-                                            <div class="desc"> <a ui-sref="monitors-manager({systemId: monitor.target })">{{monitor.target}}</a>
-                                                <span ng-if="monitor.lastSuccess !== monitor.lastUpdated" class="label label-sm label-danger "> Take action
-                                                    <i class="fa fa-share"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col2">
-                                    <div class="date" am-time-ago="monitor.lastUpdated"></div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <!--<div class="scroller-footer">-->
-                        <!--<div class="btn-arrow-link pull-right">-->
-                            <!--<a href="#">See All Records</a>-->
-                            <!--<i class="icon-arrow-right"></i>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                </div>
-            </div>
-            <!-- END REGIONAL STATS PORTLET-->
-        </div>
-        <div class="col-md-6 col-sm-6">
-            <!-- BEGIN PORTLET-->
-            <div class="portlet light bordered">
-                <div class="portlet-title">
-                    <div class="caption caption-md">
-                        <i class="icon-bar-chart font-green"></i>
-                        <span class="caption-subject font-green bold uppercase">Support Issues</span>
-                        <span class="caption-helper">{{ jiraIssues.length }} pending</span>
-                    </div>
-                    <div class="inputs">
-                        <div class="portlet-input input-inline input-small ">
-                            <div class="input-icon right">
-                                <i class="icon-magnifier"></i>
-                                <input type="text" class="form-control form-control-solid input-circle" placeholder="search..."> </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="portlet-body">
-                    <div class="scroller" style="height: 329px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
-                        <div class="general-item-list">
-                            <div ng-repeat="issue in jiraIssues" class="item">
-                                <div class="item-head">
-                                    <div class="item-details">
-                                        <img class="item-pic rounded" ng-src="{{ issue.fields.reporter.avatarUrls['32x32'] }}">
-                                        <a ui-sref="profile-details({email: issue.fields.reporter.eamilAddress})" class="item-name primary-link"></a>
-                                        <span class="item-label" am-time-ago="issue.fields.customfield_10029.ongoingCycle.startTime.iso8601"></span>
-                                    </div>
-                                    <span class="item-status">
-                                        <span class="badge badge-empty badge-success"></span> {{issue.fields.status.name}}</span>
-                                </div>
-                                <div class="item-body"> {{ issue.fields.summary | limitTo:200}} </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-	    <!-- END PORTLET-->
         </div>
     </div>
 </div>

@@ -17,7 +17,12 @@ function ($rootScope, $http, $q, $localStorage) {
       if ($localStorage.singularityImages) {
         return $q(function (resolve, reject) {
           setTimeout(function () {
-            resolve($localStorage.singularityImages.slice(page*limit, Math.min($localStorage.images.length, (page+1)*limit)));
+            if (limit == -1) {
+              resolve($localStorage.singularityImages);
+            }
+            else {
+              resolve($localStorage.singularityImages.slice(page * limit, Math.min($localStorage.images.length, (page + 1) * limit)));
+            }
           }, 0);
         });
       }
@@ -26,7 +31,12 @@ function ($rootScope, $http, $q, $localStorage) {
         FilesController.listFileItems().then(
             function(response) {
               $localStorage.singularityImages = resp;
-              response.slice(page*limit, Math.min(resp.data.repositories.length, (page+1)*limit));
+              if (limit == -1) {
+                resolve(resp);
+              }
+              else {
+                response.slice(page*limit, Math.min(resp.data.repositories.length, (page+1)*limit));
+              }
         }, function (error) {
           delete $localStorage.images;
           deferred.reject(error);

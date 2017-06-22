@@ -10,7 +10,9 @@
             <tbody>
               <tr ng-if="job.id">
                 <td>ID</td>
-                <td>{{job.id}}</td>
+                <td>
+                  {{job.id}} <a href="#" ngclipboard data-clipboard-text="{{job.id}}" title="Copy to clipboard"><i class="fa fa-copy"></i></a>
+                </td>
               </tr>
               <tr ng-if="job.name">
                 <td>Name</td>
@@ -38,7 +40,9 @@
              </tr>
              <tr ng-if="job.archivePath">
                <td>Archive Path</td>
-               <td><a href="#/data/explorer/{{job.archiveSystem}}/{{job.archivePath}}">{{job.archivePath}}</td>
+               <td>
+                 <a href="#/data/explorer/{{job.archiveSystem}}/{{job.archivePath}}">{{job.archivePath}}</a>
+                 <a href="#" ngclipboard data-clipboard-text="{{job._links.self.href}}/outputs/listing/" title="Copy to clipboard"><i class="fa fa-copy"></i></a></td>
              </tr>
              <tr ng-if="job.outputPath">
                <td>Output Path</td>

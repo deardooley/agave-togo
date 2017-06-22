@@ -50,3 +50,36 @@
   }
 }
 
+.login-form {
+  h3 {
+    span.subtitle {
+      width: 100%;
+      display: block;
+    }
+    .tenant-avatar {
+      width: 75px;
+      height: 75px;
+      display: inline-block;
+    }
+  }
+}
+
+.schema-form-checkbox {
+  label {
+    input[type="checkbox"] {
+      margin-left: 0;
+    }
+    span {
+      margin-left: 20px;
+    }
+  }
+}
+
+.bootstrap-table {
+  .fixed-table-header, .fixed-table-loading {
+    display:none!important;
+  }
+  .fixed-table-toolbar > * {
+    margin-bottom: 10px;
+  }
+}

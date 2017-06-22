@@ -6,7 +6,7 @@
           <tr role="row" class="heading">
             <th width="25%">
               <a href="#" ng-click="sortType = 'name'; sortReverse = !sortReverse">
-                Name
+                Tag
                 <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
               </a>
@@ -39,7 +39,8 @@
         <tbody>
           <tr ng-repeat="tag in tags | orderBy:sortType:sortReverse | filter:search">
             <td>
-                <span title="{{ tag.name }} ({{ tag.image_id }})"> {{ tag.name }} </span>
+                <span id="{{tag.image_id}}-tag-name" title="{{ tag.name }} ({{ tag.image_id }})"> {{ tag.name }} </span>
+                <a data-clipboard-text="https://quay.io/{{image.namespace}}/{{image.name}}:{{tag.name}}" ngclipboard title="Copy to clipboard"><i class="fa fa-copy"></i></a>
             </td>
             <td>
                 {{tag.manifest_digest}}

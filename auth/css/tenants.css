@@ -34,7 +34,7 @@
 }
 
 .collapsing, .dropdown, .dropup {
-  max-width: 240px;
+  max-width: 320px;
 }
 
 .input-group .form-control {
@@ -420,4 +420,8 @@ body {
     vertical-align: middle;
     float: none;
     margin-top:10px;
+}
+
+.copyright a {
+    color: #7a8ca5;
 }
