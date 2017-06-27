@@ -2,9 +2,9 @@ angular.module('SessionCredentialService', ['ngStorage', 'AlertsService', 'Messa
     .service('SessionCredential', ['$rootScope', '$sessionStorage', '$q', 'AlertsService', 'MessageService', 'EncryptionService', '$uibModal',
       function ($rootScope, $sessionStorage, $q, AlertsService, MessageService, EncryptionService, $uibModal) {
         
-        this.get = function() {
+        this.getUserCredentials = function() {
           if ($sessionStorage.tmpCredentials) {
-            var tmpCreds = EncryptionService.decrypt(key, $sessionStorage.tmpCredentials);
+            var tmpCreds = Encrypt.decrypt(key, $sessionStorage.tmpCredentials);
             return JSON.parse(tmpCreds);
           }
           else {
@@ -59,23 +59,25 @@ angular.module('SessionCredentialService', ['ngStorage', 'AlertsService', 'Messa
 
                     submitHandler: function (form) {
 
-                      var tmpCreds = EncryptionService.encrypt(key, $sessionStorage.tmpCredentials);
+                      $sessionStorage.tmpCredentials = Encrypt.encrypt(settings.key, $scope.tmpCredentials);
+
+
                       return JSON.parse(tmpCreds);
                       
-                      var data = {
-                        grant_type: 'password',
-                        username: $scope.user.username,
-                        password: $scope.user.password
-                      };
-
-                      data = queryString.stringify(data);
-
-                      options = angular.extend({
-                        headers: {
-                          'Content-Type': 'application/x-www-form-urlencoded',
-                          'Authorization': btoa($scope.user.client_key + ':' + $scope.user.client_secret)
-                        }
-                      }, options);
+                      // var data = {
+                      //   grant_type: 'password',
+                      //   username: $scope.user.username,
+                      //   password: $scope.user.password
+                      // };
+                      //
+                      // data = queryString.stringify(data);
+                      //
+                      // options = angular.extend({
+                      //   headers: {
+                      //     'Content-Type': 'application/x-www-form-urlencoded',
+                      //     'Authorization': btoa($scope.user.client_key + ':' + $scope.user.client_secret)
+                      //   }
+                      // }, options);
 
                       
                     }

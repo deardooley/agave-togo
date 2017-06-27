@@ -1,7 +1,6 @@
-angular.module('EncryptionService', ['../bower_components/sjcl/sjcl.js'])
-    .constant('sljc', sljc)
-    .service('Encrypt', ['$rootScope', '$localStorage', '$q', 'sljc',
-      function ($rootScope, $localStorage, $q, sljc) {
+angular.module('EncryptionService', [])
+    .service('Encrypt', ['$rootScope', '$localStorage', '$q',
+      function ($rootScope, $localStorage, $q) {
 
         /* Encrypt a message */
         this.encrypt = function (passwd, plaintextData) {

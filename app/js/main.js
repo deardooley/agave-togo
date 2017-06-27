@@ -485,6 +485,117 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
       /**********************************************************************/
       /**********************************************************************/
       /***                                                                ***/
+      /***                       Jobs Routes                              ***/
+      /***                                                                ***/
+      /**********************************************************************/
+      /**********************************************************************/
+      .state('clients-manage', {
+        url: '/clients',
+        templateUrl: 'views/clients/manager.html',
+        data: {pageTitle: 'Clients Manager'},
+        controller: 'ClientsDirectoryController',
+        resolve: {
+          deps: ['$ocLazyLoad', function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              serie: true,
+              name: 'AgaveToGo',
+              insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+              files: [
+                '../bower_components/sjcl/sjcl.js',
+                'js/services/ActionsService.js',
+                'js/services/MessageService.js',
+                'js/services/PermissionsService.js',
+                'js/services/RolesService.js',
+                'js/services/EncryptionService.js',
+                'js/controllers/QueryBuilderController.js',
+                'js/controllers/clients/ClientsDirectoryController.js'
+              ]
+            });
+          }]
+        }
+      })
+
+      .state('clients', {
+        abtract: true,
+        url: '/clients/:id',
+        templateUrl: 'views/clients/resource/resource.html',
+        controller: 'ClientsResourceController',
+        resolve: {
+          deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+            return $ocLazyLoad.load([
+              {
+                name: 'AgaveToGo',
+                files: [
+                  'js/controllers/clients/resource/ClientsResourceController.js'
+                ]
+              }
+            ]);
+          }]
+
+        }
+      })
+
+      .state('clients.details', {
+        url: '',
+        templateUrl: 'views/clients/resource/details.html',
+        controller: 'ClientsResourceDetailsController',
+        resolve: {
+          deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+            return $ocLazyLoad.load([
+              {
+                name: 'AgaveToGo',
+                files: [
+                  'js/services/ActionsService.js',
+                  'js/services/MessageService.js',
+                  'js/services/PermissionsService.js',
+                  'js/controllers/clients/resource/ClientsResourceDetailsController.js'
+                ]
+              }
+            ]);
+          }]
+        }
+      })
+
+      .state('clients.subscriptions', {
+        url: '/history',
+        controller: 'ClientsResourceHistoryController',
+        templateUrl: 'views/clients/resource/subscriptions.html',
+        resolve: {
+          deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+            return $ocLazyLoad.load([
+              {
+                name: 'AgaveToGo',
+                files: [
+                  'js/services/ActionsService.js',
+                  'js/controllers/clients/resource/ClientsResourceHistoryController.js'
+                ]
+              }
+            ]);
+          }]
+        }
+      })
+
+      .state('clients.stats', {
+        url: '/stats',
+        controller: 'ClientsResourceStatsController',
+        templateUrl: 'views/clients/resource/stats.html',
+        resolve: {
+          deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+            return $ocLazyLoad.load([
+              {
+                name: 'AgaveToGo',
+                files: [
+                  'js/controllers/clients/resource/ClientsResourceStatsController.js'
+                ]
+              }
+            ]);
+          }]
+        }
+      })
+
+      /**********************************************************************/
+      /**********************************************************************/
+      /***                                                                ***/
       /***                         Metadata Routes                        ***/
       /***                                                                ***/
       /**********************************************************************/

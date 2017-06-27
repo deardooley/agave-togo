@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="btn-group">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <input type="text" class="form-control" placeholder="Search" ng-model="search">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row top-buffer">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover management" width="100%" id="datatable_collection">
+        <thead>
+          <tr role="row" class="heading">
+            <th width="15%">
+              <a href="#" ng-click="sortType = 'apiName'; sortReverse = !sortReverse">
+                API Name
+                <span ng-show="sortType == 'apiName' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'apiName' && sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+            <th width="15%">
+              <a href="#" ng-click="sortType = 'createdBy'; sortReverse = !sortReverse">
+                Status
+                <span ng-show="sortType == 'createdBy' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'createdBy' && sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+            <th width="20%">
+              <a href="#" ng-click="sortType = 'description'; sortReverse = !sortReverse">
+                Owner
+                <span ng-show="sortType == 'description' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'description' && sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+            <th width="25%">
+              <a href="#" ng-click="sortType = 'description'; sortReverse = !sortReverse">
+                Path
+                <span ng-show="sortType == 'description' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'description' && sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+            <th width="10%">
+              <a href="#" ng-click="sortType = 'description'; sortReverse = !sortReverse">
+                Version
+                <span ng-show="sortType == 'description' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'description' && sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+            <th width="15%">
+              <a href="#" ng-click="sortType = 'created'; sortReverse = !sortReverse">
+                Subscription Tier
+                <span ng-show="sortType == 'created' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'created' && sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="api in subscriptions | orderBy:sortType:sortReverse | filter:search">
+            <td>
+                {{api.apiName}}
+            </td>
+            <td>
+                {{api.apiStatus}}
+            </td>
+            <td>
+                {{api.apiProvider}}
+            </td>
+            <td>
+                {{api.apiContext}}
+            </td>
+            <td>
+              {{api.apiVersion}}
+            </td>
+            <td>
+              {{api.tier}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

@@ -88,15 +88,23 @@
   "error_jobs_details": "Error: Could not retrieve job",
   "error_jobs_list": "Error: Could not retrieve jobs",
 
+  "error_clients_create": "Error: Could not create client",
+  "error_clients_details": "Error: Could not fetch client details",
+  "error_clients_stats": "Error: Could not fetch client stats",
+  "error_clients_subscriptions": "Error: Could not fetch client subscriptions",
+  "error_clients_subscribe": "Error: Could not subscribe client",
+  "error_clients_unsubscribe": "Error: Could not unsubscribe client",
+  "error_clients_delete": "Error: Could not delete client",
+  "error_clients_regenerate": "Error: Could not regenerate client keys",
+  "error_clients_list": "Error: Could not retrieve clients",
+
+
   "error_meta_list": "Error: Could not retrieve metadata",
   "error_meta_update_uuid": "Error: No metadata UUID provided",
   "error_meta_add": "Error: Could not add metadata",
-
   "error_meta_files_add": "Error: Could not convert the following file(s) to Base64: ",
   "error_meta_files_add_parse": "Error: Could not parse the associationIds",
   "error_meta_search_query": "Error: Could not parse search query - ",
-
-
 
   "error_meta_schema_list": "Error: Could not retrieve metadata schema",
   "error_meta_schema_add": "Error: Could not add metadata schema",
