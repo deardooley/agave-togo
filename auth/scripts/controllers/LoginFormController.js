@@ -400,6 +400,9 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
   }
 
   $scope.selectedTenant = $scope.getTenantByCode(currentTenantId);
+  if ($scope.selectedTenant) {
+    $localStorage.tenant = $scope.selectedTenant;
+  }
 
   $scope.user = ($localStorage.client && angular.copy($localStorage.client)) || {
         username: '',
