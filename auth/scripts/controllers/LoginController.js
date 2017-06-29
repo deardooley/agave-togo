@@ -82,11 +82,11 @@ angular.module('AgaveAuth').controller('LoginController', function ($injector, $
                 $localStorage.token = response;
                 $localStorage.client = $scope.user;
                 $localStorage.tenant = $scope.tenant;
-                $rootScope.broadcast('oauth:login', token);
+                $rootScope.$broadcast('oauth:login', token);
                 return response;
             },
             function(response) {
-                $rootScope.broadcast('oauth:denied');
+                $rootScope.$broadcast('oauth:denied');
             });
     }
 
@@ -119,12 +119,12 @@ angular.module('AgaveAuth').controller('LoginController', function ($injector, $
         return $http.post($scope.tenant.baseUrl + '/token', data, options).then(
             function (response) {
                 $localStorage.token = response;
-                $rootScope.broadcast('oauth:refresh', token);
+                $rootScope.$broadcast('oauth:refresh', token);
                 $localStorage.tenant = $scope.tenant;
                 return response;
             },
             function(response) {
-                $rootScope.broadcast('oauth:denied');
+                $rootScope.$broadcast('oauth:denied');
             });
     };
 

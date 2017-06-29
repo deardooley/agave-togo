@@ -1,4 +1,4 @@
-<form class="login-form" ng-submit="submitForm()" method="post">
+<form name="implicitFlow" class="login-form" ng-disabled="true" ng-submit="false" method="post">
     <div id="form-title-header" class="form-group">
         <img class="tenant-avatar" ng-src="img/tenants/{{selectedTenant.code}}-thumb.png"/>
         <h3 class="form-title font-green">
@@ -7,10 +7,6 @@
         </h3>
     </div>
 
-    <!--<div ng-if="!selectedTenant" class="alert alert-danger">-->
-        <!--<button class="close" data-close="alert"></button>-->
-        <!--<span> Please Select An Agave Cyberinfrastructure Provider </span>-->
-    <!--</div>-->
     <div class="form-group text-center">
         <div class="row">
             <div class="col-xs-12 vcenter">
@@ -18,7 +14,7 @@
                   <oauth
                           template="views/templates/oauth-ng-button.html"
                           site="selectedTenant.baseUrl"
-                          client-id="settings.oauth.clients[tenant.code].clientKey"
+                          client-id="settings.oauth.clients[selectedTenant.code].clientKey"
                           redirect-uri="{{settings.oauth.clients[selectedTenant.code].callbackUrl}}"
                           authorize-path="/authorize",
                           state="{{randomState()}}"
@@ -27,34 +23,6 @@
                   </oauth>
                 </span>
             </div>
-            <!--<div class="col-xs-12 vcenter">-->
-                <!--<div class="input-group text-center">-->
-                    <!--<ui-select allow-clear ng-model="selectedTenant" on-select="updateTenant($item, $model)" theme="bootstrap" ng-disabled="disabled" title="Select a tenant">-->
-                        <!--<ui-select-match placeholder="Select your organization...">{{$select.selected.name}}</ui-select-match>-->
-                        <!--<ui-select-choices repeat="item.name as item in settings.tenants | filter: $select.search">-->
-                            <!--<div class="select2-result-repository clearfix">-->
-                                <!--<div class="select2-result-repository__avatar"><img ng-src="img/tenants/{{item.code}}-thumb.png" /></div>-->
-                                <!--<div class="select2-result-repository__meta">-->
-                                    <!--<div class="select2-result-repository__title" ng-bind-html="item.name | highlight: $select.search"> {{item.name}}</div>-->
-                                    <!--<div class="select2-result-repository__statistics">-->
-                                        <!--<div ng-if="item.projectUrl" class="select2-result-repository__forks">-->
-                                            <!--<a href="{{item.projectUrl}}">-->
-                                                <!--<span class="fa fa-globe"></span> website-->
-                                            <!--</a>-->
-                                        <!--</div>-->
-                                        <!--<div ng-if="item.projectUrl" class="select2-result-repository__forks">-->
-                                            <!--<a href="{{item.supportUrl}}">-->
-                                                <!--<span class="fa fa-support"></span> support-->
-                                            <!--</a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</ui-select-choices>-->
-                    <!--</ui-select>-->
-                    <!---->
-                <!--</div>-->
-            <!--</div>-->
         </div>
     </div>
     <div class="login-options">
@@ -63,7 +31,7 @@
             <li ng-repeat="item in settings.tenants | filter:excludeSelectedTenant">
                 <a class="img-rounded {item.code}}" title="{{item.name}}" data-original-title="{item.code}}"
                    style="overflow:hidden;"
-                   ng-click="setCurrentTenant(item)">
+                   ui-sref="oauth({tenantId: item.code})">
                     <img class="tenant-icon" style="" ng-src="img/tenants/{{item.code}}-thumb.png"/>
                 </a>
             </li>

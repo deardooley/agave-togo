@@ -1,4 +1,4 @@
-angular.module('AgaveAuth').controller('LoginFormController', function ($rootScope, $scope, $state, $http, $window, $localStorage, $filter, settings, Commons, Alerts, TokensController, ProfilesController, APIHelper) {
+angular.module('AgaveAuth').controller('LoginFormController', function ($rootScope, $scope, $state, $stateParams, $http, $window, $localStorage, $filter, settings, Commons, Alerts, TokensController, ProfilesController, APIHelper) {
 
   $scope.getTenantByCode = function (tenantId) {
     var namedTenant = false;
@@ -235,7 +235,6 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
     }
   };
 
-
   $scope.excludeSelectedTenant = function (tenant) {
     return tenant.code !== $scope.selectedTenant.code;
   };
@@ -248,7 +247,8 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
   };
 
   $scope.isDevEnvironment = function () {
-    return settings.environment == 'development' || settings.environemnt == 'devel' || settings.environment == 'dev';
+    return true;
+    // return settings.environment == 'development' || settings.environemnt == 'devel' || settings.environment == 'dev';
   };
 
   $('.login-form').validate({
@@ -296,6 +296,8 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
 
     submitHandler: function (form) {
 
+      if (form.attr('name') === 'implicitFlow') return false;
+      
       var form = {
         grant_type: 'password',
         username: $scope.user.username,
@@ -386,7 +388,18 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
 
   $scope.remember = true;
 
-  $scope.selectedTenant = $scope.getTenantByCode($localStorage.tenant && $localStorage.tenant.code || "agave.prod");
+  var currentTenantId;
+  if ($stateParams.tenantId) {
+    currentTenantId = $stateParams.tenantId;
+  }
+  else if ($localStorage.tenant) {
+    currentTenantId =  $localStorage.tenant.code;
+  }
+  else {
+    currentTenantId = "agave.prod";
+  }
+
+  $scope.selectedTenant = $scope.getTenantByCode(currentTenantId);
 
   $scope.user = ($localStorage.client && angular.copy($localStorage.client)) || {
         username: '',

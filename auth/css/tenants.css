@@ -47,6 +47,11 @@
 .input-group-btn .btn.red {
     width: 84px;
 }
+
+.input-group-btn .oauth .btn.red {
+    width: initial;
+}
+
 .btn.btn-outline.green-sharp {
     border-color: #6B7478;
     color: #FFFFFF;
