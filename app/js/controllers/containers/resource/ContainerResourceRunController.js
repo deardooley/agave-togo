@@ -29,17 +29,20 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
               $scope.tags = [];
               for (key in response) {
                 if (key !== 'latest') {
-                  $scope.tags.push({ value: 'agave://singularity-storage/' + image.name + '_' + key + '.img.bz2', label: image.name + " - " + key });
+                  $scope.tags.push({
+                    value: 'agave://singularity-storage/' + image.name + '_' + key + '.img.bz2',
+                    label: image.name + " - " + key
+                  });
                 }
               }
 
               // fetch systems for archiving, etc
               SystemsController.searchSystems('limit=999999&filter=name,id,type,executionSystem,executionType,label,default').then(
-                  function(response) {
+                  function (response) {
                     $scope.systems = response.result;
 
                     AppsController.getAppDetails($scope.appId).then(
-                        function(response) {
+                        function (response) {
                           $scope.app = response.result;
 
                           // find the execution system in the list
@@ -63,7 +66,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
 
                           $scope.resetForm();
                         },
-                        function(errorResponse) {
+                        function (errorResponse) {
                           MessageService.handle(errorResponse, $translate.instant('error_container_app'));
                         })
                     // // fetch storage systems for archiving, etc
@@ -82,7 +85,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
                     //       MessageService.handle(errorResponse, $translate.instant('error_container_apps_list'));
                     //     });
                   },
-                  function(errorResponse) {
+                  function (errorResponse) {
                     MessageService.handle(errorResponse, $translate.instant('error_systems_list'));
                   });
 
@@ -97,7 +100,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
       });
 
 
-  $scope.formSchema = function(app) {
+  $scope.formSchema = function (app) {
     var schema = {
       type: 'object',
       properties: {}
@@ -111,8 +114,8 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
         type: 'object',
         properties: {}
       };
-      _.each(params, function(param) {
-        if (! param.value.visible) {
+      _.each(params, function (param) {
+        if (!param.value.visible) {
           return;
         }
         if (param.id.startsWith('_')) {
@@ -132,11 +135,11 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
           case 'enumeration':
             field.type = 'string';
             field.format = 'uiselect';
-            field.enum = _.map(param.value.enum_values, function(enum_val) {
+            field.enum = _.map(param.value.enum_values, function (enum_val) {
               return Object.keys(enum_val)[0];
             });
             field.items = {
-              'titleMap': _.map(param.value.enum_values, function(enum_val) {
+              'titleMap': _.map(param.value.enum_values, function (enum_val) {
                 var key = Object.keys(enum_val)[0];
                 return {
                   'value': key,
@@ -175,12 +178,12 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
           }
         }
       };
-      _.each(inputs, function(input) {
+      _.each(inputs, function (input) {
         var field;
         if (input.id == 'singularityImage') {
           return;
         }
-        else if (! input.value.visible) {
+        else if (!input.value.visible) {
           return;
         }
         else if (input.id.startsWith('_')) {
@@ -227,9 +230,9 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
 
     schema.properties.requestedTime = {
       title: 'Maximum job runtime',
-      description: 'In HH:MM:SS format. The maximum time you expect this job to run for. '+
-        'After this amount of time your job will be killed by the job scheduler. '+
-        'Shorter run times result in shorter queue wait times.',
+      description: 'In HH:MM:SS format. The maximum time you expect this job to run for. ' +
+      'After this amount of time your job will be killed by the job scheduler. ' +
+      'Shorter run times result in shorter queue wait times.',
       type: 'string',
       pattern: "^([0-9]{2,}:[0-5][0-9]:[0-5][0-9])$",
       validationMessage: "Must be in format HH:MM:SS",
@@ -239,9 +242,9 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
     };
 
     var batchQueueArray = [];
-    for(index in $scope.executionSystem.queues) {
+    for (index in $scope.executionSystem.queues) {
       var name = $scope.executionSystem.queues[index]['name'];
-      batchQueueArray.push({ value: name, label: name});
+      batchQueueArray.push({value: name, label: name});
     }
     schema.properties.batchQueue = {
       title: 'Batch Queue',
@@ -281,12 +284,12 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
     };
 
     var archiveSystems = [];
-    angular.forEach($scope.systems, function(system) {
+    angular.forEach($scope.systems, function (system) {
       if (system.type == 'STORAGE') {
         if (system.default) {
           $scope.defaultSystem = system;
         }
-        archiveSystems.push({ value: system.id, label: system.name, description: system.id});
+        archiveSystems.push({value: system.id, label: system.name, description: system.id});
       }
 
     });
@@ -296,11 +299,11 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
       description: 'The system to which the output should be archived',
       type: 'string',
       format: 'uiselect',
-      items:archiveSystems,
+      items: archiveSystems,
       placeholder: 'None selected',
       default: $scope.defaultSystem.id,
-      options:{
-        searchDescriptions : true
+      options: {
+        searchDescriptions: true
       }
     };
 
@@ -315,18 +318,18 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
     return schema;
   };
 
-  $scope.resetForm = function() {
-    if ($scope.appId !== ''){
+  $scope.resetForm = function () {
+    if ($scope.appId !== '') {
       AppsController.getAppDetails($scope.appId)
           .then(
-              function(response){
+              function (response) {
                 $scope.app = response.result;
                 SystemsController.getSystemDetails($scope.app.executionSystem)
-                    .then(function(systemResponse){
+                    .then(function (systemResponse) {
                       $scope.executionSystem = systemResponse.result;
-                      for(index in $scope.executionSystem.queues) {
+                      for (index in $scope.executionSystem.queues) {
                         var q = $scope.executionSystem.queues[index];
-                        if(q["name"] == $scope.app.defaultQueue) {
+                        if (q["name"] == $scope.app.defaultQueue) {
                           $scope.defaultBatchQueue = q;
                         }
                       }
@@ -341,7 +344,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
                       if ($scope.form.schema.properties.inputs && Object.keys($scope.form.schema.properties.inputs.properties).length > 0) {
 
                         inputs.push({
-                          'key':'inputs',
+                          'key': 'inputs',
                           'items': [
                             {
                               key: 'inputs.singularityImage'
@@ -349,7 +352,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
                           ]
                         });
 
-                        angular.forEach($scope.form.schema.properties.inputs.properties, function(input, key){
+                        angular.forEach($scope.form.schema.properties.inputs.properties, function (input, key) {
                           if (key !== 'singularityImage') {
                             inputs[0].items.push(
                                 {
@@ -633,7 +636,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
                         ]
                       });
 
-                      if (inputs.length > 0){
+                      if (inputs.length > 0) {
                         $scope.form.form.push({
                           type: 'fieldset',
                           title: 'Inputs',
@@ -641,15 +644,16 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
                         });
                       }
 
-                      $scope.form.form.push({
-                        type: 'fieldset',
-                        title: 'Parameters',
-                        items: [
-                          'parameters'
-                        ],
-                      });
-
-
+                      if ($scope.form.schema.properties.parameters && Object.keys($scope.form.schema.properties.parameters.properties).length > 0) {
+                        $scope.form.form.push({
+                          type: 'fieldset',
+                          title: 'Parameters',
+                          items: [
+                            'parameters'
+                          ]
+                        });
+                      }
+                      
                       /* buttons */
                       items = [];
 
@@ -658,10 +662,11 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
                         type: 'actions',
                         items: items
                       });
-                    })}
+                    })
+              }
           )
           .catch(
-              function(response){
+              function (response) {
                 MessageService.handle(response, $translate.instant('error_apps_details'));
               }
           );
@@ -671,7 +676,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
   };
 
 
-  $scope.onSubmit = function(form) {
+  $scope.onSubmit = function (form) {
 
     $scope.$broadcast('schemaFormValidate');
 
@@ -687,7 +692,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
       _.extend(jobData, angular.copy($scope.form.model));
 
       /* remove falsy input/parameter */
-      _.each(jobData.inputs, function(v,k) {
+      _.each(jobData.inputs, function (v, k) {
         if (_.isArray(v)) {
           v = _.compact(v);
           if (v.length === 0) {
@@ -695,7 +700,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
           }
         }
       });
-      _.each(jobData.parameters, function(v,k) {
+      _.each(jobData.parameters, function (v, k) {
         if (_.isArray(v)) {
           v = _.compact(v);
           if (v.length === 0) {
@@ -712,7 +717,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
 
       JobsController.createSubmitJob(jobData)
           .then(
-              function(response) {
+              function (response) {
                 // hard-wired for now
                 $scope.job = response.result;
 
@@ -720,13 +725,12 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
                   templateUrl: "views/apps/resource/job-success.html",
                   scope: $scope,
                   size: 'lg',
-                  controller: ['$scope', '$modalInstance', function($scope, $modalInstance ) {
-                    $scope.cancel = function()
-                    {
+                  controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+                    $scope.cancel = function () {
                       $modalInstance.dismiss('cancel');
                     };
 
-                    $scope.close = function(){
+                    $scope.close = function () {
                       $modalInstance.close();
                     }
                   }]
@@ -734,7 +738,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
                 $scope.resetForm();
                 $scope.requesting = false;
               },
-              function(response) {
+              function (response) {
                 MessageService.handle(response, $translate.instant('error_jobs_create'));
                 $scope.requesting = false;
               });
@@ -754,7 +758,6 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
     '../bower_components/codemirror/mode/python/python.js',
     '../bower_components/angular-ui-codemirror/ui-codemirror.min.js',
   ];
-
 
 
 });

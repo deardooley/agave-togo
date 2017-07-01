@@ -111,7 +111,9 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
             "scheduler": {
                 "type": "string",
                 "enum": [
-                  "LSF", "LOADLEVELER", "PBS", "SGE", "CONDOR", "FORK", "COBALT", "TORQUE", "MOAB", "SLURM", "UNKNOWN"
+                  "LSF", "LOADLEVELER", "PBS", "SGE", "CONDOR", "FORK", "COBALT", "TORQUE", "MOAB", "SLURM",
+                  "CUSTOM_LSF", "CUSTOM_LOADLEVELER", "CUSTOM_PBS", "CUSTOM_SGE", "CUSTOM_CONDOR",
+                  "CUSTOM_COBALT", "CUSTOM_TORQUE", "CUSTOM_MOAB", "CUSTOM_SLURM", "UNKNOWN"
                 ],
                 "title": "Scheduler"
             },
@@ -380,7 +382,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
                         "title": "Protocol",
                         "enum": [
                             "SSH", "GSISSH", "LOCAL"
-                        ],
+                        ]
                     },
                     // custom field for tunnel proxy option
                     "proxyTunnel": {
@@ -407,7 +409,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
                                 "title": "Type",
                                 "type": "string",
                                 "enum": [
-                                    "APIKEYS", "LOCAL", "PAM", "PASSWORD", "SSHKEYS", "X509"
+                                    "APIKEYS", "LOCAL", "PASSWORD", "SSHKEYS", "X509"
                                 ]
                             },
                             "credential": {
@@ -455,8 +457,8 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
                                         "title": "Protocol",
                                         "enum": [
                                           "MPG", "MYPROXY"
-                                        ],
-                                    },
+                                        ]
+                                    }
                                 }
                             },
                             "proxy": {

@@ -561,13 +561,15 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function ($s
         });
       }
 
-      $scope.form.form.push({
-        type: 'fieldset',
-        title: 'Parameters',
-        items: [
-          'parameters'
-        ]
-      });
+      if ($scope.form.schema.properties.parameters && Object.keys($scope.form.schema.properties.parameters.properties).length > 0) {
+        $scope.form.form.push({
+          type: 'fieldset',
+          title: 'Parameters',
+          items: [
+            'parameters'
+          ]
+        });
+      }
 
       /* buttons */
       items = [];
