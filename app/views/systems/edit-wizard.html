@@ -2,7 +2,7 @@
 
 <div class="row" ng-show="!wizview">
     <div class="col-md-12">
-      <a href="/app/#/systems" class="btn btn-default">Back to Systems</a>
+      <a ui-sref="systems-manage" class="btn btn-default">Back to Systems</a>
     </div>
 </div>
 <div class="row text-center" ng-show="requesting">
@@ -41,7 +41,7 @@
                                 ng-submit="submit()"
                                 no-validate>
                         </form>
-                        <ng-include src="'/app/tpl/directives/wizard-buttons.html'"></ng-include>
+                        <ng-include src="'tpl/directives/wizard-buttons.html'"></ng-include>
                     </div>
                     <div ng-show="wizview !== 'form'" class="{{(wizview === 'split') ? 'col-md-6': 'col-md-12'}}">
                         <textarea ui-codemirror ui-codemirror-opts="editorConfig" ng-model="prettyModel"></textarea>
@@ -54,8 +54,8 @@
 <div class="row">
   <div class="col-md-12">
     <div class="pull-right">
-      <a href="/app/#/systems" type="button" class="btn btn-primary blue">Back to Systems</a>
-      <a href="/app/#/systems/new" type="button" class="btn btn-success" ng-click="useDefinition()">Use Definition</a>
+      <a ui-sref="systems-manage" type="button" class="btn btn-primary blue">Back to Systems</a>
+      <a ui-sref="systems-new" type="button" class="btn btn-success" ng-click="useDefinition()">Use Definition</a>
     </div>
   </div>
 </div>

@@ -235,8 +235,10 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
     }
   };
 
-  $scope.excludeSelectedTenant = function (tenant) {
-    return tenant.code !== $scope.selectedTenant.code;
+  $scope.excludeSelectedTenant = function (selectedTenant) {
+    return function(tenant) {
+      return tenant.code !== selectedTenant.code;
+    };
   };
 
   $scope.setCurrentTenant = function (tenant) {
@@ -392,7 +394,7 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
   if ($stateParams.tenantId) {
     currentTenantId = $stateParams.tenantId;
   }
-  else if ($localStorage.tenant) {
+  else if ($localStorage.tenant && $localStorage.tenant.code) {
     currentTenantId =  $localStorage.tenant.code;
   }
   else {

@@ -144,7 +144,7 @@ AgaveAuth.config(['$stateProvider', '$urlRouterProvider', function ($stateProvid
 
       // Login
       .state('login-form', {
-        url: "/signin/{tenantId}",
+        url: "/signin/:tenantId",
         templateUrl: "views/templates/login-form.html",
         data: {
           pageTitle: 'Sign In',
@@ -223,7 +223,7 @@ AgaveAuth.config(['$stateProvider', '$urlRouterProvider', function ($stateProvid
 
       // Signup
       .state('signup-form', {
-        url: "/signup/{tenantId}",
+        url: "/signup/:tenantId",
         templateUrl: "views/templates/signup-form.html",
         data: {pageTitle: 'Sign Up'},
         controller: "SignupFormController",
@@ -343,7 +343,8 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
 
   TenantsController.listTenants().then(
       function (response) {
-        settings.tenants = $filter('filter')(response, function (tenant, key) {
+        var tenants = [];
+        angular.forEach(response, function (tenant, key) {
           if (settings.oauth.clients[tenant.code] &&
               settings.oauth.clients[tenant.code].clientKey) {
             // hack until we push this info into the tenants api
@@ -360,9 +361,11 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
               tenant.allowsSignup = true;
             }
 
-            return tenant;
+            tenants.push(tenant);
           }
         });
+
+        settings.tenants = tenants;
 
       },
       function (message) {

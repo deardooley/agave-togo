@@ -47,7 +47,7 @@
                                 ng-submit="submit()"
                                 no-validate>
                         </form>
-                        <ng-include src="'/app/tpl/directives/wizard-buttons.html'"></ng-include>
+                        <ng-include src="'tpl/directives/wizard-buttons.html'"></ng-include>
                     </div>
                     <div ng-show="wizview !== 'form'" class="{{(wizview === 'split') ? 'col-md-6': 'col-md-12'}}">
                         <textarea ui-codemirror ui-codemirror-opts="editorConfig" ng-model="prettyModel"></textarea>
@@ -59,6 +59,6 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <a href="/app/#/systems" type="button" class="btn btn-primary blue">Back to Systems</a>
+    <a ui-sref="systems-manage" type="button" class="btn btn-primary blue">Back to Systems</a>
   </div>
 </div>

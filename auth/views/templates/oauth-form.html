@@ -28,7 +28,7 @@
     <div class="login-options">
         <h4>Or login with another organization</h4>
         <ul class="social-icons">
-            <li ng-repeat="item in settings.tenants | filter:excludeSelectedTenant">
+            <li ng-repeat="item in settings.tenants | filter:excludeSelectedTenant(selectedTenant)">
                 <a class="img-rounded {item.code}}" title="{{item.name}}" data-original-title="{item.code}}"
                    style="overflow:hidden;"
                    ui-sref="oauth({tenantId: item.code})">
