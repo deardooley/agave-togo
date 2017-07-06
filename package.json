@@ -2,9 +2,9 @@
   "name": "agave-togo",
   "version": "2.0.0",
   "description": "Reference webapp for the Agave Platform",
-  "author": "Rion Dooley <dooley@tacc.utexas.edu>",
+  "author": "Rion Dooley <deardooley@gmail.com>",
   "license": "BSD-2-Clause",
-  "repository": "https://bitbucket.org/agaveapi/agave-togo",
+  "repository": "https://github.com/agaveapi/agave-togo",
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-connect": "5.0.0",

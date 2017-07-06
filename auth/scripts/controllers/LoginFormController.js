@@ -124,7 +124,7 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
                         });
 
                         // store profile
-                        $localStorage.profile = response;
+                        $localStorage.activeProfile = response;
 
                         // redirect to app
                         $window.location.href = $localStorage.redirectUrl || "../app/"
@@ -203,7 +203,7 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
             ProfilesController.getProfile('me').then(
                 function(response) {
                   // store profile
-                  $localStorage.profile = response;
+                  $localStorage.activeProfile = response;
 
                   // redirect to app
                   $window.location.href = $localStorage.redirectUrl || "../app/"
@@ -353,7 +353,7 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
                   $scope.requesting = false;
 
                   // store profile
-                  $localStorage.profile = response;
+                  $localStorage.activeProfile = response;
 
                   // redirect to app
                   $window.location.href = $localStorage.redirectUrl || "../app/"

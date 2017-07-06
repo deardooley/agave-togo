@@ -2295,13 +2295,23 @@ AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', '$templateCache', '$
       $translate.refresh();
     });
 
-    $http.defaults.cache = CacheFactory('agave-sdk', {
-        maxAge: 60 * 60 * 1000, // Items added to this cache expire after 1 hour
-        cacheFlushInterval: 24 * 60 * 60 * 1000, // This cache will clear itself every day
-        deleteOnExpire: 'aggressive', // Items will be deleted from this cache when they expire
-        storageMode: 'localStorage',
-        storagePrefix: 'agavetogo.'
-    });
+    if (angular.isUndefined($localStorage.activeProfile)) {
+      ProfilesController.getProfile('me').then(
+          function (data) {
+            $localStorage.activeProfile = data;
+          },
+          function (response) {
+            console.log("Failed to fetch authenticated user profile. Some personalization features may not be available while hte user identity is unknown.");
+          });
+    }
+
+    // $http.defaults.cache = CacheFactory('agave-sdk', {
+    //     maxAge: 60 * 60 * 1000, // Items added to this cache expire after 1 hour
+    //     cacheFlushInterval: 24 * 60 * 60 * 1000, // This cache will clear itself every day
+    //     deleteOnExpire: 'aggressive', // Items will be deleted from this cache when they expire
+    //     storageMode: 'localStorage',
+    //     storagePrefix: 'agavetogo.'
+    // });
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       // Temp fix until I find better solution

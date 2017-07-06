@@ -169,7 +169,7 @@
   "success_meta_permissions_update": "Success: updated permissions for " ,
   "success_meta_schema_delete": "Success deleting schema: ",
 
-
+  "success_jobs_permissions_update": "Success updating permissions for job ",
 
   "success_monitors_test": "Success: fired monitor ",
   "success_monitors_update": "Success: updated ",

@@ -20,57 +20,57 @@ angular.module('togo.realtime', [])
           archive: false
         }
     )
-    .service('NotificationSubscriptionTemplateService', [
-      function () {
+    .service('NotificationSubscriptionTemplateService', ['userProperties',
+      function (userProperties) {
         this.getDefaultSubscriptions = function() {
           var notificationSubscriptions = [];
-          if (agaveToGoEnvironmentConfig.notifications.onChange) {
+          if (userProperties.notifications.onChange) {
             notificationSubscriptions.push({
               event: '*',
               persistent: true,
-              policy: agaveToGoEnvironmentConfig.notifications.policy,
-              url: agaveToGoEnvironmentConfig.notifications.url
+              policy: userProperties.notifications.policy,
+              url: userProperties.notifications.url
             });
           }
           else {
-            if (agaveToGoEnvironmentConfig.notifications.onCreate) {
+            if (userProperties.notifications.onCreate) {
               notificationSubscriptions.push({
                 event: 'CREATED',
                 persistent: true,
-                policy: agaveToGoEnvironmentConfig.notifications.policy,
-                url: agaveToGoEnvironmentConfig.notifications.url
+                policy: userProperties.notifications.policy,
+                url: userProperties.notifications.url
               });
             }
-            if (agaveToGoEnvironmentConfig.notifications.onUpdate) {
+            if (userProperties.notifications.onUpdate) {
               notificationSubscriptions.push({
                 event: 'UPDATED',
                 persistent: true,
-                policy: agaveToGoEnvironmentConfig.notifications.policy,
-                url: agaveToGoEnvironmentConfig.notifications.url
+                policy: userProperties.notifications.policy,
+                url: userProperties.notifications.url
               });
             }
-            if (agaveToGoEnvironmentConfig.notifications.onDelete) {
+            if (userProperties.notifications.onDelete) {
               notificationSubscriptions.push({
                 event: 'DELETED',
                 persistent: true,
-                policy: agaveToGoEnvironmentConfig.notifications.policy,
-                url: agaveToGoEnvironmentConfig.notifications.url
+                policy: userProperties.notifications.policy,
+                url: userProperties.notifications.url
               });
             }
-            if (agaveToGoEnvironmentConfig.notifications.onFailed) {
+            if (userProperties.notifications.onFailed) {
               notificationSubscriptions.push({
                 event: 'FAILED',
                 persistent: true,
-                policy: agaveToGoEnvironmentConfig.notifications.policy,
-                url: agaveToGoEnvironmentConfig.notifications.url
+                policy: userProperties.notifications.policy,
+                url: userProperties.notifications.url
               });
             }
-            if (agaveToGoEnvironmentConfig.notifications.onComplete) {
+            if (userProperties.notifications.onComplete) {
               notificationSubscriptions.push({
                 event: 'FINISHED',
                 persistent: true,
-                policy: agaveToGoEnvironmentConfig.notifications.policy,
-                url: agaveToGoEnvironmentConfig.notifications.url
+                policy: userProperties.notifications.policy,
+                url: userProperties.notifications.url
               });
             }
           }

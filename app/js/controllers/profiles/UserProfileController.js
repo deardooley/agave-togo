@@ -11,6 +11,11 @@ angular.module('AgaveToGo').controller('UserProfileController', function($rootSc
     }
 
     $scope.setUserProfile = function(profile) {
+        // update the authenticated user profile if not already set
+        if (angular.isUndefined($localStorage.activeProfile) && $scope.username === 'me') {
+            $localStorage.activeProfile = profile;
+        }
+
         setTimeout(function() {
             $scope.profile = profile;
         }, 100);

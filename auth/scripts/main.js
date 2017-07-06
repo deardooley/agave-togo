@@ -108,11 +108,11 @@ AgaveAuth.config(['$stateProvider', '$urlRouterProvider', function ($stateProvid
                 function(response) {
 
                   // store profile
-                  $localStorage.profile = response;
+                  $localStorage.activeProfile = response;
                   return response;
                 },
                 function(err) {
-                  delete $localStorage.profile;
+                  delete $localStorage.activeProfile;
                   return null;
                 });
           }

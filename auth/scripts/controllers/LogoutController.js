@@ -13,7 +13,7 @@ angular.module('AgaveAuth').controller('LogoutController', function ($injector, 
         // delete $localStorage.token;
     }, 50);
 
-    $scope.$watch('$localStorage.profile', function(value){
+    $scope.$watch('$localStorage.activeProfile', function(value){
         $timeout(function () {
             $scope.profile = $localStorage.activeProfile;
         }, 0);
