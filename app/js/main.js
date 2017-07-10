@@ -2281,8 +2281,8 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 
 /* Init global settings and run the app */
 //AgaveToGo.run(['$rootScope', 'settings', '$state', 'ProfilesController', function($rootScope, settings, $state) { //}, ProfilesController) {
-AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', '$templateCache', '$localStorage', '$window', 'CacheFactory', 'TokensController', 'userProperties',
-  function ($rootScope, settings, $state, $http, $templateCache, $localStorage, $window, CacheFactory, TokensController, userProperties) {
+AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', '$templateCache', '$localStorage', '$window', 'CacheFactory', 'TokensController', 'userProperties', 'ProfilesController'
+  function ($rootScope, settings, $state, $http, $templateCache, $localStorage, $window, CacheFactory, TokensController, userProperties, ProfilesController) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
 
