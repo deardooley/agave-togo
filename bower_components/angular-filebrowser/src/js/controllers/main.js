@@ -135,16 +135,12 @@
 
         $scope.editPermissions = function(item){
           item.editPermissions(item);
-        }
+        };
 
         // Populate systems in copy mod
-        $scope.getCopySystems = function(){
-          SystemsController.searchSystems('limit=9999&filter=id,type,name').then(
-            function (response) {
-              $scope.copySystems = response.result;
-            }
-          );
-        }
+        $scope.initCopySystem = function(system){
+          $scope.selectedSystem = '';
+        };
 
         $scope.copy = function(item) {
             var samePath = item.tempModel.path.join() === item.model.path.join();
@@ -330,20 +326,25 @@
         }
 
         $rootScope.$on('af:directory-change', function(event, systemId, newPath) {
-          if ($scope.config.allowedActions.agaveUpload === false && $scope.config.allowedActions.agaveSelect === false && $scope.$parent.$parent.$state){
+          if ($scope.config.allowedActions.agaveUpload === false
+              && $scope.config.allowedActions.agaveSelect === false
+              && $scope.$parent.$parent.$state)
+          {
             if (newPath) {
                 $scope.$parent.$parent.$state.transitionTo(
                     'data-explorer',
                     {systemId: systemId, path: newPath},
-                    {location: true, inherit: true, relative: $scope.$parent.$parent.$state.$current, notify: false})
+                    {location: true, inherit: true, relative: $scope.$parent.$parent.$state.$current, notify: false});
             }
           }
         });
 
-        $scope.$watch('$parent.$parent.system', function(val) {
-            $scope.system = val;
-            $scope.fileNavigator = new FileNavigator($scope.system, $scope.$parent.$parent.path);
-            $scope.fileNavigator.refresh();
+        $scope.$watch('$parent.$parent.system', function(newVal, oldVal) {
+            // if (oldVal.id !== newVal.id || !$scope.system) {
+                $scope.system = newVal;
+                $scope.fileNavigator = new FileNavigator($scope.system, $scope.$parent.$parent.path);
+                $scope.fileNavigator.refresh();
+            // }
         });
     }]);
 })(window, angular, jQuery);

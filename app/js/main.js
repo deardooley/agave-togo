@@ -38,11 +38,26 @@ var AgaveToGo = angular.module('AgaveToGo', [
   'ngclipboard',
 ]);
 
-// AgaveToGo.config(function(fileManagerConfig) {
-//   angular.extend(fileManagerConfig, {
-//     tplPath: '../bower_components/angular-filebrowser/src/templates'
-//   });
-// });
+AgaveToGo.config(function(fileManagerConfigProvider) {
+  fileManagerConfigProvider.set({
+    tplPath: '../bower_components/angular-filebrowser/src/templates',
+    allowedActions: {
+      rename: true,
+      copy: true,
+      edit: true,
+      changePermissions: true,
+      compress: false,
+      compressChooseName: true,
+      extract: false,
+      download: true,
+      preview: true,
+      remove: true,
+      postits: true,
+      publish: false,
+      notifications: true
+    },
+  });
+});
 
 AgaveToGo.config(function ($locationProvider, $translateProvider, $translatePartialLoaderProvider ) {
 
@@ -322,6 +337,47 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
   $urlRouterProvider.rule(function ($injector, $location) {
     // var path = $location.path().replace(/\/\/+/g, '/');
     // $location.replace().path(path);
+  });
+
+  $urlMatcherFactoryProvider.type('systemId', {
+    encode: function(system) {
+      // Represent the list item in the URL using its corresponding index
+      if (angular.isObject(system)) {
+        return system.id
+      }
+      else {
+        return system;
+      }
+    },
+    decode: function(system) {
+      // Look up the list item by index
+      return SystemsController.getSystemDetails(system).then(
+          function(response) {
+            return response.result;
+          },
+          function(err) {
+            return null;
+          });
+    },
+    is: function(system) {
+      // Ensure the item is valid by checking to see that it appears
+      // in the list
+      return !angular.isUndefined(system);
+    }
+  });
+
+  $urlMatcherFactoryProvider.type('filePath', {
+    encode: function(filePath) {
+      return filePath;
+    },
+    decode: function(filePath) {
+      return decodeURIComponent(filePath);
+    },
+    is: function(filePath) {
+      // Ensure the item is valid by checking to see that it appears
+      // in the list
+      return true;
+    }
   });
 
   // Make trailing slashed options
@@ -837,6 +893,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                 serie: true,
                 name: 'AgaveToGo',
                 files: [
+                  'js/services/RequestBin.js',
                   'js/services/ActionsService.js',
                   'js/services/MessageService.js',
                   'js/controllers/notifications/resource/NotificationsResourceEditController.js'
@@ -862,6 +919,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                 serie: true,
                 name: 'AgaveToGo',
                 files: [
+                  'js/services/RequestBin.js',
                   'js/services/ActionsService.js',
                   'js/services/MessageService.js',
                   'js/controllers/notifications/resource/NotificationsResourceAddController.js'
@@ -887,6 +945,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                 serie: true,
                 name: 'AgaveToGo',
                 files: [
+                  'js/services/RequestBin.js',
                   'js/services/ActionsService.js',
                   'js/services/MessageService.js',
                   'js/controllers/notifications/resource/NotificationsResourceAddController.js'
@@ -1592,10 +1651,21 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
       /**********************************************************************/
 
       // TO-DO: need to improve this with redirect
-      .state('data-explorer-noslash', {
-        url: '/data/explorer/:systemId',
+      .state('data-explorer', {
+        url: '/data/explorer/:systemId/*path',
         templateUrl: 'views/data/explorer.html',
         data: {pageTitle: 'File Explorer'},
+        params: {
+          path: {
+            squash: true,
+            raw: true,
+            value: ''
+          },
+          systemId: {
+            squash: true,
+            value: null
+          }
+        },
         controller: 'FileExplorerController',
         resolve: {
           deps: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -1610,31 +1680,130 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                 ]
               }]
             );
-          }]
+          }],
+          resolvedPath: ['deps', '$stateParams', '$location', 'SystemsController',
+            function(deps, $stateParams, $location, SystemsController) {
+              if ($stateParams.systemId) {
+                return $stateParams.path;
+              }
+              else {
+                return "/" + $stateParams.path;
+              }
+            }],
+          resolvedSystem: ['deps', '$stateParams', '$location', 'resolvedPath', 'SystemsController',
+            function(deps, $stateParams, $location, resolvedPath, SystemsController) {
+              if ($stateParams.systemId) {
+                return SystemsController.getSystemDetails($stateParams.systemId).then(function(data) {
+                      return data.result;
+                    },
+                    function(err) {
+                      return null;
+                    });
+              }
+              else {
+                return null;
+              }
+            }]
         }
       })
 
       // Main route for all file browsing
-      .state('data-explorer', {
-        url: '/data/explorer/:systemId/{path:any}',
+      .state('default-system-data-explorer', {
+        url: '/data/explorer/:systemId',
         templateUrl: 'views/data/explorer.html',
         data: {pageTitle: 'File Explorer'},
-        controller: 'FileExplorerController',
-        resolve: {
-          deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load([
-              {
-                serie: true,
-                name: 'AgaveToGo',
-                insertBefore: '#ng_load_plugins_before',
-                files: [
-                  'js/services/MessageService.js',
-                  'js/controllers/data/FileExplorerController.js'
-                ]
-              }]
-            );
-          }]
+        // params: {
+        //   path: {
+        //     raw: true,
+        //     squash: true,
+        //     value: ''
+        //   },
+        //   systemId: {
+        //     squash: true,
+        //     value: null
+        //   }
+        // },
+        controller: function($scope, $state, $stateParams, $translate, SystemsController,MessageService) {
+
+          $scope.error = true;
+          $scope.requesting = true;
+
+          if ($stateParams.systemId) {
+            $state.go('data-explorer', {systemId: systemId, path: null});
+          }
+          else {
+            SystemsController.searchSystems('globaldefault=true&type=STORAGE').then(
+                function (data) {
+                  if (data.result && data.result.length > 0) {
+                    $state.go('data-explorer', {systemId: data[0].id, path: null});
+                  }
+                  else {
+                    $state.go('data-explorer', {systemId: '', path: null});
+                  }
+                },
+                function(err) {
+                  $scope.requesting = false;
+                  MessageService.handle(response, $translate.instant('error_systems_list'));
+                  App.unblockUI('#agave-filemanager');
+                });
+          }
         }
+        // .state('default-system-data-explorer', {
+        //   url: '/data/explorer/:systemId',
+        //   templateUrl: 'views/data/explorer.html',
+        //   data: {pageTitle: 'File Explorer'},
+          // params: {
+          //   path: {
+          //     raw: true,
+          //     squash: true,
+          //     value: ''
+          //   },
+          //   systemId: {
+          //     squash: true,
+          //     value: null
+          //   }
+          // },// controller: 'FileExplorerController',
+        // resolve: {
+        //   deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+        //     return $ocLazyLoad.load([
+        //       {
+        //         serie: true,
+        //         name: 'AgaveToGo',
+        //         insertBefore: '#ng_load_plugins_before',
+        //         files: [
+        //           'js/services/MessageService.js',
+        //           'js/controllers/data/FileExplorerController.js'
+        //         ]
+        //       }]
+        //     );
+        //   }],
+        //   resolvedSystem: ['deps', '$stateParams', '$state', 'SystemsController',
+        //     function(deps, $stateParams, $state, SystemsController) {
+        //       if ($stateParams.systemId) {
+        //         return SystemsController.getSystemDetails($stateParams.systemId).then(function(data) {
+        //               return data.result;
+        //             },
+        //             function(err) {
+        //               return null;
+        //             });
+        //       }
+        //       else {
+        //         return SystemsController.listSystems(99999, 0, true, null, 'STORAGE').then(
+        //             function (data) {
+        //               if (data.result && data.result.length > 0) {
+        //                 return data[0];
+        //               }
+        //               else {
+        //                 return null;
+        //               }
+        //             },
+        //             function(err) {
+        //               return null;
+        //             });
+        //       }
+        //     }]
+        //
+        // }
       })
 
 
@@ -2280,11 +2449,40 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
 }]);
 
 /* Init global settings and run the app */
-//AgaveToGo.run(['$rootScope', 'settings', '$state', 'ProfilesController', function($rootScope, settings, $state) { //}, ProfilesController) {
 AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', '$templateCache', '$localStorage', '$window', 'CacheFactory', 'TokensController', 'userProperties', 'ProfilesController',
   function ($rootScope, settings, $state, $http, $templateCache, $localStorage, $window, CacheFactory, TokensController, userProperties, ProfilesController) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
+
+
+    /**
+     * Uncomment to enable debug logging of ui-router state changes
+     */
+    $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
+      console.log('$stateChangeStart to '+toState.to+'- fired when the transition begins. toState,toParams : \n',toState, toParams);
+    });
+
+    $rootScope.$on('$stateChangeError',function(event, toState, toParams, fromState, fromParams){
+      console.log('$stateChangeError - fired when an error occurs during transition.');
+      console.log(arguments);
+    });
+
+    $rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
+      console.log('$stateChangeSuccess to '+toState.name+'- fired once the state transition is complete.');
+      if (toState.templateUrl) {
+        $templateCache.remove(toState.templateUrl);
+      }
+    });
+
+    $rootScope.$on('$viewContentLoaded',function(event){
+      console.log('$viewContentLoaded - fired after dom rendered',event);
+    });
+
+    $rootScope.$on('$stateNotFound',function(event, unfoundState, fromState, fromParams){
+      console.log('$stateNotFound '+unfoundState.to+'  - fired when a state cannot be found by its name.');
+      console.log(unfoundState, fromState, fromParams);
+    });
+
 
     // clear out any previous redirect url prior to the auth redirect as they would
     // be provided by the auth app rather than here.
@@ -2301,7 +2499,7 @@ AgaveToGo.run(['$rootScope', 'settings', '$state', '$http', '$templateCache', '$
             $localStorage.activeProfile = data;
           },
           function (response) {
-            console.log("Failed to fetch authenticated user profile. Some personalization features may not be available while hte user identity is unknown.");
+            console.log("Failed to fetch authenticated user profile. Some personalization features may not be available while the user identity is unknown.");
           });
     }
 

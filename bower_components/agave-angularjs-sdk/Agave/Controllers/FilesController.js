@@ -43,7 +43,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -136,7 +136,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -206,7 +206,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -267,7 +267,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -322,7 +322,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -396,7 +396,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -467,7 +467,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -537,7 +537,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -595,7 +595,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -659,7 +659,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -733,7 +733,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -800,7 +800,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -853,7 +853,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -910,7 +910,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -970,7 +970,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -1029,7 +1029,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -1091,7 +1091,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -1156,7 +1156,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -1219,7 +1219,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -1278,7 +1278,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {
@@ -1340,7 +1340,7 @@ angular.module('agave.sdk').factory('FilesController', ['$q', '$localStorage', '
             });
 
             //validate and preprocess url
-            var queryUrl = APIHelper.cleanUrl(queryBuilder);
+            var queryUrl = queryBuilder;//APIHelper.cleanUrl(queryBuilder);
 
             //prepare headers
             var headers = {

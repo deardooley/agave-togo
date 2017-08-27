@@ -1,4 +1,4 @@
-angular.module('AgaveAuth').controller('LoginFormController', function ($rootScope, $scope, $state, $stateParams, $http, $window, $localStorage, $filter, settings, Commons, Alerts, TokensController, ProfilesController, APIHelper) {
+angular.module('AgaveAuth').controller('LoginFormController', function ($rootScope, $scope, $state, $stateParams, $http, $window, $localStorage, $filter, settings, Commons, Alerts, TokensController, ProfilesController, APIHelper, Configuration) {
 
   $scope.getTenantByCode = function (tenantId) {
     var namedTenant = false;
@@ -198,6 +198,8 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
             //   delete $localStorage.client;
             // }
 
+            Configuration.setToken(token);
+
             $localStorage.token = token;
 
             ProfilesController.getProfile('me').then(
@@ -298,7 +300,7 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
 
     submitHandler: function (form) {
 
-      if (form.attr('name') === 'implicitFlow') return false;
+      if (form.name === 'implicitFlow') return false;
       
       var form = {
         grant_type: 'password',
@@ -341,6 +343,8 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
             else {
               delete $localStorage.client;
             }
+
+            Configuration.setToken(token.access_token);
 
             ProfilesController.getProfile('me').then(
                 function(response) {

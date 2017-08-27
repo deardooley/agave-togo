@@ -174,23 +174,21 @@
               <h4 class="modal-title">{{'copy_file' | translate}}</h4>
             </div>
             <div class="modal-body">
-              <p>Change Destination System:</p>
-              <select ng-model="selectedSystem" ng-options="system.id for system in copySystems | orderBy: 'id'" class="form-control">
-                <option value="system"></option>
-              </select>
-
+              <p>Change Destination System: {{temp.tempModel.system.id}}</p>
+              <system-select agave-source-system="temp.tempModel.system" agave-dest-system="selectedSystem" search-filter="''"></system-select>
               <label class="radio">{{'enter_new_name_for' | translate}} <b>{{temp.model.name}}</b></label>
               <input class="form-control" ng-model="temp.tempModel.name" autofocus="autofocus">
               <div class="panel panel-primary mt10 mb0">
                 <div class="panel-body">
                     <div class="detail-sources">
-                      <code class="mr5"><b>{{"source" | translate}}:</b> {{temp.tempModel.system.id}}{{temp.model.fullPath()}}</code>
+                      <code class="mr5"><b>{{"source" | translate}}:</b> {{temp.tempModel.system.id}}/{{temp.model.fullPath()}}</code>
                     </div>
                     <div class="detail-sources">
                       <code class="mr5">
                         <b>{{"destination" | translate}}:</b>
-                        <span ng-show="selectedSystem"> {{selectedSystem.id}}{{temp.tempModel.fullPath()}}</span>
-                        <span ng-show="!selectedSystem"> {{temp.tempModel.system.id}}{{temp.tempModel.fullPath()}}</span>
+                        <span ng-show="selectedSystem"> {{selectedSystem.id}}/{{temp.tempModel.fullPath()}}</span>
+                        <!--<span ng-show="selectedSystem"> {{selectedSystem.id}}/{{temp.tempModel.fullPath()}}</span>-->
+                        <!--<span ng-show="!selectedSystem"> {{temp.tempModel.system.id}}/{{temp.tempModel.fullPath()}}</span>-->
                       </code>
                       <a href="" class="btn btn-primary" role="button" ng-click="$root.openNavigator(temp, selectedSystem)">{{'change' | translate}}</a>
                     </div>

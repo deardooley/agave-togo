@@ -228,6 +228,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
       default: $localStorage.activeProfile.username + '-' + $scope.image.name + '-' + moment(Date.now()).format('YYYYMMDD')
     };
 
+    var defaultRunTime = $scope.defaultBatchQueue.maxRequestedTime || app.defaultMaxRunTime || '12:00:00';
     schema.properties.requestedTime = {
       title: 'Maximum job runtime',
       description: 'In HH:MM:SS format. The maximum time you expect this job to run for. ' +
@@ -237,8 +238,8 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
       pattern: "^([0-9]{2,}:[0-5][0-9]:[0-5][0-9])$",
       validationMessage: "Must be in format HH:MM:SS",
       required: true,
-      default: $scope.defaultBatchQueue["maxRequestedTime"],
-      'x-schema-form': {placeholder: app.defaultMaxRunTime}
+      default: defaultRunTime,
+      'x-schema-form': {placeholder: defaultRunTime}
     };
 
     var batchQueueArray = [];
@@ -264,7 +265,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
       required: true,
       maximum: $scope.defaultBatchQueue.maxNodes,
       minimum: 1,
-      default: 1
+      default: app.defaultNodeCount || $scope.defaultBatchQueue.maxNodes || 1
     };
 
     schema.properties.processorsPerNode = {
@@ -274,7 +275,7 @@ angular.module('AgaveToGo').controller('ContainerResourceRunController', functio
       required: true,
       maximum: $scope.defaultBatchQueue.maxProcessorsPerNode,
       minimum: 1,
-      default: $scope.defaultBatchQueue["maxProcessorsPerNode"]
+      default: app.defaultProcessorsPerNode || $scope.defaultBatchQueue.maxProcessorsPerNode || 1
     };
 
     schema.properties.archive = {

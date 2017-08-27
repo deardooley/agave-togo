@@ -6,12 +6,11 @@
 
         $scope.reverse = false;
         $scope.predicate = ['model.type', 'model.name'];
+
         $scope.order = function(predicate) {
             $scope.reverse = ($scope.predicate[1] === predicate) ? !$scope.reverse : false;
             $scope.predicate[1] = predicate;
         };
-
-        $scope.fileNavigator = new FileNavigator();
 
         $rootScope.select = function(item, temp) {
             if (item.model.root === true){
@@ -23,15 +22,21 @@
         };
 
         $rootScope.openNavigator = function(item, system) {
+
           if (typeof system !== 'undefined'){
-            $scope.fileNavigator.system = item.tempModel.system = system;
-            $scope.fileNavigator.currentPath = [];
+            $scope.fileNavigator = new FileNavigator(system,'');
+            item.tempModel.system = system;
+            // $scope.fileNavigator.system = item.tempModel.system = system;
+            // $scope.fileNavigator.currentPath = [];
           } else {
-            $scope.fileNavigator.system = item.model.system;
-            $scope.fileNavigator.currentPath = item.model.path.slice();
+            $scope.fileNavigator = new FileNavigator(item.model.system, item.model.path.slice());
+
+            // $scope.fileNavigator.system = item.model.system;
+            // $scope.fileNavigator.currentPath = item.model.path.slice();
           }
 
           $scope.fileNavigator.refresh();
+
           $('#selector').modal('show');
         };
 

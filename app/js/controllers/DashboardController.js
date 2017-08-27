@@ -207,23 +207,23 @@ angular.module('AgaveToGo').controller('DashboardController',
             $scope.jobListing = [];
         });
 
-    Jira.search('open').then(
-        function (response) {
-          if (response.total > 0) {
-            $timeout(function () {
-              $scope.jiraIssues = response.issues;
-            }, 50);
-          } else {
-            $timeout(function () {
-              $scope.jiraIssues = [];
-            }, 50);
-          }
-        },
-        function (response) {
-          $timeout(function () {
-            $scope.jiraIssues = [];
-          }, 50);
-        });
+    // Jira.search('open').then(
+    //     function (response) {
+    //       if (response.total > 0) {
+    //         $timeout(function () {
+    //           $scope.jiraIssues = response.issues;
+    //         }, 50);
+    //       } else {
+    //         $timeout(function () {
+    //           $scope.jiraIssues = [];
+    //         }, 50);
+    //       }
+    //     },
+    //     function (response) {
+    //       $timeout(function () {
+    //         $scope.jiraIssues = [];
+    //       }, 50);
+    //     });
   })
 .filter("jobStatusIcon", [function() {
   return function(status) {

@@ -139,7 +139,6 @@ angular.module('agave.sdk').factory('APIHelper', function () {
             var match = url.match(re);
             if (match === null) {
                 return;
-
             }
             //remove redundant forward slashes
             var protocol = match[0];

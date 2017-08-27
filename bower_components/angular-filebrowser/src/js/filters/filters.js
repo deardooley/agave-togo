@@ -344,6 +344,111 @@
 
             return hasDirectories;
         };
-    });
+    })
+
+    /**
+     * @type {module}
+     * @description
+     * Filters an array of objects based on one or more matching properties
+     */
+    .filter('deepPropertyFilter', function ($log) {
+
+        // Gets the value at any depth in a nested object based on the
+        // path described by the keys given. Keys may be given as an array
+        // or as a dot-separated string.
+        // taken from underscore.contrib
+        function getPath(obj, ks) {
+            if (typeof ks == "string") ks = ks.split(".");
+
+            // If we have reached an undefined property
+            // then stop executing and return undefined
+            if (obj === undefined) return void 0;
+
+            // If the path array has no more elements, we've reached
+            // the intended property and return its value
+            if (ks.length === 0) return obj;
+
+            // If we still have elements in the path array and the current
+            // value is null, stop executing and return undefined
+            if (obj === null) return void 0;
+
+            return getPath(obj[_.first(ks)], _.rest(ks));
+        }
+
+        return function (items, props) {
+            var out = [];
+            if (angular.isArray(items)) {
+                var strippedProps = {};
+                var propKeys = Object.keys(props);
+
+                // iterate over the properties, stripping spaces and forcing lowercase
+                propKeys.forEach(function (propKey) {
+                    var propVal = props[propKey] || '';
+                    strippedProps[propKey] = propVal.toString().toLowerCase().replace(/ /g, '');
+                });
+
+                // check for matches for the property paths in the array of items
+                return _.filter(items, function (item) {
+                    var itemMatches = false;
+                    return _.some(strippedProps, function (propVal, propKey) {
+                        var itemVal = getPath(item, propKey) || '';
+                        itemVal = itemVal.toString().toLowerCase().replace(/ /g, '');
+
+                        if (itemVal.indexOf(propVal) !== -1) {
+                            return true;
+                            // // break the circuit and exit the loop on first match
+                            // return false;
+                        }
+                    });
+                    // // this will be true if a match was found.
+                    // return itemMatches;
+
+                });
+            }
+            else {
+                out = items;
+            }
+
+            return out;
+        };
+    })
+
+    /**
+     * @type {module}
+     * @description
+     * Filters an array of objects based on one or more matching properties
+     */
+    .filter('propertyFilter', function ($log, $filter) {
+
+        return function (items, props) {
+            var out = [];
+            if (angular.isArray(items)) {
+                items.forEach(function (item) {
+                    var itemMatches = false;
+                    var keys = Object.keys(props);
+                    var optionValue = '';
+                    for (var i = 0; i < keys.length; i++) {
+                        optionValue = item[keys[i]] ? optionValue + item[keys[i]].toString().toLowerCase().replace(/ /g, '') : '';
+                    }
+                    for (var j = 0; j < keys.length; j++) {
+
+                        var text = props[keys[j]].toLowerCase().replace(/ /g, '');
+                        if (optionValue.indexOf(text) !== -1) {
+                            itemMatches = true;
+                            break;
+                        }
+                    }
+                    if (itemMatches) {
+                        out.push(item);
+                    }
+                });
+            } else {
+                // Let the output be the input untouched
+                out = items;
+            }
+
+            return out;
+        };
+    });;
 
 })(angular);

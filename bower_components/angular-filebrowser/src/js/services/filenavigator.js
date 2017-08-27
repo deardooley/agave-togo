@@ -9,25 +9,26 @@
             this.fileListSelected = [];
             this.system = system;
             this.crumbsPath = '';
+            this.isAbsolutePath = path && path[0] == '/';
             // if the system is present, we set the current path or default to the system.storage.homeDir as
             // an absolute (virtual) path.
             if (system) {
                 if (path) {
                     if (path[0] === '/') {
-                        this.currentPath = path.split('/').splice(1);
+                        this.currentPath = path.split('/');
                     } else {
                         this.currentPath = path.split('/');
                     }
                 } else {
                     if (system.storage.homeDir[0] === '/') {
-                        this.currentPath = system.storage.homeDir.split('/')[1];
+                        this.currentPath = system.storage.homeDir.split('/');
                     } else {
                         this.currentPath = system.storage.homeDir.split('/')
                     }
                 }
             } else if (path) {
                 if (path[0] === '/') {
-                    this.currentPath = path.split('/').splice(1);
+                    this.currentPath = path.split('/');
                 } else {
                     this.currentPath = path.split('/');
                 }
@@ -74,11 +75,15 @@
                     }, 50);
                 });
             } else {
-                if (self.currentPath.length) {
+                // if (self.currentPath.length) {
                     path = self.currentPath.join('/');
-                }  else {
-                    path = "";
-                }
+                // }  else {
+                //     path = "";
+                // }
+
+                // if (this.isAbsolutePath) {
+                //     path = '/' + path;
+                // }
 
                 FilesController.listFileItems(self.system.id, path, 999999, 0)
                     .then(function (data) {
@@ -98,9 +103,12 @@
         FileNavigator.prototype.refresh = function() {
             var self = this;
             var path = self.currentPath.join('/');
-
+            // if (this.isAbsolutePath) {
+            //     path = '/' + path;
+            // }
+            
             return self.list().then(function(data) {
-                $rootScope.$broadcast('af:directory-change', self.system.id, decodeURIComponent(path));
+                // $rootScope.$broadcast('af:directory-change', self.system.id, decodeURIComponent(path));
                 angular.forEach((data || []), function (file, key) {
                     if (file.name !== '.' && file.name !== '..' ) {
                         self.fileList.push(new fileItem(file, self.currentPath, self.system));
@@ -177,8 +185,8 @@
              // update if not root dir
              if (typeof item.model.root === 'undefined'){
                  self.currentPath = [];
-                 self.currentPath = item.model.fullPath().split('/').splice(1);
-                 self.crumbsPath = item.model.crumbsPath().splice(1);
+                 self.currentPath = item.model.fullPath().split('/');//.splice(1);
+                 self.crumbsPath = item.model.crumbsPath();//.splice(1);
               }
             }
 
@@ -187,20 +195,26 @@
 
         FileNavigator.prototype.upDir = function() {
             var self = this;
-            if (self.currentPath[0]) {
-                self.currentPath = self.currentPath.slice(0, -1);
-                self.crumbsPath = self.crumbsPath.slice(0, -1);
+            if (!angular.isUndefined(self.currentPath[0])) {
+                if (self.currentPath.length <= 2 && self.currentPath[0] == '') {
+                    self.currentPath = "/".split('/');
+                    self.crumbsPath = [""];
+                }
+                else {
+                    self.currentPath = self.currentPath.slice(0, -1);
+                    self.crumbsPath = self.crumbsPath.slice(0, -1);
+                }
                 self.refresh();
             }
         };
 
         FileNavigator.prototype.goHome = function() {
             var self = this;
-            if (self.system.storage.homeDir[0] === '/') {
-                self.currentPath = self.system.storage.homeDir.split('/')[1];
-            } else {
+            // if (self.system.storage.homeDir[0] === '/') {
+            //     self.currentPath = self.system.storage.homeDir.split('/')[1];
+            // } else {
                 self.currentPath = self.system.storage.homeDir.split('/')
-            }
+            // }
 
             if (self.system.public) {
                 if (self.currentPath.length) {
@@ -217,6 +231,10 @@
             var self = this;
             self.currentPath = self.currentPath.slice(0, index + 1);
             self.crumbsPath = self.crumbsPath.slice(0, index + 1);
+            if (self.currentPath.length == 1 && self.currentPath[0] == '') {
+                self.currentPath = "/".split('/');
+                self.crumbsPath = [""];
+            }
             self.refresh();
         };
 

@@ -102,7 +102,7 @@ AgaveToGo
               }
             },
 
-            offline: true,
+            offline: false,
 
             environment: 'development'
           };

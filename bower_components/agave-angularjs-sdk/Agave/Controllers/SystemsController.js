@@ -54,8 +54,8 @@ angular.module('agave.sdk').factory('SystemsController', ['$q', 'Configuration',
          * Show all systems available to the user.
          * @param {int|null} limit    Optional parameter: The maximum number of results returned from this query
          * @param {int} offset    Required parameter: The number of results skipped in the result set returned from this query
-         * @param {bool|null} default    Optional parameter: If true, only default systems be returned
-         * @param {bool|null} public    Optional parameter: If true, only public systems will be returned. If false, no public systems will be returned. If null, both public and private systems will be returned.
+         * @param {bool|null} defaultSystems    Optional parameter: If true, only default systems be returned
+         * @param {bool|null} publicSystems    Optional parameter: If true, only public systems will be returned. If false, no public systems will be returned. If null, both public and private systems will be returned.
          * @param {SystemTypeEnum|null} type    Optional parameter: The type of system to return
          *
          * @return {promise<array>}

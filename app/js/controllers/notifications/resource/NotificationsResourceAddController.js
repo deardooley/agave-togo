@@ -1,12 +1,29 @@
 'use strict';
 
-angular.module('AgaveToGo').controller('NotificationsResourceAddController', function($scope, $state, $stateParams, $translate, ActionsService, MessageService, NotificationsController) {
+angular.module('AgaveToGo').controller('NotificationsResourceAddController', function($scope, $state, $stateParams, $translate, ActionsService, MessageService, NotificationsController, UUIDsController, RequestBin) {
 		$scope.model = {};
+		$scope.defaultCallbackUrl = '';
+
+		// $scope.isValidUuid = false;
 		if ($stateParams.associatedUuid){
 			$scope.model.associatedUuid = $stateParams.associatedUuid;
 		}
 		if ($stateParams.resourceType){
 			$scope.model.resource = $stateParams.resourceType;
+		}
+		// lookup the type of the resource to get the available events
+		// if not provided in the state
+		else if ($stateParams.associatedUuid) {
+			UUIDsController.getUUID($stateParams.associatedUuid).then(
+					function(data) {
+						$scope.isValidUuid = true;
+						$scope.model.resource = data.result.type;
+					},
+					function(err) {
+						$scope.isValidUuid = false;
+						console.log("Failed to obtain resource type for " + $stateParams.associatedUuid);
+					}
+			);
 		}
 
 		$scope.schema = {
@@ -21,38 +38,129 @@ angular.module('AgaveToGo').controller('NotificationsResourceAddController', fun
 						'type': 'string',
 						'description': 'The notification resource type',
 						'enum': [
-								'app', 'file', 'job', 'metadata', 'monitor', 'schema', 'system', 'postit', 'profile'
+								'app', 'file', 'job', 'metadata', 'monitor', 'schema', 'system', 'postit', 'notification', 'profile', 'tag'
 						],
 						'title': 'Resource type'
 					},
 					'persistent': {
 						'type': 'string',
-						'description': 'Specifies whether the notification should fire more than once. If set to false, the notification will be removed after it is fired',
+						'description': 'Specifies whether the notification should remain active. If set to false, the notification will be removed after it is fired',
 						'enum': [
 								'true', 'false'
 						],
-						'title': 'Persistent'
+						'title': 'Persistent',
+						'default': 'false'
 					},
 					'url': {
 						'type': 'string',
-						'description': 'URL to which Agave will send a POST request when that event occurs. A webhook can be any web accessible URL. Use this fanout.io default to see live toast alerts in Agave ToGo',
+						'description': 'Where Agave should send the notification. Email addresses, Slack incoming webhook URL, standard webhook URLs, and agave URI are supported. When providing a webhook URL, a POST request will be sent with the resource json representation in the body. You may customize the URL using template variables appropriate for the resource and event to which you are subscribing.',
 						'format': 'url',
 						'title': 'URL',
-						'default': 'https://48e3f6fe.fanoutcdn.com/fpp'
-						// 'validator': '(http|https)://[\\w-]+(\\.[\\w-]*)+([\\w.,@?^=%&amp;:/~+#-]*[\\w@?^=%&amp;/~+#-])?'
+						'default': ''
 					},
-			}
+					'policy': {
+						'title': 'Retry Policy',
+						type: 'object',
+						properties: {
+							'retryStrategy': {
+								'type': 'string',
+								'description': 'The retry strategy to employ.',
+								'enum': [
+									'NONE', 'IMMEDIATE', 'DELAYED', 'EXPONENTIAL'
+								],
+								'title': 'Retry strategy',
+								'default': 'NONE'
+							},
+							'retryRate': {
+								'type': 'integer',
+								'description': 'The frequency with which attempts should be made to deliver the message.',
+								'title': 'Retry rate',
+								'minimum': 0,
+								'maximum': 86400,
+								'default': 5
+							},
+							'retryLimit': {
+								'type': 'integer',
+								'description': 'The maximum attempts that should be made to delivery the message.',
+								'title': 'Retry limit',
+								'minimum': 0,
+								'maximum': 14400,
+								'default': 20
+							},
+							'retryDelay': {
+								'type': 'integer',
+								'description': 'The initial delay between the initial delivery attempt and the first retry. This does not apply for the EXPONENTIAL retry strategy',
+								'title': 'Retry delay',
+								'minimum': 0,
+								'maximum': 86400,
+								'default': 0
+							},
+							'saveOnFailure': {
+								'type': 'string',
+								'description': 'Whether the failed message should be persisted if unable to be delivered within the retryLimit',
+								'title': 'Save on failure',
+								'enum': [
+									'true', 'false'
+								],
+								'default': 'false'
+							},
+						}
+					}
+			},
+			"required":[
+				"associatedUuid",
+				"event",
+				"url",
+				"description"
+			]
 		};
 		$scope.form = [
-			'associatedUuid',
-			'resource',
+			{
+				'key': 'associatedUuid',
+				onChange: function(modelValue,form) {
+					if (modelValue) {
+						UUIDsController.getUUID(modelValue).then(
+								function (data) {
+									$scope.isValidUuid = true;
+									$scope.model.resource = data.result.type;
+									if (! $scope.model.url) {
+										RequestBin.getOrCreate(modelValue).then(function(data) {
+											$scope.model.url = RequestBin.baseUrl + data.name + '?event=${EVENT}&uuid=${UUID}';
+										});
+									}
+								},
+								function (err) {
+									$scope.isValidUuid = false;
+									$scope.model.resource = '';
+									$scope.model.event = '';
+									console.log("Failed to validate uuid " + modelValue + ". " + err);
+								}
+						);
+					}
+					else {
+						$scope.isValidUuid = false;
+						$scope.model.resource = '';
+						$scope.model.event = '';
+					}
+				},
+				ngModelOptions: {
+					updateOnDefault: true
+				}
+			},
+			{
+				'key': 'resource',
+				'condition': 'false',
+				ngModelOptions: {
+					updateOnDefault: true
+				}
+			},
 			{
 				'key': 'event',
 				'condition': 'model.resource === "app"',
 				'type': 'select',
 				'description': 'The events to which you want to be notified',
 				'titleMap': [
-						{'value': '*', 'name': '*'},
+						{'value': '*', 'name': 'ALL'},
 						{'value': 'UPDATED', 'name': 'UPDATED'},
 						{'value': 'DELETED', 'name': 'DELETED'},
 						{'value': 'PUBLISHED', 'name': 'PUBLISHED'},
@@ -77,7 +185,7 @@ angular.module('AgaveToGo').controller('NotificationsResourceAddController', fun
 				'type': 'select',
 				'description': 'The events to which you want to be notified',
 				'titleMap': [
-						{'value': '*', 'name': '*'},
+						{'value': '*', 'name': 'ALL'},
 						{'value': 'CREATED', 'name': 'CREATED'},
 						{'value': 'DELETED', 'name': 'DELETED'},
 						{'value': 'RENAME', 'name': 'RENAME'},
@@ -108,7 +216,7 @@ angular.module('AgaveToGo').controller('NotificationsResourceAddController', fun
 				'type': 'select',
 				'description': 'The events to which you want to be notified',
 				'titleMap': [
-						{'value': '*', 'name': '*'},
+						{'value': '*', 'name': 'ALL'},
 						{'value': 'CREATED', 'name': 'CREATED'},
 						{'value': 'UPDATED', 'name': 'UPDATED'},
 						{'value': 'DELETED', 'name': 'DELETED'},
@@ -144,7 +252,7 @@ angular.module('AgaveToGo').controller('NotificationsResourceAddController', fun
 				'type': 'select',
 				'description': 'The events to which you want to be notified',
 				'titleMap': [
-						{'value': '*', 'name': '*'},
+						{'value': '*', 'name': 'ALL'},
 						{'value': 'CREATED', 'name': 'CREATED'},
 						{'value': 'UPDATED', 'name': 'UPDATED'},
 						{'value': 'DELETED', 'name': 'DELETED'},
@@ -162,7 +270,7 @@ angular.module('AgaveToGo').controller('NotificationsResourceAddController', fun
 				'type': 'select',
 				'description': 'The events to which you want to be notified',
 				'titleMap': [
-						{'value': '*', 'name': '*'},
+						{'value': '*', 'name': 'ALL'},
 						{'value': 'CREATED', 'name': 'CREATED'},
 						{'value': 'CANCELLED', 'name': 'CANCELLED'},
 						{'value': 'ACTIVATED', 'name': 'ACTIVATED'},
@@ -180,11 +288,34 @@ angular.module('AgaveToGo').controller('NotificationsResourceAddController', fun
 			},
 			{
 				'key': 'event',
+				'condition': 'model.resource === "notification"',
+				'type': 'select',
+				'description': 'The events to which you want to be notified',
+				'titleMap': [
+					{'value': '*', 'name': 'ALL'},
+					{'value': 'CREATED', 'name': 'CREATED'},
+					{'value': 'DELETED', 'name': 'DELETED'},
+					{'value': 'UPDATED', 'name': 'UPDATED'},
+					{'value': 'PERMISSION_GRANT', 'name': 'PERMISSION_GRANT'},
+					{'value': 'PERMISSION_REVOKE', 'name': 'PERMISSION_REVOKE'},
+					{'value': 'DISABLED', 'name': 'DISABLED'},
+					{'value': 'ENABLED', 'name': 'ENABLED'},
+					{'value': 'SEND_ERROR', 'name': 'SEND_ERROR'},
+					{'value': 'RETRY_ERROR', 'name': 'RETRY_ERROR'},
+					{'value': 'FORCED_ATTEMPT', 'name': 'FORCED_ATTEMPT'}
+				],
+				'title': 'Events',
+				ngModelOptions: {
+					updateOnDefault: true
+				}
+			},
+			{
+				'key': 'event',
 				'condition': 'model.resource === "schema"',
 				'type': 'select',
 				'description': 'The events to which you want to be notified',
 				'titleMap': [
-						{'value': '*', 'name': '*'},
+						{'value': '*', 'name': 'ALL'},
 						{'value': 'CREATED', 'name': 'CREATED'},
 						{'value': 'UPDATED', 'name': 'UPDATED'},
 						{'value': 'DELETED', 'name': 'DELETED'},
@@ -202,7 +333,7 @@ angular.module('AgaveToGo').controller('NotificationsResourceAddController', fun
 				'type': 'select',
 				'description': 'The events to which you want to be notified',
 				'titleMap': [
-						{'value': '*', 'name': '*'},
+						{'value': '*', 'name': 'ALL'},
 						{'value': 'CREATED', 'name': 'CREATED'},
 						{'value': 'UPDATED', 'name': 'UPDATED'},
 						{'value': 'DELETED', 'name': 'DELETED'},
@@ -221,7 +352,7 @@ angular.module('AgaveToGo').controller('NotificationsResourceAddController', fun
 				'type': 'select',
 				'description': 'The events to which you want to be notified',
 				'titleMap': [
-						{'value': '*', 'name': '*'},
+						{'value': '*', 'name': 'ALL'},
 						{'value': 'CREATED', 'name': 'CREATED'},
 						{'value': 'UPDATED', 'name': 'UPDATED'},
 						{'value': 'REFRESHED', 'name': 'REFRESHED'},
@@ -239,36 +370,115 @@ angular.module('AgaveToGo').controller('NotificationsResourceAddController', fun
 					'type': 'select',
 					'description': 'The events to which you want to be notified',
 					'titleMap': [
-							{'value': '*', 'name': '*'},
+							{'value': '*', 'name': 'ALL'},
 							{'value': 'CREATED', 'name': 'CREATED'},
 							{'value': 'DELETED', 'name': 'DELETED'},
-							{'value': 'UPDATED', 'name': 'UPDATED'},
-							{'value': 'ACCOUNT_ACTIVATED', 'name': 'ACCOUNT_ACTIVATED'},
-							{'value': 'ACCOUNT_DEACTIVATED', 'name': 'ACCOUNT_DEACTIVATED'},
-							{'value': 'ROLE_GRANTED', 'name': 'ROLE_GRANTED'},
-							{'value': 'ROLE_REVOKED', 'name': 'ROLE_REVOKED'},
-							{'value': 'QUOTA_EXCEEDED', 'name': 'QUOTA_EXCEEDED'}
+							{'value': 'UPDATED', 'name': 'UPDATED'}
 					],
 					'title': 'Events',
 					ngModelOptions: {
 						updateOnDefault: true
 					}
 			},
+			{
+				'key': 'event',
+				'condition': 'model.resource === "tag"',
+				'type': 'select',
+				'description': 'The events to which you want to be notified',
+				'titleMap': [
+					{'value': '*', 'name': 'ALL'},
+					{'value': 'CREATED', 'name': 'CREATED'},
+					{'value': 'DELETED', 'name': 'DELETED'},
+					{'value': 'UPDATED', 'name': 'UPDATED'},
+					{'value': 'PERMISSION_GRANT', 'name': 'PERMISSION_GRANT'},
+					{'value': 'PERMISSION_REVOKE', 'name': 'PERMISSION_REVOKE'},
+					{'value': 'RESOURCE_ADDED', 'name': 'RESOURCE_ADDED'},
+					{'value': 'RESOURCE_REMOVED', 'name': 'RESOURCE_REMOVED'},
+					{'value': 'PUBLISHED', 'name': 'PUBLISHED'},
+					{'value': 'UNPUBLISHED', 'name': 'UNPUBLISHED'}
+				],
+				'title': 'Events',
+				ngModelOptions: {
+					updateOnDefault: true
+				}
+			},
 			'persistent',
-			'url'
+			'url',
+			{
+				"key": "policy",
+				"items": [
+						{
+							'key': 'policy.retryStrategy',
+							onChange: function(modelValue, form) {
+								if (modelValue == 'NONE' || modelValue == 'IMMEDIATE') {
+									$scope.model.policy.retryDelay = 0;
+								}
+								else if (modelValue == 'EXPONENTIAL') {
+									$scope.model.policy.retryDelay = 0;
+									$scope.model.policy.retryRate = 0;
+								}
+							}
+						},
+						{
+							'key': 'policy.retryRate',
+							'condition': 'model.policy.retryStrategy == "DELAYED"  || model.policy.retryStrategy == "IMMEDIATE"'
+						},
+						{
+							'key': 'policy.retryLimit',
+							'condition': 'model.policy.retryStrategy !== "NONE"'
+						},
+						{
+							'key': 'policy.retryDelay',
+							'condition': 'model.policy.retryStrategy == "DELAYED"'
+						},
+						{
+							'key': 'policy.saveOnFailure',
+							'condition': 'model.policy.retryStrategy !== "NONE"'
+						}
+				]
+			}
+
+			// {
+			//
+			// 	type: "conditional",
+			// 	condition: "model.retryPolicy",
+			// 	items: [
+			// 			'policy'
+			// 			// 'retryStrategy',
+			// 			// 'retryRate',
+			// 			// 'retryLimit',
+			// 			// {
+			// 			// 	'key': 'retryDelay',
+			// 			// 	'condition': 'model.policy.retryStrategy !== "EXPONENTIAL"'
+			// 			// },
+			// 			// 'saveOnFailure'
+			// 	]
+			// }
+
 		];
 
 		$scope.delete = function(){
 			ActionsService.confirmAction('notifications', $scope.notification, 'delete');
 		};
 
-		$scope.submit = function(){
+		$scope.submit = function() {
 			$scope.requesting = true;
 			var body = {};
 			body.associatedUuid = $scope.model.associatedUuid;
 			body.event = $scope.model.event;
 			body.url = $scope.model.url;
 			body.persistent = $scope.model.persistent;
+			if ($scope.model.policy.retryStrategy && $scope.model.policy.retryStrategy != 'NONE') {
+				body.policy = $scope.model.policy;
+			}
+			// {
+			// 			"retryStrategy": $scope.model.retryStrategy,
+			// 			"retryLimit": $scope.model.retryLimit,
+			// 			"retryRate": $scope.model.retryRate,
+			// 			"retryDelay": $scope.model.retryDelay,
+			// 			"saveOnFailure": $scope.model.saveOnFailure
+			// 		};
+			// }
 
 
 			NotificationsController.addNotification(body)
