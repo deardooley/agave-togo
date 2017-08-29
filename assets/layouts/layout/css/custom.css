@@ -50,3 +50,6 @@
 
 .bootstrap-table .fixed-table-toolbar > * {
   margin-bottom: 10px; }
+
+.modal-body #agave-filemanager > .container, .modal-body #agave-filemanager > .browser-container {
+  max-width: 100%; }

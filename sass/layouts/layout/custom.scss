@@ -84,3 +84,10 @@
   }
 }
 
+.modal-body {
+  #agave-filemanager {
+    > .container, > .browser-container {
+      max-width: 100%;
+    }
+  }
+}

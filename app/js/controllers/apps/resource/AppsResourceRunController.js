@@ -313,7 +313,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function ($s
 
                                                 $scope.close = function () {
                                                   $modalInstance.close();
-                                                }
+                                                };
 
                                                 $scope.$watch('uploadFileContent', function (uploadFileContent) {
                                                   if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== '') {
@@ -347,7 +347,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function ($s
 
                                                           $scope.close = function () {
                                                             $modalInstance.close();
-                                                          }
+                                                          };
 
                                                           $scope.$watch('uploadFileContent', function (uploadFileContent) {
                                                             if (typeof uploadFileContent !== 'undefined' && uploadFileContent !== '') {
