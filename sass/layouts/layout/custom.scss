@@ -91,3 +91,25 @@
     }
   }
 }
+
+.ui-select-bootstrap {
+  .ui-select-choices {
+  margin-top: 0;
+  border: 1px solid #c2cad8;
+  border-top-color: transparent;
+    .ui-select-choices-row {
+      >span {
+        color:#4d6b8a;
+        padding: 6px 20px;
+      }
+
+    }
+    .ui-select-choices-row.active {
+      >span {
+        background-color: #36c6d3;
+        color: #ffffff;
+      }
+
+    }
+  }
+}

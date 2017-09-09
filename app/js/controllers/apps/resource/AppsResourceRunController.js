@@ -1,12 +1,49 @@
 angular.module('AgaveToGo').controller('AppsResourceRunController', function ($scope, $stateParams, $uibModal, $modalStack, $localStorage, $rootScope, $translate, AppsController, SystemsController, JobsController, NotificationSubscriptionTemplateService, NotificationsController, FilesController, MessageService, $filter) {
   $scope.appId = $stateParams.appId;
   $scope.executionSystem = {};
+  $scope.archiveSystems = [];
   $scope.defaultBatchQueue = {};
+  $scope.defaultSystem = {};
   $scope.image = {};
   $scope.tags = {};
   $scope.systems = [];
 
+
+  function updateTimepickerOptions(batchQueue) {
+    return {
+      minuteStep: 1,
+      secondStep: 1,
+      showInputs: false,
+      showSeconds: true,
+      showMeridian: false,
+      template: false,
+      modalBackdrop: false,
+      appendWidgetTo: 'body',
+      disableMousewheel: true,
+      defaultTime: getDefaultRuntime(),
+      maxHours: getMaxQueueHours()
+    };
+  }
+
+  $scope.searchArchiveSystems = function(schema, options, searchTerm) {
+    return SystemsController.searchSystems('id.like=*' + (searchTerm || '') + '*&limit=999&filter=name,id,label,default,type&type=STORAGE');
+  };
+
+  function getDefaultRuntime() {
+    return $scope.defaultBatchQueue.maxRequestedTime || $scope.app.defaultMaxRunTime || '12:00:00';
+  }
+
+  function getMaxQueueHours() {
+    if ($scope.defaultBatchQueue.maxRequestedTime && $scope.defaultBatchQueue.maxRequestedTime != -1 ) {
+      return $scope.defaultBatchQueue.maxRequestedTime.split(":")[0];
+    }
+    else {
+      return 999;
+    }
+  }
+
   $scope.executionSystem = {};
+
 
   AppsController.getAppDetails($scope.appId)
       .then(
@@ -14,32 +51,51 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function ($s
             $scope.app = response.result;
 
             // fetch systems for archiving, etc
-            SystemsController.searchSystems('limit=999999&filter=name,id,type,executionSystem,executionType,label,default').then(
+            SystemsController.getSystemDetails($scope.app.executionSystem).then(
                 function (response) {
-                  $scope.systems = response.result;
-                  $scope.executionSystem = {};
+                  $scope.executionSystem = response.result;
+                  // $scope.executionSystem = {};
                   $scope.defaultBatchQueue = {};
 
                   // find the execution system in the list
-                  angular.forEach($scope.systems, function (system) {
-                    if (system.id == $scope.app.executionSystem) {
-                      $scope.executionSystem = system;
-                      return false;
-                    }
-                  });
-
+                  // angular.forEach($scope.systems, function (system) {
+                  //   if (system.id == $scope.app.executionSystem) {
+                  //     $scope.executionSystem = system;
+                      // return false;
+                    // }
+                  // });
 
                   for (index in $scope.executionSystem.queues) {
                     var q = $scope.executionSystem.queues[index];
                     if (q["name"] == $scope.app.defaultQueue) {
-                      $scope.defaultBatchQueue = q;
-                      break;
+                      // if ($scope.defaultBatchQueue == {}) {
+                        $scope.defaultBatchQueue = q;
+                      // }
+                      // $scope.batchQueueArray.push({name:q.name, label:q.name});
+                      // $scope.batchQueueNames.push(q.name);
                     }
                   }
 
-                  $scope.requesting = false;
+                  $scope.searchArchiveSystems().then(
+                      function (response) {
+                        $scope.systems = response.result;
 
-                  $scope.resetForm();
+                        angular.forEach($scope.systems, function (system) {
+                          if (system.default) {
+                            $scope.defaultSystem = system;
+                          }
+                          $scope.archiveSystems.push({value: system.id, label: system.name, description: system.id});
+                        });
+
+                        $scope.requesting = false;
+
+                        $scope.resetForm();
+                      },
+                      function(err) {
+                        $scope.requesting = false;
+                        $scope.resetForm();
+                      }
+                  );
 
                 },
                 function (errorResponse) {
@@ -141,8 +197,9 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function ($s
             type: 'string',
             'x-schema-form': {
               notitle: true
-            },
-          }
+            }
+          };
+
           if (input.semantics.maxCardinality > 1) {
             field.maxItems = input.semantics.maxCardinality;
           }
@@ -165,34 +222,47 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function ($s
       default: $localStorage.activeProfile.username + '-' + $scope.app.id + '-' + moment(Date.now()).unix()
     };
 
-    var defaultRunTime = $scope.defaultBatchQueue.maxRequestedTime || app.defaultMaxRunTime || '12:00:00';
     schema.properties.requestedTime = {
       title: 'Maximum job runtime',
       description: 'In HH:MM:SS format. The maximum time you expect this job to run for. ' +
       'After this amount of time your job will be killed by the job scheduler. ' +
       'Shorter run times result in shorter queue wait times.',
       type: 'string',
-      pattern: "^([0-9]{2,}:[0-5][0-9]:[0-5][0-9])$",
+      pattern: "^([0-9]{2,3}:[0-5][0-9]:[0-5][0-9])$",
       validationMessage: "Must be in format HH:MM:SS",
       required: true,
-      default: defaultRunTime,
-      'x-schema-form': {placeholder: defaultRunTime}
+      default: getDefaultRuntime(),
+      'x-schema-form': {placeholder: getDefaultRuntime()}
     };
 
-    var batchQueueArray = [];
+    $scope.batchQueueArray = [];
+    $scope.batchQueueNames = [];
+
     for (index in $scope.executionSystem.queues) {
       var name = $scope.executionSystem.queues[index]['name'];
-      batchQueueArray.push({value: name, label: name});
+      $scope.batchQueueArray.push({value: name, label: name});
+      $scope.batchQueueNames.push(name);
     }
+
+    // schema.properties.batchQueue = {
+    //   title: 'Batch Queue',
+    //   description: 'Which batch queue to submit the job to',
+    //   type: 'string',
+    //   enum: $scope.batchQueueNames,
+    //   required: true,
+    //   placeholder: 'None selected',
+    //   default: app.defaultQueue.name
+    // };
+
     schema.properties.batchQueue = {
       title: 'Batch Queue',
       description: 'Which batch queue to submit the job to',
       type: 'string',
       format: 'uiselect',
-      items: batchQueueArray,
+      items: $scope.batchQueueArray,
       required: true,
       placeholder: 'None selected',
-      default: app.defaultQueue
+      default: $scope.defaultBatchQueue.name
     };
 
     schema.properties.nodeCount = {
@@ -221,27 +291,18 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function ($s
       default: true
     };
 
-    var archiveSystems = [];
-    angular.forEach($scope.systems, function(system) {
-      if (system.type == 'STORAGE') {
-        if (system.default) {
-          $scope.defaultSystem = system;
-        }
-        archiveSystems.push({ value: system.id, label: system.name, description: system.id});
-      }
-
-    });
-
     schema.properties.archiveSystem = {
       title: 'Archive System',
       description: 'The system to which the output should be archived',
       type: 'string',
       format: 'uiselect',
-      items: archiveSystems,
+      items: $scope.archiveSystems,
       placeholder: 'None selected',
       default: $scope.defaultSystem.id,
       options:{
-        searchDescriptions : true
+        searchDescriptions : true,
+        refreshDelay: 300,
+        async: $scope.searchArchiveSystems
       }
     };
 
@@ -525,6 +586,8 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function ($s
         });
       }
 
+      $scope.form.schema.properties.requestedTime.timepickerOptions = updateTimepickerOptions($scope.defaultBatchQueue);
+
       /* job details */
       $scope.form.form.push({
         type: 'fieldset',
@@ -536,8 +599,27 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function ($s
             type: "conditional",
             condition: "form.model.showAadvancedOptions",
             items: [
-              'requestedTime',
-              'batchQueue',
+              {
+                "key": 'requestedTime',
+                "type": "template",
+                "template": '<div class="form-group bootstrap-timepicker timepicker"> ' +
+                  '<label for="runtime-timepicker">{{form.title}}</label>' +
+                  '<div class="input-group ">' +
+                    // '<timepicker ng-model="form.model.requestedTime" hour-step="1" minute-step="1" second-step="1" show-meridian="false"></timepicker>' +
+                  '<input class="form-control" runtimepicker runtimepicker-config="form.schema.timepickerOptions" ng-model="form.model.requestedTime" type="text"/>' +
+                  '<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>' +
+                  '</div>' +
+                '</div>',
+                "title": $scope.form.schema.properties.requestedTime.title,
+                "description": $scope.form.schema.properties.requestedTime.description,
+                "model": $scope.form.model,
+              },
+              {
+                key: 'batchQueue',
+                onChange: function(modelValue,form) {
+                  updateTimepickerOptions(modelValue);
+                }
+              },
               'nodeCount',
               'processorsPerNode',
               'archive',
@@ -558,7 +640,7 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function ($s
         $scope.form.form.push({
           type: 'fieldset',
           title: 'Inputs',
-          items: inputs,
+          items: inputs
         });
       }
 
@@ -580,6 +662,11 @@ angular.module('AgaveToGo').controller('AppsResourceRunController', function ($s
         type: 'actions',
         items: items
       });
+
+
+      // $('#runtime-timepicker').timepicker();
+
+
     } else {
       MessageService.handle(response, $translate.instant('error_apps_details'));
     }

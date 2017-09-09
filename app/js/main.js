@@ -26,6 +26,7 @@ var AgaveToGo = angular.module('AgaveToGo', [
   'pascalprecht.translate',
   'schemaForm',
   'schemaFormWizard',
+  'angular-underscore/filters',
   'TagsService',
   'timer',
   'toastr',
@@ -1456,8 +1457,10 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
               {
                 serie: true,
                 name: 'AgaveToGo',
+                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                 files: [
-                  '../bower_components/angular-schema-form-ui-select/angular-underscore.js',
+                  '../bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js',
+                  'js/directives/runtimepicker.js',
                   'js/services/NotificationService.js',
                   'js/services/MessageService.js',
                   'js/controllers/apps/resource/AppsResourceRunController.js'
@@ -1589,7 +1592,7 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         resolve: {
           deps: ['$ocLazyLoad', function ($ocLazyLoad) {
             return $ocLazyLoad.load([
-              '../bower_components/angular-schema-form-ui-select/angular-underscore.js',
+              '../bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js',
               'js/services/NotificationService.js',
               'js/services/QuayRepositoryService.js',
               'js/services/MessageService.js',
