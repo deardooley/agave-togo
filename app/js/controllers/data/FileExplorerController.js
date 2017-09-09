@@ -24,7 +24,7 @@ angular.module('AgaveToGo').controller('FileExplorerController', function($rootS
     }
     // no default system was found for the user 
     // we will prompt for a system to list
-    else if (!angular.hasOwnProperty('systemId', $stateParams)) {
+    else if (!resolvedSystem) {
       $uibModal.open({
         templateUrl: "views/data/system-selector.html",
         scope: $scope,

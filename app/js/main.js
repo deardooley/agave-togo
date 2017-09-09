@@ -1684,17 +1684,17 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
               }]
             );
           }],
-          resolvedPath: ['deps', '$stateParams', '$location', 'SystemsController',
-            function(deps, $stateParams, $location, SystemsController) {
-              if ($stateParams.systemId) {
+          resolvedPath: ['deps', '$stateParams', '$location', 'resolvedSystem', 'SystemsController',
+            function(deps, $stateParams, $location, resolvedSystem, SystemsController) {
+              if (resolvedSystem) {
                 return $stateParams.path;
               }
               else {
                 return "/" + $stateParams.path;
               }
             }],
-          resolvedSystem: ['deps', '$stateParams', '$location', 'resolvedPath', 'SystemsController',
-            function(deps, $stateParams, $location, resolvedPath, SystemsController) {
+          resolvedSystem: ['deps', '$state', '$stateParams', '$localStorage', '$location', 'SystemsController',
+            function(deps, $state, $stateParams, $localStorage, $location, SystemsController) {
               if ($stateParams.systemId) {
                 return SystemsController.getSystemDetails($stateParams.systemId).then(function(data) {
                       return data.result;
@@ -1704,7 +1704,38 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                     });
               }
               else {
-                return null;
+                // if no system was given, route them to their default system
+                return SystemsController.searchSystems('default=true&type=STORAGE&filter=*').then(
+                    function (data) {
+                      if (data.result && data.result.length > 0) {
+
+                        // if the default system is public, and no path was given,
+                        // redirect to their public folder on the system
+                        if (! $stateParams.path) {
+                          if (data.result[0].public) {
+                            $stateParams.path = data.result[0].storage.homeDir + '/' + $localStorage.activeProfile.username;
+                          }
+                          // otehrwise, take them to the system home directory
+                          else {
+                            $stateParams.path = data.result[0].storage.homeDir;
+                          }
+                        }
+
+                        $location.path("/data/explorer/" + data.result[0].id + '/' + $stateParams.path);
+                      }
+                      else {
+                        return null;
+                        $scope.requesting = false;
+                        MessageService.handle(response, $translate.instant('error_systems_list'));
+                        App.unblockUI('#agave-filemanager');
+                      }
+                    },
+                    function(err) {
+                      return null;
+                      $scope.requesting = false;
+                      MessageService.handle(response, $translate.instant('error_systems_list'));
+                      App.unblockUI('#agave-filemanager');
+                    });
               }
             }]
         }
@@ -1715,17 +1746,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
         url: '/data/explorer/:systemId',
         templateUrl: 'views/data/explorer.html',
         data: {pageTitle: 'File Explorer'},
-        // params: {
-        //   path: {
-        //     raw: true,
-        //     squash: true,
-        //     value: ''
-        //   },
-        //   systemId: {
-        //     squash: true,
-        //     value: null
-        //   }
-        // },
         controller: function($scope, $state, $stateParams, $translate, SystemsController,MessageService) {
 
           $scope.error = true;
@@ -1751,62 +1771,6 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                 });
           }
         }
-        // .state('default-system-data-explorer', {
-        //   url: '/data/explorer/:systemId',
-        //   templateUrl: 'views/data/explorer.html',
-        //   data: {pageTitle: 'File Explorer'},
-          // params: {
-          //   path: {
-          //     raw: true,
-          //     squash: true,
-          //     value: ''
-          //   },
-          //   systemId: {
-          //     squash: true,
-          //     value: null
-          //   }
-          // },// controller: 'FileExplorerController',
-        // resolve: {
-        //   deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-        //     return $ocLazyLoad.load([
-        //       {
-        //         serie: true,
-        //         name: 'AgaveToGo',
-        //         insertBefore: '#ng_load_plugins_before',
-        //         files: [
-        //           'js/services/MessageService.js',
-        //           'js/controllers/data/FileExplorerController.js'
-        //         ]
-        //       }]
-        //     );
-        //   }],
-        //   resolvedSystem: ['deps', '$stateParams', '$state', 'SystemsController',
-        //     function(deps, $stateParams, $state, SystemsController) {
-        //       if ($stateParams.systemId) {
-        //         return SystemsController.getSystemDetails($stateParams.systemId).then(function(data) {
-        //               return data.result;
-        //             },
-        //             function(err) {
-        //               return null;
-        //             });
-        //       }
-        //       else {
-        //         return SystemsController.listSystems(99999, 0, true, null, 'STORAGE').then(
-        //             function (data) {
-        //               if (data.result && data.result.length > 0) {
-        //                 return data[0];
-        //               }
-        //               else {
-        //                 return null;
-        //               }
-        //             },
-        //             function(err) {
-        //               return null;
-        //             });
-        //       }
-        //     }]
-        //
-        // }
       })
 
 
