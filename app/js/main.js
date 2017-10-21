@@ -272,11 +272,11 @@ AgaveToGo.controller('QuickSidebarController', ['$scope', '$localStorage', 'Chan
 
     $scope.isOnline = function() {
       return settings.online;
-    }
+    };
 
     $scope.toggleOnline = function() {
       settings.online = !settings.online;
-    }
+    };
 
 
     // ChangelogParser.latest().then(function (data) {

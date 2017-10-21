@@ -344,21 +344,33 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
   TenantsController.listTenants().then(
       function (response) {
         var tenants = [];
-        angular.forEach(response, function (tenant, key) {
-          if (settings.oauth.clients[tenant.code] &&
-              settings.oauth.clients[tenant.code].clientKey) {
+        angular.forEach(settings.oauth.clients, function (implicitSettingsTenant, key) {
+          if (implicitSettingsTenant.clientKey) {
+            var apiTenant;
+            angular.forEach(response, function(t) {
+              if (key === t.code) {
+                apiTenant = t;
+                return false;
+              }
+            });
+
+            var tenant;
             // hack until we push this info into the tenants api
-            if (settings.oauth.clients[tenant.code]) {
-              tenant.signupUrl = settings.oauth.clients[tenant.code].signupUrl;
-              tenant.projectUrl = settings.oauth.clients[tenant.code].projectUrl;
-              tenant.supportUrl = settings.oauth.clients[tenant.code].supportUrl;
-              tenant.allowsSignup = settings.oauth.clients[tenant.code].allowsSignup;
+            if (apiTenant) {
+              tenant = angular.extend({}, implicitSettingsTenant, apiTenant, {});
+              tenant.signupUrl = implicitSettingsTenant.signupUrl;
+              tenant.projectUrl = implicitSettingsTenant.projectUrl;
+              tenant.supportUrl = implicitSettingsTenant.supportUrl;
+              tenant.allowsSignup = implicitSettingsTenant.allowsSignup;
             }
             else {
-              tenant.signupUrl = '';
-              tenant.projectUrl = '';
-              tenant.supportUrl = '';
-              tenant.allowsSignup = true;
+              tenant = angular.extend({}, implicitSettingsTenant);
+              tenant.code = key;
+              tenant.name = tenant.name || key;
+              tenant.signupUrl = tenant.signupUrl || '';
+              tenant.projectUrl = tenant.projectUrl || '';
+              tenant.supportUrl = tenant.supportUrl || '';
+              tenant.allowsSignup = tenant.signupUrl && true;
             }
 
             tenants.push(tenant);

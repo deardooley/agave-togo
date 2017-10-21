@@ -3,15 +3,15 @@
  * ToGo custom config
  */
 AgaveToGo
-    /**
-     * @ngdoc object
-     * @name AgaveToGo.config:agaveToGoEnvironmentConfig
-     *
-     * @description
-     * Common configuration settings for the default application 
-     * runtime behavior.
-     */
-    .factory('userProperties', ['$localStorage', function($localStorage) {
+/**
+ * @ngdoc object
+ * @name AgaveToGo.config:agaveToGoEnvironmentConfig
+ *
+ * @description
+ * Common configuration settings for the default application
+ * runtime behavior.
+ */
+    .factory('userProperties', ['$localStorage', function ($localStorage) {
 
       return $localStorage.userProperties || {
             /**
@@ -70,7 +70,26 @@ AgaveToGo
             },
 
             logging: {
-              level: 'debug'
+              level: 'debug',
+              target: 'console',
+              analytics:  {
+                level: 'none'
+              },
+              polling: {
+                level: 'none'
+              },
+              routing: {
+                level: 'none'
+              },
+              auth: {
+                level: 'none'
+              },
+              cron: {
+                level: 'none'
+              },
+              sdk: {
+                level: 'none'
+              }
             },
 
             storage: {
@@ -108,22 +127,22 @@ AgaveToGo
           };
 
     }])
-    // .factory('settings', ['$rootScope', function($rootScope) {
-    //   var settings = {
-    //     layout: {
-    //       pageSidebarClosed: false, // sidebar menu state
-    //       pageContentWhite: true, // set page content layout
-    //       pageBodySolid: false, // solid body color state
-    //       pageAutoScrollOnLoad: 1000 // auto scroll to top on page load
-    //     },
-    //
-    //     webpack: false,
-    //     assetsPath: '../assets',
-    //     globalPath: '../assets/global',
-    //     layoutPath: '../assets/layouts/layout',
-    //   };
-    //
-    //   $rootScope.settings = settings;
-    //
-    //   return settings;
-    // }]);
+// .factory('settings', ['$rootScope', function($rootScope) {
+//   var settings = {
+//     layout: {
+//       pageSidebarClosed: false, // sidebar menu state
+//       pageContentWhite: true, // set page content layout
+//       pageBodySolid: false, // solid body color state
+//       pageAutoScrollOnLoad: 1000 // auto scroll to top on page load
+//     },
+//
+//     webpack: false,
+//     assetsPath: '../assets',
+//     globalPath: '../assets/global',
+//     layoutPath: '../assets/layouts/layout',
+//   };
+//
+//   $rootScope.settings = settings;
+//
+//   return settings;
+// }]);
