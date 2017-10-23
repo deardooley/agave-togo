@@ -1,8 +1,8 @@
 // staging
 var OAuthClients = {
   "agave.prod": {
-    "clientKey": "L8jkXCn2vrFWekiffuf23WC2c0Aa",
-    "callbackUrl": "https://togo.agaveplatform.org/auth/",
+    "clientKey": "KlsvSCNIWOSRjjFXtuSfJJkX3fca",
+    "callbackUrl": "http://togo.agaveplatform.org/auth/",
     "scope": "PRODUCTION",
     "projectUrl": "https://agaveapi.co/",
     "supportUrl": "https://github.com/agaveplatform/agave-togo/issues",
@@ -10,8 +10,8 @@ var OAuthClients = {
     "allowsSignup": true
   },
   "iplantc.org": {
-    "clientKey": "onAIxeN5ElENaAAryteaSY8pEYYa",
-    "callbackUrl": "https://togo.agaveplatform.org/auth/",
+    "clientKey": "0ef7LZAli2coKuiE1h6dgFH5b7Aa",
+    "callbackUrl": "http://togo.agaveplatform.org/auth/",
     "scope": "PRODUCTION",
     "projectUrl": "https://cyverse.org/",
     "supportUrl": "https://ask.cyverse.org/",
@@ -19,8 +19,8 @@ var OAuthClients = {
     "allowsSignup": false
   },
   "tacc.prod": {
-    "clientKey": "mzBLQt9YaovI18wWZvLVgKTNcPoa",
-    "callbackUrl": "https://togo.agaveplatform.org/auth/",
+    "clientKey": "Z9JFMDIDUhaEC8jwOXw6eSTY7eoa",
+    "callbackUrl": "http://togo.agaveplatform.org/auth/",
     "scope": "PRODUCTION",
     "projectUrl": "https://tacc.utexas.edu/",
     "supportUrl": "https://portal.tacc.utexas.edu/tacc-consulting",
