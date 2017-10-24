@@ -167,7 +167,8 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
             "scheduler": {
                 "type": "string",
                 "enum": [
-                  "LSF", "LOADLEVELER", "PBS", "SGE", "CONDOR", "FORK", "COBALT", "TORQUE", "MOAB", "SLURM", "UNKNOWN"
+                  "LSF", "LOADLEVELER", "PBS", "SGE", "CONDOR", "FORK", "COBALT", "TORQUE", "MOAB", "SLURM", "CUSTOM_GRIDENGINE", "CUSTOM_CONDOR", "CUSTOM_TORQUE", "CUSTOM_PBS", "CUSTOM_SLURM","UNKNOWN"
+                    
                 ],
                 "title": "Scheduler"
             },
@@ -861,7 +862,12 @@ angular.module('AgaveToGo').controller('SystemBuilderWizardController', function
                            "COBALT": "COBALT",
                            "TORQUE": "TORQUE",
                            "MOAB": "MOAB",
-                           "SLURM": "SLURM"
+                           "SLURM": "SLURM",
+                           "CUSTOM_GRIDENGINE": "CUSTOM_GRIDENGINE", 
+                           "CUSTOM_CONDOR": "CUSTOM_CONDOR", 
+                           "CUSTOM_TORQUE": "CUSTOM_TORQUE", 
+                           "CUSTOM_PBS": "CUSTOM_PBS", 
+                           "CUSTOM_SLURM": "CUSTOM_SLURM"
                          },
                          ngModelOptions: {
                            updateOnDefault: true
