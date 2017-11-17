@@ -1,13 +1,13 @@
 ######################################################
 #
 # Agave ToGo Web Container Image
-# Tag: agaveapi/togo
+# Tag: agaveplatform/togo
 #
 # This is the image hosting the static assets comprising
 # Agave ToGo. SSL is supported.
 #
-# https://bitbucket.org/agaveapi/agave-togo
-# http://togo.agaveapi.co
+# https://github.com/agaveplatform/agave-togo
+# http://togo.agaveplatform.org
 #
 ######################################################
 

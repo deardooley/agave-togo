@@ -29,14 +29,14 @@ We also use a number of node.js tools to initialize and test agave-togo. You mus
 Clone the agave-togo repository using [git](http://git-scm.com/):
 
 ```
-git clone https://github.com/deardooley/agave-togo.git  
+git clone https://github.com/agaveplatform/agave-togo.git  
 cd agave-togo  
 ```
 
 If you just want to start a new project without the agave-togo commit history then you can do:
 
 ```
-git clone --depth=1 https://github.com/deardooley/agave-togo.git <your-project-name>  
+git clone --depth=1 https://github.com/agaveplatform/agave-togo.git <your-project-name>  
 ```
 
 The `depth=1` tells git to only pull down one commit worth of historical data.
@@ -175,7 +175,7 @@ karma start
 
 ## Docker Installation
 
-We also provide Agave ToGo as a [Docker](https://hub.docker.com/r/agaveapi/agave-togo) image. This repository is configured to build automatically
+We also provide Agave ToGo as a [Docker](https://hub.docker.com/r/agaveplatform/agave-togo) image. This repository is configured to build automatically
 and publish the resulting image to the [Docker Public Registry].
 
 ### Prerequisites
@@ -190,7 +190,7 @@ You will need to have the [Docker Engine installed](http://docs.docker.com/engin
 Clone the image as you would above, then invoke the `docker build` command.
 
 ```
-git clone https://github.com/deardooley/agave-togo.git  
+git clone https://github.com/agaveplatform/agave-togo.git  
 cd agave-togo
 docker build --rm=true -t agave-togo .
 ```

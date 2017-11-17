@@ -3,7 +3,7 @@ version: '2'
 services:
   web:
     image: agaveapi/httpd:2.4
-    hostname: togo.staging.agaveapi.co
+    hostname: togo.staging.agaveplatform.org
     restart: on-failure
     environment:
       - 'DOCUMENT_ROOT=/var/www/html'
@@ -15,7 +15,7 @@ services:
       - '.:/var/www/html:ro'
     labels:
       - "traefik.backend=togo"
-      - "traefik.frontend.rule=Host:togo.staging.agaveapi.co"
+      - "traefik.frontend.rule=Host:togo.staging.agaveplatform.org"
       - "traefik.port=80"
       - "traefik.protocol=http"
       - "traefik.frontend.entryPoints=https,http"
