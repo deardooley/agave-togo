@@ -25,7 +25,8 @@ AgaveToGo
           toast: 'directives/toast/toast.html',
           progressbar: 'directives/progressbar/progressbar.html'
         },
-        timeOut: 5000
+        timeOut: 0,
+        extendedTimeOut: 0
       });
     })
 

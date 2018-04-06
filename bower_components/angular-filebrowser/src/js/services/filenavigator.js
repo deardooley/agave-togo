@@ -27,11 +27,11 @@
                     }
                 }
             } else if (path) {
-                if (path[0] === '/') {
+                // if (path[0] === '/') {
+                //     this.currentPath = path.split('/');
+                // } else {
                     this.currentPath = path.split('/');
-                } else {
-                    this.currentPath = path.split('/');
-                }
+                // }
             } else {
                 this.currentPath = [];
             }

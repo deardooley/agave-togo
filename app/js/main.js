@@ -84,7 +84,7 @@ AgaveToGo.config(function ($locationProvider, $translateProvider, $translatePart
         urlTemplate: 'js/lang/{part}/local_{lang}.json',// in this section we define our structure
         loadFailureHandler: 'MyErrorHandler'//it's a factory to error handling
       })
-      .useLoaderCache(false)//use cache to loading translate file
+      .useLoaderCache(true)//use cache to loading translate file
       .useMissingTranslationHandlerLog() // you can remove in production
       // .useLocalStorage(true)
       //.determinePreferredLanguage();// define language by browser language
@@ -148,6 +148,10 @@ AgaveToGo.config(function ($provide) {
 
 AgaveToGo.constant('angularMomentConfig', {
   timezone: 'America/Chicago' // optional
+})
+.constant('amTimeAgoConfig', {
+    fullDateThreshold: 1,
+    fullDateFormat: 'MMM D, YYYY'
 });
 
 AgaveToGo.config(['$controllerProvider', function ($controllerProvider) {
@@ -1421,12 +1425,35 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
                   'js/services/ActionsService.js',
                   'js/services/MessageService.js',
                   'js/services/PermissionsService.js',
-                  'js/controllers/apps/resource/AppsResourceDetailsController.js'
+                  'js/controllers/apps/resource/AppsResourceDetailsController.js',
+                  'js/controllers/modals/ModalConfirmResourceActionController.js',
+                  'js/controllers/modals/ModalPermissionEditorController.js'
                 ]
               }
             ]);
           }]
         }
+      })
+
+      .state('apps.history', {
+          url: '/history',
+          controller: 'AppsResourceHistoryController',
+          templateUrl: 'views/apps/resource/history.html',
+          resolve: {
+              deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load([
+                      {
+                          name: 'AgaveToGo',
+                          files: [
+                              'js/services/ActionsService.js',
+                              'js/services/MessageService.js',
+                              'js/services/PermissionsService.js',
+                              'js/controllers/apps/resource/AppsResourceHistoryController.js'
+                          ]
+                      }
+                  ]);
+              }]
+          }
       })
 
       .state('apps.stats', {
@@ -2017,6 +2044,27 @@ AgaveToGo.config(['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryPro
             ]);
           }]
         }
+      })
+
+      .state('systems.history', {
+          url: '/history',
+          controller: 'SystemsResourceHistoryController',
+          templateUrl: 'views/systems/resource/history.html',
+          resolve: {
+              deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load([
+                      {
+                          name: 'AgaveToGo',
+                          files: [
+                              'js/services/ActionsService.js',
+                              'js/services/MessageService.js',
+                              'js/services/PermissionsService.js',
+                              'js/controllers/systems/resource/SystemsResourceHistoryController.js'
+                          ]
+                      }
+                  ]);
+              }]
+          }
       })
 
       .state('systems.stats', {

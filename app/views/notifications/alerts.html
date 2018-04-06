@@ -109,7 +109,8 @@
                                       </label>
                                     </td>
                                     <td>
-                                        {{notification.uuid}}
+                                        <a ng-click="previewToastNotification(notification)">{{notification.uuid}}</a>
+                                        <a ng-click="previewDesktopNtofication(notification)"><i class="fa fa-television"></i></a>
                                     </td>
                                     <td class="hidden-xs">
                                       <span am-time-ago="notification.created" class="date"></span>

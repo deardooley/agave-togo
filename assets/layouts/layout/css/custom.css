@@ -64,3 +64,6 @@
   .ui-select-bootstrap .ui-select-choices .ui-select-choices-row.active > span {
     background-color: #36c6d3;
     color: #ffffff; }
+#agave-filemanager .browser-container {
+  max-width: 100%;
+}

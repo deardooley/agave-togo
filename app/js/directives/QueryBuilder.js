@@ -211,14 +211,14 @@ AgaveToGo.directive('queryBuilder', ['$compile', function ($compile) {
                     case 'apps':
                       scope.group.rules.push({
                           condition: '.eq=',
-                          field: 'available',
+                          field: 'id',
                           data: ''
                       });
                       break;
                     case 'systems':
                       scope.group.rules.push({
                           condition: '.eq=',
-                          field: 'available',
+                          field: 'id',
                           data: ''
                       });
                       break;
@@ -239,7 +239,7 @@ AgaveToGo.directive('queryBuilder', ['$compile', function ($compile) {
                     case 'notifications':
                       scope.group.rules.push({
                           condition: '.eq=',
-                          field: 'available',
+                          field: 'id',
                           data: ''
                       });
                       break;

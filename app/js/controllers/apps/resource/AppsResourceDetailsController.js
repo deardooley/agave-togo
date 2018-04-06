@@ -18,13 +18,17 @@ angular.module('AgaveToGo').controller('AppsResourceDetailsController', function
     }
   };
 
+  $scope.clone = function(resourceType, resource, resourceAction, resourceList, resourceIndex){
+    ActionsService.clone(resourceType, resource, resourceAction, resourceList, resourceIndex);
+  };
+
   $scope.confirmAction = function(resourceType, resource, resourceAction, resourceIndex){
     ActionsService.confirmAction(resourceType, resource, resourceAction, resourceIndex);
   };
 
   $scope.editPermissions = function(resource, resourceType) {
     PermissionsService.editPermissions(resource, resourceType);
-  }
+  };
 
   $scope.edit = function(resourceType, resource){
     ActionsService.edit(resourceType, resource);

@@ -22,11 +22,13 @@
 
         this.uploadFile = function(file, form, filesUri, callback) {
           var self = this;
-          var filepath = file.path.split('/')
-          filepath.pop();
+          var filepath = (file.path || file.webkitRelativePath).split("/");
+          if (filepath.length && filepath[0].length == 0) {
+              filepath.pop();
+          }
 
           return Upload.upload({
-              url: filesUri + '/' + filepath.join('/') + "?naked=true",
+              url: filesUri + '/' + filepath.join("/") + "?naked=true",
               data: {
                 file: file,
                 fileToUpload: file,
@@ -44,7 +46,8 @@
           }, function (evt) {
               file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
           });
-        }
+        };
+
         this.makeFolders = function(fileList, system, path){
           var promises = [];
           var self = this;
@@ -67,7 +70,8 @@
                //})
              )
             }
-          })
+          });
+
           var deferred = $q.defer();
 
           return $q.all(promises).then(
@@ -79,9 +83,9 @@
               deferredHandler(data, deferred, $translate.instant('error_uploading_directory'));
               return false;
             }
-          )
-          return true;
-        }
+          );
+        };
+
         this.requesting = false;
         //
         // this.createDirectoryTree = function(fileList, system, path) {

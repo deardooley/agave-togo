@@ -139,7 +139,7 @@ angular.module('togo.realtime', [])
                         }
                     );
               }
-              // toastr.info(toastData);
+              toastr.info(toastData);
             });
 
           } else {
@@ -150,7 +150,7 @@ angular.module('togo.realtime', [])
         this.disconnect = function () {
           if (channel) {
             channel.disconnect();
-            client.dis
+            client.disconnect();
           }
         }
 

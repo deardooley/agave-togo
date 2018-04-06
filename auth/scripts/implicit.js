@@ -26,6 +26,15 @@ var OAuthClients = {
     "supportUrl": "https://portal.tacc.utexas.edu/tacc-consulting",
     "signupUrl": "https://portal.tacc.utexas.edu/account-request",
     "allowsSignup": false
-  }
+  },
+    "designsafe": {
+        "clientKey": "Z9JFMDIDUhaEC8jwOXw6eSTY7eoa",
+        "callbackUrl": "http://togo.agaveplatform.org/auth/",
+        "scope": "PRODUCTION",
+        "projectUrl": "https://designsafe-ci.org/",
+        "supportUrl": "https://designsafe-ci.org/contact",
+        "signupUrl": "https://portal.tacc.utexas.edu/account-request",
+        "allowsSignup": false
+    }
 };
 
