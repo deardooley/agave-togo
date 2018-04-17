@@ -4359,7 +4359,7 @@ angular.module('AgaveToGo').controller('SystemEditorWizardController', function(
       if (typeof $localStorage.activeProfile !== 'undefined'){
         SystemsController.getSystemRole($stateParams.systemId, $localStorage.activeProfile.username)
           .then(function(response){
-            if (response.result.role !== "OWNER"){
+            if (response.result.role !== "OWNER" && response.result.role !== "ADMIN"){
               App.alert(
                 {
                   type: 'danger',

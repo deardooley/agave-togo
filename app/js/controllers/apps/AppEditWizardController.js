@@ -1640,7 +1640,7 @@ angular.module('AgaveToGo').controller('AppEditWizardController', function ($inj
 
     $scope.init();
 
-    $scope.useDefinition = function(){
+    $scope.useDefinition = function() {
       // Save model in service and re-direct to builder wizard
       $scope.model.name = '';
       $scope.model.version = '';
