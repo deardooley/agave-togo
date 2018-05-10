@@ -57,7 +57,7 @@
                         </li>
                         <li ng-class="{active: $state.includes('profile.help')}">
                             <a ui-sref="profile.help">
-                                <i class="icon-info"></i> Help </a>
+                                <i class="icon-support"></i> Help </a>
                         </li>
                     </ul>
                 </div>
@@ -96,6 +96,10 @@
                     <div ng-if="profile.email" class="margin-top-20 profile-desc-link">
                         <i class="fa fa-envelope"></i>
                         <a href="profile.email">{{profile.email}}</a>
+                    </div>
+                    <div ng-if="profile.email" class="margin-top-20 profile-desc-link">
+                        <i class="fa fa-user"></i>
+                        {{profile.username}}
                     </div>
                 </div>
             </div>
