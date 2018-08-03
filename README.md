@@ -110,19 +110,12 @@ var OAuthClients = {
 };
 ```
 
-An easy way to register your client and obtain your `clientKey` and `callbackUrl` is through the CLI (https://bitbucket.org/agaveapi/cli):
+An easy way to register your client and obtain your `clientKey` and `callbackUrl` is through the CLI (https://github.com/agaveplatform/agave-cli):
 
 ```
 $ tenants-init
 Please select a tenant from the following list:
 [0] agave.prod
-[1] araport.org
-[2] designsafe
-[3] iplantc.org
-[4] irec
-[5] irmacs
-[6] tacc.prod
-[7] vdjserver.org
 Your choice [3]: 0
 You are now configured to interact with the APIs at https://public.agaveapi.co/
 
