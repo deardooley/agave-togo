@@ -58,59 +58,16 @@ var OAuthClients = {
         "callbackUrl": "https://localhost:9000/auth/",
         "createAccountUrl": "https://www.araport.org/user/register",
         "scope": "PRODUCTION"
-    },
-    "iplantc.org": {
-        "clientKey": "YlO7hX2...",
-        "callbackUrl": "https://localhost:9000/auth/",
-        "createAccountUrl": "https://user.cyverse.org/register/",
-        "scope": "PRODUCTION"
-    },
-    "dev.staging": {
-        "clientKey": "FxWrkKJ...",
-        "callbackUrl": "https://localhost:9000/auth/",
-        "createAccountUrl": "https://public.agaveapi.co/create_account",
-        "scope": "PRODUCTION"
-    },
-    "tacc.prod": {
-        "clientKey": "B4oW43L...",
-        "callbackUrl": "https://localhost:9000/auth/",
-        "createAccountUrl": "https://portal.tacc.utexas.edu/account-request",
-        "scope": "PRODUCTION"
-    },
-    "araport.org": {
-        "clientKey": "QCU7Zb...",
-        "callbackUrl": "https://localhost:9000/auth/",
-        "createAccountUrl": "https://www.araport.org/user/register",
-        "scope": "PRODUCTION"
-    },
-    "designsafe": {
-        "clientKey": "jNWc7x...",
-        "callbackUrl": "https://localhost:9000/auth/",
-        "createAccountUrl": "https://www.designsafe-ci.org/account/register/",
-        "scope": "PRODUCTION"
-    },
-    "sgci": {
-        "clientKey": "_Ld_7Fw...",
-        "callbackUrl": "https://localhost:9000/auth/",
-        "createAccountUrl": "https://sgci.agaveapi.co/create_account",
-        "scope": "PRODUCTION"
     }
 };
 ```
 
-An easy way to register your client and obtain your `clientKey` and `callbackUrl` is through the CLI (https://bitbucket.org/agaveapi/cli):
+An easy way to register your client and obtain your `clientKey` and `callbackUrl` is through the CLI (https://github.com/agaveplatform/agave-cli):
 
 ```
 $ tenants-init
 Please select a tenant from the following list:
 [0] agave.prod
-[1] araport.org
-[2] designsafe
-[3] iplantc.org
-[4] irec
-[5] irmacs
-[6] tacc.prod
-[7] vdjserver.org
 Your choice [3]: 0
 You are now configured to interact with the APIs at https://public.agaveapi.co/
 
