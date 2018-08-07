@@ -402,7 +402,7 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
     currentTenantId =  $localStorage.tenant.code;
   }
   else {
-    currentTenantId = "agave.prod";
+    currentTenantId = settings.tenants[0].code;
   }
 
   $scope.selectedTenant = $scope.getTenantByCode(currentTenantId);

@@ -67,7 +67,7 @@ angular.module('AgaveAuth').controller('TenantSelectionController', function ($i
   $scope.tenants = [];
 
 
-  $scope.displayTenant = $scope.getTenantByCode($localStorage.tenant.code || "agave.prod");
+  $scope.displayTenant = $scope.getTenantByCode($localStorage.tenant.code || settings.tenants[0].code);
   $scope.tenant = $scope.displayTenant;
 
   // show content on state change success

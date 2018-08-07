@@ -5,7 +5,7 @@ angular.module('AgaveAuth').controller('LoginController', function ($injector, $
     $scope.useImplicit = true;
     $scope.randomState = function() {
         return (Math.ceil(Math.random() * 9));
-    }
+    };
 
     $scope.user = ($localStorage.client && angular.copy($localStorage.client)) || {
             username: '',

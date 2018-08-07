@@ -326,7 +326,7 @@ AgaveAuth.config(['$stateProvider', '$urlRouterProvider', function ($stateProvid
 /**
  * Run block
  */
-AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage", "$filter", "$http", "CacheFactory", "Alerts", "TenantsController", "ProfilesController", "settings", "Commons", function ($rootScope, $location, $state, $timeout, $localStorage, $filter, $http, CacheFactory, Alerts, TenantsController, ProfilesController, settings, Commons) {
+AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage", "$filter", "$http", "CacheFactory", "Alerts", "TenantsController", "ProfilesController", "settings", "Commons", "Configuration", function ($rootScope, $location, $state, $timeout, $localStorage, $filter, $http, CacheFactory, Alerts, TenantsController, ProfilesController, settings, Commons, Configuration) {
 
   $rootScope.$state = $state;
 
@@ -340,6 +340,17 @@ AgaveAuth.run(["$rootScope", "$location", "$state", "$timeout", "$localStorage",
   });
 
   $rootScope.requesting = true;
+
+  // if there is only one oauth key specified and it has a baseUrl
+  // configured, set that as the baseUrl for the sdk. This will
+  // allow autoconfiguration of the discovery endpoint for local
+  // installs.
+  if (_.keys(settings.oauth.clients).length === 1) {
+      var onlyClient = settings.oauth.clients[_.keys(settings.oauth.clients)[0]];
+      if (onlyClient.hasOwnProperty('baseUrl') && onlyClient.baseUrl) {
+          Configuration.BASEURI = onlyClient.baseUrl;
+      }
+  }
 
   TenantsController.listTenants().then(
       function (response) {
