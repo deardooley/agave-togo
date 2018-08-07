@@ -1,18 +1,10 @@
 ## Agave ToGo
 
-Agave ToGo v2 is a full-featured web application providing a reference user interface to exercising the core
-functionality of the Agave Platform and demonstrate some of the advanced use cases which are possible by leveraging
-the core Agave Core Science APIs and mainstream open source web technologies.
+Agave ToGo v2 is a full-featured web application providing a reference user interface to exercising the core functionality of the Agave Platform and demonstrate some of the advanced use cases made possible by the Agave Platform's Science API and open source web technologies.
 
-This version of the web application is implemented as a client-side application using the
-[AngularJS framework](http://angularjs.org/). It is designed to run entirely within your browser with no need for a
-back-end server. The Aside from the Agave Platform itself, there are no external third-party
-service dependencies. The assets produced by this project are entirely static, thus you may host this application out
-of your Bitbucket, GitHub, Dropbox, Google Drive, or even a folder you published using Agave.  
+This version of the web application is implemented as a client-side application using the [AngularJS framework](http://angularjs.org/). It is designed to run entirely within your browser with no need for a back-end server. The Aside from the Agave Platform itself, there are no external third-party service dependencies. The assets produced by this project are entirely static, thus you may host this application out of your Bitbucket, GitHub, Dropbox, Google Drive, or even a folder you published using Agave.  
 
-Agave ToGo is fully open source under the BSD 2-Clause license. We encourage you to fork the project and use it as
-a jumping point from which you can build your own application. To contribute back enhancement and bug fixes, please
-make a pull request on the branch you have forked.
+Agave ToGo is fully open source under the BSD 2-Clause license. We encourage you to fork the project and use it as a jumping point from which you can build your own application. To contribute back enhancement and bug fixes, please make a pull request on the branch you have forked.
 
 ## Getting Started
 
@@ -43,18 +35,14 @@ The `depth=1` tells git to only pull down one commit worth of historical data.
 
 ### Install Dependencies
 
-We have two three of dependencies in this project: tools and Agave Platform SDKs, and the angular framework code. The tools help us manage and test the application.
+Dependencies in this project are handled by [node package manager](https://www.npmjs.org/) and [bower](http://bower.io/) via [yarn](https://yarnpkg.com/). To build the project simply run the following command. 
 
-* We get the tools we depend upon via `npm`, the [node package manager](https://www.npmjs.org/).
-* We get the Agave Platform SDKs and angular code via `bower`, a [client-side code package manager](http://bower.io/).  
-
-We have pre-configured npm to automatically run bower so we can simply do:
 
 ```
-npm install
+yarn install
 ```  
 
-Behind the scenes this will also call `bower install`. You should find that you have two new folders in your project.
+Once the command completes, You should find that you have two new folders in your project.
 
 * `node_modules` - contains the npm packages for the tools we need
 * `bower_components` - contains the angular framework files

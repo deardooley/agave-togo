@@ -22,7 +22,7 @@ angular.module('agave.sdk').factory('TenantsController', ['$q', 'Configuration',
             queryParameters = queryParameters || null;
 
             //prepare query string for API call
-            var baseUri = 'https://agaveapi.co';
+            var baseUri = Configuration.BASEURI;
             var queryBuilder = baseUri + '/tenants/';
 
             //Process query parameters
@@ -83,7 +83,7 @@ angular.module('agave.sdk').factory('TenantsController', ['$q', 'Configuration',
             queryParameters = queryParameters || null;
 
             //prepare query string for API call
-            var baseUri = 'https://agaveapi.co';
+            var baseUri = Configuration.BASEURI;
             var queryBuilder = baseUri + '/tenants/' + tenantId;
 
             //Process query parameters
