@@ -402,11 +402,11 @@ angular.module('AgaveAuth').controller('LoginFormController', function ($rootSco
     currentTenantId =  $localStorage.tenant.code;
   }
   else {
-    currentTenantId = settings.tenants[0].code;
+    currentTenantId = settings.tenants.length && settings.tenants[0].code;
   }
 
   $scope.selectedTenant = $scope.getTenantByCode(currentTenantId);
-  if ($scope.selectedTenant) {
+  if (!_.isEmpty($scope.selectedTenant)) {
     $localStorage.tenant = $scope.selectedTenant;
   }
 

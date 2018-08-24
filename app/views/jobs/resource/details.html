@@ -61,11 +61,14 @@
                     </tr>
                     <tr ng-if="job.outputPath">
                         <td>Output Path</td>
-                        <td>{{job.outputPath}}</td>
+                        <td ng-if="(job.archive && (job.status | jobStatusIsActive)) || !job.archive">
+                            <a href="#/data/explorer/{{job.executionSystem}}/{{job.outputPath}}">{{job.outputPath}}</a>
+                        </td>
+                        <td ng-if="job.archive && !(job.status | jobStatusIsActive)">{{job.outputPath}}</td>
                     </tr>
                     <tr ng-if="job.batchQueue">
                         <td>Batch Queue</td>
-                        <td>{{job.batchQueue}}</td>
+                        <td><a ui-sref="systems.details({id:job.executionSystem})">{{job.batchQueue}}</td>
                     </tr>
                     <tr ng-if="job.appId">
                         <td>Application ID</td>
