@@ -37,8 +37,9 @@ var OAuthClients = {
         "allowsSignup": false
     },
     "sandbox": {
+        "baseUrl": "https://sandbox.agaveplatform.org",
         "clientKey": "L6zWQ745GQHrqPO740WbXsLOpLka",
-        "callbackUrl": "http://sandbox.agaveplatform.org/auth/",
+        "callbackUrl": "http://togo.agaveplatform.org/auth/",
         "scope": "PRODUCTION",
         "projectUrl": "http://agaveplatform.org/",
         "supportUrl": "https://github.com/agaveplatform/agave-togo/issues",
